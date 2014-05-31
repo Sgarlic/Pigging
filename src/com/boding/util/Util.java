@@ -6,16 +6,20 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+
+import com.boding.R;
+import com.boding.constants.Constants;
+import com.boding.constants.IntentRequestCode;
+
 import net.sourceforge.pinyin4j.PinyinHelper;
 import net.sourceforge.pinyin4j.format.HanyuPinyinCaseType;
 import net.sourceforge.pinyin4j.format.HanyuPinyinOutputFormat;
 import net.sourceforge.pinyin4j.format.HanyuPinyinToneType;
 import net.sourceforge.pinyin4j.format.HanyuPinyinVCharType;
 import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombination;
-import com.boding.constants.Constants;
-import com.boding.R;
-import android.annotation.SuppressLint;
+
 import android.app.Activity;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -31,7 +35,6 @@ import android.view.WindowManager;
 import android.widget.CalendarView;
 import android.widget.DatePicker;
 
-@SuppressLint("NewApi")
 public class Util {
 	/**
 	 * PageNumber refers to left, middle, and right page. Use 0,1,2 to represent
@@ -76,7 +79,6 @@ public class Util {
 		
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
 //		 	Log.i("Poding", "Background");
-			System.out.println(imagebakground);
 		 	view.setBackground(imagebakground);
 		} else {
 //		   	Log.i("Poding", "Drawable");
@@ -167,4 +169,12 @@ public class Util {
         }  
        return t4;  
     }
+	
+	public static void returnToPreviousPage(Activity activity, IntentRequestCode requestCode){
+		Intent intent=new Intent();
+//		if(citySelected)
+//			intent.putExtra("selectedDate", Util.getFormatedDate(year, month, dayOfMonth));
+		activity.setResult(requestCode.getRequestCode(), intent);
+		activity.finish();
+	}
 }

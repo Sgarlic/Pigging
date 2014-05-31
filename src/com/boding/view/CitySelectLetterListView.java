@@ -1,6 +1,7 @@
 package com.boding.view;
 
 import com.boding.R;
+
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Canvas;

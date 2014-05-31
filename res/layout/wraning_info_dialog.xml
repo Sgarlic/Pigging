@@ -1,0 +1,39 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="280dp"
+    android:layout_height="wrap_content"
+    android:background="@drawable/radius_shape"
+    android:minWidth="280dip"
+    android:orientation="vertical"
+    tools:ignore="MergeRootFrame" >
+    
+	<TextView
+	    android:id="@+id/warning_content_textView"
+	    android:layout_width="match_parent"
+	    android:layout_height="70dp"
+	    android:background="#ffffff"
+	    android:gravity="center"
+	    android:padding="5dip"
+	    android:text="出发和到达不能为同一城市"
+	    android:textColor="@color/black"
+	    android:textSize="15dp" />
+
+	<ImageView
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_gravity="center_horizontal"
+	    android:src="@drawable/leftpage_line_480_800" />
+
+	<TextView
+	    android:id="@+id/warning_known_textView"
+	    android:layout_width="match_parent"
+	    android:layout_height="40dp"
+	    android:background="#ffffff"
+	    android:gravity="center"
+	    android:padding="5dip"
+	    android:text="知道了"
+	    android:textColor="@color/black"
+	    android:textSize="15dp" />
+
+</LinearLayout>
+
