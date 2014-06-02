@@ -68,7 +68,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical" >
-        <TabHost
+        <android.support.v4.app.FragmentTabHost
 		    android:id="@android:id/tabhost"
 		    android:layout_width="match_parent"
 		    android:layout_height="match_parent">
@@ -100,15 +100,13 @@
 		            android:layout_gravity="center_vertical"
 		            android:background="@color/lightgray" />
 		        
-		        <android.support.v4.view.ViewPager
-		            android:id="@+id/pager"
+		        <FrameLayout
+		            android:id="@+id/realtabcontent"
 		            android:layout_width="match_parent"
 		            android:layout_height="0dp"
-			        android:layout_marginLeft="13dp"
-        			android:layout_marginRight="13dp"
 		            android:layout_weight="1"/>
-
+		        
 		    </LinearLayout>
-		</TabHost>
+		</android.support.v4.app.FragmentTabHost>
     </LinearLayout>
 </LinearLayout>

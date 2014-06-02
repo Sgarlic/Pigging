@@ -22,6 +22,7 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTabHost;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -57,9 +58,7 @@ public class CitySelectActivity extends FragmentActivity {
 	private boolean isFlyToCitySelection = false;
 	private static final String NATIONAL_CITY = "国内城市";
 	private static final String INTERNATIONAL_CITY = "国际城市";
-    TabHost mTabHost;
-    ViewPager  mViewPager;
-    TabsAdapter mTabsAdapter;
+	FragmentTabHost mTabHost;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,15 +67,11 @@ public class CitySelectActivity extends FragmentActivity {
         Bundle arguments = getIntent().getExtras();
         if(arguments != null)
         	isFlyToCitySelection = arguments.getBoolean(Constants.IS_FLY_TO_CITY_SELECTION);
-        
+         
         setContentView(R.layout.activity_city_select);
-        mTabHost = (TabHost)findViewById(android.R.id.tabhost);
-        mTabHost.setup();
+        mTabHost = (FragmentTabHost)findViewById(android.R.id.tabhost);
+        mTabHost.setup(this, getSupportFragmentManager(), R.id.realtabcontent);
 
-        mViewPager = (ViewPager)findViewById(R.id.pager);
-
-        mTabsAdapter = new TabsAdapter(this, mTabHost, mViewPager);
-        
         View nationalCityView = (View) LayoutInflater.from(this).inflate(R.layout.tab_layout_city_select, null);  
         TextView nationalCityTextView = (TextView) nationalCityView.findViewById(R.id.tab_label);  
         nationalCityTextView.setText(NATIONAL_CITY);
@@ -89,13 +84,13 @@ public class CitySelectActivity extends FragmentActivity {
         nationalCityBundle.putBoolean(Constants.IS_FLY_TO_CITY_SELECTION, isFlyToCitySelection);
         nationalCityBundle.putBoolean(Constants.IS_INTERNATIONAL_CITY, false);
         
-        mTabsAdapter.addTab(mTabHost.newTabSpec(NATIONAL_CITY).setIndicator(nationalCityView),
+        mTabHost.addTab(mTabHost.newTabSpec(NATIONAL_CITY).setIndicator(nationalCityView),
                 CitySelectFragment.class, nationalCityBundle);
         
         Bundle internationalCityBundle = new Bundle();
         internationalCityBundle.putBoolean(Constants.IS_FLY_TO_CITY_SELECTION, isFlyToCitySelection);
         internationalCityBundle.putBoolean(Constants.IS_INTERNATIONAL_CITY, true);
-        mTabsAdapter.addTab(mTabHost.newTabSpec(INTERNATIONAL_CITY).setIndicator(internationalCityView),
+        mTabHost.addTab(mTabHost.newTabSpec(INTERNATIONAL_CITY).setIndicator(internationalCityView),
                 CitySelectFragment.class, internationalCityBundle);
        
         initView();
