@@ -23,4 +23,21 @@ public class FlightLine {
 	public void setReturnlist(ReturnList returnlist) {
 		this.returnlist = returnlist;
 	}
+	
+	public String getDepartureTime(){
+		return depature.getSegments().get(0).getLeatime();
+	}
+	
+	public String getArriveTime(){
+		int segmentSize = getDepature().getSegments().size();
+		return depature.getSegments().get(segmentSize-1).getArrtime();
+	}
+	
+	public boolean hasTransit(){
+		return depature.getSegments().size()>1;
+	}
+	
+	public String getFlightPrice(){
+		return this.depature.getSegments().get(0).getFclasslist().get(0).getPrice().getAdult();
+	}
 }

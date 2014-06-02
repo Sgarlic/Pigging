@@ -13,33 +13,29 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.boding.R;
+import com.boding.model.AirlineView;
+import com.boding.model.FlightLine;
 
 public class TicketSearchResultListIAdapter extends BaseAdapter {
 	private LayoutInflater inflater;  
-    private List<ContentValues> list;
+    private List<FlightLine> flightLineList;
 	
-	public TicketSearchResultListIAdapter(Context context, List<ContentValues> historyCityList) {
+	public TicketSearchResultListIAdapter(Context context, List<FlightLine> flightLineList) {
 		this.inflater = LayoutInflater.from(context);
-		this.list = new ArrayList<ContentValues>();
-		int sectionSize = 0;
+//		this.airlineViewList = new ArrayList<AirlineView>();
 		
-		list.addAll(historyCityList);
-//		list.addAll(hotCityList);
-//		list.addAll(cityList);
-//		
-//		sectionSize+=(historyCityList.size()+hotCityList.size()+list.size());
-//		
-		int sectionPointer = 0;
+		this.flightLineList = flightLineList;
+//		int sectionPointer = 0;
 	}
 	
 	@Override
 	public int getCount() {
-		return list.size();
+		return flightLineList.size();
 	}
 
 	@Override
-	public ContentValues getItem(int position) {
-		return list.get(position);
+	public FlightLine getItem(int position) {
+		return flightLineList.get(position);
 	}
 
 	@Override
@@ -53,23 +49,29 @@ public class TicketSearchResultListIAdapter extends BaseAdapter {
 		if (convertView == null) {  
             convertView = inflater.inflate(R.layout.list_item_ticket_search_result_i, null);
             holder = new ViewHolder();  
-            holder.flightStartTimeTextView = (TextView) convertView.findViewById(R.id.ticket_search_flightstarttime_i_textView);
-            holder.flightEndTimeTextView = (TextView) convertView.findViewById(R.id.ticket_search_flightendtime_i_textView);
-            holder.flightPriceTextView = (TextView) convertView.findViewById(R.id.ticket_search_flightprice_i_textView);
-            holder.flyingTimeTextView = (TextView) convertView.findViewById(R.id.ticket_search_flightflyingtime_i_textView);
-            holder.ticketLeftTextView = (TextView) convertView.findViewById(R.id.ticket_search_flightticketleft_i_textView);
-            holder.airlineCompanyTextView = (TextView) convertView.findViewById(R.id.ticket_search_airlinecompany_i_textView);
-            holder.airlineCodeTextView = (TextView) convertView.findViewById(R.id.ticket_search_airlinecode_i_textView);
-            holder.flightClassTextView = (TextView) convertView.findViewById(R.id.ticket_search_flightclass_i_textView);
-            holder.startAirportTextView = (TextView) convertView.findViewById(R.id.ticket_search_flightstartairport_i_textView);
-            holder.endAirportTextView = (TextView) convertView.findViewById(R.id.ticket_search_flightstopairport_i_textView);
+            holder.flightStartTimeTextView = (TextView) convertView.findViewById(R.id.ticket_search_i_flightstarttime_textView);
+            holder.flightEndTimeTextView = (TextView) convertView.findViewById(R.id.ticket_search_i_flightendtime_textView);
+            holder.flightPriceTextView = (TextView) convertView.findViewById(R.id.ticket_search_i_flightprice_textView);
+            holder.flyingTimeTextView = (TextView) convertView.findViewById(R.id.ticket_search_i_flightflyingtime_textView);
+            holder.ticketLeftTextView = (TextView) convertView.findViewById(R.id.ticket_search_i_flightticketleft_textView);
+            holder.airlineCompanyTextView = (TextView) convertView.findViewById(R.id.ticket_search_i_airlinecompany_textView);
+            holder.airlineCodeTextView = (TextView) convertView.findViewById(R.id.ticket_search_i_airlinecode_textView);
+            holder.flightClassTextView = (TextView) convertView.findViewById(R.id.ticket_search_i_flightclass_textView);
+            holder.startAirportTextView = (TextView) convertView.findViewById(R.id.ticket_search_i_flightstartairport_textView);
+            holder.endAirportTextView = (TextView) convertView.findViewById(R.id.ticket_search_i_flightstopairport_textView);
             holder.needTransitImageView = (ImageView) convertView.findViewById(R.id.ticket_search_i_need_transit_imageView);
-            holder.moreClassInfoImageView = (ImageView) convertView.findViewById(R.id.ticket_search_moreflightclassinfo_i_linearLayout); 
+            holder.moreClassInfoImageView = (ImageView) convertView.findViewById(R.id.ticket_search_i_moreflightclassinfo_linearLayout); 
             convertView.setTag(holder);  
         } else {  
             holder = (ViewHolder) convertView.getTag();  
         }  
-        ContentValues cv = list.get(position);  
+		
+		FlightLine currentFlightLine = flightLineList.get(position);
+		holder.flightStartTimeTextView.setText(currentFlightLine.getDepartureTime());
+		holder.flightEndTimeTextView.setText(currentFlightLine.getArriveTime());
+		holder.flightPriceTextView.setText(currentFlightLine.getFlightPrice());
+		
+//        ContentValues cv = airlineViewList.get(position);  
 //        holder.name.setText(cv.getAsString(CITY_NAME));
 //        String currentStr = getContentValuesTitle(cv);
 //        String previewStr = (position - 1) >= 0 ? getContentValuesTitle(list.get(position-1)) : " ";
