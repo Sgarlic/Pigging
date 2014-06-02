@@ -50,7 +50,7 @@ public class XMLTask extends AsyncTask<Object,Void,Object>{
 	
 	@Override  
 	 protected void onPostExecute(Object result) {
-		tsri.setAdapter((AirlineView)result);
+		tsri.setTodayAirlineView((AirlineView)result);
     } 
 	
 	private InputStream requestXML(String urlstr){
