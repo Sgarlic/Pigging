@@ -39,7 +39,7 @@
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
-            android:name="com.boding.app.InternationalTicketSearchResultActivity"
+            android:name="com.boding.app.TicketSearchResultIActivity"
             android:label="@string/title_activity_international_ticket_search_result"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>

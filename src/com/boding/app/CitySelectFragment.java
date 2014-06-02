@@ -174,23 +174,23 @@ public class CitySelectFragment extends Fragment {
     
     private class CityListAdapter extends BaseAdapter {
     	private LayoutInflater inflater;  
-        private List<ContentValues> list;
+        private List<ContentValues> contentList;
     	
     	public CityListAdapter(Context context, List<ContentValues> historyCityList, List<ContentValues> hotCityList, List<ContentValues> cityList) {
     		this.inflater = LayoutInflater.from(context);
-    		this.list = new ArrayList<ContentValues>();
+    		this.contentList = new ArrayList<ContentValues>();
     		alphaIndexer = new HashMap<String, Integer>();
     		int sectionSize = 0;
     		if(locatedCity!=null){
     			sectionSize+=1;
-    			list.add(generateContentValues(locatedCity,CityProperty.LOCATECITY));
+    			contentList.add(generateContentValues(locatedCity,CityProperty.LOCATECITY));
     		}
     		
-    		list.addAll(historyCityList);
-    		list.addAll(hotCityList);
-    		list.addAll(cityList);
+    		contentList.addAll(historyCityList);
+    		contentList.addAll(hotCityList);
+    		contentList.addAll(cityList);
     		
-    		sectionSize+=(historyCityList.size()+hotCityList.size()+list.size());
+    		sectionSize+=(historyCityList.size()+hotCityList.size()+contentList.size());
     		sections = new String[sectionSize];
     		
     		int sectionPointer = 0;
@@ -230,12 +230,12 @@ public class CitySelectFragment extends Fragment {
     	
 		@Override
 		public int getCount() {
-			return list.size();
+			return contentList.size();
 		}
 
 		@Override
 		public ContentValues getItem(int position) {
-			return list.get(position);
+			return contentList.get(position);
 		}
 
 		@Override
@@ -247,7 +247,7 @@ public class CitySelectFragment extends Fragment {
 		public View getView(int position, View convertView, ViewGroup parent) {
 			ViewHolder holder;
 			if (convertView == null) {  
-                convertView = inflater.inflate(R.layout.city_list_item, null);
+                convertView = inflater.inflate(R.layout.list_item_city, null);
                 holder = new ViewHolder();  
                 holder.alpha = (TextView) convertView.findViewById(R.id.alpha);  
                 holder.name = (TextView) convertView.findViewById(R.id.name);  
@@ -256,13 +256,13 @@ public class CitySelectFragment extends Fragment {
             } else {  
                 holder = (ViewHolder) convertView.getTag();  
             }  
-            ContentValues cv = list.get(position);  
+            ContentValues cv = contentList.get(position);  
             holder.name.setText(cv.getAsString(CITY_NAME));
 //            holder.number.setText(cv.getAsString(NUMBER));
 //            String currentStr = getAlpha(list.get(position).getAsString(SORT_KEY));
 //            String previewStr = (position - 1) >= 0 ? getAlpha(list.get(position - 1).getAsString(SORT_KEY)) : " ";
             String currentStr = getContentValuesTitle(cv);
-            String previewStr = (position - 1) >= 0 ? getContentValuesTitle(list.get(position-1)) : " ";
+            String previewStr = (position - 1) >= 0 ? getContentValuesTitle(contentList.get(position-1)) : " ";
             if (!previewStr.equals(currentStr)) {  
                 holder.alpha.setVisibility(View.VISIBLE);
                 holder.alpha.setText(currentStr);

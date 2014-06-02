@@ -77,11 +77,11 @@ public class CitySelectActivity extends FragmentActivity {
 
         mTabsAdapter = new TabsAdapter(this, mTabHost, mViewPager);
         
-        View nationalCityView = (View) LayoutInflater.from(this).inflate(R.layout.tab_layout_city_select_tab, null);  
+        View nationalCityView = (View) LayoutInflater.from(this).inflate(R.layout.tab_layout_city_select, null);  
         TextView nationalCityTextView = (TextView) nationalCityView.findViewById(R.id.tab_label);  
         nationalCityTextView.setText(NATIONAL_CITY);
         
-        View internationalCityView = (View) LayoutInflater.from(this).inflate(R.layout.tab_layout_city_select_tab, null);  
+        View internationalCityView = (View) LayoutInflater.from(this).inflate(R.layout.tab_layout_city_select, null);  
         TextView internationalCityTextView = (TextView) internationalCityView.findViewById(R.id.tab_label);  
         internationalCityTextView.setText(INTERNATIONAL_CITY);
 
