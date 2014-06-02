@@ -53,4 +53,14 @@ public class AirlineView {
 	public void setLines(List<FlightLine> lines) {
 		this.lines = lines;
 	}
+	
+	public int getlowestPrice(){
+		int lowestPrice = Integer.MAX_VALUE;
+		int temp = 0;
+		for(FlightLine line : lines){
+			temp = Integer.parseInt(line.getFlightPrice());
+			lowestPrice = lowestPrice < temp ? lowestPrice : temp;
+		}
+		return lowestPrice;
+	}
 }

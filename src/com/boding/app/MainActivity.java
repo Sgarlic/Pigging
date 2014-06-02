@@ -12,9 +12,9 @@ import com.boding.util.Util;
 import com.boding.view.VerticalViewPager;
 import com.boding.R;
 import com.boding.model.City;
-
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
@@ -161,6 +161,7 @@ public class MainActivity extends FragmentActivity {
 		
 	};
 	
+	@SuppressLint("NewApi")
 	private void getScreenSize(){
 		Display display = getWindowManager().getDefaultDisplay();
 		Point screenSize = new Point();

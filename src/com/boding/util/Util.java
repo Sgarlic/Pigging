@@ -7,18 +7,16 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.regex.Pattern;
-
 import com.boding.R;
 import com.boding.constants.Constants;
 import com.boding.constants.IntentRequestCode;
-
 import net.sourceforge.pinyin4j.PinyinHelper;
 import net.sourceforge.pinyin4j.format.HanyuPinyinCaseType;
 import net.sourceforge.pinyin4j.format.HanyuPinyinOutputFormat;
 import net.sourceforge.pinyin4j.format.HanyuPinyinToneType;
 import net.sourceforge.pinyin4j.format.HanyuPinyinVCharType;
 import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombination;
-
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -43,6 +41,7 @@ public class Util {
 	 * @param pageNumber
 	 * @return
 	 */
+	@SuppressLint("NewApi")
 	public static void setActivityBackground(Activity activity,int pageNumber,View view){
 		Resources resources = activity.getResources();
 		Bitmap bitmap=BitmapFactory.decodeResource(resources,R.drawable.main_background_2x);
@@ -118,6 +117,7 @@ public class Util {
 		return newDate.getTime();
 	}
 	
+	@SuppressLint("NewApi")
 	public static void fixSetMinDateForDatePickerCalendarView(Calendar date, DatePicker datePicker) {
 	    // Workaround for CalendarView bug relating to setMinDate():
 	    // https://code.google.com/p/android/issues/detail?id=42750
@@ -199,5 +199,28 @@ public class Util {
 //			intent.putExtra("selectedDate", Util.getFormatedDate(year, month, dayOfMonth));
 		activity.setResult(requestCode.getRequestCode(), intent);
 		activity.finish();
+	}
+	
+	public static String calculateFlyingtime(String leavedate, String arrivedate, String leavetime, String arrivetime){
+		int duration = 0; // unit is second.
+		
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		Date leaDate, arrDate;
+		try {
+			leaDate = sdf.parse(leavedate+" "+leavetime.substring(0, 2)+":"+leavetime.substring(2));
+			arrDate = sdf.parse(arrivedate+" "+arrivetime.substring(0, 2)+":"+arrivetime.substring(2));
+			duration = (int)(arrDate.getTime() - leaDate.getTime()) / 1000;
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		int dhour = (int)(duration/ 3600);
+		int dmin = (int)((duration % 3600) / 60);
+		
+		return "约" + dhour + "小时" + dmin + "分钟";
+	}
+	
+	//给时间加上冒号， 如0322 -> 03:22
+	public static String formatTime(String time){
+		return time.substring(0, 2) + ":" + time.substring(2);
 	}
 }

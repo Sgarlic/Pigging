@@ -14,18 +14,26 @@ import org.apache.http.impl.client.DefaultHttpClient;
 
 import com.boding.model.AirlineView;
 import com.boding.util.AvXmlParser;
+import com.boding.app.TicketSearchResultIActivity;
 
 import android.os.AsyncTask;
 import android.util.Log;
 
-public class XMLTask extends AsyncTask<String,Void,Object>{
+public class XMLTask extends AsyncTask<Object,Void,Object>{
+	private TicketSearchResultIActivity tsri;
+	
+	public XMLTask(TicketSearchResultIActivity tsri){
+		this.tsri = tsri;
+	}
 	
 	@Override
-	protected Object doInBackground(String... params) {
-		InputStream is = requestXML(params[0]);
+	protected Object doInBackground(Object... params) {
+		InputStream is = requestXML((String)params[0]);
+		AirlineView av = null;
 		try {
-			AirlineView av = AvXmlParser.parse(is);
+			av = AvXmlParser.parse(is);
 			System.out.println("------" + av.getFromCity());
+			
 		}catch (Exception e) {
 		
 			e.printStackTrace();
@@ -37,12 +45,13 @@ public class XMLTask extends AsyncTask<String,Void,Object>{
 					e.printStackTrace();
 				}
 		}		
-		return "ok";
+		return av;
 	}
 	
-//	@Override  
-//	 protected void onPostExecute(Result result) {
-//    } 
+	@Override  
+	 protected void onPostExecute(Object result) {
+		tsri.setAdapter((AirlineView)result);
+    } 
 	
 	private InputStream requestXML(String urlstr){
 		//URL后面要放入配置中
