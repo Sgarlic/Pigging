@@ -1,128 +1,108 @@
+/*
+ * Copyright (C) 2011 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.boding.app;
 
+import android.content.ContentValues;
+import android.content.Context;
+import android.os.Bundle;
+import android.os.Handler;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.TabHost;
+import android.widget.TabWidget;
+import android.widget.TextView;
+import android.widget.AdapterView.OnItemClickListener;
+
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
-import java.util.List;
-import java.util.regex.Pattern;
 
 import com.boding.R;
-import com.boding.constants.CityProperty;
 import com.boding.constants.Constants;
+import com.boding.constants.GlobalVariables;
 import com.boding.constants.IntentRequestCode;
 import com.boding.model.City;
 import com.boding.util.Util;
 import com.boding.view.CitySelectLetterListView;
-import com.boding.view.CitySelectLetterListView.OnTouchingLetterChangedListener;
 import com.boding.view.WarningDialog;
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
-import android.content.AsyncQueryHandler;
-import android.content.ContentResolver;
-import android.content.ContentValues;
-import android.content.Context;
-import android.content.Intent;
-import android.database.Cursor;
-import android.graphics.PixelFormat;
-import android.net.Uri;
-import android.os.Bundle;
-import android.os.Handler;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
-import android.view.WindowManager;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.BaseAdapter;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.TextView;
+/**
+ * Demonstrates combining a TabHost with a ViewPager to implement a tab UI
+ * that switches between tabs and also allows the user to perform horizontal
+ * flicks to move between the tabs.
+ */
+public class CitySelectActivity extends FragmentActivity {
+	private boolean isFlyToCitySelection = false;
+	private static final String NATIONAL_CITY = "国内城市";
+	private static final String INTERNATIONAL_CITY = "国际城市";
+    TabHost mTabHost;
+    ViewPager  mViewPager;
+    TabsAdapter mTabsAdapter;
 
-public class CitySelectActivity extends Activity {
-	private BaseAdapter adapter;  
-    private ListView allCitiesListView;
-//    private TextView overlay;
-    private CitySelectLetterListView letterListView;
-    private static final String CITY_NAME = "name", CITY_CODE = "code", SORT_KEY = "sort_key";
-    private static final String PROPERTY="property", LOCATION="定位",HISTORY="历史",HOT="热门";
-    private HashMap<String, Integer> alphaIndexer;//存放存在的汉语拼音首字母和与之对应的列表位置
-    private String[] sections;//存放存在的汉语拼音首字母
-    private Handler handler;
-//    private OverlayThread overlayThread;
-    private String locatedCity = "定位到的城市";
-  
-    @Override  
-    public void onCreate(Bundle savedInstanceState) {  
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-        setContentView(R.layout.activity_city_select);  
+        Bundle arguments = getIntent().getExtras();
+        if(arguments != null)
+        	isFlyToCitySelection = arguments.getBoolean(Constants.IS_FLY_TO_CITY_SELECTION);
         
+        setContentView(R.layout.activity_city_select);
+        mTabHost = (TabHost)findViewById(android.R.id.tabhost);
+        mTabHost.setup();
+
+        mViewPager = (ViewPager)findViewById(R.id.pager);
+
+        mTabsAdapter = new TabsAdapter(this, mTabHost, mViewPager);
+        
+        View nationalCityView = (View) LayoutInflater.from(this).inflate(R.layout.tab_layout_city_select_tab, null);  
+        TextView nationalCityTextView = (TextView) nationalCityView.findViewById(R.id.tab_label);  
+        nationalCityTextView.setText(NATIONAL_CITY);
+        
+        View internationalCityView = (View) LayoutInflater.from(this).inflate(R.layout.tab_layout_city_select_tab, null);  
+        TextView internationalCityTextView = (TextView) internationalCityView.findViewById(R.id.tab_label);  
+        internationalCityTextView.setText(INTERNATIONAL_CITY);
+
+        Bundle nationalCityBundle = new Bundle();
+        nationalCityBundle.putBoolean(Constants.IS_FLY_TO_CITY_SELECTION, isFlyToCitySelection);
+        nationalCityBundle.putBoolean(Constants.IS_INTERNATIONAL_CITY, false);
+        
+        mTabsAdapter.addTab(mTabHost.newTabSpec(NATIONAL_CITY).setIndicator(nationalCityView),
+                CitySelectFragment.class, nationalCityBundle);
+        
+        Bundle internationalCityBundle = new Bundle();
+        internationalCityBundle.putBoolean(Constants.IS_FLY_TO_CITY_SELECTION, isFlyToCitySelection);
+        internationalCityBundle.putBoolean(Constants.IS_INTERNATIONAL_CITY, true);
+        mTabsAdapter.addTab(mTabHost.newTabSpec(INTERNATIONAL_CITY).setIndicator(internationalCityView),
+                CitySelectFragment.class, internationalCityBundle);
+       
         initView();
-    }  
-    
+    }
+
     private void initView(){
     	setTitle();
-    	
-    	allCitiesListView = (ListView) findViewById(R.id.city_select_listView);
-    	allCitiesListView.setOnItemClickListener(new OnItemClickListener(){
-
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				//parent	The AdapterView where the selection happened
-				//view	The view within the AdapterView that was clicked
-				//position	The position of the view in the adapter
-				//id	The row id of the item that is selected
-				ContentValues content = (ContentValues) allCitiesListView.getAdapter().getItem(position);
-				String cityName = content.getAsString(CITY_NAME);
-				String cityCode = content.getAsString(CITY_CODE);
-				boolean isInternationalCity = false;
-				String cityCountry = "";
-				
-				City selectedCity = new City(cityName,cityCode,isInternationalCity,cityCountry);
-				
-				String toastInfo = null;
-				if(Constants.isFlyToLocationSelection){
-					if(selectedCity.equals(Constants.Fly_From_City))
-						toastInfo = "出发和到达不能为同一城市";
-					else
-						Constants.Fly_To_City = selectedCity;
-				}
-				else{
-					if(selectedCity.equals(Constants.Fly_To_City))
-						toastInfo = "出发和到达不能为同一城市";
-					else
-						Constants.Fly_From_City = selectedCity;
-				}
-				
-				if(toastInfo!=null){
-					WarningDialog warningDialog = new WarningDialog(CitySelectActivity.this,
-							R.layout.wraning_info_dialog,R.style.Warning_Dialog_Theme);
-					warningDialog.setContent(toastInfo);
-					warningDialog.setKnown("知道了");
-					warningDialog.show();
-				}else{
-					Util.returnToPreviousPage(CitySelectActivity.this, IntentRequestCode.START_CITY_SELECTION);
-				}
-//				Log.d("poding");
-			}
-    		
-    	});
-    	
-        letterListView = (CitySelectLetterListView) findViewById(R.id.city_select_letter_listView);
-        letterListView.setOnTouchingLetterChangedListener(new LetterListViewListener());
-        
-//        asyncQuery = new MyAsyncQueryHandler(getContentResolver());
-        alphaIndexer = new HashMap<String, Integer>();
-        handler = new Handler();
-//        overlayThread = new OverlayThread();
-//        initOverlay();
         
         LinearLayout returnLogoLinearLayout = (LinearLayout)findViewById(R.id.return_logo_linearLayout);
         returnLogoLinearLayout.setOnClickListener(new OnClickListener(){
@@ -135,265 +115,131 @@ public class CitySelectActivity extends Activity {
     
     private void setTitle(){
     	TextView citySelectTitleTextView = (TextView)findViewById(R.id.city_select_title_textView);
-    	if(Constants.isFlyToLocationSelection)
+    	if(isFlyToCitySelection)
     		citySelectTitleTextView.setText("到达城市");
     	else
     		citySelectTitleTextView.setText("出发城市");
     }
-  
-    @Override  
-    protected void onResume() {  
-        super.onResume();  
-        setAdapter();
-    }  
     
-    private void setAdapter() {
-    	adapter = new ListAdapter(this, getHistoryCityList(),getHotCityList(),getCitiesList());
-        allCitiesListView.setAdapter(adapter);  
-  
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("tab", mTabHost.getCurrentTabTag());
     }
-    
-    private class ListAdapter extends BaseAdapter {
-    	 private LayoutInflater inflater;  
-         private List<ContentValues> list;
-    	
-    	public ListAdapter(Context context, List<ContentValues> historyCityList, List<ContentValues> hotCityList, List<ContentValues> cityList) {
-    		this.inflater = LayoutInflater.from(context);
-    		this.list = new ArrayList<ContentValues>();
-    		alphaIndexer = new HashMap<String, Integer>();
-    		int sectionSize = 0;
-    		if(locatedCity!=null){
-    			sectionSize+=1;
-    			list.add(generateContentValues(locatedCity,CityProperty.LOCATECITY));
-    		}
-    		
-    		list.addAll(historyCityList);
-    		list.addAll(hotCityList);
-    		list.addAll(cityList);
-    		
-    		sectionSize+=(historyCityList.size()+hotCityList.size()+list.size());
-    		sections = new String[sectionSize];
-    		
-    		int sectionPointer = 0;
-    		
-    		if(locatedCity!=null){
-    			sections[sectionPointer] = LOCATION;
-    			alphaIndexer.put(LOCATION, sectionPointer);
-    			sectionPointer++;
-    		}
-    		
-    		for(ContentValues historyCity : historyCityList){
-    			sections[sectionPointer] = HISTORY;
-    			if(!alphaIndexer.containsKey(HISTORY))
-    				alphaIndexer.put(HISTORY, sectionPointer);
-    			sectionPointer++;
-    		}
-    		
-    		for(ContentValues hotCity : hotCityList){
-    			sections[sectionPointer] = HOT;
-    			if(!alphaIndexer.containsKey(HOT))
-    				alphaIndexer.put(HOT, sectionPointer);
-    			sectionPointer++;
-    		}
-    		
-    		for (int i = 0; i < cityList.size(); i++,sectionPointer++) {
-    			//当前汉语拼音首字母
-    			String currentStr = getAlpha(cityList.get(i).getAsString(SORT_KEY));
-    			//上一个汉语拼音首字母，如果不存在为“ ”
-                String previewStr = (i - 1) >= 0 ? getAlpha(cityList.get(i - 1).getAsString(SORT_KEY)) : " ";
-                if (!previewStr.equals(currentStr)) {
-                	String name = getAlpha(cityList.get(i).getAsString(SORT_KEY));
-                	alphaIndexer.put(name, sectionPointer);  
-                	sections[sectionPointer] = name; 
-                }
+
+    /**
+     * This is a helper class that implements the management of tabs and all
+     * details of connecting a ViewPager with associated TabHost.  It relies on a
+     * trick.  Normally a tab host has a simple API for supplying a View or
+     * Intent that each tab will show.  This is not sufficient for switching
+     * between pages.  So instead we make the content part of the tab host
+     * 0dp high (it is not shown) and the TabsAdapter supplies its own dummy
+     * view to show as the tab content.  It listens to changes in tabs, and takes
+     * care of switch to the correct paged in the ViewPager whenever the selected
+     * tab changes.
+     */
+    public static class TabsAdapter extends FragmentPagerAdapter
+            implements TabHost.OnTabChangeListener, ViewPager.OnPageChangeListener {
+        private final Context mContext;
+        private final TabHost mTabHost;
+        private final ViewPager mViewPager;
+        private final ArrayList<TabInfo> mTabs = new ArrayList<TabInfo>();
+
+        static final class TabInfo {
+            private final String tag;
+            private final Class<?> clss;
+            private final Bundle args;
+
+            TabInfo(String _tag, Class<?> _class, Bundle _args) {
+                tag = _tag;
+                clss = _class;
+                args = _args;
             }
-    	}
-    	
-		@Override
-		public int getCount() {
-			return list.size();
-		}
-
-		@Override
-		public ContentValues getItem(int position) {
-			return list.get(position);
-		}
-
-		@Override
-		public long getItemId(int position) {
-			return position;
-		}
-		
-		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
-			ViewHolder holder;
-			if (convertView == null) {  
-                convertView = inflater.inflate(R.layout.city_list_item, null);
-                holder = new ViewHolder();  
-                holder.alpha = (TextView) convertView.findViewById(R.id.alpha);  
-                holder.name = (TextView) convertView.findViewById(R.id.name);  
-//                holder.number = (TextView) convertView.findViewById(R.id.number);  
-                convertView.setTag(holder);  
-            } else {  
-                holder = (ViewHolder) convertView.getTag();  
-            }  
-            ContentValues cv = list.get(position);  
-            holder.name.setText(cv.getAsString(CITY_NAME));
-//            holder.number.setText(cv.getAsString(NUMBER));
-//            String currentStr = getAlpha(list.get(position).getAsString(SORT_KEY));
-//            String previewStr = (position - 1) >= 0 ? getAlpha(list.get(position - 1).getAsString(SORT_KEY)) : " ";
-            String currentStr = getContentValuesTitle(cv);
-            String previewStr = (position - 1) >= 0 ? getContentValuesTitle(list.get(position-1)) : " ";
-            if (!previewStr.equals(currentStr)) {  
-                holder.alpha.setVisibility(View.VISIBLE);
-                holder.alpha.setText(currentStr);
-            } else {  
-                holder.alpha.setVisibility(View.GONE);
-            }  
-            return convertView;  
-		}
-		
-		private class ViewHolder {
-			TextView alpha;  
-            TextView name;  
-//            TextView number;
-		}
-    	
-    }
-    
-    private String getContentValuesTitle(ContentValues content){
-    	String title = content.getAsString(PROPERTY);
-    	if(title.equals(CityProperty.CityList.getProperty())){
-    		title = getAlpha(content.getAsString(SORT_KEY));
-    	}
-    	return title;
-    }
-    
-//    //初始化汉语拼音首字母弹出提示框
-//    private void initOverlay() {
-//    	Log.d("poding","init overlay");
-//    	LayoutInflater inflater = LayoutInflater.from(this);
-//    	overlay = (TextView) inflater.inflate(R.layout.wraning_info_overlay, null);
-//    	overlay.setVisibility(View.INVISIBLE);
-//		WindowManager.LayoutParams lp = new WindowManager.LayoutParams(
-//				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT,
-//				WindowManager.LayoutParams.TYPE_APPLICATION,
-//				WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
-//						| WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-//				PixelFormat.TRANSLUCENT);
-//		WindowManager windowManager = (WindowManager) this.getSystemService(Context.WINDOW_SERVICE);
-//		windowManager.addView(overlay, lp);
-//    }
-    
-    private class LetterListViewListener implements OnTouchingLetterChangedListener{
-
-		@Override
-		public void onTouchingLetterChanged(final String s) {
-			if(alphaIndexer.get(s) != null) {
-				int position = alphaIndexer.get(s);
-				allCitiesListView.setSelection(position);
-//				overlay.setText(sections[position]);
-//				overlay.setVisibility(View.VISIBLE);
-//				handler.removeCallbacks(overlayThread);
-				//延迟一秒后执行，让overlay为不可见
-//				handler.postDelayed(overlayThread, 1500);
-			} 
-		}
-    	
-    }
-//    
-//    //设置overlay不可见
-//    private class OverlayThread implements Runnable {
-//
-//		@Override
-//		public void run() {
-//			overlay.setVisibility(View.GONE);
-//		}
-//    	
-//    }
-//    
-    
-	//获得汉语拼音首字母
-    private String getAlpha(String str) {  
-        if (str == null) {  
-            return "#";  
-        }  
-  
-        if (str.trim().length() == 0) {  
-            return "#";  
-        }  
-  
-        char c = str.trim().substring(0, 1).charAt(0);  
-        // 正则表达式，判断首字母是否是英文字母  
-        Pattern pattern = Pattern.compile("^[A-Za-z]+$");  
-        if (pattern.matcher(c + "").matches()) {  
-            return (c + "").toUpperCase();  
-        } else {  
-            return "#";  
-        }  
-    }  
-    
-    class SortBySortKey implements Comparator<ContentValues>{
-		@Override
-		public int compare(ContentValues value0, ContentValues value1) {
-			String key0 = value0.getAsString(SORT_KEY);
-    		String key1 = value1.getAsString(SORT_KEY);
-    		return key0.compareTo(key1);
-		}
-    	
-    }
-    
-    private List<ContentValues> getCitiesList(){
-        List<ContentValues> list = new ArrayList<ContentValues>();  
-        String[] cities = {
-         	"北京","上海","广州","天津","重庆",
-           	"哈尔滨","长春","沈阳","大连","济南","青岛","西安","成都","武汉","南京","杭州","宁波","厦门","深圳",
-           	"连云港","徐州","宿迁","淮安","盐城","泰州","扬州","镇江","南通","常州","无锡","苏州"
-        };
-        for(int i=0;i<cities.length;i++){
-           	list.add(generateContentValues(cities[i],CityProperty.CityList));
         }
-        if (list.size() > 0) {  
-           	Collections.sort(list,new SortBySortKey());
-//            setAdapter(list);  
-        }  
-        return list;
-    }
-    
-    private List<ContentValues> getHistoryCityList(){
-    	String[] historyCities = {"历史1","历史2","历史3"};
-    	List<ContentValues> list = new ArrayList<ContentValues>(); 
-    	for(int i=0;i<historyCities.length;i++){
-           	list.add(generateContentValues(historyCities[i],CityProperty.HISTORY));
-        }
-        return list;
-    }
-    
-    private List<ContentValues> getHotCityList(){
-    	String[] hotCities = {"热门1","热门2","热门3"};
-    	List<ContentValues> list = new ArrayList<ContentValues>(); 
-    	for(int i=0;i<hotCities.length;i++){
-           	list.add(generateContentValues(hotCities[i],CityProperty.HOT));
-        }
-        return list;
-    }
-    
-    private ContentValues generateContentValues(String cityName, CityProperty cityProperty){
-    	ContentValues cv = new ContentValues();
-       	cv.put(CITY_NAME, cityName);
-       	cv.put(CITY_CODE, Util.getPinYin(cityName));
-       	cv.put(SORT_KEY, Util.getPinYin(cityName));
-       	cv.put(PROPERTY, cityProperty.getProperty());
-       	return cv;
-    }
-    
 
-	private void returnToPreviousPage(boolean citySelected){
-		Intent intent=new Intent();
-//		if(citySelected)
-//			intent.putExtra("selectedDate", Util.getFormatedDate(year, month, dayOfMonth));
-		setResult(1, intent);
-		finish();
-	}
-}  
+        static class DummyTabFactory implements TabHost.TabContentFactory {
+            private final Context mContext;
 
+            public DummyTabFactory(Context context) {
+                mContext = context;
+            }
+
+            @Override
+            public View createTabContent(String tag) {
+                View v = new View(mContext);
+                v.setMinimumWidth(0);
+                v.setMinimumHeight(0);
+                return v;
+            }
+        }
+
+        public TabsAdapter(FragmentActivity activity, TabHost tabHost, ViewPager pager) {
+            super(activity.getSupportFragmentManager());
+            mContext = activity;
+            mTabHost = tabHost;
+            mViewPager = pager;
+            mTabHost.setOnTabChangedListener(this);
+            mViewPager.setAdapter(this);
+            mViewPager.setOnPageChangeListener(this);
+        }
+
+        public void addTab(TabHost.TabSpec tabSpec, Class<?> clss, Bundle args) {
+            tabSpec.setContent(new DummyTabFactory(mContext));
+            String tag = tabSpec.getTag();
+
+            TabInfo info = new TabInfo(tag, clss, args);
+            mTabs.add(info);
+            mTabHost.addTab(tabSpec);
+            notifyDataSetChanged();
+        }
+
+        @Override
+        public int getCount() {
+            return mTabs.size();
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            TabInfo info = mTabs.get(position);
+            return Fragment.instantiate(mContext, info.clss.getName(), info.args);
+        }
+
+        @Override
+        public void onTabChanged(String tabId) {
+            int position = mTabHost.getCurrentTab();
+            mViewPager.setCurrentItem(position);
+        }
+
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        }
+
+        @Override
+        public void onPageSelected(int position) {
+            // Unfortunately when TabHost changes the current tab, it kindly
+            // also takes care of putting focus on it when not in touch mode.
+            // The jerk.
+            // This hack tries to prevent this from pulling focus out of our
+            // ViewPager.
+            TabWidget widget = mTabHost.getTabWidget();
+            int oldFocusability = widget.getDescendantFocusability();
+            widget.setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS);
+            
+            View previousTabView = mTabHost.getCurrentTabView();
+            TextView previousTabTextView = (TextView) previousTabView.findViewById(R.id.tab_label);
+            previousTabTextView.setTextColor(R.color.black);
+            
+            mTabHost.setCurrentTab(position);
+            
+            View currentTabView = mTabHost.getCurrentTabView();
+            TextView currentTabTextView = (TextView) currentTabView.findViewById(R.id.tab_label);
+            currentTabTextView.setTextColor(R.color.orange);
+            
+            widget.setDescendantFocusability(oldFocusability);
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int state) {
+        }
+    }
+}

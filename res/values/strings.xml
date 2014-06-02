@@ -4,5 +4,9 @@
     <string name="app_name">BoDingApp</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="home">Go home</string>
+    <string name="new_fragment">Add new</string>
+    <string name="delete_fragment">Pop top</string>
+    <string name="title_activity_international_ticket_search_result">InternationalTicketSearchResultActivity</string>
 
 </resources>

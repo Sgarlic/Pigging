@@ -6,6 +6,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.regex.Pattern;
 
 import com.boding.R;
 import com.boding.constants.Constants;
@@ -169,6 +170,28 @@ public class Util {
         }  
        return t4;  
     }
+	
+	   
+		//获得汉语拼音首字母
+	   public static String getAlpha(String str) {  
+	        if (str == null) {  
+	            return "#";  
+	        }  
+	  
+	        if (str.trim().length() == 0) {  
+	            return "#";  
+	        }  
+	  
+	        char c = str.trim().substring(0, 1).charAt(0);  
+	        // 正则表达式，判断首字母是否是英文字母  
+	        Pattern pattern = Pattern.compile("^[A-Za-z]+$");  
+	        if (pattern.matcher(c + "").matches()) {  
+	            return (c + "").toUpperCase();  
+	        } else {  
+	            return "#";  
+	        }  
+	    }  
+	    
 	
 	public static void returnToPreviousPage(Activity activity, IntentRequestCode requestCode){
 		Intent intent=new Intent();

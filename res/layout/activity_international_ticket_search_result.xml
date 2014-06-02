@@ -1,0 +1,417 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:ignore="MergeRootFrame" >
+
+	<LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal" >
+
+		<LinearLayout
+		    android:id="@+id/return_logo_linearLayout"
+		    android:layout_width="wrap_content"
+		    android:layout_height="match_parent"
+		    android:layout_weight="1"
+		    android:orientation="horizontal" >
+
+	        <ImageView
+	            android:id="@+id/return_logo_imageView"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_marginLeft="15dp"
+	            android:layout_gravity="center_vertical"
+	            android:src="@drawable/return_1x" />
+        </LinearLayout>
+	    <LinearLayout
+	        android:layout_width="wrap_content"
+		    android:layout_height="match_parent"
+		    android:layout_weight="1"
+		    android:orientation="vertical">
+	        <LinearLayout
+		        android:layout_width="wrap_content"
+			    android:layout_height="match_parent"
+			    android:layout_gravity="center_horizontal"
+			    android:orientation="horizontal">
+		        <TextView
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_gravity="center_vertical"
+		            android:text="机票预订"
+		            android:textColor="@color/orange"
+		            android:textColorHint="@color/white"
+		            android:textSize="20dp"
+		            android:typeface="serif" />
+	        </LinearLayout>
+		</LinearLayout>
+		<LinearLayout
+	        android:layout_width="wrap_content"
+		    android:layout_height="match_parent"
+		    android:layout_weight="1"
+		    android:orientation="horizontal">
+	    </LinearLayout>
+    </LinearLayout>
+
+	<LinearLayout
+	    android:layout_width="match_parent"
+	    android:layout_height="40dp"
+	    android:background="@color/orange"
+	    android:orientation="vertical" >
+		
+	    <LinearLayout
+	        android:layout_width="wrap_content"
+	        android:layout_height="match_parent"
+	        android:layout_gravity="center_horizontal"
+	        android:orientation="horizontal" >
+
+			<TextView
+			    android:id="@+id/search_result_title_from_textView"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:layout_gravity="center_vertical"
+			    android:layout_marginRight="5dp"
+			    android:text="东京 "
+			    android:textColor="@color/white"
+			    android:textSize="17dp"
+			    android:typeface="serif" />
+			
+			<TextView
+			    android:id="@+id/search_result_title_from_code_textView"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:layout_gravity="center_vertical"
+			    android:layout_marginRight="10dp"
+			    android:text="TYO"
+			    android:textColor="@color/white"
+			    android:textSize="10dp"
+			    android:typeface="serif" />
+			
+			<ImageView
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:layout_gravity="center_vertical"
+			    android:src="@drawable/cityline" />
+			
+			<TextView
+			    android:id="@+id/search_result_title_to_textView"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:layout_gravity="center_vertical"
+			    android:layout_marginLeft="10dp"
+			    android:text="上海"
+			    android:textColor="@color/white"
+			    android:textSize="17dp"
+			    android:typeface="serif" />
+			
+			<TextView
+			    android:id="@+id/search_result_title_to_textView"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:layout_gravity="center_vertical"
+			    android:layout_marginLeft="5dp"
+			    android:text="SHA"
+			    android:textColor="@color/white"
+			    android:textSize="10dp"
+			    android:typeface="serif" />
+
+		</LinearLayout>
+	</LinearLayout>
+	<LinearLayout
+	    android:layout_width="match_parent"
+	    android:layout_height="40dp"
+	    android:orientation="horizontal" >
+
+	    <LinearLayout
+	        android:layout_width="wrap_content"
+	        android:layout_height="match_parent"
+	        android:layout_weight="1"
+	        android:orientation="vertical" >
+			<LinearLayout
+	        android:id="@+id/search_result_lastday_linearLayout"
+	        android:layout_width="wrap_content"
+	        android:layout_height="match_parent"
+	        android:layout_gravity="left"
+	        android:layout_marginLeft="13dp"
+	        android:layout_weight="1"
+	        android:orientation="vertical" >
+			<LinearLayout
+			    android:layout_width="match_parent"
+			    android:layout_height="wrap_content"
+			    android:layout_weight="1"
+			    android:orientation="horizontal" >
+
+		        <ImageView
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_gravity="center_vertical"
+		            android:src="@drawable/daychange" />
+
+		        <TextView
+		            android:id="@+id/search_result_lastday_textView"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_gravity="center_vertical"
+		            android:layout_marginLeft="5dp"
+		            android:text="前一天"
+		            android:textColor="@color/darkgray"
+		            android:textSize="12dp"
+		            android:typeface="serif" />
+
+			</LinearLayout>
+			<LinearLayout
+			    android:layout_width="match_parent"
+			    android:layout_height="wrap_content"
+			    android:layout_weight="1"
+			    android:orientation="vertical" >
+
+		        <TextView
+		            android:id="@+id/search_result_lastday_price_textView"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_gravity="center_horizontal"
+		            android:text="￥500"
+		            android:textColor="@color/darkgray"
+		            android:textSize="12dp"
+		            android:typeface="serif" />
+			</LinearLayout>
+			</LinearLayout>
+		</LinearLayout>
+		<LinearLayout
+		    android:layout_width="wrap_content"
+		    android:layout_height="match_parent"
+		    android:layout_weight="1"
+		    android:orientation="vertical" >
+			<LinearLayout
+		    android:id="@+id/search_result_today_linearLayout"
+		    android:layout_width="wrap_content"
+		    android:layout_height="match_parent"
+		    android:layout_weight="1"
+		    android:layout_gravity="center_horizontal"
+		    android:orientation="vertical" >
+			<LinearLayout
+			    android:layout_width="match_parent"
+			    android:layout_height="wrap_content"
+			    android:layout_weight="1"
+			    android:orientation="horizontal" >
+
+		        <TextView
+		            android:id="@+id/search_result_today_textView"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_gravity="center_vertical"
+		            android:layout_marginRight="5dp"
+		            android:text="2014-01-07"
+		            android:textColor="@color/orange"
+		            android:textSize="12dp"
+		            android:typeface="serif" />
+		        <ImageView
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_gravity="center_vertical"
+		            android:src="@drawable/datechoice" />
+
+			</LinearLayout>
+			<LinearLayout
+			    android:layout_width="match_parent"
+			    android:layout_height="wrap_content"
+			    android:layout_weight="1"
+			    android:orientation="vertical" >
+
+		        <TextView
+		            android:id="@+id/search_result_today_price_textView"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_gravity="center_horizontal"
+		            android:text="￥670"
+		            android:textColor="@color/orange"
+		            android:textSize="12dp"
+		            android:typeface="serif" />
+			</LinearLayout>
+			</LinearLayout>
+		</LinearLayout>
+
+		<LinearLayout
+		    android:layout_width="wrap_content"
+		    android:layout_height="match_parent"
+		    android:layout_weight="1"
+		    android:orientation="vertical" >
+
+			<LinearLayout
+			    android:id="@+id/search_result_nextday_linearLayout"
+			    android:layout_width="wrap_content"
+			    android:layout_height="match_parent"
+			    android:layout_gravity="right"
+			    android:layout_marginRight="13dp"
+			    android:orientation="vertical" >
+
+			<LinearLayout
+			    android:layout_width="match_parent"
+			    android:layout_height="wrap_content"
+			    android:layout_weight="1"
+			    android:orientation="horizontal" >
+
+		        <TextView
+		            android:id="@+id/search_result_nextady_textView"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_gravity="center_vertical"
+		            android:layout_marginRight="5dp"
+		            android:text="后一天"
+		            android:textColor="@color/darkgray"
+		            android:textSize="12dp"
+		            android:typeface="serif" />
+		        <ImageView
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_gravity="center_vertical"
+		            android:src="@drawable/daychange2" />
+
+			</LinearLayout>
+			<LinearLayout
+			    android:layout_width="match_parent"
+			    android:layout_height="wrap_content"
+			    android:layout_weight="1"
+			    android:orientation="vertical" >
+
+		        <TextView
+		            android:id="@+id/search_result_nextday_price_textView"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_gravity="center_horizontal"
+		            android:text="￥580"
+		            android:textColor="@color/darkgray"
+		            android:textSize="12dp"
+		            android:typeface="serif" />
+
+			</LinearLayout>
+			</LinearLayout>
+		</LinearLayout>
+	</LinearLayout>
+	<LinearLayout
+	    android:layout_width="match_parent"
+	    android:layout_height="2dp"
+	    android:background="@color/lightgray"
+	    android:orientation="vertical" >
+	</LinearLayout>
+	
+
+    <LinearLayout
+        android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="vertical"
+        android:layout_weight="11"  >
+
+        <ListView
+            android:id="@+id/international_ticket_search_result_listView"
+            android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:background="@color/white"
+		    android:cacheColorHint="@android:color/white"
+		    android:divider="@color/white"
+		    android:scrollbars="none">
+        </ListView>
+
+    </LinearLayout>
+    <LinearLayout
+	    android:layout_width="match_parent"
+	    android:layout_height="2dp"
+	    android:background="@color/lightgray"
+	    android:orientation="vertical" >
+	</LinearLayout>
+
+	<LinearLayout
+	    android:layout_width="match_parent"
+	    android:layout_height="40dp"
+	    android:orientation="horizontal" >
+
+		<LinearLayout
+		    android:layout_width="wrap_content"
+		    android:layout_height="match_parent"
+		    android:layout_weight="1"
+		    android:orientation="vertical" >
+
+			<LinearLayout
+			    android:id="@+id/search_result_filter_linearLayout"
+			    android:layout_width="wrap_content"
+			    android:layout_height="match_parent"
+			    android:layout_gravity="center_horizontal"
+			    android:orientation="horizontal" >
+
+				<TextView
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_gravity="center_vertical"
+		            android:text="筛选"
+		            android:textColor="@color/darkgray"
+		            android:textSize="15dp"
+		            android:typeface="serif" />
+		        <ImageView
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_gravity="center_vertical"
+		            android:src="@drawable/filter" />
+			</LinearLayout>
+		</LinearLayout>
+	    <LinearLayout
+		    android:layout_width="wrap_content"
+		    android:layout_height="match_parent"
+		    android:layout_weight="1"
+		    android:orientation="vertical" >
+			<LinearLayout
+			    android:id="@+id/search_result_startflying_linearLayout"
+			    android:layout_width="wrap_content"
+			    android:layout_height="match_parent"
+			    android:layout_gravity="center_horizontal"
+			    android:orientation="horizontal" >
+		        <TextView
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_gravity="center_vertical"
+		            android:text="起飞"
+		            android:textColor="@color/orange"
+		            android:textSize="15dp"
+		            android:typeface="serif" />
+
+		        <ImageView
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_gravity="center_vertical"
+		            android:src="@drawable/datechoice2" />
+
+			</LinearLayout>
+		</LinearLayout>
+		<LinearLayout
+		    android:layout_width="wrap_content"
+		    android:layout_height="match_parent"
+		    android:layout_weight="1"
+		    android:orientation="vertical" >
+			<LinearLayout
+			    android:id="@+id/search_result_price_linearLayout"
+			    android:layout_width="wrap_content"
+			    android:layout_height="match_parent"
+			    android:layout_gravity="center_horizontal"
+			    android:orientation="horizontal" >
+		        <TextView
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_gravity="center_vertical"
+		            android:text="价格"
+		            android:textColor="@color/darkgray"
+		            android:textSize="15dp"
+		            android:typeface="serif" />
+
+		        <ImageView
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_gravity="center_vertical"
+		            android:src="@drawable/datechoicegrey" />
+
+			</LinearLayout>
+		</LinearLayout>
+	</LinearLayout>
+</LinearLayout>
+

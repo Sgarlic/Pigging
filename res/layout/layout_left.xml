@@ -89,6 +89,7 @@
 			    		    android:typeface="serif" />
 			    		
 			    		<ImageView
+			    		    android:id="@+id/leftpage_swithcity_imageView"
 			    		    android:layout_width="wrap_content"
 			    		    android:layout_height="wrap_content"
 			    		    android:layout_gravity="center_vertical"
@@ -350,6 +351,7 @@
 	            android:src="@drawable/leftpage_voice_speak_480_800" />
 
 	        <ImageView
+	            android:id="@+id/leftpage_flight_search_ticket_imageView"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
 	            android:src="@drawable/leftpage_flight_search_480_800" />

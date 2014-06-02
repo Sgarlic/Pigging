@@ -6,6 +6,7 @@ import java.util.List;
 import com.boding.adapter.HPagerAdapter;
 import com.boding.adapter.VPagerAdapter;
 import com.boding.constants.Constants;
+import com.boding.constants.GlobalVariables;
 import com.boding.constants.IntentRequestCode;
 import com.boding.util.Util;
 import com.boding.view.VerticalViewPager;
@@ -17,10 +18,12 @@ import android.support.v4.view.ViewPager;
 import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -38,6 +41,7 @@ public class MainActivity extends FragmentActivity {
 	private TextView leftPageFlyFromCodeTextView;
 	private TextView leftpageFlyToTextView;
 	private TextView leftpageFlyToCodeTextView;
+	private ImageView switchCityImageView;
 	
 	private View leftPageView;
 	private View rightPageView;
@@ -87,33 +91,54 @@ public class MainActivity extends FragmentActivity {
 		leftpageFlyToCodeTextView = (TextView)leftPageView.findViewById(R.id.leftpage_fly_to_code_textView);
 		leftpageFlyToCodeTextView.setOnClickListener(openCitySelectOnClickListener);
 		
-		SetFlyFromToCity();
+		ImageView leftpageFlightSearchTicketImageView = (ImageView)leftPageView.findViewById(R.id.leftpage_flight_search_ticket_imageView);
+		leftpageFlightSearchTicketImageView.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View arg0) {
+				Intent intent = new Intent();
+				intent.setClass(MainActivity.this, InternationalTicketSearchResultActivity.class);
+				startActivityForResult(intent,IntentRequestCode.START_TICKET_SEARCH.getRequestCode());
+			}
+		});
+		
+		setFlyFromToCity();
+		
+		switchCityImageView = (ImageView)leftPageView.findViewById(R.id.leftpage_swithcity_imageView);
+		switchCityImageView.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View arg0) {
+				City tempCity = GlobalVariables.Fly_From_City;
+				GlobalVariables.Fly_From_City = GlobalVariables.Fly_To_City;
+				GlobalVariables.Fly_To_City = tempCity;
+				setFlyFromToCity();
+			}
+		});
 	}
 	
 	private void setFlyFromDate(){
-		if(Constants.Fly_From_Date!=null){
-			flyFromDateTextView.setText(Constants.Fly_From_Date);
+		if(GlobalVariables.Fly_From_Date!=null){
+			flyFromDateTextView.setText(GlobalVariables.Fly_From_Date);
 		}
 		else{
 			Calendar calendar = Calendar.getInstance();
 			String flyFromDate = Util.getFormatedDate(calendar);
 			flyFromDateTextView.setText(flyFromDate);
-			Constants.Fly_From_Date = flyFromDate;
+			GlobalVariables.Fly_From_Date = flyFromDate;
 		}
 	}
 	
-	private void SetFlyFromToCity(){
-		if(Constants.Fly_From_City!=null){
-			leftpageFlyFromTextView.setText(Constants.Fly_From_City.getCityName());
-			leftPageFlyFromCodeTextView.setText(Constants.Fly_From_City.getCityCode());
+	private void setFlyFromToCity(){
+		if(GlobalVariables.Fly_From_City!=null){
+			leftpageFlyFromTextView.setText(GlobalVariables.Fly_From_City.getCityName());
+			leftPageFlyFromCodeTextView.setText(GlobalVariables.Fly_From_City.getCityCode());
 		}else{
-			Constants.Fly_From_City = new City("上海","SHA",false,"中国");
+			GlobalVariables.Fly_From_City = new City("上海","SHA",false,"中国");
 		}
-		if(Constants.Fly_To_City!=null){
-			leftpageFlyToTextView.setText(Constants.Fly_To_City.getCityName());
-			leftpageFlyToCodeTextView.setText(Constants.Fly_To_City.getCityCode());
+		if(GlobalVariables.Fly_To_City!=null){
+			leftpageFlyToTextView.setText(GlobalVariables.Fly_To_City.getCityName());
+			leftpageFlyToCodeTextView.setText(GlobalVariables.Fly_To_City.getCityCode());
 		}else{
-			Constants.Fly_To_City = new City("北京","PEK",false,"中国");
+			GlobalVariables.Fly_To_City = new City("北京","PEK",false,"中国");
 		}
 	}
 	
@@ -121,12 +146,16 @@ public class MainActivity extends FragmentActivity {
 		@Override
 		public void onClick(View arg0) {
 			int viewId = arg0.getId();
+			boolean isFlyToCitySelection = false;
 			if(viewId==R.id.leftpage_fly_to_code_textView || viewId==R.id.leftpage_fly_to_textView)
-				Constants.isFlyToLocationSelection = true;
-			else
-				Constants.isFlyToLocationSelection = false;
+				isFlyToCitySelection = true;
+			
+			Bundle bundle  = new Bundle();
+			bundle.putBoolean(Constants.IS_FLY_TO_CITY_SELECTION, isFlyToCitySelection);
 			Intent intent = new Intent();
 			intent.setClass(MainActivity.this, CitySelectActivity.class);
+//			GlobalVariables.isFlyToCitySelection = isFlyToCitySelection;
+			intent.putExtras(bundle);
 			startActivityForResult(intent,IntentRequestCode.START_CITY_SELECTION.getRequestCode());
 		}
 		
@@ -202,6 +231,6 @@ public class MainActivity extends FragmentActivity {
 		  setFlyFromDate();
 	  }
 	  if(requestCode == IntentRequestCode.START_CITY_SELECTION.getRequestCode())
-		  SetFlyFromToCity();
+		  setFlyFromToCity();
 	 }
 }

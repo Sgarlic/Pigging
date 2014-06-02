@@ -5,6 +5,7 @@ import java.util.Date;
 
 import com.boding.R;
 import com.boding.constants.Constants;
+import com.boding.constants.GlobalVariables;
 import com.boding.constants.IntentRequestCode;
 import com.boding.util.Util;
 
@@ -70,13 +71,13 @@ public class DateSelectActivity extends Activity {
 		Calendar maxDate = Calendar.getInstance();
 		maxDate.add(Calendar.MONTH, 6);
 		fromDateCalendarView.setMaxDate(maxDate.getTimeInMillis());
-		fromDateCalendarView.setDate(Util.getMillIsFromDate(Constants.Fly_From_Date));
+		fromDateCalendarView.setDate(Util.getMillIsFromDate(GlobalVariables.Fly_From_Date));
 		fromDateCalendarView.setOnDateChangeListener(new OnDateChangeListener(){
 			@Override
 			public void onSelectedDayChange(CalendarView arg0, int year, int month, int dayOfMonth) {
-				if(Constants.Fly_From_Date.equals(Util.getFormatedDate(year, month, dayOfMonth)))
+				if(GlobalVariables.Fly_From_Date.equals(Util.getFormatedDate(year, month, dayOfMonth)))
 					return;
-				Constants.Fly_From_Date = Util.getFormatedDate(year, month, dayOfMonth);
+				GlobalVariables.Fly_From_Date = Util.getFormatedDate(year, month, dayOfMonth);
 				Util.returnToPreviousPage(DateSelectActivity.this, IntentRequestCode.START_DATE_SELECTION);
 //				Log.d("poding",year+"-"+month+"-"+dayOfMonth);
 			}
