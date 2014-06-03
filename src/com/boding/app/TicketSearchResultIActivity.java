@@ -31,6 +31,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -58,6 +59,15 @@ public class TicketSearchResultIActivity extends Activity {
     private LinearLayout filterLinearLayout;
     private LinearLayout startFlyingLinearLayout;
     private LinearLayout priceLinearLayout;
+    
+    private ImageView leatimeOrderImageview;
+    private ImageView priceOrderImageview;
+    
+    private boolean isLeatimeAsc = true;
+    private boolean isPriceAsc = true;
+    
+    //测试用
+    private String tempurl = "http://192.168.0.22:10381/FakeBodingServer/XMLServlet";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -66,9 +76,11 @@ public class TicketSearchResultIActivity extends Activity {
 		
 		initView();
 		
-		XMLTask xmltask = new XMLTask(this);
+		//此处先使用同一个xml测试
 		String urlstr = "http://192.168.0.22:10381/FakeBodingServer/XMLServlet";
-		xmltask.execute(urlstr);
+		invokeXmlTask(urlstr, 2);
+		invokeXmlTask(urlstr, 1);
+		invokeXmlTask(urlstr, 3);
 	}
 	
 	private void initView(){
@@ -97,6 +109,9 @@ public class TicketSearchResultIActivity extends Activity {
         startFlyingLinearLayout= (LinearLayout)findViewById(R.id.search_result_startflying_linearLayout);
         priceLinearLayout= (LinearLayout)findViewById(R.id.search_result_price_linearLayout);
         
+        leatimeOrderImageview = (ImageView)findViewById(R.id.leatime_order_imageview);
+        priceOrderImageview = (ImageView)findViewById(R.id.price_order_imageview);
+        
         fromCityTextView.setText(GlobalVariables.Fly_From_City.getCityName());
         fromCityCodeTextView.setText(GlobalVariables.Fly_From_City.getCityCode());
         toCityTextView.setText(GlobalVariables.Fly_To_City.getCityName());
@@ -118,7 +133,9 @@ public class TicketSearchResultIActivity extends Activity {
                   todayAirline = lastDayAriline;
                   lastDayAriline = null;
                   setAdapter();
-                  // add task here
+
+                  //获取lastday的xml,填充av
+                  invokeXmlTask(tempurl, 1);
               }
               
         });
@@ -131,29 +148,69 @@ public class TicketSearchResultIActivity extends Activity {
                    todayAirline = nextDayAirline;
                    nextDayAirline = null;
                    setAdapter();
+                   
+                   invokeXmlTask(tempurl, 3);
               }
               
+        });
+        
+        startFlyingLinearLayout.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				if(!isLeatimeAsc){
+					todayAirline.orderLinesByLeatime(true);
+					leatimeOrderImageview.setImageResource(R.drawable.datechoice2);
+					adapter.notifyDataSetChanged();
+					isLeatimeAsc = true;
+				}else{
+					todayAirline.orderLinesByLeatime(false);
+					leatimeOrderImageview.setImageResource(R.drawable.datechoice);
+					adapter.notifyDataSetChanged();
+					isLeatimeAsc = false;
+				}
+			}
+        	
+        });
+        
+        priceLinearLayout.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				if(!isPriceAsc){
+					todayAirline.orderLinesByPrice(true);
+					priceOrderImageview.setImageResource(R.drawable.datechoice);
+					adapter.notifyDataSetChanged();
+					isPriceAsc = true;
+				}else{
+					todayAirline.orderLinesByPrice(false);
+					priceOrderImageview.setImageResource(R.drawable.datechoicegrey);
+					adapter.notifyDataSetChanged();
+					isPriceAsc = false;
+				}
+			}
+        	
         });
 	}
   
 	  private void setTextViewInfo(){
-	        if(lastDayAriline!=null)
-	              lastDayPriceTextView.setText("1232");
-	        else
-	              lastDayPriceTextView.setText("");
-	        
-	        if(todayAirline!=null){
-	              todayDateTextView.setText(todayAirline.getGoDate());
-	              todayPriceTextView.setText("2222");
-	        }else{
-	              todayDateTextView.setText(GlobalVariables.Fly_From_Date);
-	              todayPriceTextView.setText("");
-	        }
-	        
-	        if(nextDayAirline!=null)
-	              nextDayPriceTextView.setText("");
-	        else
-	              nextDayPriceTextView.setText("");
+		  if(lastDayAriline!=null)
+              lastDayPriceTextView.setText(lastDayAriline.getlowestPrice());
+		  else
+              lastDayPriceTextView.setText("");
+        
+		  if(todayAirline!=null){
+              todayDateTextView.setText(todayAirline.getGoDate());
+              todayPriceTextView.setText(todayAirline.getlowestPrice());
+		  }else{
+              todayDateTextView.setText(GlobalVariables.Fly_From_Date);
+              todayPriceTextView.setText("");
+		  }
+        
+		  if(nextDayAirline!=null)
+              nextDayPriceTextView.setText(nextDayAirline.getlowestPrice());
+		  else
+              nextDayPriceTextView.setText("");
 	        
 	  }
 	  
@@ -182,6 +239,11 @@ public class TicketSearchResultIActivity extends Activity {
 	        adapter = new TicketSearchResultListIAdapter(this, todayAirline);
 	        searchResultListView.setAdapter(adapter);
 	        setTextViewInfo();
+	  }
+	  
+	  private void invokeXmlTask(String url, int whichday){
+		  	XMLTask xmltask = new XMLTask(this, whichday);
+			xmltask.execute(url);
 	  }
 
 }

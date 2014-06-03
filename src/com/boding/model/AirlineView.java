@@ -1,5 +1,6 @@
 package com.boding.model;
 
+import java.util.Collections;
 import java.util.List;
 
 public class AirlineView {
@@ -54,13 +55,21 @@ public class AirlineView {
 		this.lines = lines;
 	}
 	
-	public int getlowestPrice(){
+	public String getlowestPrice(){
 		int lowestPrice = Integer.MAX_VALUE;
 		int temp = 0;
 		for(FlightLine line : lines){
 			temp = Integer.parseInt(line.getFlightPrice());
 			lowestPrice = lowestPrice < temp ? lowestPrice : temp;
 		}
-		return lowestPrice;
+		return String.valueOf(lowestPrice);
+	}
+	
+	public void orderLinesByLeatime(boolean isAsc){
+		Collections.sort(lines, new FlightLine.LeatimeComp(isAsc));
+	}
+	
+	public void orderLinesByPrice(boolean isAsc){
+		Collections.sort(lines, new FlightLine.PriceComp(isAsc));
 	}
 }

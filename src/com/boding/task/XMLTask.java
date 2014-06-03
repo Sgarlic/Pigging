@@ -21,9 +21,11 @@ import android.util.Log;
 
 public class XMLTask extends AsyncTask<Object,Void,Object>{
 	private TicketSearchResultIActivity tsri;
+	private int whichday;
 	
-	public XMLTask(TicketSearchResultIActivity tsri){
+	public XMLTask(TicketSearchResultIActivity tsri, int whichday){
 		this.tsri = tsri;
+		this.whichday = whichday;
 	}
 	
 	@Override
@@ -50,7 +52,13 @@ public class XMLTask extends AsyncTask<Object,Void,Object>{
 	
 	@Override  
 	 protected void onPostExecute(Object result) {
-		tsri.setTodayAirlineView((AirlineView)result);
+		if(whichday == 1){//last day
+			tsri.setLastdayAirlineView((AirlineView)result);
+		}else if(whichday == 2){//today
+			tsri.setTodayAirlineView((AirlineView)result);
+		}else{// next day
+			tsri.setNextdayAirlineView((AirlineView)result);
+		}
     } 
 	
 	private InputStream requestXML(String urlstr){
@@ -90,8 +98,5 @@ public class XMLTask extends AsyncTask<Object,Void,Object>{
             e.printStackTrace();
         }
 		return inputStream;
-	}
-	
-	
-	
+	}	
 }
