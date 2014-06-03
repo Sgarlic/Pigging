@@ -8,6 +8,8 @@ import com.boding.constants.Constants;
 import com.boding.constants.GlobalVariables;
 import com.boding.constants.IntentRequestCode;
 import com.boding.util.Util;
+import com.boding.view.CustomCalendarView;
+import com.boding.view.CustomCalendarView.OnItemClickListener;
 
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
@@ -32,6 +34,10 @@ import android.widget.TextView;
 
 public class DateSelectActivity extends Activity {
 	private boolean isReturnDateSelection = false;
+	private LinearLayout lastMonthLinearLayout;
+	private LinearLayout nextMonthLinearLayout;
+	private TextView currentMonthTextView;
+	private CustomCalendarView fromDateCalendarView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -69,32 +75,53 @@ public class DateSelectActivity extends Activity {
 //			
 //		});
 		
-		CalendarView fromDateCalendarView = (CalendarView)findViewById(R.id.from_date_calendarView);
+		fromDateCalendarView = (CustomCalendarView)findViewById(R.id.from_date_calendarView);
 //		Calendar minDate = Calendar.getInstance();
 //		Log.d("poding","here");
 //		fromDateCalendarView.setMinDate(minDate.getTimeInMillis()-100);
 //		Log.d("poding","here111111111111");
+		if(isReturnDateSelection)
+			fromDateCalendarView.setDate(Util.getDateFromString(GlobalVariables.Fly_To_Date));
+		else
+			fromDateCalendarView.setDate(Util.getDateFromString(GlobalVariables.Fly_From_Date));
+		
 		Calendar maxDate = Calendar.getInstance();
 		maxDate.add(Calendar.MONTH, 6);
-		fromDateCalendarView.setMaxDate(maxDate.getTimeInMillis());
-		fromDateCalendarView.setDate(Util.getMillIsFromDate(GlobalVariables.Fly_From_Date));
-		fromDateCalendarView.setOnDateChangeListener(new OnDateChangeListener(){
+		fromDateCalendarView.setOnItemClickListener(new OnItemClickListener(){
 			@Override
-			public void onSelectedDayChange(CalendarView arg0, int year, int month, int dayOfMonth) {
-				String selectedDate = Util.getFormatedDate(year, month, dayOfMonth);
+			public void OnItemClick(Date date) {
+				String selectedDate = Util.getFormatedDate(date);
 				if(isReturnDateSelection){
-					if(GlobalVariables.Fly_To_Date.equals(selectedDate))
-						return;
 					GlobalVariables.Fly_To_Date = selectedDate;
 				}
 				else{
-					if(GlobalVariables.Fly_From_Date.equals(selectedDate))
-						return;
 					GlobalVariables.Fly_From_Date = selectedDate;
 				}
 				Util.returnToPreviousPage(DateSelectActivity.this, IntentRequestCode.START_DATE_SELECTION);
-//				Log.d("poding",year+"-"+month+"-"+dayOfMonth);
 			}
+		});
+		
+		currentMonthTextView = (TextView) findViewById(R.id.current_month_textView);
+		setMonth();
+//		fromDateCalendarView.setMaxDate(maxDate.getTimeInMillis());
+//		fromDateCalendarView.setDate(Util.getMillIsFromDate(GlobalVariables.Fly_From_Date));
+//		fromDateCalendarView.setOnDateChangeListener(new OnDateChangeListener(){
+//			@Override
+//			public void onSelectedDayChange(CalendarView arg0, int year, int month, int dayOfMonth) {
+//				String selectedDate = Util.getFormatedDate(year, month, dayOfMonth);
+//				if(isReturnDateSelection){
+//					if(GlobalVariables.Fly_To_Date.equals(selectedDate))
+//						return;
+//					GlobalVariables.Fly_To_Date = selectedDate;
+//				}
+//				else{
+//					if(GlobalVariables.Fly_From_Date.equals(selectedDate))
+//						return;
+//					GlobalVariables.Fly_From_Date = selectedDate;
+//				}
+//				Util.returnToPreviousPage(DateSelectActivity.this, IntentRequestCode.START_DATE_SELECTION);
+////				Log.d("poding",year+"-"+month+"-"+dayOfMonth);
+//			}
 
 //			@Override
 //			public void onClick(View arg0) {
@@ -104,7 +131,7 @@ public class DateSelectActivity extends Activity {
 //				returnToPreviousPage(true, selectedDate.getYear(), selectedDate.getMonth(), selectedDate.getDate());
 //			}
 			
-		});
+//		});
 //		DatePicker fromDatePicker = (DatePicker)findViewById(R.id.from_date_datePicker);
 //		Calendar minCalendar = Calendar.getInstance();
 ////		minCalendar.add(Calendar.YEAR, -1900);
@@ -126,6 +153,24 @@ public class DateSelectActivity extends Activity {
 //			}
 //			
 //		});
+		lastMonthLinearLayout = (LinearLayout) this.findViewById(R.id.last_month_linearLayout);
+		nextMonthLinearLayout = (LinearLayout) this.findViewById(R.id.next_month_lienarLayout);
+		lastMonthLinearLayout.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View arg0) {
+				fromDateCalendarView.clickLeftMonth();
+				setMonth();
+			}
+			
+		});	
+		nextMonthLinearLayout.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View arg0) {
+				fromDateCalendarView.clickRightMonth();
+				setMonth();
+			}
+			
+		});	
 	}
 	
 	private void setTitle(){
@@ -136,4 +181,8 @@ public class DateSelectActivity extends Activity {
     		dateSelectTitleTextView.setText("选择出发日期");
     }
 
+	private void setMonth(){
+//		String currentMonth = Util.getYearMonthString(Util.getDateFromString(GlobalVariables.Fly_From_Date));
+		currentMonthTextView.setText(fromDateCalendarView.getYearAndmonth());
+	}
 }

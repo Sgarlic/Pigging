@@ -104,6 +104,23 @@ public class Util {
 		return getFormatedDate(calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH));
 	}
 	
+	public static String getFormatedDate(Date date){
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		return getFormatedDate(calendar);
+	}
+	
+	public static String getYearMonthString(Calendar calendar){
+		String dateFormat = "%s年%02d";
+		return String.format(dateFormat, String.valueOf(calendar.get(Calendar.YEAR)),calendar.get(Calendar.MONTH));
+	}
+	
+	public static String getYearMonthString(Date date){
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		return getYearMonthString(calendar);
+	}
+	
 	public static long getMillIsFromDate(String date){
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
 //		String[] temp = date.split("-");
@@ -115,6 +132,18 @@ public class Util {
 		}
 //		newDate.setYear(Integer.valueOf(temp[0]));
 		return newDate.getTime();
+	}
+	
+	public static Date getDateFromString(String date){
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+		Date newDate = null;
+		try {
+			newDate = sdf.parse(date);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+//		newDate.setYear(Integer.valueOf(temp[0]));
+		return newDate;
 	}
 	
 	@SuppressLint("NewApi")
@@ -222,5 +251,12 @@ public class Util {
 	//给时间加上冒号， 如0322 -> 03:22
 	public static String formatTime(String time){
 		return time.substring(0, 2) + ":" + time.substring(2);
+	}
+	
+	public static String addDayToCalendarString(String calendarString, int dayCount){
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(getDateFromString(calendarString));
+		calendar.add(Calendar.HOUR, dayCount*24);
+		return getFormatedDate(calendar);
 	}
 }
