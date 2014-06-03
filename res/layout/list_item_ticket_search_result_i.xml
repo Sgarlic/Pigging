@@ -102,9 +102,11 @@
 		                android:layout_height="wrap_content"
 		                android:layout_gravity="bottom|left"
 		                android:text="约15小时10分钟"
-		                android:textColor="@color/darkgray"
+		                android:textColor="@color/searchResultTinyText"
 		                android:textSize="13dp"
+		                android:textStyle="bold"
 		                android:typeface="serif" />
+
 		        </LinearLayout>
 		        <LinearLayout
 		            android:layout_width="wrap_content"
@@ -123,8 +125,9 @@
 		                    android:layout_height="wrap_content"
 		                    android:layout_gravity="bottom|right"
 		                    android:text=">9"
-		                    android:textColor="@color/black"
+		                    android:textColor="@color/ticketLeftColor"
 		                    android:textSize="13dp"
+		                    android:textStyle="bold"
 		                    android:typeface="serif" />
 
 		                <TextView
@@ -134,7 +137,9 @@
 		                    android:text="张"
 		                    android:textColor="@color/black"
 		                    android:textSize="15dp"
+		                    android:textStyle="bold"
 		                    android:typeface="serif" />
+
 		            </LinearLayout>
 		        </LinearLayout>
 		    </LinearLayout>
@@ -158,8 +163,9 @@
 		                android:layout_height="wrap_content"
 		                android:layout_gravity="bottom|left"
 		                android:text="大韩航空"
-		                android:textColor="@color/darkgray"
+		                android:textColor="@color/searchResultTinyText"
 		                android:textSize="13dp"
+		                android:textStyle="bold"
 		                android:typeface="serif" />
 
 		            <TextView
@@ -168,9 +174,11 @@
 		                android:layout_height="wrap_content"
 		                android:layout_gravity="bottom|left"
 		                android:text="KE714"
-		                android:textColor="@color/darkgray"
+		                android:textColor="@color/searchResultTinyText"
 		                android:textSize="13dp"
+		                android:textStyle="bold"
 		                android:typeface="serif" />
+
 		        </LinearLayout>
 		        <LinearLayout
 		            android:layout_width="wrap_content"
@@ -189,8 +197,9 @@
 		                    android:layout_height="wrap_content"
 		                    android:layout_gravity="bottom|right"
 		                    android:text="经济舱"
-		                    android:textColor="@color/darkgray"
+		                    android:textColor="@color/searchResultTinyText"
 		                    android:textSize="13dp"
+		                    android:textStyle="bold"
 		                    android:typeface="serif" />
 
 		            </LinearLayout>
@@ -231,8 +240,9 @@
 		                android:layout_height="wrap_content"
 		                android:layout_gravity="bottom|left"
 		                android:text="成田机场"
-		                android:textColor="@color/darkgray"
+		                android:textColor="@color/searchResultTinyText"
 		                android:textSize="13dp"
+		                android:textStyle="bold"
 		                android:typeface="serif" />
 
 		        </LinearLayout>
@@ -253,8 +263,9 @@
 		                    android:layout_height="wrap_content"
 		                    android:layout_gravity="bottom|right"
 		                    android:text="浦东机场"
-		                    android:textColor="@color/darkgray"
+		                    android:textColor="@color/searchResultTinyText"
 		                    android:textSize="13dp"
+		                    android:textStyle="bold"
 		                    android:typeface="serif" />
 
 		            </LinearLayout>

@@ -8,9 +8,9 @@
     tools:ignore="MergeRootFrame" >
 
 	<LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:orientation="horizontal" >
+	    android:layout_width="match_parent"
+	    android:layout_height="50dp"
+	    android:orientation="horizontal" >
 
 		<LinearLayout
 		    android:id="@+id/return_logo_linearLayout"
@@ -42,7 +42,7 @@
 		            android:layout_height="wrap_content"
 		            android:layout_gravity="center_vertical"
 		            android:text="机票预订"
-		            android:textColor="@color/orange"
+		            android:textColor="@color/textOrange"
 		            android:textColorHint="@color/white"
 		            android:textSize="20dp"
 		            android:typeface="serif" />
@@ -59,7 +59,7 @@
 	<LinearLayout
 	    android:layout_width="match_parent"
 	    android:layout_height="40dp"
-	    android:background="@color/orange"
+	    android:background="@color/panelOrange"
 	    android:orientation="vertical" >
 		
 	    <LinearLayout
@@ -157,7 +157,7 @@
 		            android:layout_gravity="center_vertical"
 		            android:layout_marginLeft="5dp"
 		            android:text="前一天"
-		            android:textColor="@color/darkgray"
+		            android:textColor="@color/dayIndicatorGray"
 		            android:textSize="12dp"
 		            android:typeface="serif" />
 
@@ -174,9 +174,11 @@
 		            android:layout_height="wrap_content"
 		            android:layout_gravity="center_horizontal"
 		            android:text="￥500"
-		            android:textColor="@color/darkgray"
+		            android:textColor="@color/priceGray"
 		            android:textSize="12dp"
+		            android:textStyle="bold"
 		            android:typeface="serif" />
+
 			</LinearLayout>
 			</LinearLayout>
 		</LinearLayout>
@@ -205,7 +207,7 @@
 		            android:layout_gravity="center_vertical"
 		            android:layout_marginRight="5dp"
 		            android:text="2014-01-07"
-		            android:textColor="@color/orange"
+		            android:textColor="@color/textOrange"
 		            android:textSize="12dp"
 		            android:typeface="serif" />
 		        <ImageView
@@ -227,9 +229,11 @@
 		            android:layout_height="wrap_content"
 		            android:layout_gravity="center_horizontal"
 		            android:text="￥670"
-		            android:textColor="@color/orange"
+		            android:textColor="@color/textOrange"
 		            android:textSize="12dp"
+		            android:textStyle="bold"
 		            android:typeface="serif" />
+
 			</LinearLayout>
 			</LinearLayout>
 		</LinearLayout>
@@ -261,7 +265,7 @@
 		            android:layout_gravity="center_vertical"
 		            android:layout_marginRight="5dp"
 		            android:text="后一天"
-		            android:textColor="@color/darkgray"
+		            android:textColor="@color/dayIndicatorGray"
 		            android:textSize="12dp"
 		            android:typeface="serif" />
 		        <ImageView
@@ -283,8 +287,9 @@
 		            android:layout_height="wrap_content"
 		            android:layout_gravity="center_horizontal"
 		            android:text="￥580"
-		            android:textColor="@color/darkgray"
+		            android:textColor="@color/priceGray"
 		            android:textSize="12dp"
+		            android:textStyle="bold"
 		            android:typeface="serif" />
 
 			</LinearLayout>
@@ -372,7 +377,7 @@
 		            android:layout_height="wrap_content"
 		            android:layout_gravity="center_vertical"
 		            android:text="起飞"
-		            android:textColor="@color/orange"
+		            android:textColor="@color/textOrange"
 		            android:textSize="15dp"
 		            android:typeface="serif" />
 

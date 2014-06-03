@@ -28,6 +28,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class MainActivity extends FragmentActivity {
+	private boolean isSingleWay = true;
+	
 	private List<View> hList;
 	private List<View> vList;
 	private ViewPager hpager;
@@ -36,12 +38,22 @@ public class MainActivity extends FragmentActivity {
 	private VPagerAdapter vAdapter;
 	private HPagerAdapter hAdapter;
 	
-	private TextView flyFromDateTextView;
+	/**
+	 * Left page widgets
+	 */
 	private TextView leftpageFlyFromTextView;
 	private TextView leftPageFlyFromCodeTextView;
 	private TextView leftpageFlyToTextView;
 	private TextView leftpageFlyToCodeTextView;
 	private ImageView switchCityImageView;
+	private LinearLayout leftpageFlyFromLinearLayout;
+	private LinearLayout leftpageFlyToLinearLayout;
+	private ImageView leftpageFlightWayChooseImageView;
+	private LinearLayout leftPageSinglewayDateLinearLayout;
+	private LinearLayout leftpageDateDividerLinearLayout;
+	private LinearLayout leftpageReturnwayDateLinearLayout;
+	private TextView leftpageFlyFromDateTextView;
+	private TextView leftpageFlyToDateTextView;
 	
 	private View leftPageView;
 	private View rightPageView;
@@ -65,31 +77,45 @@ public class MainActivity extends FragmentActivity {
 	}
 	
 	private void initLeftPageView(){
-		LinearLayout leftPageSinglewayDateLinearLayout = (LinearLayout)leftPageView.findViewById(R.id.leftpage_singleway_date_linearlayout);
-		leftPageSinglewayDateLinearLayout.setClickable(true);
-		leftPageSinglewayDateLinearLayout.setOnClickListener(new OnClickListener(){
+		leftpageFlightWayChooseImageView = (ImageView)leftPageView.findViewById(R.id.left_page_flight_way_choose);
+		leftpageFlightWayChooseImageView.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View arg0) {
-				Intent intent = new Intent();
-				intent.setClass(MainActivity.this, DateSelectActivity.class);
-				startActivityForResult(intent,IntentRequestCode.START_DATE_SELECTION.getRequestCode());
+				if(isSingleWay)
+					swithToReturnWay();
+				else
+					switchToSingleWay();
 			}
+			
 		});
+		leftPageSinglewayDateLinearLayout = (LinearLayout)leftPageView.findViewById(R.id.leftpage_singleway_date_linearlayout);
+		leftPageSinglewayDateLinearLayout.setOnClickListener(openDateSelectOnClickListener);
+		leftpageDateDividerLinearLayout = (LinearLayout)leftPageView.findViewById(R.id.leftpage_chooseway_divider);
+		leftpageReturnwayDateLinearLayout = (LinearLayout)leftPageView.findViewById(R.id.leftpage_returnway_date_linearlayout);
+		leftpageReturnwayDateLinearLayout.setOnClickListener(openDateSelectOnClickListener);
 		
-		flyFromDateTextView = (TextView)leftPageView.findViewById(R.id.fly_from_date_textView);
-		setFlyFromDate();
+		leftpageFlyFromDateTextView = (TextView)leftPageView.findViewById(R.id.fly_from_date_textView);
+		leftpageFlyToDateTextView = (TextView)leftPageView.findViewById(R.id.fly_to_date_textView);
+		setFlyFromToDate();
+		switchToSingleWay();
 		
 		leftpageFlyFromTextView = (TextView)leftPageView.findViewById(R.id.leftpage_fly_from_textView);
-		leftpageFlyFromTextView.setOnClickListener(openCitySelectOnClickListener);
+//		leftpageFlyFromTextView.setOnClickListener(openCitySelectOnClickListener);
 		
 		leftPageFlyFromCodeTextView = (TextView)leftPageView.findViewById(R.id.leftpage_fly_from_code_textView);
-		leftPageFlyFromCodeTextView.setOnClickListener(openCitySelectOnClickListener);
+//		leftPageFlyFromCodeTextView.setOnClickListener(openCitySelectOnClickListener);
 		
 		leftpageFlyToTextView = (TextView)leftPageView.findViewById(R.id.leftpage_fly_to_textView);
-		leftpageFlyToTextView.setOnClickListener(openCitySelectOnClickListener);
+//		leftpageFlyToTextView.setOnClickListener(openCitySelectOnClickListener);
 		
 		leftpageFlyToCodeTextView = (TextView)leftPageView.findViewById(R.id.leftpage_fly_to_code_textView);
-		leftpageFlyToCodeTextView.setOnClickListener(openCitySelectOnClickListener);
+//		leftpageFlyToCodeTextView.setOnClickListener(openCitySelectOnClickListener);
+		
+		leftpageFlyFromLinearLayout = (LinearLayout)leftPageView.findViewById(R.id.leftpage_fly_from_linearlayout);
+		leftpageFlyToLinearLayout = (LinearLayout)leftPageView.findViewById(R.id.leftpage_fly_to_linearlayout);
+		leftpageFlyFromLinearLayout.setOnClickListener(openCitySelectOnClickListener);
+		leftpageFlyToLinearLayout.setOnClickListener(openCitySelectOnClickListener);
+		
 		
 		ImageView leftpageFlightSearchTicketImageView = (ImageView)leftPageView.findViewById(R.id.leftpage_flight_search_ticket_imageView);
 		leftpageFlightSearchTicketImageView.setOnClickListener(new OnClickListener(){
@@ -115,15 +141,39 @@ public class MainActivity extends FragmentActivity {
 		});
 	}
 	
-	private void setFlyFromDate(){
+	private void switchToSingleWay(){
+		leftpageFlightWayChooseImageView.setImageResource(R.drawable.leftpage_singleway_line_480_800);
+		leftpageDateDividerLinearLayout.setVisibility(View.INVISIBLE);
+		leftpageReturnwayDateLinearLayout.setVisibility(View.INVISIBLE);
+		isSingleWay = true;
+	}
+	
+	private void swithToReturnWay(){
+		leftpageFlightWayChooseImageView.setImageResource(R.drawable.leftpage_returnway_line_480_800);
+		leftpageDateDividerLinearLayout.setVisibility(View.VISIBLE);
+		leftpageReturnwayDateLinearLayout.setVisibility(View.VISIBLE);
+		isSingleWay = false;
+	}
+	
+	private void setFlyFromToDate(){
 		if(GlobalVariables.Fly_From_Date!=null){
-			flyFromDateTextView.setText(GlobalVariables.Fly_From_Date);
+			leftpageFlyFromDateTextView.setText(GlobalVariables.Fly_From_Date);
 		}
 		else{
 			Calendar calendar = Calendar.getInstance();
 			String flyFromDate = Util.getFormatedDate(calendar);
-			flyFromDateTextView.setText(flyFromDate);
+			leftpageFlyFromDateTextView.setText(flyFromDate);
 			GlobalVariables.Fly_From_Date = flyFromDate;
+		}
+		
+		if(GlobalVariables.Fly_To_Date!=null){
+			leftpageFlyToDateTextView.setText(GlobalVariables.Fly_To_Date);
+		}else{
+			Calendar calendar = Calendar.getInstance();
+			calendar.add(Calendar.HOUR, 7*24);
+			String flyToDate = Util.getFormatedDate(calendar);
+			leftpageFlyToDateTextView.setText(flyToDate);
+			GlobalVariables.Fly_To_Date = flyToDate;
 		}
 	}
 	
@@ -147,7 +197,7 @@ public class MainActivity extends FragmentActivity {
 		public void onClick(View arg0) {
 			int viewId = arg0.getId();
 			boolean isFlyToCitySelection = false;
-			if(viewId==R.id.leftpage_fly_to_code_textView || viewId==R.id.leftpage_fly_to_textView)
+			if(viewId==R.id.leftpage_fly_to_linearlayout)
 				isFlyToCitySelection = true;
 			
 			Bundle bundle  = new Bundle();
@@ -157,6 +207,26 @@ public class MainActivity extends FragmentActivity {
 //			GlobalVariables.isFlyToCitySelection = isFlyToCitySelection;
 			intent.putExtras(bundle);
 			startActivityForResult(intent,IntentRequestCode.START_CITY_SELECTION.getRequestCode());
+		}
+		
+	};
+	
+	OnClickListener openDateSelectOnClickListener = new OnClickListener(){
+		@Override
+		public void onClick(View arg0) {
+			int viewId = arg0.getId();
+			boolean isReturnDateSelection = false;
+			if(viewId == R.id.leftpage_returnway_date_linearlayout)
+				isReturnDateSelection = true;
+			
+			Bundle bundle  = new Bundle();
+			bundle.putBoolean(Constants.IS_RETURN_DATE_SELECTION, isReturnDateSelection);
+//			bundle.putBoolean(Constants.IS_SINGLE_WAY, isSingleWay);
+			Intent intent = new Intent();
+			intent.setClass(MainActivity.this, DateSelectActivity.class);
+//			GlobalVariables.isFlyToCitySelection = isFlyToCitySelection;
+			intent.putExtras(bundle);
+			startActivityForResult(intent,IntentRequestCode.START_DATE_SELECTION.getRequestCode());
 		}
 		
 	};
@@ -229,7 +299,7 @@ public class MainActivity extends FragmentActivity {
 	  if(data == null)
 		  return;
 	  if(requestCode==IntentRequestCode.START_DATE_SELECTION.getRequestCode()){
-		  setFlyFromDate();
+		  setFlyFromToDate();
 	  }
 	  if(requestCode == IntentRequestCode.START_CITY_SELECTION.getRequestCode())
 		  setFlyFromToCity();

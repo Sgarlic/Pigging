@@ -28,16 +28,22 @@ import android.widget.CalendarView;
 import android.widget.CalendarView.OnDateChangeListener;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 public class DateSelectActivity extends Activity {
+	private boolean isReturnDateSelection = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 //		Util.setFullScreen(this);
 		setContentView(R.layout.activity_date_select);
-		
+		Bundle arguments = getIntent().getExtras();
+        if(arguments != null)
+        	isReturnDateSelection = arguments.getBoolean(Constants.IS_RETURN_DATE_SELECTION);
+        
 		initView();
+		setTitle();
 	}
 	
 	private void initView(){
@@ -75,9 +81,17 @@ public class DateSelectActivity extends Activity {
 		fromDateCalendarView.setOnDateChangeListener(new OnDateChangeListener(){
 			@Override
 			public void onSelectedDayChange(CalendarView arg0, int year, int month, int dayOfMonth) {
-				if(GlobalVariables.Fly_From_Date.equals(Util.getFormatedDate(year, month, dayOfMonth)))
-					return;
-				GlobalVariables.Fly_From_Date = Util.getFormatedDate(year, month, dayOfMonth);
+				String selectedDate = Util.getFormatedDate(year, month, dayOfMonth);
+				if(isReturnDateSelection){
+					if(GlobalVariables.Fly_To_Date.equals(selectedDate))
+						return;
+					GlobalVariables.Fly_To_Date = selectedDate;
+				}
+				else{
+					if(GlobalVariables.Fly_From_Date.equals(selectedDate))
+						return;
+					GlobalVariables.Fly_From_Date = selectedDate;
+				}
 				Util.returnToPreviousPage(DateSelectActivity.this, IntentRequestCode.START_DATE_SELECTION);
 //				Log.d("poding",year+"-"+month+"-"+dayOfMonth);
 			}
@@ -114,49 +128,12 @@ public class DateSelectActivity extends Activity {
 //		});
 	}
 	
-	private void returnToPreviousPage(boolean dateSelected){
-		Intent intent=new Intent();
-//		if(dateSelected)
-//			intent.putExtra("selectedDate", Util.getFormatedDate(year, month, dayOfMonth));
-		setResult(1, intent);
-		finish();
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.date_select, menu);
-		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
-		if (id == R.id.action_settings) {
-			return true;
-		}
-		return super.onOptionsItemSelected(item);
-	}
-
-	/**
-	 * A placeholder fragment containing a simple view.
-	 */
-	public static class PlaceholderFragment extends Fragment {
-
-		public PlaceholderFragment() {
-		}
-
-		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup container,
-				Bundle savedInstanceState) {
-			View rootView = inflater.inflate(R.layout.fragment_date_select,
-					container, false);
-			return rootView;
-		}
-	}
+	private void setTitle(){
+    	TextView dateSelectTitleTextView = (TextView)findViewById(R.id.date_select_title_textView);
+    	if(isReturnDateSelection)
+    		dateSelectTitleTextView.setText("选择返回日期");
+    	else
+    		dateSelectTitleTextView.setText("选择出发日期");
+    }
 
 }

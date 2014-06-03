@@ -7,4 +7,10 @@
     <color name="panelBackColor">#80000203</color>
     <color name="orange">#ff9a00</color>
     <color name="black">#000000</color>
+    <color name="textOrange">#f68a1e</color>
+    <color name="panelOrange">#ff8a00</color>
+    <color name="dayIndicatorGray">#838383</color>
+    <color name="priceGray">#707070</color>
+    <color name="searchResultTinyText">#848484</color>
+    <color name="ticketLeftColor">#343a46</color>
 </resources>

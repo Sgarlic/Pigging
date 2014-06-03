@@ -1,0 +1,103 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/middle_page_linearlayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/middlepage_background"
+    android:orientation="vertical" >
+
+	<LinearLayout
+	    android:orientation="horizontal"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_weight="1"
+	    >
+	    <LinearLayout  
+        android:layout_width="fill_parent"  
+        android:layout_height="wrap_content" 
+        android:gravity="right"
+           >
+
+		<ImageView
+		    android:id="@+id/main_page_airserver_imageView"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_marginRight="20dp"
+		    android:src="@drawable/mainpage_airsever_480_800" />
+		</LinearLayout>
+	</LinearLayout>
+	<LinearLayout
+	    android:orientation="horizontal"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_weight="1"
+	    >
+
+	    <ImageView
+	        android:id="@+id/main_page_logo_imageView"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_marginLeft="30dp"
+	        android:src="@drawable/mainpage_logo_480_800" />
+
+	</LinearLayout>
+	<LinearLayout
+	    android:orientation="horizontal"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_weight="1"
+	    >
+
+	    <ImageView
+	        android:id="@+id/main_page_ticketsearch_imageView"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="bottom"
+	        android:layout_marginTop="20dp"
+	        android:src="@drawable/mainpage_ticketsearch_480_800" />
+
+	    <LinearLayout  
+        android:layout_width="fill_parent"  
+        android:layout_height="wrap_content"  
+        android:gravity="right" >
+
+	    <ImageView
+	        android:id="@+id/main_page_airport_imageView"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_marginTop="35dp"
+	        android:src="@drawable/mainpage_airport_480_800" />
+
+	    </LinearLayout>
+	</LinearLayout>
+
+	<LinearLayout
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_weight="1"
+	    android:orientation="vertical" >
+
+	    <LinearLayout  
+        android:layout_width="fill_parent"  
+        android:layout_height="fill_parent"  
+        android:gravity="bottom"
+        android:orientation="horizontal"  >
+	    <LinearLayout  
+        android:layout_width="fill_parent"  
+        android:layout_height="fill_parent"  
+        android:gravity="center"
+        android:orientation="horizontal"  >
+
+	    <ImageView
+	        android:id="@+id/main_page_toolbox_imageView"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="bottom"
+	        android:src="@drawable/mainpage_toolbox_480_800" />
+
+		</LinearLayout>
+		</LinearLayout>
+	</LinearLayout>
+</LinearLayout>
+
+

@@ -158,16 +158,22 @@ public class TicketSearchResultIActivity extends Activity {
 	  }
 	  
 	  public void setTodayAirlineView(AirlineView todayAV){
-	        this.todayAirline = todayAV;
-	        setAdapter();
+		  if(todayAV==null)
+			  return;
+	       this.todayAirline = todayAV;
+	       setAdapter();
 	  }
 	  
 	  public void setLastdayAirlineView(AirlineView lastdayAV){
+		  if(lastdayAV==null)
+			  return;
 	        this.lastDayAriline = lastdayAV;
 	        setTextViewInfo();
 	  }
 	  
 	  public void setNextdayAirlineView(AirlineView nextdayAV){
+		  if(nextdayAV==null)
+			  return;
 	        this.nextDayAirline = nextdayAV;
 	        setTextViewInfo();
 	  }

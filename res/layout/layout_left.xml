@@ -3,15 +3,17 @@
     android:id="@+id/ticket_search_linearlayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/leftpage_background"
     android:orientation="vertical"
     tools:context="com.poding.testapp.TicketSearchActivity"
-    tools:ignore="MergeRootFrame"
-    android:background="@drawable/leftpage_background">
-    <LinearLayout  
+    tools:ignore="MergeRootFrame" >
+
+    <LinearLayout
         android:layout_width="match_parent"
-	    android:layout_height="wrap_content"
-	    android:orientation="vertical"
-        android:layout_weight="9"  >
+        android:layout_height="wrap_content"
+        android:layout_weight="3"
+        android:orientation="vertical" >
+
 	    <LinearLayout  
         android:layout_width="fill_parent"  
         android:layout_height="fill_parent"  
@@ -39,285 +41,374 @@
 	<LinearLayout
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"
+	    android:layout_weight="13"
 	    android:orientation="vertical" >
 
 	    <LinearLayout
 	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
+	        android:layout_height="match_parent"
 	        android:layout_gravity="center"
-	        android:background="@drawable/leftpage_ticketsearch_panel_background"
+	        android:background="@color/panelBackColor"
 	        android:orientation="vertical" >
 
-	    	<LinearLayout
-	    	    android:layout_width="match_parent"
-	    	    android:layout_height="wrap_content"
-	    	    android:layout_weight="5"
-	    	    android:orientation="vertical" >
+		    <LinearLayout
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:layout_gravity="center"
+		        android:layout_marginLeft="10dp"
+		        android:layout_marginRight="10dp"
+		        android:layout_weight="1"
+		        android:orientation="vertical" >
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_gravity="bottom"
+					android:layout_weight="4"
+					android:orientation="horizontal" >
+					<LinearLayout
+						android:layout_width="wrap_content"
+						android:layout_height="match_parent"
+						android:layout_gravity="bottom"
+						android:layout_weight="1"
+						android:orientation="horizontal" >
+						<ImageView
+				    		android:id="@+id/leftpage_fly_from_logo_imageView"
+				    		android:layout_width="wrap_content"
+				    		android:layout_height="wrap_content"
+				    		android:layout_gravity="center_vertical"
+				    		android:layout_weight="1"
+				    		android:src="@drawable/fly_from_logo_480_800" />
+					</LinearLayout>
+
+					<LinearLayout
+					    android:id="@+id/leftpage_fly_from_linearlayout"
+					    android:layout_width="wrap_content"
+					    android:layout_height="match_parent"
+					    android:layout_weight="1"
+					    android:orientation="vertical" >
+
+						<LinearLayout
+						    android:layout_width="match_parent"
+						    android:layout_height="wrap_content"
+						    android:layout_weight="3"
+						    android:orientation="horizontal" >
+
+							<TextView
+							    android:id="@+id/leftpage_fly_from_textView"
+							    android:layout_width="wrap_content"
+							    android:layout_height="wrap_content"
+							    android:layout_gravity="bottom"
+							    android:text="上海"
+							    android:textColor="@color/white"
+							    android:textColorHint="@color/white"
+							    android:textSize="30dp"
+							    android:typeface="serif" />
+						</LinearLayout>
+
+						<LinearLayout
+						    android:layout_width="match_parent"
+						    android:layout_height="wrap_content"
+						    android:layout_weight="1"
+						    android:orientation="horizontal" >
+
+							<TextView
+							    android:id="@+id/leftpage_fly_from_code_textView"
+							    android:layout_width="wrap_content"
+							    android:layout_height="wrap_content"
+							    android:layout_gravity="top"
+							    android:layout_weight="1"
+							    android:text="SHA"
+							    android:textColor="@color/white"
+							    android:textColorHint="@color/white"
+							    android:textSize="13dp"
+							    android:typeface="serif" />
+						</LinearLayout>
+					</LinearLayout>
+					<LinearLayout
+						android:layout_width="wrap_content"
+						android:layout_height="match_parent"
+						android:layout_gravity="bottom"
+						android:layout_weight="1"
+						android:orientation="horizontal" >
+						<ImageView
+				    		    android:id="@+id/leftpage_swithcity_imageView"
+				    		    android:layout_width="wrap_content"
+				    		    android:layout_height="wrap_content"
+				    		    android:layout_gravity="center_vertical"
+				    		    android:layout_weight="1"
+				    		    android:src="@drawable/leftpage_refresh_480_800" />
+					</LinearLayout>
+					<LinearLayout
+						android:layout_width="wrap_content"
+						android:layout_height="match_parent"
+						android:layout_gravity="bottom"
+						android:layout_weight="1"
+						android:orientation="horizontal" >
+						<ImageView
+				    		    android:layout_width="wrap_content"
+				    		    android:layout_height="wrap_content"
+				    		    android:layout_gravity="center_vertical"
+				    		    android:layout_weight="1"
+				    		    android:src="@drawable/fly_to_logo_480_800" />
+					</LinearLayout>
+
+					<LinearLayout
+					    android:id="@+id/leftpage_fly_to_linearlayout"
+					    android:layout_width="wrap_content"
+					    android:layout_height="match_parent"
+					    android:layout_gravity="bottom"
+					    android:layout_weight="1"
+					    android:orientation="vertical" >
+
+						<LinearLayout
+					    android:layout_width="wrap_content"
+					    android:layout_height="match_parent"
+					    android:layout_weight="1"
+					    android:orientation="vertical" >
+
+						<LinearLayout
+						    android:layout_width="match_parent"
+						    android:layout_height="wrap_content"
+						    android:layout_weight="3"
+						    android:orientation="horizontal" >
+
+							<TextView
+				    		    android:id="@+id/leftpage_fly_to_textView"
+				    		    android:layout_width="wrap_content"
+				    		    android:layout_height="wrap_content"
+				    		    android:layout_gravity="bottom"
+				    		    android:text="北京"
+				    		    android:textColor="@color/white"
+				    		    android:textSize="30dp" />
+						</LinearLayout>
+
+						<LinearLayout
+						    android:layout_width="match_parent"
+						    android:layout_height="wrap_content"
+						    android:layout_weight="1"
+						    android:orientation="horizontal" >
+
+							<TextView
+				    		    android:id="@+id/leftpage_fly_to_code_textView"
+				    		    android:layout_width="wrap_content"
+				    		    android:layout_height="wrap_content"
+				    		    android:layout_gravity="top"
+				    		    android:text="PEK"
+				    		    android:textColor="@color/white"
+				    		    android:textSize="13dp" />
+						</LinearLayout>
+					</LinearLayout>
+					</LinearLayout>
+				</LinearLayout>
+				<ImageView
+		    	    android:layout_width="wrap_content"
+		    	    android:layout_height="wrap_content"
+		    	    android:layout_gravity="center_horizontal"
+		    	    android:src="@drawable/leftpage_line_480_800" />
 
 				<LinearLayout
 				    android:layout_width="match_parent"
 				    android:layout_height="wrap_content"
-				    android:layout_gravity="bottom"
 				    android:layout_weight="4"
 				    android:orientation="horizontal" >
 
-				    <LinearLayout
-				        android:layout_width="match_parent"
-				        android:layout_height="wrap_content"
-				        android:layout_gravity="bottom"
-				        android:layout_marginBottom="5dp"
-				        android:orientation="horizontal" >
+					<LinearLayout
+					    android:id="@+id/leftpage_singleway_date_linearlayout"
+					    android:layout_width="wrap_content"
+					    android:layout_height="match_parent"
+					    android:layout_marginRight="5dp"
+					    android:layout_weight="1"
+					    android:orientation="horizontal" >
 
-			    		<ImageView
-			    		    android:id="@+id/leftpage_fly_from_logo_imageView"
-			    		    android:layout_width="wrap_content"
-			    		    android:layout_height="wrap_content"
-			    		    android:layout_gravity="center_vertical"
-			    		    android:layout_weight="1"
-			    		    android:src="@drawable/fly_from_logo_480_800" />
+						<ImageView
+				    	    android:layout_width="wrap_content"
+				    	    android:layout_height="wrap_content"
+				    	    android:layout_gravity="center_vertical"
+				    	    android:src="@drawable/calendar_logo_480_800"
+				    	    android:layout_weight="1" />
 		
-			    		<TextView
-			    		    android:id="@+id/leftpage_fly_from_textView"
-			    		    android:layout_width="wrap_content"
-			    		    android:layout_height="wrap_content"
-			    		    android:layout_gravity="bottom"
-			    		    android:layout_weight="1"
-			    		    android:text="上海"
-			    		    android:textColor="@color/white"
-			    		    android:textColorHint="@color/white"
-			    		    android:textSize="30dp"
-			    		    android:typeface="serif" />
-			    		
-			    		<ImageView
-			    		    android:id="@+id/leftpage_swithcity_imageView"
-			    		    android:layout_width="wrap_content"
-			    		    android:layout_height="wrap_content"
-			    		    android:layout_gravity="center_vertical"
-			    		    android:layout_weight="1"
-			    		    android:src="@drawable/leftpage_refresh_480_800" />
+						<TextView
+						    android:id="@+id/fly_from_date_textView"
+						    android:layout_width="wrap_content"
+						    android:layout_height="wrap_content"
+						    android:layout_gravity="center_vertical"
+						    android:layout_marginLeft="3dp"
+						    android:layout_weight="4"
+						    android:text="2013-12-04"
+						    android:textColor="@color/white"
+						    android:textSize="17dp"
+						    android:typeface="serif" />
+
+					</LinearLayout>
+
+					<LinearLayout
+					    android:id="@+id/leftpage_chooseway_divider"
+					    android:layout_width="wrap_content"
+					    android:layout_height="match_parent"
+					    android:orientation="horizontal" >
+						<ImageView
+				    	    android:layout_width="wrap_content"
+				    	    android:layout_height="wrap_content"
+				    	    android:layout_gravity="center_vertical"
+				    	    android:src="@drawable/leftpage_date_divider"/>
+					</LinearLayout>
+
+					<LinearLayout
+					    android:id="@+id/leftpage_returnway_date_linearlayout"
+					    android:layout_width="wrap_content"
+					    android:layout_height="match_parent"
+					    android:layout_marginLeft="10dp"
+					    android:layout_weight="1"
+					    android:orientation="horizontal" >
+
+						<ImageView
+				    	    android:layout_width="wrap_content"
+				    	    android:layout_height="wrap_content"
+				    	    android:layout_gravity="center_vertical"
+				    	    android:src="@drawable/calendar_logo_480_800"
+				    	    android:layout_weight="1" />
 		
-			    		<ImageView
-			    		    android:layout_width="wrap_content"
-			    		    android:layout_height="wrap_content"
-			    		    android:layout_gravity="center_vertical"
-			    		    android:layout_weight="1"
-			    		    android:src="@drawable/fly_to_logo_480_800" />
-			    		
-			    		<TextView
-			    		    android:id="@+id/leftpage_fly_to_textView"
-			    		    android:layout_width="wrap_content"
-			    		    android:layout_height="wrap_content"
-			    		    android:layout_gravity="bottom"
-			    		    android:layout_weight="1"
-			    		    android:text="北京"
-			    		    android:textColor="@color/white"
-			    		    android:textSize="30dp" />
-		    		</LinearLayout>
+						<TextView
+						    android:id="@+id/fly_to_date_textView"
+						    android:layout_width="wrap_content"
+						    android:layout_height="wrap_content"
+						    android:layout_gravity="center_vertical"
+						    android:layout_marginLeft="3dp"
+						    android:layout_weight="4"
+						    android:text="2013-12-04"
+						    android:textColor="@color/white"
+						    android:textSize="17dp"
+						    android:typeface="serif" />
+
+					</LinearLayout>
+					
 		    	</LinearLayout>
-
-		    	<LinearLayout
-		    	    android:layout_width="match_parent"
-		    	    android:layout_height="wrap_content"
-		    	    android:layout_gravity="top"
-		    	    android:layout_weight="3"
-		    	    android:orientation="horizontal" >
-
-		    		<LinearLayout
-			    		    android:layout_width="wrap_content"
-			    		    android:layout_height="wrap_content"
-			    		    android:layout_weight="1"/>
-	
-		    		<TextView
-		    		    android:id="@+id/leftpage_fly_from_code_textView"
-		    		    android:layout_width="wrap_content"
-		    		    android:layout_height="wrap_content"
-		    		    android:layout_gravity="top"
-		    		    android:layout_weight="1"
-		    		    android:text="SHA"
-		    		    android:textColor="@color/white"
-		    		    android:textColorHint="@color/white"
-		    		    android:textSize="13dp"
-		    		    android:typeface="serif" />
-			    		
-		    		<LinearLayout
-			    		    android:layout_width="wrap_content"
-			    		    android:layout_height="wrap_content"
-			    		    android:layout_weight="1"/>
-		
-		    		<LinearLayout
-			    		    android:layout_width="wrap_content"
-			    		    android:layout_height="wrap_content"
-			    		    android:layout_weight="1" />
-			    		
-		    		<TextView
-		    		    android:id="@+id/leftpage_fly_to_code_textView"
-		    		    android:layout_width="wrap_content"
-		    		    android:layout_height="wrap_content"
-		    		    android:layout_gravity="top"
-		    		    android:layout_weight="1"
-		    		    android:text="PEK"
-		    		    android:textColor="@color/white"
-		    		    android:textSize="13dp" />
-
-		    	</LinearLayout>
-	    	</LinearLayout>
-
-	    	<ImageView
-	    	    android:layout_width="wrap_content"
-	    	    android:layout_height="wrap_content"
-	    	    android:layout_gravity="center_horizontal"
-	    	    android:src="@drawable/leftpage_line_480_800" />
-
-	    	<LinearLayout
-	    	    android:id="@+id/leftpage_singleway_date_linearlayout"
-	    	    android:layout_width="match_parent"
-	    	    android:layout_height="wrap_content"
-	    	    android:layout_weight="4"
-	    	    android:orientation="horizontal" >
 				<ImageView
 		    	    android:layout_width="wrap_content"
 		    	    android:layout_height="wrap_content"
-		    	    android:layout_gravity="center_vertical"
-		    	    android:src="@drawable/calendar_logo_480_800"
-		    	    android:layout_weight="1" />
-
-				<TextView
-				    android:id="@+id/fly_from_date_textView"
-				    android:layout_width="wrap_content"
-				    android:layout_height="wrap_content"
-				    android:layout_gravity="center_vertical"
-				    android:layout_weight="4"
-				    android:text="2013-12-04"
-				    android:textColor="@color/white"
-				    android:textSize="20dp"
-				    android:typeface="serif" />
-				
-	    	</LinearLayout>
-
-	    	<ImageView
-	    	    android:layout_width="wrap_content"
-	    	    android:layout_height="wrap_content"
-	    	    android:layout_gravity="center_horizontal"
-	    	    android:src="@drawable/leftpage_line_480_800" />
-
-	    	<LinearLayout
-	    	    android:layout_width="match_parent"
-	    	    android:layout_height="wrap_content"
-	    	    android:layout_weight="2"
-	    	    android:orientation="horizontal">
-
+		    	    android:layout_gravity="center_horizontal"
+		    	    android:src="@drawable/leftpage_line_480_800" />
 				<LinearLayout
-				    android:layout_width="wrap_content"
-				    android:layout_height="match_parent"
-				    android:layout_weight="2"
-				    android:orientation="vertical" >
-
-					<TextView
-					    android:layout_width="wrap_content"
-					    android:layout_height="wrap_content"
-					    android:layout_marginLeft="9dp"
-					    android:layout_weight="1"
-					    android:text="舱位选择"
-					    android:textColor="@color/lightgray"
-					    android:typeface="serif" />
-
+		    	    android:layout_width="match_parent"
+		    	    android:layout_height="wrap_content"
+		    	    android:layout_weight="2"
+		    	    android:orientation="horizontal">
+	
 					<LinearLayout
-			    	    android:layout_width="wrap_content"
-			    	    android:layout_height="wrap_content"
-			    	    android:orientation="horizontal"
-			    	    android:layout_weight="2">
-
-			    		<ImageView
-			    		    android:layout_width="wrap_content"
-			    		    android:layout_height="wrap_content"
-			    		    android:layout_gravity="center_horizontal"
-			    		    android:layout_marginLeft="9dp"
-			    		    android:layout_marginTop="0dp"
-			    		    android:layout_weight="1"
-			    		    android:src="@drawable/fly_class_logo_480_800" />
-
-
-						<TextView
-						    android:id="@+id/flight_class_spinner_textView"
-						    android:layout_width="wrap_content"
-						    android:layout_height="wrap_content"
-						    android:layout_gravity="center_horizontal"
-						    android:text=" 经济舱"
-						    android:textColor="@color/white"
-						    android:layout_weight="1"
-						    android:typeface="serif" />
-
-			    	</LinearLayout>
-		    	</LinearLayout>
-		    	<LinearLayout
-		    	    android:layout_width="wrap_content"
-		    	    android:layout_height="match_parent"
-		    	    android:layout_weight="3"
-		    	    android:orientation="vertical">
-					<TextView
 					    android:layout_width="wrap_content"
-					    android:layout_height="wrap_content"
-					    android:layout_marginLeft="9dp"
-					    android:layout_weight="1"
-					    android:text="乘客数量"
-					    android:textColor="@color/lightgray"
-					    android:typeface="serif" />
-
-					<LinearLayout
-			    	    android:layout_width="wrap_content"
-			    	    android:layout_height="wrap_content"
-			    	    android:orientation="horizontal"
-			    	    android:layout_weight="2">
-
-			    		<ImageView
-			    		    android:layout_width="wrap_content"
-			    		    android:layout_height="wrap_content"
-			    		    android:layout_gravity="center_horizontal"
-			    		    android:layout_marginLeft="9dp"
-			    		    android:layout_weight="1"
-			    		    android:src="@drawable/fly_passengar_logo_480_800" />
-
-
+					    android:layout_height="match_parent"
+					    android:layout_weight="2"
+					    android:orientation="vertical" >
+	
 						<TextView
-						    android:id="@+id/flight_passengar_textView"
 						    android:layout_width="wrap_content"
 						    android:layout_height="wrap_content"
-						    android:layout_weight="1"
-						    android:text=" × 2"
-						    android:textColor="@color/white"
-						    android:layout_gravity="center_horizontal"
-						    android:typeface="serif" />
-						
-						<ImageView
-						    android:layout_width="wrap_content"
-						    android:layout_height="wrap_content"
-						    android:layout_gravity="center_horizontal"
 						    android:layout_marginLeft="9dp"
 						    android:layout_weight="1"
-						    android:src="@drawable/vertical_divider_480_800" />
-						
-						<ImageView
+						    android:text="舱位选择"
+						    android:textColor="@color/lightgray"
+						    android:typeface="serif" />
+	
+						<LinearLayout
+				    	    android:layout_width="wrap_content"
+				    	    android:layout_height="wrap_content"
+				    	    android:orientation="horizontal"
+				    	    android:layout_weight="2">
+	
+				    		<ImageView
+				    		    android:layout_width="wrap_content"
+				    		    android:layout_height="wrap_content"
+				    		    android:layout_gravity="center_horizontal"
+				    		    android:layout_marginLeft="9dp"
+				    		    android:layout_marginTop="0dp"
+				    		    android:layout_weight="1"
+				    		    android:src="@drawable/fly_class_logo_480_800" />
+	
+	
+							<TextView
+							    android:id="@+id/flight_class_spinner_textView"
+							    android:layout_width="wrap_content"
+							    android:layout_height="wrap_content"
+							    android:layout_gravity="center_horizontal"
+							    android:text=" 经济舱"
+							    android:textColor="@color/white"
+							    android:layout_weight="1"
+							    android:typeface="serif" />
+	
+				    	</LinearLayout>
+			    	</LinearLayout>
+			    	<LinearLayout
+			    	    android:layout_width="wrap_content"
+			    	    android:layout_height="match_parent"
+			    	    android:layout_weight="3"
+			    	    android:orientation="vertical">
+						<TextView
 						    android:layout_width="wrap_content"
 						    android:layout_height="wrap_content"
-						    android:layout_gravity="center_horizontal"
 						    android:layout_marginLeft="9dp"
 						    android:layout_weight="1"
-						    android:src="@drawable/fly_child_logo_480_800" />
-
-						<TextView
-						    android:id="@+id/flight_passengar_textView"
-						    android:layout_width="wrap_content"
-						    android:layout_height="wrap_content"
-						    android:layout_weight="1"
-						    android:text=" × 1"
-						    android:layout_gravity="center_horizontal"
-						    android:textColor="@color/white"
+						    android:text="乘客数量"
+						    android:textColor="@color/lightgray"
 						    android:typeface="serif" />
-
+	
+						<LinearLayout
+				    	    android:layout_width="wrap_content"
+				    	    android:layout_height="wrap_content"
+				    	    android:orientation="horizontal"
+				    	    android:layout_weight="2">
+	
+				    		<ImageView
+				    		    android:layout_width="wrap_content"
+				    		    android:layout_height="wrap_content"
+				    		    android:layout_gravity="center_horizontal"
+				    		    android:layout_marginLeft="9dp"
+				    		    android:layout_weight="1"
+				    		    android:src="@drawable/fly_passengar_logo_480_800" />
+	
+	
+							<TextView
+							    android:id="@+id/flight_passengar_textView"
+							    android:layout_width="wrap_content"
+							    android:layout_height="wrap_content"
+							    android:layout_weight="1"
+							    android:text=" × 2"
+							    android:textColor="@color/white"
+							    android:layout_gravity="center_horizontal"
+							    android:typeface="serif" />
+							
+							<ImageView
+							    android:layout_width="wrap_content"
+							    android:layout_height="wrap_content"
+							    android:layout_gravity="center_horizontal"
+							    android:layout_marginLeft="9dp"
+							    android:layout_weight="1"
+							    android:src="@drawable/vertical_divider_480_800" />
+							
+							<ImageView
+							    android:layout_width="wrap_content"
+							    android:layout_height="wrap_content"
+							    android:layout_gravity="center_horizontal"
+							    android:layout_marginLeft="9dp"
+							    android:layout_weight="1"
+							    android:src="@drawable/fly_child_logo_480_800" />
+	
+							<TextView
+							    android:id="@+id/flight_passengar_textView"
+							    android:layout_width="wrap_content"
+							    android:layout_height="wrap_content"
+							    android:layout_weight="1"
+							    android:text=" × 1"
+							    android:layout_gravity="center_horizontal"
+							    android:textColor="@color/white"
+							    android:typeface="serif" />
+	
+				    	</LinearLayout>
 			    	</LinearLayout>
 		    	</LinearLayout>
-	    	</LinearLayout>
+
+		    </LinearLayout>
 	    </LinearLayout>
+	    <!-- 
 	    <LinearLayout
 	         android:layout_width="fill_parent"
 		   	 android:layout_height="wrap_content"
@@ -332,6 +423,7 @@
 			        android:src="@drawable/leftpage_mainpage_480_800" />
 		    </LinearLayout>
 	    </LinearLayout>
+	     -->
 	</LinearLayout>
 	<LinearLayout
 	    android:orientation="horizontal"
@@ -342,6 +434,7 @@
 	    <LinearLayout
 	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"
+	        android:layout_marginTop="50dp"
 	        android:gravity="center_horizontal"
 	        android:orientation="horizontal" >
 

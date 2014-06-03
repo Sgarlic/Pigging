@@ -40,7 +40,10 @@ public class City {
 	public boolean equals(City anotherCity){
 		if(anotherCity == null)
 			return false;
-		if(this.cityCode .equals(anotherCity.getCityCode()))
+//		if(this.cityCode .equals(anotherCity.getCityCode()))
+//			return true;
+//		return false;
+		if(this.cityName.equals(anotherCity.getCityName()))
 			return true;
 		return false;
 		
