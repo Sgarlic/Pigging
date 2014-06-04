@@ -10,7 +10,7 @@
 	    android:layout_height="wrap_content"
 	    android:layout_marginTop="6.0dip"
 	    android:textAppearance="?android:textAppearanceMedium"
-	    android:textColor="@color/orange"
+	    android:textColor="@color/panelOrange"
 	    android:visibility="gone" />
 		
     <TextView
@@ -23,6 +23,6 @@
         android:layout_marginTop="6.0dip"
         android:singleLine="true"
         android:textAppearance="?android:textAppearanceMedium"
-        android:textColor="@color/lightgray" />
+        android:textColor="@color/priceGray" />
 
 </RelativeLayout>

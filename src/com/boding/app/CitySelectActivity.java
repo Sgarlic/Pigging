@@ -228,7 +228,7 @@ public class CitySelectActivity extends FragmentActivity {
             
             View currentTabView = mTabHost.getCurrentTabView();
             TextView currentTabTextView = (TextView) currentTabView.findViewById(R.id.tab_label);
-            currentTabTextView.setTextColor(R.color.orange);
+            currentTabTextView.setTextColor(R.color.panelOrange);
             
             widget.setDescendantFocusability(oldFocusability);
         }

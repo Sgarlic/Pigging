@@ -47,7 +47,19 @@
 		                android:layout_gravity="bottom|left"
 		                android:text="08:35"
 		                android:textColor="@color/black"
+		                android:layout_marginRight="5dp"
 		                android:textSize="15dp"
+		                android:typeface="serif" />
+		            
+		            <TextView
+		                android:id="@+id/ticket_search_i_durationDay"
+		                android:layout_width="wrap_content"
+		                android:layout_height="wrap_content"
+		                android:layout_gravity="bottom|left"
+		                android:text="+1天"
+		                android:textColor="@color/priceGray"
+		                android:textSize="13dp"
+		                android:textStyle="bold"
 		                android:typeface="serif" />
 		
 		        </LinearLayout>
@@ -66,7 +78,7 @@
 		                    android:layout_height="wrap_content"
 		                    android:layout_gravity="bottom|right"
 		                    android:text="￥"
-		                    android:textColor="@color/orange"
+		                    android:textColor="@color/panelOrange"
 		                    android:textSize="15dp"
 		                    android:typeface="serif" />
 		    
@@ -76,7 +88,7 @@
 		                    android:layout_height="wrap_content"
 		                    android:layout_gravity="bottom|right"
 		                    android:text="2570"
-		                    android:textColor="@color/orange"
+		                    android:textColor="@color/panelOrange"
 		                    android:textSize="20dp"
 		                    android:typeface="serif" />
 		            </LinearLayout>
@@ -136,7 +148,7 @@
 		                    android:layout_gravity="bottom|right"
 		                    android:text="张"
 		                    android:textColor="@color/black"
-		                    android:textSize="15dp"
+		                    android:textSize="13dp"
 		                    android:textStyle="bold"
 		                    android:typeface="serif" />
 
@@ -307,10 +319,12 @@
 		</LinearLayout>
 		
 	</LinearLayout>
+
 	<LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/lightgray"
-        android:orientation="horizontal" >
+	    android:layout_width="match_parent"
+	    android:layout_height="2dp"
+	    android:background="@color/listviewDividerColor"
+	    android:orientation="horizontal" >
+
     </LinearLayout>
 </LinearLayout>

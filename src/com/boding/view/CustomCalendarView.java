@@ -134,14 +134,16 @@ public class CustomCalendarView extends View implements View.OnTouchListener {
 			int todayNumber = calendar.get(Calendar.DAY_OF_MONTH);
 			todayIndex = curStartIndex + todayNumber - 1;
 		}
-		Calendar fromDateCalendar = Calendar.getInstance();
-		fromDateCalendar.setTime(Util.getDateFromString(GlobalVariables.Fly_From_Date));
 		int fromDateIndex = -1;
-		String fromDateYearAndMonth =fromDateCalendar.get(Calendar.YEAR) + ""
-				+ fromDateCalendar.get(Calendar.MONTH);
-		if(curYearAndMonth.equals(fromDateYearAndMonth)){
-			int fromDateNumber = fromDateCalendar.get(Calendar.DAY_OF_MONTH);
-			fromDateIndex = curStartIndex + fromDateNumber - 1;
+		if(GlobalVariables.Fly_From_Date!=null){
+			Calendar fromDateCalendar = Calendar.getInstance();
+			fromDateCalendar.setTime(Util.getDateFromString(GlobalVariables.Fly_From_Date));
+			String fromDateYearAndMonth =fromDateCalendar.get(Calendar.YEAR) + ""
+					+ fromDateCalendar.get(Calendar.MONTH);
+			if(curYearAndMonth.equals(fromDateYearAndMonth)){
+				int fromDateNumber = fromDateCalendar.get(Calendar.DAY_OF_MONTH);
+				fromDateIndex = curStartIndex + fromDateNumber - 1;
+			}
 		}
 		for (int i = 0; i < 42; i++) {
 			int color = surface.textColor;

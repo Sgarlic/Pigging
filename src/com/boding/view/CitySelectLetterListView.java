@@ -2,6 +2,7 @@ package com.boding.view;
 
 import com.boding.R;
 
+import android.R.style;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Canvas;
@@ -46,7 +47,7 @@ public class CitySelectLetterListView extends View {
 	    int width = getWidth();
 	    int singleHeight = height / cityLetters.length;
 	    for(int i=0;i<cityLetters.length;i++){
-	       paint.setColor(getResources().getColor(R.color.orange));
+	       paint.setColor(getResources().getColor(R.color.panelOrange));
 	       paint.setTypeface(Typeface.SERIF);
 	       paint.setAntiAlias(true);
 	       if(i == choose){
