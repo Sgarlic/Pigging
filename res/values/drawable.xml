@@ -15,4 +15,5 @@
     <color name="filterPriceFromtimeColor">#989898</color>
     <color name="listviewDividerColor">#cecece</color>
     <color name="panelDividerGray">#e5e5e5</color>
+    <color name="tabDivider">#dbdbdb</color>
 </resources>
