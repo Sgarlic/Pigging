@@ -48,10 +48,11 @@ public class CitySelectLetterListView extends View {
 	    int singleHeight = height / cityLetters.length;
 	    for(int i=0;i<cityLetters.length;i++){
 	       paint.setColor(getResources().getColor(R.color.panelOrange));
-	       paint.setTypeface(Typeface.SERIF);
+	       Typeface font = Typeface.create(Typeface.SANS_SERIF, Typeface.BOLD);
+	       paint.setTypeface(font);
 	       paint.setAntiAlias(true);
 	       if(i == choose){
-	    	   paint.setColor(Color.parseColor("#3399ff"));
+	    	   paint.setColor(R.color.panelOrange);
 	    	   paint.setFakeBoldText(true);
 	       }
 	       float xPos = width/2  - paint.measureText(cityLetters[i])/2;
