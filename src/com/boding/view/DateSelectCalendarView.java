@@ -27,6 +27,8 @@ public class DateSelectCalendarView extends View implements View.OnTouchListener
 	private final static String TAG = "anCalendar";
 	private Date selectedStartDate;
 	private Date selectedEndDate;
+	private Date minClickableDate; // 设置可以点击的最小日期，该日期之前的日期为灰色
+	private Date maxDate; // 设置可以显示的最大日期【整个月都可以显示】
 	private Date curDate; // 当前日历显示的月
 	private Date today; // 今天的日期文字显示红色
 	private Date downDate; // 手指按下状态时临时日期
@@ -52,6 +54,10 @@ public class DateSelectCalendarView extends View implements View.OnTouchListener
 
 	private void init() {
 		curDate = selectedStartDate = selectedEndDate = today = new Date();
+		minClickableDate = curDate;
+		Calendar minDateCalendar = Calendar.getInstance();
+		minDateCalendar.add(Calendar.MONTH, 6);
+		maxDate = minDateCalendar.getTime();
 		calendar = Calendar.getInstance();
 		calendar.setTime(curDate);
 		surface = new Surface();
@@ -121,30 +127,46 @@ public class DateSelectCalendarView extends View implements View.OnTouchListener
 		calculateDate();
 		// 按下状态，选择状态背景色
 		drawDownOrSelectedBg(canvas);
-		// write date number
-		// today index
+		/**
+		 * 获得今天的索引
+		 */
 		int todayIndex = -1;
 		calendar.setTime(curDate);
-		String curYearAndMonth = calendar.get(Calendar.YEAR) + ""
-				+ calendar.get(Calendar.MONTH);
+//		String curYearAndMonth = calendar.get(Calendar.YEAR) + ""
+//				+ calendar.get(Calendar.MONTH);
 		calendar.setTime(today);
-		String todayYearAndMonth = calendar.get(Calendar.YEAR) + ""
-				+ calendar.get(Calendar.MONTH);
-		if (curYearAndMonth.equals(todayYearAndMonth)) {
+//		String todayYearAndMonth = calendar.get(Calendar.YEAR) + ""
+//				+ calendar.get(Calendar.MONTH);
+		if (Util.compareYearAndMonth(curDate, today) == 0) {
 			int todayNumber = calendar.get(Calendar.DAY_OF_MONTH);
 			todayIndex = curStartIndex + todayNumber - 1;
 		}
+		/**
+		 * 获得出发日期的索引
+		 */
 		int fromDateIndex = -1;
 		if(GlobalVariables.Fly_From_Date!=null){
-			Calendar fromDateCalendar = Calendar.getInstance();
-			fromDateCalendar.setTime(Util.getDateFromString(GlobalVariables.Fly_From_Date));
-			String fromDateYearAndMonth =fromDateCalendar.get(Calendar.YEAR) + ""
-					+ fromDateCalendar.get(Calendar.MONTH);
-			if(curYearAndMonth.equals(fromDateYearAndMonth)){
+			Date fromDate = Util.getDateFromString(GlobalVariables.Fly_From_Date);
+			if(Util.compareYearAndMonth(curDate, fromDate) == 0){
+				Calendar fromDateCalendar = Calendar.getInstance();
+				fromDateCalendar.setTime(fromDate);
 				int fromDateNumber = fromDateCalendar.get(Calendar.DAY_OF_MONTH);
 				fromDateIndex = curStartIndex + fromDateNumber - 1;
 			}
 		}
+		/**
+		 * 获得可以点击的最小日期的索引
+		 */
+		int minClickableDateIndex = -1;
+		int compareMinDateResult = Util.compareYearAndMonth(curDate, minClickableDate);
+		if( compareMinDateResult== 0){
+			Calendar minClickableDateCalendar = Calendar.getInstance();
+			minClickableDateCalendar.setTime(minClickableDate);
+			int minClickableDateNumber = minClickableDateCalendar.get(Calendar.DAY_OF_MONTH);
+			minClickableDateIndex = curStartIndex + minClickableDateNumber - 1;
+		}else if( compareMinDateResult == -1)
+			minClickableDateIndex = 42;
+		
 		for (int i = 0; i < 42; i++) {
 			int color = surface.textColor;
 			if (isLastMonth(i)) {
@@ -158,6 +180,8 @@ public class DateSelectCalendarView extends View implements View.OnTouchListener
 			if (fromDateIndex != -1 && fromDateIndex == i){
 				color = getResources().getColor(R.color.textOrange);
 			}
+			if (i < minClickableDateIndex)
+				color = getResources().getColor(R.color.priceGray);
 			
 //			Log.d("poding",String.valueOf(date[i]));
 			drawCellText(canvas, i, date[i] + "", color);
@@ -183,6 +207,7 @@ public class DateSelectCalendarView extends View implements View.OnTouchListener
 			int dayInmonth = calendar.get(Calendar.DAY_OF_MONTH);
 			for (int i = monthStart - 1; i >= 0; i--) {
 				date[i] = dayInmonth;
+//				Log.d("lastmonth",String.valueOf(dayInmonth));
 				dayInmonth--;
 			}
 			calendar.set(Calendar.DAY_OF_MONTH, date[0]);
@@ -197,11 +222,13 @@ public class DateSelectCalendarView extends View implements View.OnTouchListener
 		int monthDay = calendar.get(Calendar.DAY_OF_MONTH);
 		for (int i = 1; i < monthDay; i++) {
 			date[monthStart + i] = i + 1;
+//			Log.d("month",String.valueOf(monthStart + i)+":"+String.valueOf(date[monthStart + i]));
 		}
 		curEndIndex = monthStart + monthDay;
 		// next month
 		for (int i = monthStart + monthDay; i < 42; i++) {
 			date[i] = i - (monthStart + monthDay) + 1;
+//			Log.d("nextmonth",String.valueOf(i)+":"+String.valueOf(date[i]));
 		}
 		if (curEndIndex < 42) {
 			// 显示了下一月的
@@ -334,30 +361,60 @@ public class DateSelectCalendarView extends View implements View.OnTouchListener
 		return year + "年" + surface.monthText[month];
 	}
 	
-	//上一月
-	public String clickLeftMonth(){
-		calendar.setTime(curDate);
-		calendar.add(Calendar.MONTH, -1);
-		curDate = calendar.getTime();
-		this.invalidate();
-		return getYearAndmonth();
-	}
 	public Date getDate(){
 		return curDate;
 	}
-	public String setDate(Date newDate){
-		calendar.setTime(newDate);
-		curDate = calendar.getTime();
-		Log.d("poding",curDate.toString());
+	public String setDate(Date curDate){
+		calendar.setTime(curDate);
+		this.curDate = calendar.getTime();
 		this.invalidate();
 		return getYearAndmonth();
 	}
-	//下一月
-	public String clickRightMonth(){
+	public void setMinClickableDate(Date minClickableDate){
+		this.minClickableDate = minClickableDate;
+		this.invalidate();
+	}
+	public void setMaxDate(Date maxDate){
+		this.maxDate = maxDate;
+//		this.invalidate();
+	}
+	
+	
+	public boolean isLastMonthAvailable(){
+		calendar.setTime(curDate);
+		calendar.add(Calendar.MONTH, -1);
+		if(Util.compareYearAndMonth(calendar.getTime(), today) > -1){
+			return true;
+		}
+		return false;
+	}
+	
+	//上一月
+	public String gotoLastMonth(){
+		if(isLastMonthAvailable()){
+				curDate = calendar.getTime();
+				this.invalidate();
+		}
+		return getYearAndmonth();
+	}
+	
+	public boolean isNextMonthAvaliable(){
 		calendar.setTime(curDate);
 		calendar.add(Calendar.MONTH, 1);
-		curDate = calendar.getTime();
-		this.invalidate();
+		if(Util.compareYearAndMonth(calendar.getTime(), maxDate) < 1){
+			return true;
+		}
+		return false;
+	}
+	
+	//下一月
+	public String gotoNextMonth(){
+		if(isNextMonthAvaliable()){
+//			calendar.setTime(curDate);
+//			calendar.add(Calendar.MONTH, 1);
+			curDate = calendar.getTime();
+			this.invalidate();
+		}
 		return getYearAndmonth();
 	}
 
@@ -418,6 +475,8 @@ public class DateSelectCalendarView extends View implements View.OnTouchListener
 //					completed = false;
 //				}
 				selectedStartDate = selectedEndDate = downDate;
+				if(selectedStartDate.before(minClickableDate))
+					return false;
 				//响应监听事件
 				onItemClickListener.OnItemClick(selectedStartDate);
 				// Log.d(TAG, "downdate:" + downDate.toLocaleString());

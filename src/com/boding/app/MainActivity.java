@@ -3,6 +3,7 @@ package com.boding.app;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+
 import com.boding.adapter.HPagerAdapter;
 import com.boding.adapter.VPagerAdapter;
 import com.boding.constants.Constants;
@@ -12,8 +13,11 @@ import com.boding.util.Util;
 import com.boding.view.VerticalViewPager;
 import com.boding.R;
 import com.boding.model.City;
+
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Point;
@@ -23,6 +27,8 @@ import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -156,37 +162,33 @@ public class MainActivity extends FragmentActivity {
 	}
 	
 	private void setFlyFromToDate(){
-		if(GlobalVariables.Fly_From_Date!=null){
-			leftpageFlyFromDateTextView.setText(GlobalVariables.Fly_From_Date);
-		}
-		else{
+		if(GlobalVariables.Fly_From_Date==null){
 			Calendar calendar = Calendar.getInstance();
 			String flyFromDate = Util.getFormatedDate(calendar);
-			leftpageFlyFromDateTextView.setText(flyFromDate);
 			GlobalVariables.Fly_From_Date = flyFromDate;
 		}
+		leftpageFlyFromDateTextView.setText(GlobalVariables.Fly_From_Date);
 		
-		if(GlobalVariables.Fly_To_Date!=null){
-			leftpageFlyToDateTextView.setText(GlobalVariables.Fly_To_Date);
-		}else{
+		if(GlobalVariables.Fly_To_Date==null || (Util.compareDateString(GlobalVariables.Fly_To_Date, GlobalVariables.Fly_From_Date) == -1)){
 			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(Util.getDateFromString(GlobalVariables.Fly_From_Date));
 			calendar.add(Calendar.HOUR, 7*24);
 			String flyToDate = Util.getFormatedDate(calendar);
-			leftpageFlyToDateTextView.setText(flyToDate);
 			GlobalVariables.Fly_To_Date = flyToDate;
 		}
+		leftpageFlyToDateTextView.setText(GlobalVariables.Fly_To_Date);
 	}
 	
 	private void setFlyFromToCity(){
 		if(GlobalVariables.Fly_From_City!=null){
-			leftpageFlyFromTextView.setText(GlobalVariables.Fly_From_City.getCityName());
-			leftPageFlyFromCodeTextView.setText(GlobalVariables.Fly_From_City.getCityCode());
+			leftpageFlyFromTextView.setText(Util.getFourCharofString(GlobalVariables.Fly_From_City.getCityName()));
+			leftPageFlyFromCodeTextView.setText(Util.getFourCharofString(GlobalVariables.Fly_From_City.getCityCode()));
 		}else{
 			GlobalVariables.Fly_From_City = new City("上海","SHA",false,"中国");
 		}
 		if(GlobalVariables.Fly_To_City!=null){
-			leftpageFlyToTextView.setText(GlobalVariables.Fly_To_City.getCityName());
-			leftpageFlyToCodeTextView.setText(GlobalVariables.Fly_To_City.getCityCode());
+			leftpageFlyToTextView.setText(Util.getFourCharofString(GlobalVariables.Fly_To_City.getCityName()));
+			leftpageFlyToCodeTextView.setText(Util.getFourCharofString(GlobalVariables.Fly_To_City.getCityCode()));
 		}else{
 			GlobalVariables.Fly_To_City = new City("北京","PEK",false,"中国");
 		}
@@ -199,6 +201,13 @@ public class MainActivity extends FragmentActivity {
 			boolean isFlyToCitySelection = false;
 			if(viewId==R.id.leftpage_fly_to_linearlayout)
 				isFlyToCitySelection = true;
+			
+//			ViewGroup.LayoutParams flyToParams = leftpageFlyToTextView.getLayoutParams();
+//			flyToParams.width = ViewGroup.LayoutParams.WRAP_CONTENT;
+//			leftpageFlyToTextView.setLayoutParams(flyToParams);
+//			ViewGroup.LayoutParams flyFromParams = leftpageFlyToTextView.getLayoutParams();
+//			flyFromParams.width = ViewGroup.LayoutParams.WRAP_CONTENT;
+//			leftpageFlyFromTextView.setLayoutParams(flyFromParams);
 			
 			Bundle bundle  = new Bundle();
 			bundle.putBoolean(Constants.IS_FLY_TO_CITY_SELECTION, isFlyToCitySelection);

@@ -259,4 +259,53 @@ public class Util {
 		calendar.add(Calendar.HOUR, dayCount*24);
 		return getFormatedDate(calendar);
 	}
+	
+	/**
+	 * Compare two date's year and month.
+	 * return 1 if date1 > date2
+	 * return 0 if date1 == date2
+	 * return -1 if date1 < date2
+	 * @param date1
+	 * @param date2
+	 * @return
+	 */
+	public static int compareYearAndMonth(Date date1, Date date2){
+		int yearMonth1 = date1.getYear()*100 + date1.getMonth();
+		int yearMonth2 = date2.getYear()*100 + date2.getMonth();
+		
+		if(yearMonth1 > yearMonth2)
+			return 1;
+		else if(yearMonth1 == yearMonth2)
+			return 0;
+		return -1;
+	}
+	
+	/**
+	 * Compare two date's year and month.
+	 * return 1 if date1 > date2
+	 * return 0 if date1 == date2
+	 * return -1 if date1 < date2
+	 * @param date1
+	 * @param date2
+	 * @return
+	 */
+	public static int compareDateString(String dateString1, String dateString2){
+		Date date1 = getDateFromString(dateString1);
+		Date date2 = getDateFromString(dateString2);
+		int yyyymmdd1 = date1.getYear()*10000 + date1.getMonth()*100 + date1.getDate();
+		int yyyymmdd2 = date2.getYear()*10000 + date2.getMonth()*100 + date2.getDate();
+		
+		if(yyyymmdd1 > yyyymmdd2)
+			return 1;
+		else if(yyyymmdd1 == yyyymmdd2)
+			return 0;
+		return -1;
+	}
+	
+	public static String getFourCharofString(String string){
+		String newString = string;
+		if(string.length()>4)
+			newString = string.substring(0,4);
+		return newString;
+	}
 }

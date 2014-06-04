@@ -346,7 +346,8 @@ public class CitySelectFragment extends Fragment {
         String[] cities = {
          	"北京","上海","广州","天津","重庆",
            	"哈尔滨","长春","沈阳","大连","济南","青岛","西安","成都","武汉","南京","杭州","宁波","厦门","深圳",
-           	"连云港","徐州","宿迁","淮安","盐城","泰州","扬州","镇江","南通","常州","无锡","苏州"
+           	"连云港","徐州","宿迁","淮安","盐城","泰州","扬州","镇江","南通","常州","无锡","苏州","乌鲁木齐","齐齐哈尔",
+           	"超长的测试城市1","超长的测试城市2"
         };
         for(int i=0;i<cities.length;i++){
            	list.add(generateContentValues(cities[i],CityProperty.CityList));

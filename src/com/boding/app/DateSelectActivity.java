@@ -37,7 +37,7 @@ public class DateSelectActivity extends Activity {
 	private LinearLayout lastMonthLinearLayout;
 	private LinearLayout nextMonthLinearLayout;
 	private TextView currentMonthTextView;
-	private DateSelectCalendarView fromDateCalendarView;
+	private DateSelectCalendarView dateSelectCalendarView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -75,19 +75,23 @@ public class DateSelectActivity extends Activity {
 //			
 //		});
 		
-		fromDateCalendarView = (DateSelectCalendarView)findViewById(R.id.date_select_calendarView);
+		dateSelectCalendarView = (DateSelectCalendarView)findViewById(R.id.date_select_calendarView);
 //		Calendar minDate = Calendar.getInstance();
 //		Log.d("poding","here");
 //		fromDateCalendarView.setMinDate(minDate.getTimeInMillis()-100);
 //		Log.d("poding","here111111111111");
-		if(isReturnDateSelection)
-			fromDateCalendarView.setDate(Util.getDateFromString(GlobalVariables.Fly_To_Date));
-		else
-			fromDateCalendarView.setDate(Util.getDateFromString(GlobalVariables.Fly_From_Date));
+		if(isReturnDateSelection){
+			dateSelectCalendarView.setDate(Util.getDateFromString(GlobalVariables.Fly_To_Date));
+			dateSelectCalendarView.setMinClickableDate(Util.getDateFromString(GlobalVariables.Fly_From_Date));
+		}
+		else{
+			dateSelectCalendarView.setDate(Util.getDateFromString(GlobalVariables.Fly_From_Date));
+//			dateSelectCalendarView.setMinClickableDate(Calendar.getInstance().getTime());
+		}
 		
-		Calendar maxDate = Calendar.getInstance();
-		maxDate.add(Calendar.MONTH, 6);
-		fromDateCalendarView.setOnItemClickListener(new OnItemClickListener(){
+//		Calendar maxDate = Calendar.getInstance();
+//		maxDate.add(Calendar.MONTH, 6);
+		dateSelectCalendarView.setOnItemClickListener(new OnItemClickListener(){
 			@Override
 			public void OnItemClick(Date date) {
 				String selectedDate = Util.getFormatedDate(date);
@@ -158,7 +162,7 @@ public class DateSelectActivity extends Activity {
 		lastMonthLinearLayout.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View arg0) {
-				fromDateCalendarView.clickLeftMonth();
+				dateSelectCalendarView.gotoLastMonth();
 				setMonth();
 			}
 			
@@ -166,7 +170,7 @@ public class DateSelectActivity extends Activity {
 		nextMonthLinearLayout.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View arg0) {
-				fromDateCalendarView.clickRightMonth();
+				dateSelectCalendarView.gotoNextMonth();
 				setMonth();
 			}
 			
@@ -183,6 +187,6 @@ public class DateSelectActivity extends Activity {
 
 	private void setMonth(){
 //		String currentMonth = Util.getYearMonthString(Util.getDateFromString(GlobalVariables.Fly_From_Date));
-		currentMonthTextView.setText(fromDateCalendarView.getYearAndmonth());
+		currentMonthTextView.setText(dateSelectCalendarView.getYearAndmonth());
 	}
 }
