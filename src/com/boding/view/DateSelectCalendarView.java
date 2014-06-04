@@ -23,7 +23,7 @@ import android.view.View;
  * 日历控件 功能：获得点选的日期区间
  * 
  */
-public class CustomCalendarView extends View implements View.OnTouchListener {
+public class DateSelectCalendarView extends View implements View.OnTouchListener {
 	private final static String TAG = "anCalendar";
 	private Date selectedStartDate;
 	private Date selectedEndDate;
@@ -40,12 +40,12 @@ public class CustomCalendarView extends View implements View.OnTouchListener {
 	//给控件设置监听事件
 	private OnItemClickListener onItemClickListener;
 	
-	public CustomCalendarView(Context context) {
+	public DateSelectCalendarView(Context context) {
 		super(context);
 		init();
 	}
 
-	public CustomCalendarView(Context context, AttributeSet attrs) {
+	public DateSelectCalendarView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		init();
 	}

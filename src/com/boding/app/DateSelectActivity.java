@@ -8,8 +8,8 @@ import com.boding.constants.Constants;
 import com.boding.constants.GlobalVariables;
 import com.boding.constants.IntentRequestCode;
 import com.boding.util.Util;
-import com.boding.view.CustomCalendarView;
-import com.boding.view.CustomCalendarView.OnItemClickListener;
+import com.boding.view.DateSelectCalendarView;
+import com.boding.view.DateSelectCalendarView.OnItemClickListener;
 
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
@@ -37,7 +37,7 @@ public class DateSelectActivity extends Activity {
 	private LinearLayout lastMonthLinearLayout;
 	private LinearLayout nextMonthLinearLayout;
 	private TextView currentMonthTextView;
-	private CustomCalendarView fromDateCalendarView;
+	private DateSelectCalendarView fromDateCalendarView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +75,7 @@ public class DateSelectActivity extends Activity {
 //			
 //		});
 		
-		fromDateCalendarView = (CustomCalendarView)findViewById(R.id.from_date_calendarView);
+		fromDateCalendarView = (DateSelectCalendarView)findViewById(R.id.date_select_calendarView);
 //		Calendar minDate = Calendar.getInstance();
 //		Log.d("poding","here");
 //		fromDateCalendarView.setMinDate(minDate.getTimeInMillis()-100);

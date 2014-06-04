@@ -151,10 +151,12 @@
 
 			</LinearLayout>
 		</LinearLayout>
-        <com.boding.view.CustomCalendarView
-            android:id="@+id/from_date_calendarView"
+
+        <com.boding.view.DateSelectCalendarView
+            android:id="@+id/date_select_calendarView"
             android:layout_width="match_parent"
             android:layout_height="400dp" />
+
     </LinearLayout>
 </LinearLayout>
 
