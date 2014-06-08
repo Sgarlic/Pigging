@@ -1,6 +1,5 @@
 package com.boding.app;
 
-import java.util.Calendar;
 import java.util.Date;
 
 import com.boding.R;
@@ -11,24 +10,10 @@ import com.boding.util.Util;
 import com.boding.view.DateSelectCalendarView;
 import com.boding.view.DateSelectCalendarView.OnItemClickListener;
 
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
-import android.support.v4.app.Fragment;
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnTouchListener;
-import android.view.ViewGroup;
-import android.widget.CalendarView;
-import android.widget.CalendarView.OnDateChangeListener;
-import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -42,7 +27,6 @@ public class DateSelectActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-//		Util.setFullScreen(this);
 		setContentView(R.layout.activity_date_select);
 		Bundle arguments = getIntent().getExtras();
         if(arguments != null)
@@ -61,36 +45,14 @@ public class DateSelectActivity extends Activity {
 			}
 			
 		});
-		
-//		LinearLayout fromDateLinearLayout = (LinearLayout)findViewById(R.id.from_date_linearLayout);
-//		fromDateLinearLayout.setOnTouchListener(new OnTouchListener(){
-//			@Override
-//			public boolean onTouch(View arg0, MotionEvent event) {
-//				Log.d("poding","eeeeeeeeeeeeeeeeee");
-//				if(event.equals(MotionEvent.ACTION_DOWN)){
-//					Log.d("poding","dwon11111111111");
-//				}
-//				return false;
-//			}
-//			
-//		});
-		
-		dateSelectCalendarView = (DateSelectCalendarView)findViewById(R.id.date_select_calendarView);
-//		Calendar minDate = Calendar.getInstance();
-//		Log.d("poding","here");
-//		fromDateCalendarView.setMinDate(minDate.getTimeInMillis()-100);
-//		Log.d("poding","here111111111111");
 		if(isReturnDateSelection){
 			dateSelectCalendarView.setDate(Util.getDateFromString(GlobalVariables.Fly_To_Date));
 			dateSelectCalendarView.setMinClickableDate(Util.getDateFromString(GlobalVariables.Fly_From_Date));
 		}
 		else{
 			dateSelectCalendarView.setDate(Util.getDateFromString(GlobalVariables.Fly_From_Date));
-//			dateSelectCalendarView.setMinClickableDate(Calendar.getInstance().getTime());
 		}
 		
-//		Calendar maxDate = Calendar.getInstance();
-//		maxDate.add(Calendar.MONTH, 6);
 		dateSelectCalendarView.setOnItemClickListener(new OnItemClickListener(){
 			@Override
 			public void OnItemClick(Date date) {
@@ -107,56 +69,6 @@ public class DateSelectActivity extends Activity {
 		
 		currentMonthTextView = (TextView) findViewById(R.id.current_month_textView);
 		setMonth();
-//		fromDateCalendarView.setMaxDate(maxDate.getTimeInMillis());
-//		fromDateCalendarView.setDate(Util.getMillIsFromDate(GlobalVariables.Fly_From_Date));
-//		fromDateCalendarView.setOnDateChangeListener(new OnDateChangeListener(){
-//			@Override
-//			public void onSelectedDayChange(CalendarView arg0, int year, int month, int dayOfMonth) {
-//				String selectedDate = Util.getFormatedDate(year, month, dayOfMonth);
-//				if(isReturnDateSelection){
-//					if(GlobalVariables.Fly_To_Date.equals(selectedDate))
-//						return;
-//					GlobalVariables.Fly_To_Date = selectedDate;
-//				}
-//				else{
-//					if(GlobalVariables.Fly_From_Date.equals(selectedDate))
-//						return;
-//					GlobalVariables.Fly_From_Date = selectedDate;
-//				}
-//				Util.returnToPreviousPage(DateSelectActivity.this, IntentRequestCode.START_DATE_SELECTION);
-////				Log.d("poding",year+"-"+month+"-"+dayOfMonth);
-//			}
-
-//			@Override
-//			public void onClick(View arg0) {
-//				Log.d("poding","clicked!!!!!!!!!!");
-//				CalendarView newCalendarView = (CalendarView)arg0;
-//				Date selectedDate = new Date(newCalendarView.getDate());
-//				returnToPreviousPage(true, selectedDate.getYear(), selectedDate.getMonth(), selectedDate.getDate());
-//			}
-			
-//		});
-//		DatePicker fromDatePicker = (DatePicker)findViewById(R.id.from_date_datePicker);
-//		Calendar minCalendar = Calendar.getInstance();
-////		minCalendar.add(Calendar.YEAR, -1900);
-//		fromDatePicker.setMinDate(minCalendar.getTimeInMillis()-100);
-//		
-//		Util.fixSetMinDateForDatePickerCalendarView(Calendar.getInstance(), fromDatePicker);
-//		Calendar maxCalendar = Calendar.getInstance();
-//		maxCalendar.add(Calendar.MONTH, 6);
-//		fromDatePicker.setMaxDate(maxCalendar.getTimeInMillis());
-//		
-//		fromDatePicker.setOnClickListener(new OnClickListener(){
-//
-//			@Override
-//			public void onClick(View arg0) {
-//				Log.d("poding","clicked!!!!!!!!!!");
-////				CalendarView newCalendarView = (CalendarView)arg0;
-////				Date selectedDate = new Date(newCalendarView.getDate());
-////				returnToPreviousPage(true, selectedDate.getYear(), selectedDate.getMonth(), selectedDate.getDate());
-//			}
-//			
-//		});
 		lastMonthLinearLayout = (LinearLayout) this.findViewById(R.id.last_month_linearLayout);
 		nextMonthLinearLayout = (LinearLayout) this.findViewById(R.id.next_month_lienarLayout);
 		lastMonthLinearLayout.setOnClickListener(new OnClickListener(){

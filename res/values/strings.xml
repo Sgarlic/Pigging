@@ -8,5 +8,7 @@
     <string name="new_fragment">Add new</string>
     <string name="delete_fragment">Pop top</string>
     <string name="title_activity_international_ticket_search_result">InternationalTicketSearchResultActivity</string>
-
+	<string name="voicesearch_hint">试试说:\n
+	    \"上海到北京的飞机\"\n
+	    \"9月6日上海到北京的航班\"</string>
 </resources>

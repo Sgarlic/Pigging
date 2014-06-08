@@ -15,39 +15,29 @@
  */
 package com.boding.app;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTabHost;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
-import android.widget.AdapterView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TabWidget;
 import android.widget.TextView;
-import android.widget.AdapterView.OnItemClickListener;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import com.boding.R;
 import com.boding.constants.Constants;
-import com.boding.constants.GlobalVariables;
 import com.boding.constants.IntentRequestCode;
-import com.boding.model.City;
 import com.boding.util.Util;
-import com.boding.view.CitySelectLetterListView;
-import com.boding.view.WarningDialog;
+import com.boding.view.SearchCityDialog;
 
 /**
  * Demonstrates combining a TabHost with a ViewPager to implement a tab UI
@@ -104,6 +94,15 @@ public class CitySelectActivity extends FragmentActivity {
 			@Override
 			public void onClick(View arg0) {
 				Util.returnToPreviousPage(CitySelectActivity.this, IntentRequestCode.START_CITY_SELECTION);
+			}
+        });
+        
+        LinearLayout citySearchLinearLayout = (LinearLayout)findViewById(R.id.city_search_linearLayout);
+        citySearchLinearLayout.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View arg0) {
+				SearchCityDialog searchCityDialog = new SearchCityDialog(CitySelectActivity.this,R.style.Warning_Dialog_Theme,isFlyToCitySelection);
+				searchCityDialog.show();
 			}
         });
     }

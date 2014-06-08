@@ -9,7 +9,11 @@ import java.util.Date;
 import java.util.regex.Pattern;
 import com.boding.R;
 import com.boding.constants.Constants;
+import com.boding.constants.GlobalVariables;
 import com.boding.constants.IntentRequestCode;
+import com.boding.model.City;
+import com.boding.view.WarningDialog;
+
 import net.sourceforge.pinyin4j.PinyinHelper;
 import net.sourceforge.pinyin4j.format.HanyuPinyinCaseType;
 import net.sourceforge.pinyin4j.format.HanyuPinyinOutputFormat;
@@ -18,6 +22,9 @@ import net.sourceforge.pinyin4j.format.HanyuPinyinVCharType;
 import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombination;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.Dialog;
+import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -33,6 +40,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.CalendarView;
 import android.widget.DatePicker;
+import android.widget.ListView;
 
 public class Util {
 	/**
@@ -307,5 +315,42 @@ public class Util {
 		if(string.length()>4)
 			newString = string.substring(0,4);
 		return newString;
+	}
+	
+	public static void selectCityOperation(ListView listView, int position, boolean isFlyToCitySelection, Context context, Dialog dialog){
+		ContentValues content = (ContentValues) listView.getAdapter().getItem(position);
+		String cityName = content.getAsString(Constants.CITY_NAME);
+		String cityCode = content.getAsString(Constants.CITY_CODE);
+		boolean isInternationalCity = false;
+		String cityCountry = "";
+		
+		City selectedCity = new City(cityName,cityCode,isInternationalCity,cityCountry);
+		
+		String toastInfo = null;
+		if(isFlyToCitySelection){
+			if(selectedCity.equals(GlobalVariables.Fly_From_City))
+				toastInfo = "出发和到达不能为同一城市";
+			else
+				GlobalVariables.Fly_To_City = selectedCity;
+		}
+		else{
+			if(selectedCity.equals(GlobalVariables.Fly_To_City))
+				toastInfo = "出发和到达不能为同一城市";
+			else
+				GlobalVariables.Fly_From_City = selectedCity;
+		}
+		
+		if(toastInfo!=null){
+			WarningDialog warningDialog = new WarningDialog(context, R.style.Warning_Dialog_Theme);
+			warningDialog.setContent(toastInfo);
+			warningDialog.setKnown("知道了");
+			warningDialog.show();
+//			currentView.getContext().
+		}else{
+			if(dialog!=null)
+				dialog.dismiss();
+			returnToPreviousPage((Activity)context, IntentRequestCode.START_CITY_SELECTION);
+		}
+//		Log.d("poding");
 	}
 }

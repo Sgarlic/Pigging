@@ -19,6 +19,7 @@ import android.support.v4.view.ViewPager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
@@ -29,6 +30,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -60,6 +62,9 @@ public class MainActivity extends FragmentActivity {
 	private LinearLayout leftpageReturnwayDateLinearLayout;
 	private TextView leftpageFlyFromDateTextView;
 	private TextView leftpageFlyToDateTextView;
+	private ImageView leftpageVoiceSearchImageView;
+	
+	
 	
 	private View leftPageView;
 	private View rightPageView;
@@ -144,6 +149,17 @@ public class MainActivity extends FragmentActivity {
 				GlobalVariables.Fly_To_City = tempCity;
 				setFlyFromToCity();
 			}
+		});
+		
+		leftpageVoiceSearchImageView = (ImageView)leftPageView.findViewById(R.id.leftpage_voice_search_imageView);
+		leftpageVoiceSearchImageView.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View arg0) {
+				Intent intent = new Intent();
+				intent.setClass(MainActivity.this, VoiceSearchActivity.class);
+				startActivityForResult(intent,IntentRequestCode.START_VOICE_SEARCH.getRequestCode());
+			}
+			
 		});
 	}
 	
@@ -245,8 +261,8 @@ public class MainActivity extends FragmentActivity {
 		Display display = getWindowManager().getDefaultDisplay();
 		Point screenSize = new Point();
 		display.getSize(screenSize);
-		Constants.ScreenHeight = screenSize.y;
-		Constants.ScreenWidth = screenSize.x;
+		GlobalVariables.Screen_Height = screenSize.y;
+		GlobalVariables.Screen_Width = screenSize.x;
 	}
 	
 	private void initHorizontalViewPager(){
