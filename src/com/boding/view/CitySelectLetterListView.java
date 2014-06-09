@@ -52,7 +52,7 @@ public class CitySelectLetterListView extends View {
 	       paint.setTypeface(font);
 	       paint.setAntiAlias(true);
 	       if(i == choose){
-	    	   paint.setColor(R.color.panelOrange);
+	    	   paint.setColor(getResources().getColor(R.color.panelOrange));
 	    	   paint.setFakeBoldText(true);
 	       }
 	       float xPos = width/2  - paint.measureText(cityLetters[i])/2;

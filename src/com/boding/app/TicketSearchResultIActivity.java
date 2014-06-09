@@ -16,6 +16,8 @@ import com.boding.model.AirlineView;
 import com.boding.model.FlightLine;
 import com.boding.task.XMLTask;
 import com.boding.util.Util;
+import com.boding.view.CalendarDialog;
+import com.boding.view.SearchCityDialog;
 
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
@@ -123,8 +125,15 @@ public class TicketSearchResultIActivity extends Activity {
   }
 
 	private void setListeners(){
+		todayLinearLayout.setOnClickListener(new OnClickListener(){
+            @Override
+            public void onClick(View arg0) {
+            	CalendarDialog calendarDialog = new CalendarDialog(TicketSearchResultIActivity.this,R.style.Warning_Dialog_Theme);
+            	calendarDialog.show();
+            }
+            
+      });
         lastDayLinearLayout.setOnClickListener(new OnClickListener(){
-
               @Override
               public void onClick(View arg0) {
                   if(lastDayAriline == null)

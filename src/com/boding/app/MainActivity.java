@@ -107,7 +107,7 @@ public class MainActivity extends FragmentActivity {
 		
 		leftpageFlyFromDateTextView = (TextView)leftPageView.findViewById(R.id.fly_from_date_textView);
 		leftpageFlyToDateTextView = (TextView)leftPageView.findViewById(R.id.fly_to_date_textView);
-		setFlyFromToDate();
+		setFlyFromReturnDate();
 		switchToSingleWay();
 		
 		leftpageFlyFromTextView = (TextView)leftPageView.findViewById(R.id.leftpage_fly_from_textView);
@@ -177,7 +177,7 @@ public class MainActivity extends FragmentActivity {
 		isSingleWay = false;
 	}
 	
-	private void setFlyFromToDate(){
+	private void setFlyFromReturnDate(){
 		if(GlobalVariables.Fly_From_Date==null){
 			Calendar calendar = Calendar.getInstance();
 			String flyFromDate = Util.getFormatedDate(calendar);
@@ -185,14 +185,14 @@ public class MainActivity extends FragmentActivity {
 		}
 		leftpageFlyFromDateTextView.setText(GlobalVariables.Fly_From_Date);
 		
-		if(GlobalVariables.Fly_To_Date==null || (Util.compareDateString(GlobalVariables.Fly_To_Date, GlobalVariables.Fly_From_Date) == -1)){
+		if(GlobalVariables.Fly_Return_Date==null || (Util.compareDateString(GlobalVariables.Fly_Return_Date, GlobalVariables.Fly_From_Date) == -1)){
 			Calendar calendar = Calendar.getInstance();
 			calendar.setTime(Util.getDateFromString(GlobalVariables.Fly_From_Date));
 			calendar.add(Calendar.HOUR, 7*24);
 			String flyToDate = Util.getFormatedDate(calendar);
-			GlobalVariables.Fly_To_Date = flyToDate;
+			GlobalVariables.Fly_Return_Date = flyToDate;
 		}
-		leftpageFlyToDateTextView.setText(GlobalVariables.Fly_To_Date);
+		leftpageFlyToDateTextView.setText(GlobalVariables.Fly_Return_Date);
 	}
 	
 	private void setFlyFromToCity(){
@@ -324,7 +324,7 @@ public class MainActivity extends FragmentActivity {
 	  if(data == null)
 		  return;
 	  if(requestCode==IntentRequestCode.START_DATE_SELECTION.getRequestCode()){
-		  setFlyFromToDate();
+		  setFlyFromReturnDate();
 	  }
 	  if(requestCode == IntentRequestCode.START_CITY_SELECTION.getRequestCode())
 		  setFlyFromToCity();

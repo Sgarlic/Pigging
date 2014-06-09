@@ -14,7 +14,7 @@ public class WarningDialog extends Dialog{
 	private TextView warningKnownTextView;
 	public WarningDialog(Context context, int theme){
 		super(context,theme);
-		setContentView(R.layout.wraning_info_dialog);
+		setContentView(R.layout.dialog_wraning_info);
 		initView();
 	}
 	

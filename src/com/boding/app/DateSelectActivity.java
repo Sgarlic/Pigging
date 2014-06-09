@@ -45,8 +45,10 @@ public class DateSelectActivity extends Activity {
 			}
 			
 		});
+		dateSelectCalendarView = (DateSelectCalendarView)findViewById(R.id.date_select_calendarView);
+		
 		if(isReturnDateSelection){
-			dateSelectCalendarView.setDate(Util.getDateFromString(GlobalVariables.Fly_To_Date));
+			dateSelectCalendarView.setDate(Util.getDateFromString(GlobalVariables.Fly_Return_Date));
 			dateSelectCalendarView.setMinClickableDate(Util.getDateFromString(GlobalVariables.Fly_From_Date));
 		}
 		else{
@@ -58,7 +60,7 @@ public class DateSelectActivity extends Activity {
 			public void OnItemClick(Date date) {
 				String selectedDate = Util.getFormatedDate(date);
 				if(isReturnDateSelection){
-					GlobalVariables.Fly_To_Date = selectedDate;
+					GlobalVariables.Fly_Return_Date = selectedDate;
 				}
 				else{
 					GlobalVariables.Fly_From_Date = selectedDate;
