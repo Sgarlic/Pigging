@@ -69,7 +69,7 @@ public class TicketSearchResultIActivity extends Activity {
     private boolean isPriceAsc = true;
     
     //测试用
-    private String tempurl = "http://192.168.0.22:10381/FakeBodingServer/XMLServlet";
+    private String tempurl = "http://192.168.0.22:8104/FakeBodingServer/XMLServlet";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +79,7 @@ public class TicketSearchResultIActivity extends Activity {
 		initView();
 		
 		//此处先使用同一个xml测试
-		String urlstr = "http://192.168.0.22:10381/FakeBodingServer/XMLServlet";
+		String urlstr = "http://192.168.0.22:8104/FakeBodingServer/XMLServlet";
 		invokeXmlTask(urlstr, 2);
 		invokeXmlTask(urlstr, 1);
 		invokeXmlTask(urlstr, 3);
