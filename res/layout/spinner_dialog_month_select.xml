@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	<TextView
+	    xmlns:android="http://schemas.android.com/apk/res/android"
+		android:id="@+id/current_month_selector_dialog_textView"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:text="1月"
+		android:textColor="@color/calendarCurrentMonthTodayHintColor"
+		android:textSize="20sp"
+		android:textStyle="bold"
+		android:typeface="serif" />

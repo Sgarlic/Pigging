@@ -35,9 +35,8 @@ public class CalendarDialog extends Dialog{
 		this.getWindow().setAttributes(lp);
 	}
 	private void initView(){
-		currYearTextView = (TextView)findViewById(R.id.current_year_textView);
-		currMonthTextView = (TextView)findViewById(R.id.current_month_textView);
-		float lineExtra = currYearTextView.getLineSpacingExtra();
-		currYearTextView.setLineSpacing(0 - lineExtra, currYearTextView.getLineSpacingMultiplier());
+//		currMonthTextView = (TextView)findViewById(R.id.current_month_textView);
+//		float lineExtra = currYearTextView.getLineSpacingExtra();
+//		currYearTextView.setLineSpacing(0 - lineExtra, currYearTextView.getLineSpacingMultiplier());
 	}
 }
