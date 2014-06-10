@@ -16,10 +16,13 @@ import com.boding.model.AirlineView;
 import com.boding.model.FlightLine;
 import com.boding.task.XMLTask;
 import com.boding.util.Util;
+import com.boding.view.FilterDialogFragment;
 
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
@@ -37,7 +40,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.os.Build;
 
-public class TicketSearchResultIActivity extends Activity {
+public class TicketSearchResultIActivity extends FragmentActivity {
 	private TicketSearchResultListIAdapter adapter;
 	private ListView searchResultListView;
 	
@@ -67,7 +70,7 @@ public class TicketSearchResultIActivity extends Activity {
     private boolean isPriceAsc = true;
     
     //测试用
-    private String tempurl = "http://192.168.0.22:10381/FakeBodingServer/XMLServlet";
+    private String tempurl = "http://192.168.0.22:8104/FakeBodingServer/XMLServlet?day=today";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +80,7 @@ public class TicketSearchResultIActivity extends Activity {
 		initView();
 		
 		//此处先使用同一个xml测试
-		String urlstr = "http://192.168.0.22:10381/FakeBodingServer/XMLServlet";
+		String urlstr = "http://192.168.0.22:8104/FakeBodingServer/XMLServlet?day=today";
 		invokeXmlTask(urlstr, 2);
 		invokeXmlTask(urlstr, 1);
 		invokeXmlTask(urlstr, 3);
@@ -190,6 +193,17 @@ public class TicketSearchResultIActivity extends Activity {
 				}
 			}
         	
+        });
+        
+        filterLinearLayout.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				
+				FilterDialogFragment fd = new FilterDialogFragment();
+				
+				fd.show(getSupportFragmentManager(), "filterDialog");
+			}
         });
 	}
   
