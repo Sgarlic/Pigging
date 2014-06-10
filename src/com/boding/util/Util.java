@@ -9,7 +9,11 @@ import java.util.Date;
 import java.util.regex.Pattern;
 import com.boding.R;
 import com.boding.constants.Constants;
+import com.boding.constants.GlobalVariables;
 import com.boding.constants.IntentRequestCode;
+import com.boding.model.City;
+import com.boding.view.WarningDialog;
+
 import net.sourceforge.pinyin4j.PinyinHelper;
 import net.sourceforge.pinyin4j.format.HanyuPinyinCaseType;
 import net.sourceforge.pinyin4j.format.HanyuPinyinOutputFormat;
@@ -18,6 +22,9 @@ import net.sourceforge.pinyin4j.format.HanyuPinyinVCharType;
 import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombination;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.Dialog;
+import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -33,6 +40,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.CalendarView;
 import android.widget.DatePicker;
+import android.widget.ListView;
 
 public class Util {
 	/**
@@ -104,6 +112,23 @@ public class Util {
 		return getFormatedDate(calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH));
 	}
 	
+	public static String getFormatedDate(Date date){
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		return getFormatedDate(calendar);
+	}
+	
+	public static String getYearMonthString(Calendar calendar){
+		String dateFormat = "%s年%02d";
+		return String.format(dateFormat, String.valueOf(calendar.get(Calendar.YEAR)),calendar.get(Calendar.MONTH));
+	}
+	
+	public static String getYearMonthString(Date date){
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		return getYearMonthString(calendar);
+	}
+	
 	public static long getMillIsFromDate(String date){
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
 //		String[] temp = date.split("-");
@@ -115,6 +140,18 @@ public class Util {
 		}
 //		newDate.setYear(Integer.valueOf(temp[0]));
 		return newDate.getTime();
+	}
+	
+	public static Date getDateFromString(String date){
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+		Date newDate = null;
+		try {
+			newDate = sdf.parse(date);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+//		newDate.setYear(Integer.valueOf(temp[0]));
+		return newDate;
 	}
 	
 	@SuppressLint("NewApi")
@@ -222,5 +259,98 @@ public class Util {
 	//给时间加上冒号， 如0322 -> 03:22
 	public static String formatTime(String time){
 		return time.substring(0, 2) + ":" + time.substring(2);
+	}
+	
+	public static String addDayToCalendarString(String calendarString, int dayCount){
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(getDateFromString(calendarString));
+		calendar.add(Calendar.HOUR, dayCount*24);
+		return getFormatedDate(calendar);
+	}
+	
+	/**
+	 * Compare two date's year and month.
+	 * return 1 if date1 > date2
+	 * return 0 if date1 == date2
+	 * return -1 if date1 < date2
+	 * @param date1
+	 * @param date2
+	 * @return
+	 */
+	public static int compareYearAndMonth(Date date1, Date date2){
+		int yearMonth1 = date1.getYear()*100 + date1.getMonth();
+		int yearMonth2 = date2.getYear()*100 + date2.getMonth();
+		
+		if(yearMonth1 > yearMonth2)
+			return 1;
+		else if(yearMonth1 == yearMonth2)
+			return 0;
+		return -1;
+	}
+	
+	/**
+	 * Compare two date's year and month.
+	 * return 1 if date1 > date2
+	 * return 0 if date1 == date2
+	 * return -1 if date1 < date2
+	 * @param date1
+	 * @param date2
+	 * @return
+	 */
+	public static int compareDateString(String dateString1, String dateString2){
+		Date date1 = getDateFromString(dateString1);
+		Date date2 = getDateFromString(dateString2);
+		int yyyymmdd1 = date1.getYear()*10000 + date1.getMonth()*100 + date1.getDate();
+		int yyyymmdd2 = date2.getYear()*10000 + date2.getMonth()*100 + date2.getDate();
+		
+		if(yyyymmdd1 > yyyymmdd2)
+			return 1;
+		else if(yyyymmdd1 == yyyymmdd2)
+			return 0;
+		return -1;
+	}
+	
+	public static String getFourCharofString(String string){
+		String newString = string;
+		if(string.length()>4)
+			newString = string.substring(0,4);
+		return newString;
+	}
+	
+	public static void selectCityOperation(ListView listView, int position, boolean isFlyToCitySelection, Context context, Dialog dialog){
+		ContentValues content = (ContentValues) listView.getAdapter().getItem(position);
+		String cityName = content.getAsString(Constants.CITY_NAME);
+		String cityCode = content.getAsString(Constants.CITY_CODE);
+		boolean isInternationalCity = false;
+		String cityCountry = "";
+		
+		City selectedCity = new City(cityName,cityCode,isInternationalCity,cityCountry);
+		
+		String toastInfo = null;
+		if(isFlyToCitySelection){
+			if(selectedCity.equals(GlobalVariables.Fly_From_City))
+				toastInfo = "出发和到达不能为同一城市";
+			else
+				GlobalVariables.Fly_To_City = selectedCity;
+		}
+		else{
+			if(selectedCity.equals(GlobalVariables.Fly_To_City))
+				toastInfo = "出发和到达不能为同一城市";
+			else
+				GlobalVariables.Fly_From_City = selectedCity;
+		}
+		
+		if(toastInfo!=null){
+			WarningDialog warningDialog = new WarningDialog(context, R.style.Warning_Dialog_Theme);
+			warningDialog.setContent(toastInfo);
+			warningDialog.setKnown("知道了");
+			warningDialog.show();
+//			currentView.getContext().
+		}else{
+			if(dialog!=null)
+				dialog.dismiss();
+			returnToPreviousPage((Activity)context, IntentRequestCode.START_CITY_SELECTION);
+		}
+//		Log.d("poding");
 	}
 }

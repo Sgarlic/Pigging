@@ -12,9 +12,9 @@ import android.view.View.OnClickListener;
 public class WarningDialog extends Dialog{
 	private TextView warningContentTextView;
 	private TextView warningKnownTextView;
-	public WarningDialog(Context context, int layout, int theme){
+	public WarningDialog(Context context, int theme){
 		super(context,theme);
-		setContentView(layout);
+		setContentView(R.layout.dialog_wraning_info);
 		initView();
 	}
 	

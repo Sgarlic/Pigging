@@ -2,6 +2,7 @@ package com.boding.view;
 
 import com.boding.R;
 
+import android.R.style;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Canvas;
@@ -46,11 +47,12 @@ public class CitySelectLetterListView extends View {
 	    int width = getWidth();
 	    int singleHeight = height / cityLetters.length;
 	    for(int i=0;i<cityLetters.length;i++){
-	       paint.setColor(getResources().getColor(R.color.orange));
-	       paint.setTypeface(Typeface.SERIF);
+	       paint.setColor(getResources().getColor(R.color.panelOrange));
+	       Typeface font = Typeface.create(Typeface.SANS_SERIF, Typeface.BOLD);
+	       paint.setTypeface(font);
 	       paint.setAntiAlias(true);
 	       if(i == choose){
-	    	   paint.setColor(Color.parseColor("#3399ff"));
+	    	   paint.setColor(getResources().getColor(R.color.panelOrange));
 	    	   paint.setFakeBoldText(true);
 	       }
 	       float xPos = width/2  - paint.measureText(cityLetters[i])/2;

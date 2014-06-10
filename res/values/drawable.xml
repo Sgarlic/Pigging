@@ -2,15 +2,26 @@
 <resources>
     <color name="white">#FFFFFF</color>
     <color name="darkgray">#938192</color>
-    <color name="lightgray">#c8c3c3</color>
-    <color name="lightgreen">#7cd12e</color>
+    <color name="lightgray">#C8C3C3</color>
+    <color name="lightgreen">#7CD12E</color>
     <color name="panelBackColor">#80000203</color>
-    <color name="orange">#ff9a00</color>
     <color name="black">#000000</color>
-    <color name="textOrange">#f68a1e</color>
-    <color name="panelOrange">#ff8a00</color>
+    <color name="textOrange">#F68A1E</color>
+    <color name="panelOrange">#FF8A00</color>
     <color name="dayIndicatorGray">#838383</color>
     <color name="priceGray">#707070</color>
     <color name="searchResultTinyText">#848484</color>
-    <color name="ticketLeftColor">#343a46</color>
+    <color name="ticketLeftColor">#343A46</color>
+    <color name="filterPriceFromtimeColor">#989898</color>
+    <color name="listviewDividerColor">#CECECE</color>
+    <color name="panelDividerGray">#E5E5E5</color>
+    <color name="tabDivider">#DBDBDB</color>
+    <color name="calendarWeekTextColor">#2C4860</color>
+    <color name="calendarCurrentMonthTextColor">#2B485F</color>
+    <color name="calendarCurrentMonthFlightDayColor">#F68A1E</color>
+    <color name="calendarCurrentMonthTodayHintColor">#FF9000</color>
+    <color name="calendarPreMonthTextColor">#DADEE5</color>
+    <color name="calendarPreMonthBgColor">#EBECF2</color>
+    <color name="calendarNextMonthTextColor">#A1ADB8</color>
+    <color name="calendarBorderColor">#F6F7F9</color>
 </resources>

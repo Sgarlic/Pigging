@@ -3,6 +3,7 @@ package com.boding.app;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+
 import com.boding.adapter.HPagerAdapter;
 import com.boding.adapter.VPagerAdapter;
 import com.boding.constants.Constants;
@@ -12,9 +13,13 @@ import com.boding.util.Util;
 import com.boding.view.VerticalViewPager;
 import com.boding.R;
 import com.boding.model.City;
+
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
@@ -23,6 +28,9 @@ import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -54,6 +62,9 @@ public class MainActivity extends FragmentActivity {
 	private LinearLayout leftpageReturnwayDateLinearLayout;
 	private TextView leftpageFlyFromDateTextView;
 	private TextView leftpageFlyToDateTextView;
+	private ImageView leftpageVoiceSearchImageView;
+	
+	
 	
 	private View leftPageView;
 	private View rightPageView;
@@ -96,7 +107,7 @@ public class MainActivity extends FragmentActivity {
 		
 		leftpageFlyFromDateTextView = (TextView)leftPageView.findViewById(R.id.fly_from_date_textView);
 		leftpageFlyToDateTextView = (TextView)leftPageView.findViewById(R.id.fly_to_date_textView);
-		setFlyFromToDate();
+		setFlyFromReturnDate();
 		switchToSingleWay();
 		
 		leftpageFlyFromTextView = (TextView)leftPageView.findViewById(R.id.leftpage_fly_from_textView);
@@ -139,6 +150,17 @@ public class MainActivity extends FragmentActivity {
 				setFlyFromToCity();
 			}
 		});
+		
+		leftpageVoiceSearchImageView = (ImageView)leftPageView.findViewById(R.id.leftpage_voice_search_imageView);
+		leftpageVoiceSearchImageView.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View arg0) {
+				Intent intent = new Intent();
+				intent.setClass(MainActivity.this, VoiceSearchActivity.class);
+				startActivityForResult(intent,IntentRequestCode.START_VOICE_SEARCH.getRequestCode());
+			}
+			
+		});
 	}
 	
 	private void switchToSingleWay(){
@@ -155,38 +177,34 @@ public class MainActivity extends FragmentActivity {
 		isSingleWay = false;
 	}
 	
-	private void setFlyFromToDate(){
-		if(GlobalVariables.Fly_From_Date!=null){
-			leftpageFlyFromDateTextView.setText(GlobalVariables.Fly_From_Date);
-		}
-		else{
+	private void setFlyFromReturnDate(){
+		if(GlobalVariables.Fly_From_Date==null){
 			Calendar calendar = Calendar.getInstance();
 			String flyFromDate = Util.getFormatedDate(calendar);
-			leftpageFlyFromDateTextView.setText(flyFromDate);
 			GlobalVariables.Fly_From_Date = flyFromDate;
 		}
+		leftpageFlyFromDateTextView.setText(GlobalVariables.Fly_From_Date);
 		
-		if(GlobalVariables.Fly_To_Date!=null){
-			leftpageFlyToDateTextView.setText(GlobalVariables.Fly_To_Date);
-		}else{
+		if(GlobalVariables.Fly_Return_Date==null || (Util.compareDateString(GlobalVariables.Fly_Return_Date, GlobalVariables.Fly_From_Date) == -1)){
 			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(Util.getDateFromString(GlobalVariables.Fly_From_Date));
 			calendar.add(Calendar.HOUR, 7*24);
 			String flyToDate = Util.getFormatedDate(calendar);
-			leftpageFlyToDateTextView.setText(flyToDate);
-			GlobalVariables.Fly_To_Date = flyToDate;
+			GlobalVariables.Fly_Return_Date = flyToDate;
 		}
+		leftpageFlyToDateTextView.setText(GlobalVariables.Fly_Return_Date);
 	}
 	
 	private void setFlyFromToCity(){
 		if(GlobalVariables.Fly_From_City!=null){
-			leftpageFlyFromTextView.setText(GlobalVariables.Fly_From_City.getCityName());
-			leftPageFlyFromCodeTextView.setText(GlobalVariables.Fly_From_City.getCityCode());
+			leftpageFlyFromTextView.setText(Util.getFourCharofString(GlobalVariables.Fly_From_City.getCityName()));
+			leftPageFlyFromCodeTextView.setText(Util.getFourCharofString(GlobalVariables.Fly_From_City.getCityCode()));
 		}else{
 			GlobalVariables.Fly_From_City = new City("上海","SHA",false,"中国");
 		}
 		if(GlobalVariables.Fly_To_City!=null){
-			leftpageFlyToTextView.setText(GlobalVariables.Fly_To_City.getCityName());
-			leftpageFlyToCodeTextView.setText(GlobalVariables.Fly_To_City.getCityCode());
+			leftpageFlyToTextView.setText(Util.getFourCharofString(GlobalVariables.Fly_To_City.getCityName()));
+			leftpageFlyToCodeTextView.setText(Util.getFourCharofString(GlobalVariables.Fly_To_City.getCityCode()));
 		}else{
 			GlobalVariables.Fly_To_City = new City("北京","PEK",false,"中国");
 		}
@@ -199,6 +217,13 @@ public class MainActivity extends FragmentActivity {
 			boolean isFlyToCitySelection = false;
 			if(viewId==R.id.leftpage_fly_to_linearlayout)
 				isFlyToCitySelection = true;
+			
+//			ViewGroup.LayoutParams flyToParams = leftpageFlyToTextView.getLayoutParams();
+//			flyToParams.width = ViewGroup.LayoutParams.WRAP_CONTENT;
+//			leftpageFlyToTextView.setLayoutParams(flyToParams);
+//			ViewGroup.LayoutParams flyFromParams = leftpageFlyToTextView.getLayoutParams();
+//			flyFromParams.width = ViewGroup.LayoutParams.WRAP_CONTENT;
+//			leftpageFlyFromTextView.setLayoutParams(flyFromParams);
 			
 			Bundle bundle  = new Bundle();
 			bundle.putBoolean(Constants.IS_FLY_TO_CITY_SELECTION, isFlyToCitySelection);
@@ -236,8 +261,8 @@ public class MainActivity extends FragmentActivity {
 		Display display = getWindowManager().getDefaultDisplay();
 		Point screenSize = new Point();
 		display.getSize(screenSize);
-		Constants.ScreenHeight = screenSize.y;
-		Constants.ScreenWidth = screenSize.x;
+		GlobalVariables.Screen_Height = screenSize.y;
+		GlobalVariables.Screen_Width = screenSize.x;
 	}
 	
 	private void initHorizontalViewPager(){
@@ -299,7 +324,7 @@ public class MainActivity extends FragmentActivity {
 	  if(data == null)
 		  return;
 	  if(requestCode==IntentRequestCode.START_DATE_SELECTION.getRequestCode()){
-		  setFlyFromToDate();
+		  setFlyFromReturnDate();
 	  }
 	  if(requestCode == IntentRequestCode.START_CITY_SELECTION.getRequestCode())
 		  setFlyFromToCity();

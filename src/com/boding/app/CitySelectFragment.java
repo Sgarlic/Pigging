@@ -6,13 +6,11 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
-import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,11 +24,8 @@ import com.boding.R;
 import com.boding.constants.CityProperty;
 import com.boding.constants.Constants;
 import com.boding.constants.GlobalVariables;
-import com.boding.constants.IntentRequestCode;
-import com.boding.model.City;
 import com.boding.util.Util;
 import com.boding.view.CitySelectLetterListView;
-import com.boding.view.WarningDialog;
 import com.boding.view.CitySelectLetterListView.OnTouchingLetterChangedListener;
 
 public class CitySelectFragment extends Fragment {
@@ -39,11 +34,9 @@ public class CitySelectFragment extends Fragment {
 	private BaseAdapter adapter;  
     private ListView allCitiesListView;
     private CitySelectLetterListView letterListView;
-    private static final String CITY_NAME = "name", CITY_CODE = "code", SORT_KEY = "sort_key";
-    private static final String PROPERTY="property", LOCATION="定位",HISTORY="历史",HOT="热门";
     private HashMap<String, Integer> alphaIndexer;//存放存在的汉语拼音首字母和与之对应的列表位置
     private String[] sections;//存放存在的汉语拼音首字母
-    private Handler handler;
+//    private Handler handler;
 //    private OverlayThread overlayThread;
     private String locatedCity = "上海";
     private View currentView;
@@ -107,39 +100,7 @@ public class CitySelectFragment extends Fragment {
 				//view	The view within the AdapterView that was clicked
 				//position	The position of the view in the adapter
 				//id	The row id of the item that is selected
-				ContentValues content = (ContentValues) allCitiesListView.getAdapter().getItem(position);
-				String cityName = content.getAsString(CITY_NAME);
-				String cityCode = content.getAsString(CITY_CODE);
-				boolean isInternationalCity = false;
-				String cityCountry = "";
-				
-				City selectedCity = new City(cityName,cityCode,isInternationalCity,cityCountry);
-				
-				String toastInfo = null;
-				if(isFlyToCitySelection){
-					if(selectedCity.equals(GlobalVariables.Fly_From_City))
-						toastInfo = "出发和到达不能为同一城市";
-					else
-						GlobalVariables.Fly_To_City = selectedCity;
-				}
-				else{
-					if(selectedCity.equals(GlobalVariables.Fly_To_City))
-						toastInfo = "出发和到达不能为同一城市";
-					else
-						GlobalVariables.Fly_From_City = selectedCity;
-				}
-				
-				if(toastInfo!=null){
-					WarningDialog warningDialog = new WarningDialog(currentView.getContext(),
-							R.layout.wraning_info_dialog,R.style.Warning_Dialog_Theme);
-					warningDialog.setContent(toastInfo);
-					warningDialog.setKnown("知道了");
-					warningDialog.show();
-//					currentView.getContext().
-				}else{
-					Util.returnToPreviousPage((Activity)currentView.getContext(), IntentRequestCode.START_CITY_SELECTION);
-				}
-//				Log.d("poding");
+				Util.selectCityOperation(allCitiesListView, position, isFlyToCitySelection, currentView.getContext(),null);
 			}
     		
     	});
@@ -149,7 +110,7 @@ public class CitySelectFragment extends Fragment {
         
 //        asyncQuery = new MyAsyncQueryHandler(getContentResolver());
         alphaIndexer = new HashMap<String, Integer>();
-        handler = new Handler();
+//        handler = new Handler();
 //        overlayThread = new OverlayThread();
 //        initOverlay();
 //        
@@ -189,39 +150,39 @@ public class CitySelectFragment extends Fragment {
     		contentList.addAll(historyCityList);
     		contentList.addAll(hotCityList);
     		contentList.addAll(cityList);
-    		
+    		GlobalVariables.allCitiesList.addAll(contentList);
     		sectionSize+=(historyCityList.size()+hotCityList.size()+contentList.size());
     		sections = new String[sectionSize];
     		
     		int sectionPointer = 0;
     		
     		if(locatedCity!=null){
-    			sections[sectionPointer] = LOCATION;
-    			alphaIndexer.put(LOCATION, sectionPointer);
+    			sections[sectionPointer] = Constants.LOCATION;
+    			alphaIndexer.put(Constants.LOCATION, sectionPointer);
     			sectionPointer++;
     		}
     		
     		for(ContentValues historyCity : historyCityList){
-    			sections[sectionPointer] = HISTORY;
-    			if(!alphaIndexer.containsKey(HISTORY))
-    				alphaIndexer.put(HISTORY, sectionPointer);
+    			sections[sectionPointer] = Constants.HISTORY;
+    			if(!alphaIndexer.containsKey(Constants.HISTORY))
+    				alphaIndexer.put(Constants.HISTORY, sectionPointer);
     			sectionPointer++;
     		}
     		
     		for(ContentValues hotCity : hotCityList){
-    			sections[sectionPointer] = HOT;
-    			if(!alphaIndexer.containsKey(HOT))
-    				alphaIndexer.put(HOT, sectionPointer);
+    			sections[sectionPointer] = Constants.HOT;
+    			if(!alphaIndexer.containsKey(Constants.HOT))
+    				alphaIndexer.put(Constants.HOT, sectionPointer);
     			sectionPointer++;
     		}
     		
     		for (int i = 0; i < cityList.size(); i++,sectionPointer++) {
     			//当前汉语拼音首字母
-    			String currentStr = Util.getAlpha(cityList.get(i).getAsString(SORT_KEY));
+    			String currentStr = Util.getAlpha(cityList.get(i).getAsString(Constants.SORT_KEY));
     			//上一个汉语拼音首字母，如果不存在为“ ”
-                String previewStr = (i - 1) >= 0 ? Util.getAlpha(cityList.get(i - 1).getAsString(SORT_KEY)) : " ";
+                String previewStr = (i - 1) >= 0 ? Util.getAlpha(cityList.get(i - 1).getAsString(Constants.SORT_KEY)) : " ";
                 if (!previewStr.equals(currentStr)) {
-                	String name = Util.getAlpha(cityList.get(i).getAsString(SORT_KEY));
+                	String name = Util.getAlpha(cityList.get(i).getAsString(Constants.SORT_KEY));
                 	alphaIndexer.put(name, sectionPointer);  
                 	sections[sectionPointer] = name; 
                 }
@@ -257,7 +218,7 @@ public class CitySelectFragment extends Fragment {
                 holder = (ViewHolder) convertView.getTag();  
             }  
             ContentValues cv = contentList.get(position);  
-            holder.name.setText(cv.getAsString(CITY_NAME));
+            holder.name.setText(cv.getAsString(Constants.CITY_NAME));
 //            holder.number.setText(cv.getAsString(NUMBER));
 //            String currentStr = getAlpha(list.get(position).getAsString(SORT_KEY));
 //            String previewStr = (position - 1) >= 0 ? getAlpha(list.get(position - 1).getAsString(SORT_KEY)) : " ";
@@ -281,9 +242,9 @@ public class CitySelectFragment extends Fragment {
     }
     
     private String getContentValuesTitle(ContentValues content){
-    	String title = content.getAsString(PROPERTY);
+    	String title = content.getAsString(Constants.PROPERTY);
     	if(title.equals(CityProperty.CityList.getProperty())){
-    		title = Util.getAlpha(content.getAsString(SORT_KEY));
+    		title = Util.getAlpha(content.getAsString(Constants.SORT_KEY));
     	}
     	return title;
     }
@@ -334,8 +295,8 @@ public class CitySelectFragment extends Fragment {
     class SortBySortKey implements Comparator<ContentValues>{
 		@Override
 		public int compare(ContentValues value0, ContentValues value1) {
-			String key0 = value0.getAsString(SORT_KEY);
-    		String key1 = value1.getAsString(SORT_KEY);
+			String key0 = value0.getAsString(Constants.SORT_KEY);
+    		String key1 = value1.getAsString(Constants.SORT_KEY);
     		return key0.compareTo(key1);
 		}
     	
@@ -346,7 +307,8 @@ public class CitySelectFragment extends Fragment {
         String[] cities = {
          	"北京","上海","广州","天津","重庆",
            	"哈尔滨","长春","沈阳","大连","济南","青岛","西安","成都","武汉","南京","杭州","宁波","厦门","深圳",
-           	"连云港","徐州","宿迁","淮安","盐城","泰州","扬州","镇江","南通","常州","无锡","苏州"
+           	"连云港","徐州","宿迁","淮安","盐城","泰州","扬州","镇江","南通","常州","无锡","苏州","乌鲁木齐","齐齐哈尔",
+           	"超长的测试城市1","超长的测试城市2"
         };
         for(int i=0;i<cities.length;i++){
            	list.add(generateContentValues(cities[i],CityProperty.CityList));
@@ -410,10 +372,12 @@ public class CitySelectFragment extends Fragment {
     
     private ContentValues generateContentValues(String cityName, CityProperty cityProperty){
     	ContentValues cv = new ContentValues();
-       	cv.put(CITY_NAME, cityName);
-       	cv.put(CITY_CODE, Util.getPinYin(cityName));
-       	cv.put(SORT_KEY, Util.getPinYin(cityName));
-       	cv.put(PROPERTY, cityProperty.getProperty());
+       	cv.put(Constants.CITY_NAME, cityName);
+       	cv.put(Constants.CITY_CODE, Util.getPinYin(cityName));
+       	cv.put(Constants.SORT_KEY, Util.getPinYin(cityName));
+       	cv.put(Constants.PROPERTY, cityProperty.getProperty());
        	return cv;
     }
+
+    
 }
