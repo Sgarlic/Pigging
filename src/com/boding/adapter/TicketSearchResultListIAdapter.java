@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -22,8 +23,10 @@ public class TicketSearchResultListIAdapter extends BaseAdapter {
 	private LayoutInflater inflater;  
 	private AirlineView airlineView;
     private List<FlightLine> flightLineList;
+    private Context context;
 	
 	public TicketSearchResultListIAdapter(Context context, AirlineView airlineView) {
+		this.context = context;
 		this.inflater = LayoutInflater.from(context);
 //		this.airlineViewList = new ArrayList<AirlineView>();
 		this.airlineView = airlineView;
@@ -63,7 +66,8 @@ public class TicketSearchResultListIAdapter extends BaseAdapter {
             holder.startAirportTextView = (TextView) convertView.findViewById(R.id.ticket_search_i_flightstartairport_textView);
             holder.endAirportTextView = (TextView) convertView.findViewById(R.id.ticket_search_i_flightstopairport_textView);
             holder.needTransitImageView = (ImageView) convertView.findViewById(R.id.ticket_search_i_need_transit_imageView);
-            holder.moreClassInfoImageView = (LinearLayout) convertView.findViewById(R.id.ticket_search_i_moreflightclassinfo_linearLayout); 
+            holder.moreClassInfoImageView = (LinearLayout) convertView.findViewById(R.id.ticket_search_i_moreflightclassinfo_linearLayout);
+            holder.moreClassListView = (ExpandableListView) convertView.findViewById(R.id.ticket_search_i_moreflightclassinfo_expandListView);
             convertView.setTag(holder);  
         } else {  
             holder = (ViewHolder) convertView.getTag();  
@@ -96,6 +100,9 @@ public class TicketSearchResultListIAdapter extends BaseAdapter {
 			holder.moreClassInfoImageView.setVisibility(View.GONE);		
 		}
 		
+		holder.moreClassListView.setGroupIndicator(null); 
+		holder.moreClassListView.setAdapter(new MoreClassInfoAdapter(context));
+		
 //        ContentValues cv = airlineViewList.get(position);  
 //        holder.name.setText(cv.getAsString(CITY_NAME));
 //        String currentStr = getContentValuesTitle(cv);
@@ -122,6 +129,7 @@ public class TicketSearchResultListIAdapter extends BaseAdapter {
 		TextView endAirportTextView;
 		ImageView needTransitImageView;
 		LinearLayout moreClassInfoImageView; 
+		ExpandableListView moreClassListView;
 	}
 	
 }

@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/lightgray"
+    android:orientation="vertical"
+    android:paddingBottom="5dp"
+    android:paddingTop="5dp" >
+
+  	<LinearLayout
+  	    android:layout_width="wrap_content"
+  	    android:layout_height="wrap_content"
+  	    android:layout_gravity="right"
+  	    android:orientation="horizontal" >
+		<LinearLayout
+	  	    android:layout_width="wrap_content"
+	  	    android:layout_height="wrap_content"
+	  	    android:orientation="vertical">
+	  	    <LinearLayout
+		  	    android:layout_width="wrap_content"
+		  	    android:layout_height="wrap_content"
+		  	    android:layout_weight = "1"
+		  	    android:orientation="horizontal">
+
+		  	    <TextView
+		  	        android:id="@+id/child_class_left_ticket_textView"
+		  	        android:layout_width="wrap_content"
+		  	        android:layout_height="wrap_content"
+		  	        android:text=">9"
+		  	        android:textColor="@color/textOrange"
+		  	        android:textStyle="bold"
+		  	        android:typeface="serif" />
+				<TextView
+		  	        android:layout_width="wrap_content"
+		  	        android:layout_height="wrap_content"
+		  	        android:layout_marginRight="5dp"
+		  	        android:text="张"
+		  	        android:textColor="@color/textOrange"
+		  	        android:textStyle="bold"
+		  	        android:typeface="serif" />
+		  	    <TextView
+		  	        android:layout_width="wrap_content"
+		  	        android:layout_height="wrap_content"
+		  	        android:background="@color/textOrange"
+		  	        android:text="返"
+		  	        android:textColor="@color/white"
+		  	        android:textStyle="bold"
+		  	        android:typeface="serif" />
+		  	    <TextView
+		  	        android:layout_width="wrap_content"
+		  	        android:layout_height="wrap_content"
+		  	        android:text="￥"
+		  	        android:textColor="@color/textOrange"
+		  	        android:textStyle="bold"
+		  	        android:typeface="serif" />
+				<TextView
+		  	        android:id="@+id/child_class_return_money_textView"
+		  	        android:layout_width="wrap_content"
+		  	        android:layout_height="wrap_content"
+		  	        android:layout_marginRight="5dp"
+		  	        android:text="25"
+		  	        android:textColor="@color/textOrange"
+		  	        android:textStyle="bold"
+		  	        android:typeface="serif" />
+		  	</LinearLayout>
+		  	<LinearLayout
+		  	    android:layout_width="wrap_content"
+		  	    android:layout_height="wrap_content"
+		  	    android:layout_weight = "1"
+		  	    android:orientation="horizontal">
+
+		  		<TextView
+		  		    android:id="@+id/child_class_discount_textView"
+		  		    android:layout_width="wrap_content"
+		  		    android:layout_height="wrap_content"
+		  		    android:layout_marginRight="5dp"
+		  		    android:text="经济舱7.0折"
+		  		    android:textColor="@color/black"
+		  		    android:typeface="serif" />
+
+		  	</LinearLayout>
+	  	</LinearLayout>
+
+	  	<LinearLayout
+	  	    android:layout_width="wrap_content"
+	  	    android:layout_height="wrap_content"
+	  	    android:layout_gravity="center_vertical"
+	  	    android:orientation="horizontal" >
+		  	<TextView
+		         android:layout_width="wrap_content"
+		         android:layout_height="wrap_content"
+		         android:layout_gravity="center_horizontal"
+		         android:text="￥"
+		         android:textColor="@color/textOrange"
+		         android:textSize="20sp"
+		         android:textStyle="bold"
+		         android:typeface="serif" />
+		     <TextView
+		         android:id="@+id/child_class_price_textView"
+		         android:layout_width="wrap_content"
+		         android:layout_height="wrap_content"
+		         android:layout_gravity="center_horizontal"
+		         android:text="970"
+		         android:textColor="@color/textOrange"
+		         android:textSize="20sp"
+		         android:textStyle="bold"
+		         android:typeface="serif" />
+
+		</LinearLayout>
+		<LinearLayout
+	  	    android:layout_width="wrap_content"
+	  	    android:layout_height="wrap_content"
+	  	    android:layout_gravity="center_vertical"
+	  	    android:orientation="horizontal" >
+
+		     <ImageView
+		        android:id="@+id/child_class_buy_imageView"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:layout_gravity="center_vertical"
+			    android:layout_marginLeft="5dp"
+			    android:src="@drawable/daychange2" />
+
+		</LinearLayout>
+  	</LinearLayout>
+</LinearLayout> 
