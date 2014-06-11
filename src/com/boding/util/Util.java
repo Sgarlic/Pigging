@@ -353,4 +353,10 @@ public class Util {
 		}
 //		Log.d("poding");
 	}
+	
+	public static int getMonthNoFromString(String monthString){
+		String tempMonth = monthString.substring(0,monthString.length()-1);
+		int month = Integer.parseInt(tempMonth);
+		return month;
+	}
 }

@@ -87,9 +87,9 @@ public class TicketSearchResultListIAdapter extends BaseAdapter {
 		//image view
 		if(currentFlightLine.getSegmentSize() > 1){
 			//гажазЊ
-			holder.needTransitImageView.setBackgroundResource(R.drawable.line2_2x);
+			holder.needTransitImageView.setImageResource(R.drawable.line2_2x);
 		}else{
-			holder.needTransitImageView.setBackgroundResource(R.drawable.line1_2x);
+			holder.needTransitImageView.setImageResource(R.drawable.line1_2x);
 		}
 		
 		if(currentFlightLine.getFlightClassNum() == 1){

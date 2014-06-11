@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:gravity="center_horizontal"
+    android:orientation="vertical" >
+  
+    <TextView
+        android:id="@+id/current_month_selector_dialog_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="5dp"
+        android:text="1月"
+        android:textColor="@color/calendarCurrentMonthTodayHintColor"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:typeface="serif" />
+
+</LinearLayout>
+

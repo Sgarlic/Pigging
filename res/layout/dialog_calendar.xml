@@ -1,69 +1,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/calendar_dialog_linearLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:minWidth="280dip"
     android:orientation="horizontal"
     tools:ignore="MergeRootFrame" >
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="11"
-        android:background="@color/white"
-        android:orientation="vertical" >
-
-		<LinearLayout
-		    android:layout_width="match_parent"
-		    android:layout_height="wrap_content"
-		    android:layout_marginBottom="10dp"
-		    android:orientation="horizontal" >
-
-			<LinearLayout
-			    android:layout_width="wrap_content"
-			    android:layout_height="match_parent"
-			    android:layout_marginTop="10dp"
-			    android:layout_weight="1"
-			    android:orientation="vertical" >
-			    <LinearLayout
-			    android:layout_width="wrap_content"
-			    android:layout_height="match_parent"
-			    android:layout_gravity="center_horizontal"
-			    android:layout_weight="1"
-			    android:orientation="horizontal" >
-
-					    <TextView
-					        android:id="@+id/current_year_textView"
-					        android:layout_width="wrap_content"
-					        android:layout_height="50dp"
-					        android:layout_gravity="center_vertical"
-					        android:gravity="center_vertical"
-					        android:lineSpacingExtra="-3dp"
-					        android:text="@string/thisYear"
-					        android:textColor="@color/calendarCurrentMonthTodayHintColor"
-					        android:textSize="10sp"
-					        android:typeface="serif" />
-
-					    <TextView
-					        android:id="@+id/current_month_textView"
-					        android:layout_width="wrap_content"
-					        android:layout_height="50dp"
-					        android:layout_gravity="center_vertical"
-					        android:gravity="center_vertical"
-					        android:text="12月"
-					        android:textColor="@color/calendarCurrentMonthTodayHintColor"
-					        android:textSize="30sp"
-					        android:textStyle="bold"
-					        android:typeface="serif" />
-				</LinearLayout>
-		    </LinearLayout>
-		</LinearLayout>
-
-		<com.boding.view.PriceCalendarView
-		    android:id="@+id/priceCalendarView1"
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content" />
-
-    </LinearLayout>
+    <com.boding.view.CalendarLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+    </com.boding.view.CalendarLayout>
+    
 </LinearLayout>
-

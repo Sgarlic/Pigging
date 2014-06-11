@@ -204,7 +204,7 @@ public class PriceCalendarView extends View implements View.OnTouchListener {
 			// 小于最小可点击日期的是灰色背景不可点击
 			if (minClickableDateIndex!=-1 && i < minClickableDateIndex){
 				textColor = resource.getColor(R.color.calendarPreMonthTextColor);
-//				drawCellBg(canvas, i , resource.getColor(R.color.calendarPreMonthBgColor));
+				drawCellBg(canvas, i , resource.getColor(R.color.calendarPreMonthBgColor));
 			}
 			// 今天是橙色
 			if (todayIndex != -1 && i == todayIndex) {
