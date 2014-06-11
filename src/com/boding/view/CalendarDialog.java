@@ -1,25 +1,37 @@
 package com.boding.view;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.boding.R;
+import com.boding.app.CitySelectActivity;
 import com.boding.constants.GlobalVariables;
+import com.boding.constants.IntentRequestCode;
+import com.boding.util.Util;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
+import android.graphics.drawable.BitmapDrawable;
+import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
+import android.widget.ListAdapter;
+import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.view.WindowManager;
-import android.view.View.OnClickListener;
 
 public class CalendarDialog extends Dialog{
-	private TextView currYearTextView;
-	private TextView currMonthTextView;
+	
 	public CalendarDialog(Context context, int theme){
 		super(context,theme);
 		setContentView(R.layout.dialog_calendar);
 		setWidthHeight();
-		initView();
 	}
 	private void setWidthHeight(){
 		//set dialog width
@@ -34,9 +46,5 @@ public class CalendarDialog extends Dialog{
 		
 		this.getWindow().setAttributes(lp);
 	}
-	private void initView(){
-//		currMonthTextView = (TextView)findViewById(R.id.current_month_textView);
-//		float lineExtra = currYearTextView.getLineSpacingExtra();
-//		currYearTextView.setLineSpacing(0 - lineExtra, currYearTextView.getLineSpacingMultiplier());
-	}
+	
 }

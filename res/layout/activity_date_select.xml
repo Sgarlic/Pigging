@@ -64,98 +64,16 @@
 	    android:src="@drawable/title_divider_480_800" />
 
     <LinearLayout
-        android:id="@+id/from_date_linearLayout"
         android:layout_width="match_parent"
         android:layout_height="400dp"
-        android:layout_marginTop="10dp"
         android:layout_weight="11"
         android:orientation="vertical" >
 
-		<LinearLayout
-		    android:layout_width="match_parent"
-		    android:layout_height="wrap_content"
-		    android:layout_marginBottom="10dp"
-		    android:orientation="horizontal" >
-
-	        <LinearLayout
-	            android:id="@+id/last_month_linearLayout"
-		        android:layout_width="wrap_content"
-		        android:layout_height="match_parent"
-		        android:orientation="horizontal"
-		        android:layout_weight="1" >
-
-		        <ImageView
-		            android:id="@+id/last_month_imageView"
-		            android:layout_width="wrap_content"
-		            android:layout_height="wrap_content"
-		            android:layout_gravity="left|center_vertical"
-		            android:layout_marginLeft="15dp"
-		            android:src="@drawable/daychange" />
-
-		        <TextView
-		            android:id="@+id/last_month_textView"
-		            android:layout_width="wrap_content"
-		            android:layout_height="wrap_content"
-		            android:layout_gravity="center_vertical"
-		            android:layout_marginLeft="10dp"
-		            android:text="上一个月"
-		            android:textColor="@color/dayIndicatorGray"
-		            android:textColorHint="@color/white"
-		            android:textSize="15dp"
-		            android:typeface="serif" />
-
-			</LinearLayout>
-			<LinearLayout
-		        android:layout_width="wrap_content"
-		        android:layout_height="match_parent"
-		        android:orientation="vertical"
-		        android:layout_weight="1" >
-		        <TextView
-		            android:id="@+id/current_month_textView"
-		            android:layout_width="wrap_content"
-		            android:layout_height="wrap_content"
-		            android:layout_gravity="center_horizontal"
-		            android:text="2014年6月"
-		            android:textColor="@color/dayIndicatorGray"
-		            android:textColorHint="@color/white"
-		            android:textSize="15dp"
-		            android:typeface="serif" />
-		    </LinearLayout>
-			<LinearLayout
-			    android:id="@+id/next_month_lienarLayout"
-			    android:layout_width="wrap_content"
-		        android:layout_height="match_parent"
-			    android:layout_weight="1"
-			    android:gravity="right"
-			    android:orientation="horizontal" >
-
-		        <TextView
-		            android:id="@+id/next_month_textView"
-		            android:layout_width="wrap_content"
-		            android:layout_height="wrap_content"
-		            android:layout_gravity="center_vertical"
-		            android:layout_marginRight="10dp"
-		            android:text="下一个月"
-		            android:textColor="@color/dayIndicatorGray"
-		            android:textColorHint="@color/white"
-		            android:textSize="15dp"
-		            android:typeface="serif" />
-
-		        <ImageView
-		            android:id="@+id/next_month_imageView"
-		            android:layout_width="wrap_content"
-		            android:layout_height="wrap_content"
-		            android:layout_gravity="right|center_vertical"
-		            android:layout_marginRight="15dp"
-		            android:src="@drawable/daychange2" />
-
-			</LinearLayout>
-		</LinearLayout>
-
-        <com.boding.view.DateSelectCalendarView
-            android:id="@+id/date_select_calendarView"
-            android:layout_width="match_parent"
-            android:layout_height="400dp" />
+        <com.boding.view.CalendarLayout
+            android:id="@+id/date_select_calendar_linearLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+        </com.boding.view.CalendarLayout>
 
     </LinearLayout>
 </LinearLayout>

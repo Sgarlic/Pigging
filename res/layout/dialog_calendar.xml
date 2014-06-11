@@ -1,51 +1,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/calendar_dialog_linearLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:minWidth="280dip"
     android:orientation="horizontal"
     tools:ignore="MergeRootFrame" >
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="11"
-        android:background="@color/white"
-        android:orientation="vertical" >
-
-		<LinearLayout
-		    android:layout_width="match_parent"
-		    android:layout_height="wrap_content"
-		    android:orientation="horizontal" >
-
-			<LinearLayout
-			    android:layout_width="wrap_content"
-			    android:layout_height="match_parent"
-			    android:layout_weight="1"
-			    android:orientation="vertical" >
-
-			    <LinearLayout
-			    android:layout_width="wrap_content"
-			    android:layout_height="match_parent"
-			    android:layout_gravity="center_horizontal"
-			    android:layout_weight="1"
-			    android:orientation="horizontal" >
-
-					    <com.boding.view.MonthSelectSpinner
-					        android:id="@+id/monthSelectSpinner1"
-					        android:layout_width="120dp"
-					        android:layout_height="55dp"
-					        android:layout_weight="1" />
-
-				</LinearLayout>
-		    </LinearLayout>
-		</LinearLayout>
-
-		<com.boding.view.PriceCalendarView
-		    android:id="@+id/priceCalendarView1"
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content" />
-
-    </LinearLayout>
+    <com.boding.view.CalendarLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+    </com.boding.view.CalendarLayout>
+    
 </LinearLayout>
-

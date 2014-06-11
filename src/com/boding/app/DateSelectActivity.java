@@ -7,6 +7,7 @@ import com.boding.constants.Constants;
 import com.boding.constants.GlobalVariables;
 import com.boding.constants.IntentRequestCode;
 import com.boding.util.Util;
+import com.boding.view.CalendarLayout;
 import com.boding.view.DateSelectCalendarView;
 import com.boding.view.DateSelectCalendarView.OnItemClickListener;
 
@@ -19,10 +20,9 @@ import android.widget.TextView;
 
 public class DateSelectActivity extends Activity {
 	private boolean isReturnDateSelection = false;
-	private LinearLayout lastMonthLinearLayout;
-	private LinearLayout nextMonthLinearLayout;
-	private TextView currentMonthTextView;
-	private DateSelectCalendarView dateSelectCalendarView;
+	private CalendarLayout calendarLinearLayout;
+//	private TextView currentMonthTextView;
+//	private DateSelectCalendarView dateSelectCalendarView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -45,17 +45,21 @@ public class DateSelectActivity extends Activity {
 			}
 			
 		});
-		dateSelectCalendarView = (DateSelectCalendarView)findViewById(R.id.date_select_calendarView);
+		calendarLinearLayout = (CalendarLayout)findViewById(R.id.date_select_calendar_linearLayout);
+		if(isReturnDateSelection){
+			calendarLinearLayout.setMinClickableDate(Util.getDateFromString(GlobalVariables.Fly_From_Date));
+		}
+//		dateSelectCalendarView = (DateSelectCalendarView)findViewById(R.id.date_select_calendarView);
 		
 		if(isReturnDateSelection){
-			dateSelectCalendarView.setDate(Util.getDateFromString(GlobalVariables.Fly_Return_Date));
-			dateSelectCalendarView.setMinClickableDate(Util.getDateFromString(GlobalVariables.Fly_From_Date));
+			calendarLinearLayout.setDate(Util.getDateFromString(GlobalVariables.Fly_Return_Date));
+			calendarLinearLayout.setMinClickableDate(Util.getDateFromString(GlobalVariables.Fly_From_Date));
 		}
 		else{
-			dateSelectCalendarView.setDate(Util.getDateFromString(GlobalVariables.Fly_From_Date));
+			calendarLinearLayout.setDate(Util.getDateFromString(GlobalVariables.Fly_From_Date));
 		}
 		
-		dateSelectCalendarView.setOnItemClickListener(new OnItemClickListener(){
+		calendarLinearLayout.setOnItemClickListener(new CalendarLayout.OnItemClickListener(){
 			@Override
 			public void OnItemClick(Date date) {
 				String selectedDate = Util.getFormatedDate(date);
@@ -69,26 +73,26 @@ public class DateSelectActivity extends Activity {
 			}
 		});
 		
-		currentMonthTextView = (TextView) findViewById(R.id.current_month_textView);
-		setMonth();
-		lastMonthLinearLayout = (LinearLayout) this.findViewById(R.id.last_month_linearLayout);
-		nextMonthLinearLayout = (LinearLayout) this.findViewById(R.id.next_month_lienarLayout);
-		lastMonthLinearLayout.setOnClickListener(new OnClickListener(){
-			@Override
-			public void onClick(View arg0) {
-				dateSelectCalendarView.gotoLastMonth();
-				setMonth();
-			}
-			
-		});	
-		nextMonthLinearLayout.setOnClickListener(new OnClickListener(){
-			@Override
-			public void onClick(View arg0) {
-				dateSelectCalendarView.gotoNextMonth();
-				setMonth();
-			}
-			
-		});	
+//		currentMonthTextView = (TextView) findViewById(R.id.current_month_textView);
+//		setMonth();
+//		lastMonthLinearLayout = (LinearLayout) this.findViewById(R.id.last_month_linearLayout);
+//		nextMonthLinearLayout = (LinearLayout) this.findViewById(R.id.next_month_lienarLayout);
+//		lastMonthLinearLayout.setOnClickListener(new OnClickListener(){
+//			@Override
+//			public void onClick(View arg0) {
+//				dateSelectCalendarView.gotoLastMonth();
+//				setMonth();
+//			}
+//			
+//		});	
+//		nextMonthLinearLayout.setOnClickListener(new OnClickListener(){
+//			@Override
+//			public void onClick(View arg0) {
+//				dateSelectCalendarView.gotoNextMonth();
+//				setMonth();
+//			}
+//			
+//		});	
 	}
 	
 	private void setTitle(){
@@ -101,6 +105,6 @@ public class DateSelectActivity extends Activity {
 
 	private void setMonth(){
 //		String currentMonth = Util.getYearMonthString(Util.getDateFromString(GlobalVariables.Fly_From_Date));
-		currentMonthTextView.setText(dateSelectCalendarView.getYearAndmonth());
+//		currentMonthTextView.setText(dateSelectCalendarView.getYearAndmonth());
 	}
 }
