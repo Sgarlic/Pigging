@@ -1,13 +1,9 @@
 package com.boding.constants;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
-
 import android.content.ContentValues;
-
 import com.boding.model.City;
-import com.boding.util.Util;
 
 public class GlobalVariables {
 	public static City Fly_From_City = null;
@@ -20,6 +16,12 @@ public class GlobalVariables {
 	public static int App_Height = 0;
 	
 	public static List<ContentValues> allCitiesList = new ArrayList<ContentValues>();
+	public static List<City> domesticCitiesList = new ArrayList<City>();
+	public static List<City> interCitiesList = new ArrayList<City>();
+	public static List<City> domHotCitiesList = new ArrayList<City>();
+	public static List<City> interHotCitiesList = new ArrayList<City>();
+	public static List<City> domHistoryCitiesList = new ArrayList<City>();
+	public static List<City> interHistoryCitiesList = new ArrayList<City>();
 //	public static boolean isFlyToCitySelection = false;
 //	public static boolean isInternationCitySelection = false;
 }
