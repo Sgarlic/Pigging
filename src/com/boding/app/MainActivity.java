@@ -9,6 +9,7 @@ import com.boding.adapter.VPagerAdapter;
 import com.boding.constants.Constants;
 import com.boding.constants.GlobalVariables;
 import com.boding.constants.IntentRequestCode;
+import com.boding.task.InitCityTask;
 import com.boding.util.Util;
 import com.boding.view.VerticalViewPager;
 import com.boding.R;
@@ -84,7 +85,18 @@ public class MainActivity extends FragmentActivity {
 		
 		initHorizontalViewPager();
 		initVerticalViewPager();
+		
+		initCityList();
+		System.out.println("*********************");
 		initLeftPageView();
+		
+		System.out.print(GlobalVariables.domesticCitiesList);
+	}
+	
+	private void initCityList(){
+		String testUrl = "http://api.iboding.com/API/Base/QueryAirportCity.ashx?userid=boding&sign=14AD779B4209D8DDC95BD2336D36C015";
+		
+		new InitCityTask().execute(testUrl);
 	}
 	
 	private void initLeftPageView(){

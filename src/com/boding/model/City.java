@@ -6,6 +6,8 @@ public class City {
 	private boolean isInternationalCity;
 	private String belongsToCountry;
 	
+	public City(){}
+	
 	public City(String cityName,String cityCode,boolean isInternationcalCity, String belongsToCountry){
 		this.cityName = cityName;
 		this.cityCode = cityCode;
