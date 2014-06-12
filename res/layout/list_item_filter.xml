@@ -1,28 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-  xmlns:android="http://schemas.android.com/apk/res/android"
-  android:layout_width="match_parent"
-  android:layout_height="match_parent">
-
-	<TextView
-	    android:id="@+id/alpha"
-	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content"
-	    android:layout_marginTop="6.0dip"
-	    android:textAppearance="?android:textAppearanceMedium"
-	    android:textColor="@color/panelOrange"
-	    android:visibility="gone" />
-		
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="15dp" >
+	
     <TextView
-        android:id="@+id/name"
+        android:id="@+id/filter_item_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/alpha"
-        android:layout_marginLeft="2.0dip"
-        android:layout_marginRight="5.0dip"
-        android:layout_marginTop="6.0dip"
-        android:singleLine="true"
-        android:textAppearance="?android:textAppearanceMedium"
-        android:textColor="@color/priceGray" />
+        android:text="不限"
+        android:textColor="@color/priceGray"
+        android:textSize="18dp"
+        android:typeface="serif"/>
 
-</RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+	    <LinearLayout
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="right"
+	        android:orientation="vertical" >
+
+	    <RadioButton
+	        android:id="@+id/filter_item_radioButton"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:button="@null"
+	        android:drawableRight="@layout/selector_filter_radiobutton_bg" />
+	    </LinearLayout>
+	</LinearLayout>
+</LinearLayout>
