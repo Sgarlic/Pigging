@@ -16,7 +16,7 @@ import com.boding.model.AirlineView;
 import com.boding.model.FlightLine;
 import com.boding.task.XMLTask;
 import com.boding.util.Util;
-import com.boding.view.FilterDialogFragment;
+import com.boding.view.FilterDialog;
 import com.boding.view.CalendarDialog;
 import com.boding.view.SearchCityDialog;
 
@@ -209,9 +209,12 @@ public class TicketSearchResultIActivity extends FragmentActivity {
 			@Override
 			public void onClick(View v) {
 				
-				FilterDialogFragment fd = new FilterDialogFragment();
+//				FilterDialog fd = new FilterDialog();
+//				
+//				fd.show(getSupportFragmentManager(), "filterDialog");
 				
-				fd.show(getSupportFragmentManager(), "filterDialog");
+				FilterDialog filterDialog = new FilterDialog(TicketSearchResultIActivity.this,R.style.Warning_Dialog_Theme);
+				filterDialog.show();
 			}
         });
 	}

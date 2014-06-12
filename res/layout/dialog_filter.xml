@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical" >
+
+	<LinearLayout
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="horizontal"
+	    android:padding="15dp" >
+
+	    <LinearLayout
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_weight="1"
+	        android:gravity="center_vertical"
+	        android:orientation="vertical" >
+		    <TextView
+            	android:id="@+id/cancel_filter_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:text="取消"
+                android:textColor="@color/searchResultTinyText"
+                android:textSize="18dp"
+            	android:typeface="serif" />
+		</LinearLayout>
+
+	    <LinearLayout
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center_vertical"
+	        android:layout_weight="1"
+	        android:orientation="vertical" >
+
+		    <TextView
+            	android:id="@+id/clear_filter_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="清空筛选"
+                android:textColor="@color/panelOrange"
+                android:textSize="15dp"
+            	android:typeface="serif" />
+		</LinearLayout>
+	    <LinearLayout
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_weight="1"
+	        android:gravity="center_vertical"
+	        android:orientation="vertical" >
+		    <TextView
+            	android:id="@+id/confirm_filter_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:text="确定"
+                android:textColor="@color/panelOrange"
+                android:textSize="18dp"
+            	android:typeface="serif" />
+		</LinearLayout>
+	</LinearLayout>
+	<LinearLayout
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation = "horizontal">
+		<TabHost
+	        android:id="@+id/filter_dialog_tabhost"
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent"
+	        android:layoutDirection="ltr">
+	
+	        <LinearLayout
+	            android:layout_width="match_parent"
+	            android:layout_height="match_parent"
+	            android:orientation="horizontal" >
+	         	<LinearLayout
+	         	    android:layout_width="wrap_content"
+	         	    android:layout_height="match_parent"
+	         	    android:orientation="horizontal" >
+
+		            <TabWidget
+		                android:id="@android:id/tabs"
+		                android:layout_width="match_parent"
+		                android:layout_height="wrap_content"
+		                android:visibility="gone" >
+		            </TabWidget>
+	                  
+		            <LinearLayout android:layout_width="match_parent"  
+		                  android:layout_height="fill_parent"
+		                  android:orientation="vertical">
+
+		                  <LinearLayout
+		                      android:layout_width="match_parent"
+		                      android:layout_height="1dp"
+		                      android:background="@color/filterBgColor"
+		                      android:orientation="vertical" >
+			              </LinearLayout>
+
+		                  <LinearLayout
+		                      android:layout_width="match_parent"
+		                      android:layout_height="wrap_content"
+		                      android:layout_marginBottom="5dp"
+		                      android:layout_marginTop="5dp"
+		                      android:layout_weight="1.0"
+		                      android:orientation="horizontal" >
+								<LinearLayout
+					         	    android:layout_width="5dp"
+					         	    android:layout_height="match_parent"
+					         	    android:orientation="horizontal"
+					         	    android:background="@color/white" >
+					         	</LinearLayout>
+			                  <ImageView
+					            android:id="@+id/filter_flightTimeSegment_imageView"
+					            android:layout_width="match_parent"
+					            android:layout_height="wrap_content"
+					            android:layout_gravity="center_horizontal"
+					            android:src="@layout/selector_filter_tab_flighttimesegment_bg" />
+			              </LinearLayout>
+
+			              <LinearLayout
+			                  android:layout_width="match_parent"
+			                  android:layout_height="1dp"
+			                  android:background="@color/filterBgColor"
+			                  android:orientation="vertical" >
+
+			              </LinearLayout>
+
+		                  <LinearLayout
+		                      android:layout_width="match_parent"
+		                      android:layout_height="wrap_content"
+		                      android:layout_marginBottom="5dp"
+		                      android:layout_marginTop="5dp"
+		                      android:layout_weight="1.0"
+		                      android:orientation="horizontal" >
+								<LinearLayout
+					         	    android:layout_width="5dp"
+					         	    android:layout_height="match_parent"
+					         	    android:orientation="horizontal"
+					         	    android:background="@color/white" >
+					         	</LinearLayout>
+
+			                  <ImageView
+			                      android:id="@+id/filter_flightclass_imageView"
+			                      android:layout_width="match_parent"
+			                      android:layout_height="wrap_content"
+			                      android:layout_gravity="center_horizontal"
+			                      android:src="@layout/selector_filter_tab_flightclass_bg" />
+
+			              </LinearLayout>
+
+			              <LinearLayout
+			                  android:layout_width="match_parent"
+			                  android:layout_height="1dp"
+			                  android:background="@color/filterBgColor"
+			                  android:orientation="vertical" >
+
+			              </LinearLayout>
+
+		                  <LinearLayout
+		                      android:layout_width="match_parent"
+		                      android:layout_height="wrap_content"
+		                      android:layout_marginBottom="5dp"
+		                      android:layout_marginTop="5dp"
+		                      android:layout_weight="1.0"
+		                      android:orientation="horizontal" >
+								<LinearLayout
+					         	    android:layout_width="5dp"
+					         	    android:layout_height="match_parent"
+					         	    android:orientation="horizontal"
+					         	    android:background="@color/white" >
+					         	</LinearLayout>
+
+			                  <ImageView
+			                      android:id="@+id/filter_flightcompany_imageView"
+			                      android:layout_width="match_parent"
+			                      android:layout_height="wrap_content"
+			                      android:layout_gravity="center_horizontal"
+			                      android:src="@layout/selector_filter_tab_flightcompany_bg" />
+
+			              </LinearLayout>
+	               	</LinearLayout> 
+	            </LinearLayout> 
+
+	            <FrameLayout
+	                android:id="@android:id/tabcontent"
+	                android:layout_width="wrap_content"
+	                android:layout_height="match_parent"
+	                android:layout_weight="9"
+	                android:background="@color/filterBgColor" >
+
+					<LinearLayout
+					    android:id="@+id/filter_flighttimesegment_tab"
+					    android:layout_width="match_parent"
+					    android:layout_height="match_parent"
+					    android:orientation="vertical" >
+
+						<ListView
+						    android:id="@+id/filter_flighttimesegment_ListView"
+						    android:layout_width="match_parent"
+						    android:layout_height="wrap_content"
+						    android:divider="@color/filterBgColor"
+						    android:scrollbars="none">
+						</ListView>
+	                    
+	                </LinearLayout>
+	                
+	                <LinearLayout
+	                    android:id="@+id/filter_flightclass_tab"
+	                    android:layout_width="match_parent"
+	                    android:layout_height="match_parent"
+	                    android:orientation="vertical" >
+
+	                    <ListView
+						    android:id="@+id/filter_flightclasst_ListView"
+						    android:layout_width="match_parent"
+						    android:layout_height="wrap_content"
+						    android:divider="@color/filterBgColor"
+						    android:scrollbars="none">
+						</ListView>
+	                </LinearLayout>
+	
+	                <LinearLayout
+	                    android:id="@+id/filter_flightcompnay_tab"
+	                    android:layout_width="match_parent"
+	                    android:layout_height="match_parent"
+	                    android:orientation="vertical" >
+	                    <ListView
+						    android:id="@+id/filter_flightcompany_ListView"
+						    android:layout_width="match_parent"
+						    android:layout_height="wrap_content"
+						    android:divider="@color/filterBgColor"
+						    android:scrollbars="none">
+						</ListView>
+	                </LinearLayout>
+	            </FrameLayout>
+	        </LinearLayout>
+	    </TabHost>
+	</LinearLayout>
+    
+</LinearLayout>

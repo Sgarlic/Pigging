@@ -24,4 +24,5 @@
     <color name="calendarPreMonthBgColor">#EBECF2</color>
     <color name="calendarNextMonthTextColor">#A1ADB8</color>
     <color name="calendarBorderColor">#F6F7F9</color>
+    <color name="filterBgColor">#EDEDED</color>
 </resources>

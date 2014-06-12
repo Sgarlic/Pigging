@@ -59,16 +59,32 @@
 		                android:layout_marginRight="5dp"
 		                android:textSize="15dp"
 		                android:typeface="serif" />
-		            
 		            <TextView
-		                android:id="@+id/ticket_search_i_durationDay_textView"
 		                android:layout_width="wrap_content"
 		                android:layout_height="wrap_content"
 		                android:layout_gravity="bottom|left"
-		                android:text="+1天"
+		                android:text="准点率"
 		                android:textColor="@color/priceGray"
 		                android:textSize="13dp"
 		                android:textStyle="bold"
+		                android:typeface="serif" />
+		            <TextView
+		                android:id="@+id/ticket_search_i_ontimeRate_textView"
+		                android:layout_width="wrap_content"
+		                android:layout_height="wrap_content"
+		                android:layout_gravity="bottom|left"
+		                android:text="100"
+		                android:textColor="@color/priceGray"
+		                android:textSize="13dp"
+		                android:textStyle="bold"
+		                android:typeface="serif" />
+		            <TextView
+		                android:layout_width="wrap_content"
+		                android:layout_height="wrap_content"
+		                android:layout_gravity="bottom|left"
+		                android:text="%"
+		                android:textColor="@color/priceGray"
+		                android:textSize="13dp"
 		                android:typeface="serif" />
 		
 		        </LinearLayout>
@@ -118,16 +134,38 @@
 		            android:orientation="horizontal">
 		
 		            <TextView
-		                android:id="@+id/ticket_search_i_flightflyingtime_textView"
+		                android:id="@+id/ticket_search_i_fromAirport_textView"
 		                android:layout_width="wrap_content"
 		                android:layout_height="wrap_content"
 		                android:layout_gravity="bottom|left"
-		                android:text="约15小时10分钟"
-		                android:textColor="@color/searchResultTinyText"
+		                android:text="首都机场"
+		                android:textColor="@color/priceGray"
 		                android:textSize="13dp"
 		                android:textStyle="bold"
 		                android:typeface="serif" />
 
+		            <TextView
+		                android:layout_width="wrap_content"
+		                android:layout_height="wrap_content"
+		                android:layout_gravity="bottom|left"
+		                android:layout_marginLeft="3dp"
+		                android:layout_marginRight="3dp"
+		                android:text="-"
+		                android:textColor="@color/priceGray"
+		                android:textSize="13dp"
+		                android:textStyle="bold"
+		                android:typeface="serif" />
+
+					<TextView
+		                android:id="@+id/ticket_search_i_toAirport_textView"
+		                android:layout_width="wrap_content"
+		                android:layout_height="wrap_content"
+		                android:layout_gravity="bottom|left"
+		                android:text="虹桥机场"
+		                android:textColor="@color/priceGray"
+		                android:textSize="13dp"
+		                android:textStyle="bold"
+		                android:typeface="serif" />
 		        </LinearLayout>
 		        <LinearLayout
 		            android:layout_width="wrap_content"
@@ -184,7 +222,7 @@
 		                android:layout_height="wrap_content"
 		                android:layout_gravity="bottom|left"
 		                android:text="大韩航空"
-		                android:textColor="@color/searchResultTinyText"
+		                android:textColor="@color/priceGray"
 		                android:textSize="13dp"
 		                android:textStyle="bold"
 		                android:typeface="serif" />
@@ -194,8 +232,21 @@
 		                android:layout_width="wrap_content"
 		                android:layout_height="wrap_content"
 		                android:layout_gravity="bottom|left"
+		                android:layout_marginLeft="5dp"
 		                android:text="KE714"
-		                android:textColor="@color/searchResultTinyText"
+		                android:textColor="@color/priceGray"
+		                android:textSize="13dp"
+		                android:textStyle="bold"
+		                android:typeface="serif" />
+		            
+		            <TextView
+		                android:id="@+id/ticket_search_i_planeType_textView"
+		                android:layout_width="wrap_content"
+		                android:layout_height="wrap_content"
+		                android:layout_gravity="bottom|left"
+		                android:layout_marginLeft="5dp"
+		                android:text="320(中)"
+		                android:textColor="@color/priceGray"
 		                android:textSize="13dp"
 		                android:textStyle="bold"
 		                android:typeface="serif" />
@@ -217,8 +268,8 @@
 		                    android:layout_width="wrap_content"
 		                    android:layout_height="wrap_content"
 		                    android:layout_gravity="bottom|right"
-		                    android:text="经济舱"
-		                    android:textColor="@color/searchResultTinyText"
+		                    android:text="经济舱3.0折"
+		                    android:textColor="@color/priceGray"
 		                    android:textSize="13dp"
 		                    android:textStyle="bold"
 		                    android:typeface="serif" />
@@ -233,13 +284,6 @@
 		        android:layout_marginBottom="3dp"
 		        android:layout_weight="1"
 		        android:orientation="horizontal" >
-		
-		        <ImageView
-		            android:id="@+id/ticket_search_i_need_transit_imageView"
-		            android:layout_width="match_parent"
-		            android:layout_height="wrap_content"
-		            android:layout_gravity="center_horizontal"
-		            android:src="@drawable/line1_2x" />
 		    </LinearLayout>
 	
 		    <LinearLayout
@@ -255,17 +299,6 @@
 		            android:layout_weight="1"
 		            android:orientation="horizontal">
 
-		            <TextView
-		                android:id="@+id/ticket_search_i_flightstartairport_textView"
-		                android:layout_width="wrap_content"
-		                android:layout_height="wrap_content"
-		                android:layout_gravity="bottom|left"
-		                android:text="成田机场"
-		                android:textColor="@color/searchResultTinyText"
-		                android:textSize="13dp"
-		                android:textStyle="bold"
-		                android:typeface="serif" />
-
 		        </LinearLayout>
 		        <LinearLayout
 		            android:layout_width="wrap_content"
@@ -278,17 +311,6 @@
 		                android:layout_gravity="bottom|right"
 		                android:orientation="horizontal">
 
-		                <TextView
-		                    android:id="@+id/ticket_search_i_flightstopairport_textView"
-		                    android:layout_width="wrap_content"
-		                    android:layout_height="wrap_content"
-		                    android:layout_gravity="bottom|right"
-		                    android:text="浦东机场"
-		                    android:textColor="@color/searchResultTinyText"
-		                    android:textSize="13dp"
-		                    android:textStyle="bold"
-		                    android:typeface="serif" />
-
 		            </LinearLayout>
 		        </LinearLayout>
 		    </LinearLayout>
@@ -300,12 +322,6 @@
 		        android:layout_marginBottom="3dp"
 		        android:layout_weight="1"
 		        android:orientation="vertical" >
-		
-		        <ExpandableListView
-		            android:id="@+id/ticket_search_i_moreflightclassinfo_expandListView"
-		            android:layout_width="fill_parent"
-		            android:layout_height="wrap_content"
-		            android:background="#ffffff" />
 		    </LinearLayout>
 	
 		    

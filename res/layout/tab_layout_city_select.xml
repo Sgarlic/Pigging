@@ -12,7 +12,7 @@
 	    android:layout_centerInParent="true"
 	    android:gravity="center"
 	    android:text="国内机场"
-	    android:textColor="@layout/city_tab_text_selector"
+	    android:textColor="@layout/selector_city_tab_text"
 	    android:textSize="20dp"
 	    android:textStyle="normal"
 	    android:typeface="serif" />
