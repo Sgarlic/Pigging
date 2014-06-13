@@ -73,11 +73,7 @@ public class CitySelectFragment extends Fragment {
         }
 //        mNum = getArguments() != null ? getArguments().getInt("num") : 1;
     }
-
-    /**
-     * The Fragment's UI is just a simple text view showing its
-     * instance number.
-     */
+    
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
