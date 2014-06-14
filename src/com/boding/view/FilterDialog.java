@@ -78,6 +78,7 @@ public class FilterDialog extends Dialog{
 	 
 	 public void initView() {
 		 timeSegmentList = new ArrayList<String>();
+		 timeSegmentList.add("²»ÏÞ");
 		 timeSegmentList.add("00:00--6:00");
 		 timeSegmentList.add("6:00--12:00");
 		 timeSegmentList.add("12:00-18:00");
@@ -88,6 +89,12 @@ public class FilterDialog extends Dialog{
 		 classList.add("ÉÌÎñ²Õ");
 		 classList.add("Í·µÈ²Õ");
 		 companyList = new ArrayList<String>();
+		 companyList.add("²»ÏÞ");
+		 companyList.add("ÉÏº£º½¿Õ");
+		 companyList.add("´ºÇïº½¿Õ");
+		 companyList.add("¼ªÏéº½¿Õ");
+		 companyList.add("¶«·½º½¿Õ");
+		 companyList.add("É½¶«º½¿Õ");
 		 companyList.add("ÉÏº£º½¿Õ");
 		 companyList.add("´ºÇïº½¿Õ");
 		 companyList.add("¼ªÏéº½¿Õ");
@@ -172,19 +179,31 @@ public class FilterDialog extends Dialog{
 		
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
-			ViewHolder holder;
+			final ViewHolder holder;
 			if (convertView == null) {  
 	            convertView = LayoutInflater.from(context).inflate(R.layout.list_item_filter, null);
 	            holder = new ViewHolder();  
 	            
+	            holder.filterItemLinearLayout = (LinearLayout) convertView.findViewById(R.id.filter_item_linearLayout);
 	            holder.filterItemCompanyImageView = (ImageView) convertView.findViewById(R.id.filter_companyicon_imageView);
 	            holder.filterItemTextView = (TextView) convertView.findViewById(R.id.filter_item_textView);
 	            holder.filterItemCheckBox = (CheckBox) convertView.findViewById(R.id.filter_item_checkBox);
 	            
 	            holder.filterItemTextView.setText(getItem(position));
 	            
+	            holder.filterItemLinearLayout.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						if(holder.filterItemCheckBox.isChecked()){
+							holder.filterItemCheckBox.setChecked(false);
+						}else{
+							holder.filterItemCheckBox.setChecked(true);
+						}
+					}
+				});
+	            
 	            if(showCompanyLogo){
-	            	// showcompany
+	            	// show corresponding company logo
 	            }else{
 	            	holder.filterItemCompanyImageView.setVisibility(View.INVISIBLE);
 	            }
@@ -198,6 +217,7 @@ public class FilterDialog extends Dialog{
 		}
 		
 		private class ViewHolder {
+			LinearLayout filterItemLinearLayout;
 			ImageView filterItemCompanyImageView;
 			TextView filterItemTextView;
 			CheckBox filterItemCheckBox;

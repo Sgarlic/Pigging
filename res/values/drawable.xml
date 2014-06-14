@@ -25,4 +25,6 @@
     <color name="calendarNextMonthTextColor">#A1ADB8</color>
     <color name="calendarBorderColor">#F6F7F9</color>
     <color name="filterBgColor">#EDEDED</color>
+    <color name="shaowColor">#999999</color>
+    <color name="voicesearchTitleColor">#ececec</color>
 </resources>
