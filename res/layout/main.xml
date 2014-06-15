@@ -5,7 +5,7 @@
     android:layout_height="fill_parent"
     android:id="@+id/main_page_linearlayout"
 	>
-	<com.boding.view.VerticalViewPager
+	<com.boding.view.dialog.VerticalViewPager
     	android:layout_width="match_parent" 
    		android:layout_height="match_parent" 
     	android:id="@+id/vpager"/>

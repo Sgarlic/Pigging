@@ -1,4 +1,4 @@
-package com.boding.view;
+package com.boding.view.calendar;
 
 import java.util.Calendar;
 import java.util.Currency;

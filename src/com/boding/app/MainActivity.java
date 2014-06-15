@@ -11,7 +11,7 @@ import com.boding.constants.GlobalVariables;
 import com.boding.constants.IntentRequestCode;
 import com.boding.task.InitCityTask;
 import com.boding.util.Util;
-import com.boding.view.VerticalViewPager;
+import com.boding.view.dialog.VerticalViewPager;
 import com.boding.R;
 import com.boding.model.City;
 

@@ -7,10 +7,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:text="Middle" />
-	<com.boding.view.VerticalViewPager
+	<com.boding.view.dialog.VerticalViewPager
    	    android:id="@+id/vpager1"
    	    android:layout_width="match_parent"
    	    android:layout_height="match_parent"
    	    >
-   	</com.boding.view.VerticalViewPager>
+   	</com.boding.view.dialog.VerticalViewPager>
 </LinearLayout>

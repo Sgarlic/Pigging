@@ -37,7 +37,7 @@ import com.boding.R;
 import com.boding.constants.Constants;
 import com.boding.constants.IntentRequestCode;
 import com.boding.util.Util;
-import com.boding.view.SearchCityDialog;
+import com.boding.view.dialog.SearchCityDialog;
 
 /**
  * Demonstrates combining a TabHost with a ViewPager to implement a tab UI

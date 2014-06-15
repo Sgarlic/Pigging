@@ -67,7 +67,7 @@ public class MoreClassInfoAdapter extends BaseExpandableListAdapter{
 	@Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) { 
             // 实例化布局文件
-		View childView = (View) LayoutInflater.from(mContext).inflate(R.layout.elist_class_info, null); 
+		View childView = (View) LayoutInflater.from(mContext).inflate(R.layout.elist_item_class_info, null); 
         TextView leftTicketTextView = (TextView)childView.findViewById(R.id.child_class_left_ticket_textView); 
         leftTicketTextView.setText(getChild(groupPosition, childPosition)[0].toString());
         TextView returnMoneyTextView = (TextView)childView.findViewById(R.id.child_class_return_money_textView); 

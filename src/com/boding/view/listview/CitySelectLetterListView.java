@@ -1,4 +1,4 @@
-package com.boding.view;
+package com.boding.view.listview;
 
 import com.boding.R;
 

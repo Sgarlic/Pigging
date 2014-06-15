@@ -8,8 +8,8 @@ import com.boding.model.City;
 public class GlobalVariables {
 	public static City Fly_From_City = null;
 	public static City Fly_To_City = null;
-	public static String Fly_From_Date = "2014-06-13";
-	public static String Fly_Return_Date = "2014-08-23";
+	public static String Fly_From_Date = "2014-06-18";
+	public static String Fly_Return_Date = "2014-06-30";
 	
 	public static int Screen_Width = 0;
 	public static int Screen_Height = 0;

@@ -1,4 +1,4 @@
-package com.boding.view;
+package com.boding.view.layout;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -7,7 +7,8 @@ import java.util.List;
 
 import com.boding.R;
 import com.boding.util.Util;
-import com.boding.view.DateSelectCalendarView.OnItemClickListener;
+import com.boding.view.calendar.DateSelectCalendarView;
+import com.boding.view.calendar.DateSelectCalendarView.OnItemClickListener;
 
 import android.content.Context;
 import android.graphics.drawable.BitmapDrawable;

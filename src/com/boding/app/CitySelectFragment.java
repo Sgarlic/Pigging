@@ -25,8 +25,8 @@ import com.boding.constants.CityProperty;
 import com.boding.constants.Constants;
 import com.boding.constants.GlobalVariables;
 import com.boding.util.Util;
-import com.boding.view.CitySelectLetterListView;
-import com.boding.view.CitySelectLetterListView.OnTouchingLetterChangedListener;
+import com.boding.view.listview.CitySelectLetterListView;
+import com.boding.view.listview.CitySelectLetterListView.OnTouchingLetterChangedListener;
 
 public class CitySelectFragment extends Fragment {
 	private boolean isInternational = false;

@@ -305,7 +305,9 @@
 		            android:id="@+id/ticket_search_i_moreflightclassinfo_expandListView"
 		            android:layout_width="fill_parent"
 		            android:layout_height="wrap_content"
-		            android:background="#ffffff" />
+		            android:background="#ffffff"
+		            android:divider="@color/classInfoPanelBgColor" />
+
 		    </LinearLayout>
 	
 		    
@@ -313,6 +315,7 @@
 	
 	
 		<LinearLayout
+		    android:id="@+id/ticket_search_i_toOrder_linearLayout"
 		    android:layout_width="wrap_content"
 		    android:layout_height="match_parent"
 		    android:layout_weight="1"
