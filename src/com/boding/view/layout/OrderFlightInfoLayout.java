@@ -4,6 +4,7 @@ import com.boding.R;
 import com.boding.constants.GlobalVariables;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
@@ -56,8 +57,12 @@ public class OrderFlightInfoLayout extends LinearLayout{
 	
 	private void initView(){
 		this.setOrientation(VERTICAL); //水平布局  
+		WindowManager wm = (WindowManager) getContext()
+                .getSystemService(Context.WINDOW_SERVICE);
+		this.setMinimumWidth(wm.getDefaultDisplay().getWidth());
 		View view = LayoutInflater.from(context).inflate(R.layout.layout_order_flightinfo, null);
-		Log.d("poding",this.getWidth()+"childwidthooo");
+		LinearLayout orderFlightInfoLinearLayout = (LinearLayout) view.findViewById(R.id.order_flightinfo_linearLayout);
+		orderFlightInfoLinearLayout.setMinimumWidth(wm.getDefaultDisplay().getWidth());
 		flyFromTextView = (TextView)view.findViewById(R.id.flightinfo_from_textView);
 		flyToTextView = (TextView)view.findViewById(R.id.flightinfo_to_textView);
 		dateTextView = (TextView)view.findViewById(R.id.flightinfo_date_textView);
@@ -73,8 +78,7 @@ public class OrderFlightInfoLayout extends LinearLayout{
 		toTerminalTextView = (TextView)view.findViewById(R.id.flightinfo_toTerminal_textView);
 		seatBackChangeLinearLayout = (LinearLayout)view.findViewById(R.id.flightinfo_seatBackChangeInfo_linearLayout);
 		changeSeatTextView = (TextView)view.findViewById(R.id.flightinfo_changeClass_textView);
-		LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.MATCH_PARENT);
-		this.addView(view,param);
+		this.addView(view);
 	}
 }
  
