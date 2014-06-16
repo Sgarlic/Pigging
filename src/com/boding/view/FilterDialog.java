@@ -10,10 +10,12 @@ import com.boding.model.AirlineView;
 import com.boding.model.FlightLine;
 import com.boding.util.Util;
 
+import android.animation.TimeAnimator;
 import android.annotation.SuppressLint;
 import android.app.ActionBar.LayoutParams;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -44,14 +46,6 @@ public class FilterDialog extends Dialog{
 	private FilterItemListAdapter timeSegmentAdapter;
 	private FilterItemListAdapter classAdapter;
 	private FilterItemListAdapter companyAdapter;
-	
-	public FilterDialog(Context context, int theme) {
-		super(context, theme);
-		this.context = context;
-		setContentView(R.layout.dialog_filter);
-		setWidthHeight();
-		initView();
-	}
 
 	private ImageView timeSegmentImageView;
 	private ImageView classImageView;
@@ -61,6 +55,18 @@ public class FilterDialog extends Dialog{
 	private ListView timeSegmentListView;
 	private ListView classListView;
 	private ListView companyListView;
+	
+	private TextView cancelBt;
+	private TextView clearBt;
+	private TextView okBt;
+	
+	public FilterDialog(Context context, int theme) {
+		super(context, theme);
+		this.context = context;
+		setContentView(R.layout.dialog_filter);
+		setWidthHeight();
+		initView();
+	}
 	
 	 private void setWidthHeight(){
 			//set dialog width
@@ -132,6 +138,34 @@ public class FilterDialog extends Dialog{
 		 timeSegmentListView.setAdapter(timeSegmentAdapter);
 		 classListView.setAdapter(classAdapter);
 		 companyListView.setAdapter(companyAdapter);
+		 
+		 cancelBt = (TextView)findViewById(R.id.cancel_filter_textView);
+		 clearBt = (TextView)findViewById(R.id.clear_filter_textView);
+		 okBt = (TextView)findViewById(R.id.confirm_filter_textView);
+		 
+		 cancelBt.setOnClickListener(new View.OnClickListener(){
+			@Override
+			public void onClick(View arg0) {
+				
+			}
+		 });
+		 
+		 clearBt.setOnClickListener(new View.OnClickListener(){
+			@Override
+			public void onClick(View arg0) {
+				System.out.println("---------------");
+					timeSegmentListView.invalidate();
+					classListView.invalidate();
+					companyAdapter.notifyDataSetChanged();
+			}
+		 });
+		 
+		 okBt.setOnClickListener(new View.OnClickListener(){
+			@Override
+			public void onClick(View arg0) {
+					
+			}
+		 });
 	 }
 	 
 	 View.OnClickListener tabOnClickListener = new View.OnClickListener() {
@@ -196,8 +230,10 @@ public class FilterDialog extends Dialog{
 					public void onClick(View v) {
 						if(holder.filterItemCheckBox.isChecked()){
 							holder.filterItemCheckBox.setChecked(false);
+							holder.filterItemCheckBox.setText("");
 						}else{
 							holder.filterItemCheckBox.setChecked(true);
+							holder.filterItemCheckBox.setText("selected");
 						}
 					}
 				});
