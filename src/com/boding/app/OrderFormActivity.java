@@ -18,6 +18,7 @@ import com.boding.view.layout.OrderFlightInfoLayout;
 
 import android.app.Activity;
 import android.content.Context;
+import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -47,6 +48,7 @@ public class OrderFormActivity extends Activity {
 	private TextView fuelOilPriceTextView;
 	private LinearLayout ticketTaxLinearLayout; 
 	private TextView ticketTaxPriceTextView;
+	private TextView boardingPeopleAmountTextView;
 	private ListView boardingPeopleListView;
 	private LinearLayout addBoardingPeopleLinearLayout;
 	private TextView phoneNumberTextView;
@@ -113,6 +115,7 @@ public class OrderFormActivity extends Activity {
 		fuelOilPriceTextView = (TextView) findViewById(R.id.orderform_fuelOil_price_textView);
 		ticketTaxLinearLayout = (LinearLayout) findViewById(R.id.orderform_ticketTax_linearLayout); 
 		ticketTaxPriceTextView = (TextView) findViewById(R.id.orderform_ticketTax_price_textView);
+		boardingPeopleAmountTextView = (TextView) findViewById(R.id.orderform_boardingPeopleAmount_textView);
 		boardingPeopleListView = (ListView) findViewById(R.id.orderform_boardingPeople_listView);
 		addBoardingPeopleLinearLayout = (LinearLayout) findViewById(R.id.orderform_addBoardingPeople_linearLayout);
 		phoneNumberTextView = (TextView) findViewById(R.id.orderform_phoneNumber_textView);
@@ -145,9 +148,7 @@ public class OrderFormActivity extends Activity {
 			public void onClick(View v) {
 				BoardingPeople people = new BoardingPeople(true, "Àî´ó×ì"+(count++), "356258745985653241"+(count++)); 
 				peopleList.add(people);
-				peopleAdapter = new BoardingPeopleAdapter(OrderFormActivity.this, peopleList);
-				boardingPeopleListView.setAdapter(peopleAdapter);
-				Util.setListViewHeightBasedOnChildren(boardingPeopleListView);
+				setBoardingPeople();
 			}
 		});
 	}
@@ -175,18 +176,34 @@ public class OrderFormActivity extends Activity {
 		}
 		
 		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
+		public void registerDataSetObserver(DataSetObserver observer){
+			Log.d("poding","changed");
+		}
+		
+		@Override
+		public View getView(final int position, View convertView, ViewGroup parent) {
 			ViewHolder holder;
 			if (convertView == null) {  
-	            convertView = LayoutInflater.from(context).inflate(R.layout.list_item_boardingcustomer, null);
+	            convertView = LayoutInflater.from(context).inflate(R.layout.list_item_boardingpeople, null);
 	            holder = new ViewHolder();  
 	            
 	            holder.nameTextView = (TextView) convertView.findViewById(R.id.boardingpeople_name_textView);
 	            holder.idNumberTextView = (TextView) convertView.findViewById(R.id.boardingpeople_idnumber_textView);
+	            holder.deleteLinearLayout = (LinearLayout) convertView.findViewById(R.id.boardingpeople_delete_linearLayout);
 	            
 	            BoardingPeople people = getItem(position);
 	            holder.nameTextView.setText(people.getName());
 	            holder.idNumberTextView.setText(people.getCardNumber());
+	            holder.deleteLinearLayout.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+//						Integer index = (Integer) v.getTag();
+						peopleList.remove(position); 
+						notifyDataSetChanged();
+						
+//						deleteBoardingPeople(position);
+					}
+				});
 	            
 	            convertView.setTag(holder);  
 	        } else {  
@@ -199,6 +216,19 @@ public class OrderFormActivity extends Activity {
 		private class ViewHolder {
 			TextView nameTextView;
 			TextView idNumberTextView;
+			LinearLayout deleteLinearLayout;
 		}
+	}
+	
+	private void deleteBoardingPeople(int positon){
+		peopleList.remove(positon);
+		setBoardingPeople();
+	}
+	
+	private void setBoardingPeople(){
+		peopleAdapter = new BoardingPeopleAdapter(this, peopleList);
+		boardingPeopleListView.setAdapter(peopleAdapter);
+		boardingPeopleAmountTextView.setText(String.valueOf(peopleList.size()));
+		Util.setListViewHeightBasedOnChildren(boardingPeopleListView);
 	}
 }
