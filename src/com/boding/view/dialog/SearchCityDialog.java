@@ -1,4 +1,4 @@
-package com.boding.view;
+package com.boding.view.dialog;
 
 import java.util.ArrayList;
 import java.util.HashMap;

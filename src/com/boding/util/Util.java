@@ -7,12 +7,13 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.regex.Pattern;
+
 import com.boding.R;
 import com.boding.constants.Constants;
 import com.boding.constants.GlobalVariables;
 import com.boding.constants.IntentRequestCode;
 import com.boding.model.City;
-import com.boding.view.WarningDialog;
+import com.boding.view.dialog.WarningDialog;
 
 import net.sourceforge.pinyin4j.PinyinHelper;
 import net.sourceforge.pinyin4j.format.HanyuPinyinCaseType;

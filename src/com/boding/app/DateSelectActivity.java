@@ -7,9 +7,9 @@ import com.boding.constants.Constants;
 import com.boding.constants.GlobalVariables;
 import com.boding.constants.IntentRequestCode;
 import com.boding.util.Util;
-import com.boding.view.CalendarLayout;
-import com.boding.view.DateSelectCalendarView;
-import com.boding.view.DateSelectCalendarView.OnItemClickListener;
+import com.boding.view.calendar.DateSelectCalendarView;
+import com.boding.view.calendar.DateSelectCalendarView.OnItemClickListener;
+import com.boding.view.layout.CalendarLayout;
 
 import android.app.Activity;
 import android.os.Bundle;

@@ -27,4 +27,6 @@
     <color name="filterBgColor">#EDEDED</color>
     <color name="shaowColor">#999999</color>
     <color name="voicesearchTitleColor">#ececec</color>
+    <color name="classInfoPanelBgColor">#f4f4f4</color>
+    <color name="textBlue">#4e8dbd</color>
 </resources>

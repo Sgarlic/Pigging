@@ -16,9 +16,9 @@ import com.boding.model.AirlineView;
 import com.boding.model.FlightLine;
 import com.boding.task.XMLTask;
 import com.boding.util.Util;
-import com.boding.view.FilterDialog;
-import com.boding.view.CalendarDialog;
-import com.boding.view.SearchCityDialog;
+import com.boding.view.dialog.CalendarDialog;
+import com.boding.view.dialog.FilterDialog;
+import com.boding.view.dialog.SearchCityDialog;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;

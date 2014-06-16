@@ -1,4 +1,4 @@
-package com.boding.view;
+package com.boding.view.dialog;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.webkit.WebView;

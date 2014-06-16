@@ -1,4 +1,4 @@
-package com.boding.view;
+package com.boding.view.dialog;
 /*
  * Copyright (C) 2011 The Android Open Source Project
  *

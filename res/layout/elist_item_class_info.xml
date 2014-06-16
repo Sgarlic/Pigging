@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/lightgray"
+    android:background="@color/classInfoPanelBgColor"
     android:orientation="vertical"
     android:paddingBottom="5dp"
     android:paddingTop="5dp" >
@@ -27,7 +27,7 @@
 		  	        android:layout_width="wrap_content"
 		  	        android:layout_height="wrap_content"
 		  	        android:text=">9"
-		  	        android:textColor="@color/textOrange"
+		  	        android:textColor="@color/priceGray"
 		  	        android:textStyle="bold"
 		  	        android:typeface="serif" />
 				<TextView
@@ -35,7 +35,7 @@
 		  	        android:layout_height="wrap_content"
 		  	        android:layout_marginRight="5dp"
 		  	        android:text="张"
-		  	        android:textColor="@color/textOrange"
+		  	        android:textColor="@color/priceGray"
 		  	        android:textStyle="bold"
 		  	        android:typeface="serif" />
 		  	    <TextView
@@ -114,12 +114,12 @@
 	  	    android:orientation="horizontal" >
 
 		     <ImageView
-		        android:id="@+id/child_class_buy_imageView"
-			    android:layout_width="wrap_content"
-			    android:layout_height="wrap_content"
-			    android:layout_gravity="center_vertical"
-			    android:layout_marginLeft="5dp"
-			    android:src="@drawable/daychange2" />
+		         android:id="@+id/child_class_buy_imageView"
+		         android:layout_width="wrap_content"
+		         android:layout_height="wrap_content"
+		         android:layout_gravity="center_vertical"
+		         android:layout_marginLeft="5dp"
+		         android:src="@drawable/moreclassinfo_arrow" />
 
 		</LinearLayout>
   	</LinearLayout>

@@ -7,9 +7,9 @@
     android:orientation="horizontal"
     tools:ignore="MergeRootFrame" >
 
-    <com.boding.view.CalendarLayout
+    <com.boding.view.layout.CalendarLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" >
-    </com.boding.view.CalendarLayout>
+    </com.boding.view.layout.CalendarLayout>
     
 </LinearLayout>

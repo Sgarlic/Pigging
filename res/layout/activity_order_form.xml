@@ -7,12 +7,12 @@
     android:orientation="vertical"
     tools:ignore="MergeRootFrame" >
 
-    <LinearLayout
+	<LinearLayout
 	    android:layout_width="match_parent"
 	    android:layout_height="50dp"
-	    android:layout_marginLeft="15dp"
-	    android:layout_marginRight="15dp"
-	    android:orientation="horizontal" >
+	    android:orientation="horizontal"
+	    android:paddingLeft="15dp"
+	    android:paddingRight="15dp" >
 
 		<LinearLayout
 		    android:id="@+id/return_logo_linearLayout"
@@ -39,11 +39,10 @@
 			    android:layout_gravity="center_horizontal"
 			    android:orientation="horizontal">
 		        <TextView
-		            android:id="@+id/date_select_title_textView"
 		            android:layout_width="wrap_content"
 		            android:layout_height="wrap_content"
 		            android:layout_gravity="center_vertical"
-		            android:text="选择日期"
+		            android:text="订单填写"
 		            android:textColor="@color/textOrange"
 		            android:textColorHint="@color/white"
 		            android:textSize="20dp"
@@ -57,24 +56,12 @@
 		    android:orientation="horizontal">
 	    </LinearLayout>
     </LinearLayout>
-    <ImageView
-	    android:layout_width="wrap_content"
+
+	<LinearLayout
+	    android:id="@+id/flightInfo_linearLayout"
+	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"
-	    android:layout_gravity="center_horizontal"
-	    android:src="@drawable/title_divider_480_800" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="400dp"
-        android:layout_weight="11"
-        android:orientation="vertical" >
-
-        <com.boding.view.layout.CalendarLayout
-            android:id="@+id/date_select_calendar_linearLayout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
-        </com.boding.view.layout.CalendarLayout>
-
-    </LinearLayout>
+	    android:orientation="vertical">
+	</LinearLayout>
 </LinearLayout>
 
