@@ -63,13 +63,14 @@
         android:layout_weight="11"
         android:background="@color/white"
         android:orientation="vertical" >
-
-		<ImageView
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"
-		    android:layout_gravity="center_horizontal"
-		    android:src="@drawable/title_divider_480_800"
-		    android:layout_marginBottom="10dp" />
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="2dp"
+			android:background="@color/panelOrange"
+			android:layout_gravity="center_horizontal"
+			android:layout_marginBottom="10dp"
+		    android:orientation="horizontal">
+		</LinearLayout>
 		 <ListView
 		        android:id="@+id/city_search_result_listView"
 		        android:layout_width="match_parent"

@@ -80,7 +80,6 @@ public class MainActivity extends FragmentActivity {
 		
 		mInflater = getLayoutInflater();
 		
-		// May not need anymore
 		getScreenSize();
 		
 		initHorizontalViewPager();

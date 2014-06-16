@@ -26,6 +26,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -187,17 +188,20 @@ public class TicketSearchResultIActivity extends FragmentActivity {
 
 			@Override
 			public void onClick(View v) {
-				if(!isPriceAsc){
-					todayAirline.orderLinesByPrice(true);
-					priceOrderImageview.setImageResource(R.drawable.datechoice);
-					adapter.notifyDataSetChanged();
-					isPriceAsc = true;
-				}else{
-					todayAirline.orderLinesByPrice(false);
-					priceOrderImageview.setImageResource(R.drawable.datechoicegrey);
-					adapter.notifyDataSetChanged();
-					isPriceAsc = false;
-				}
+//				if(!isPriceAsc){
+//					todayAirline.orderLinesByPrice(true);
+//					priceOrderImageview.setImageResource(R.drawable.datechoice);
+//					adapter.notifyDataSetChanged();
+//					isPriceAsc = true;
+//				}else{
+//					todayAirline.orderLinesByPrice(false);
+//					priceOrderImageview.setImageResource(R.drawable.datechoicegrey);
+//					adapter.notifyDataSetChanged();
+//					isPriceAsc = false;
+//				}
+				Intent intent = new Intent();
+				intent.setClass(TicketSearchResultIActivity.this, OrderFormActivity.class);
+				startActivityForResult(intent,IntentRequestCode.START_ORDER_FORM.getRequestCode());
 			}
         	
         });

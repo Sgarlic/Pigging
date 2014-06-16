@@ -56,12 +56,455 @@
 		    android:orientation="horizontal">
 	    </LinearLayout>
     </LinearLayout>
-
-	<LinearLayout
-	    android:id="@+id/flightInfo_linearLayout"
+    <LinearLayout
 	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content"
-	    android:orientation="vertical">
+	    android:layout_height="2dp"
+	    android:background="@color/panelOrange"
+	    android:orientation="horizontal">
 	</LinearLayout>
+	<ScrollView
+	 	android:layout_width="match_parent"
+	 	android:layout_height="wrap_content"
+		android:scrollbars="none">
+		<LinearLayout
+		    android:id="@+id/scrollView_linearLayout"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:orientation="vertical">
+			<LinearLayout
+			    android:id="@+id/orderform_flightInfo_linearLayout"
+			    android:layout_width="match_parent"
+			    android:layout_height="wrap_content"
+			    android:orientation="vertical">
+			</LinearLayout>
+
+			<LinearLayout
+			    android:id="@+id/orderform_price_linearLayout"
+			    android:layout_width="match_parent"
+			    android:layout_height="wrap_content"
+			    android:layout_marginBottom="20dp"
+			    android:orientation="horizontal"
+			    android:paddingLeft="15dp"
+			    android:paddingRight="15dp" >
+
+		        <LinearLayout
+		            android:layout_width="wrap_content"
+		            android:layout_height="match_parent"
+		            android:layout_weight="1"
+		            android:orientation="horizontal" >
+
+		        	<TextView
+	                        android:id="@+id/orderform_ticketPrice_textView"
+	                        android:layout_width="wrap_content"
+	                        android:layout_height="wrap_content"
+	                        android:layout_gravity="center_vertical"
+	                        android:text="机票价"
+	                        android:textColor="@color/black"
+	                        android:textSize="18sp"
+	                        android:typeface="serif" />
+		        	<TextView
+	                        android:layout_width="wrap_content"
+	                        android:layout_height="wrap_content"
+	                        android:layout_gravity="center_vertical"
+	                        android:text="￥"
+	                        android:textColor="@color/textOrange"
+	                        android:textSize="18sp"
+	                        android:typeface="serif" />
+		        	<TextView
+	                        android:id="@+id/orderform_ticketPrice_price_textView"
+	                        android:layout_width="wrap_content"
+	                        android:layout_height="wrap_content"
+	                        android:layout_gravity="center_vertical"
+	                        android:text="580"
+	                        android:textColor="@color/textOrange"
+	                        android:textSize="20sp"
+	                        android:typeface="serif" />
+		        </LinearLayout>
+
+		        <LinearLayout
+		            android:id="@+id/orderform_planeBuilding_linearLayout"
+		            android:layout_width="wrap_content"
+		            android:layout_height="match_parent"
+		            android:layout_weight="1"
+		            android:orientation="horizontal" >
+		        	<TextView
+	                        android:layout_width="wrap_content"
+	                        android:layout_height="wrap_content"
+	                        android:layout_gravity="center_vertical"
+	                        android:text="机建"
+	                        android:textColor="@color/black"
+	                        android:textSize="18sp"
+	                        android:typeface="serif" />
+		        	<TextView
+	                        android:layout_width="wrap_content"
+	                        android:layout_height="wrap_content"
+	                        android:layout_gravity="center_vertical"
+	                        android:text="￥"
+	                        android:textColor="@color/black"
+	                        android:textSize="18sp"
+	                        android:typeface="serif" />
+		        	<TextView
+	                        android:id="@+id/orderform_planeBuilding_price_textView"
+	                        android:layout_width="wrap_content"
+	                        android:layout_height="wrap_content"
+	                        android:layout_gravity="center_vertical"
+	                        android:text="50"
+	                        android:textColor="@color/black"
+	                        android:textSize="18sp"
+	                        android:typeface="serif" />
+		        </LinearLayout>
+
+		        <LinearLayout
+		            android:id="@+id/orderform_fuelOil_linearLayout"
+		            android:layout_width="wrap_content"
+		            android:layout_height="match_parent"
+		            android:layout_weight="1"
+		            android:orientation="horizontal" >
+		        	<TextView
+	                        android:layout_width="wrap_content"
+	                        android:layout_height="wrap_content"
+	                        android:layout_gravity="center_vertical"
+	                        android:text="燃油"
+	                        android:textColor="@color/black"
+	                        android:textSize="18sp"
+	                        android:typeface="serif" />
+		        	<TextView
+	                        android:layout_width="wrap_content"
+	                        android:layout_height="wrap_content"
+	                        android:layout_gravity="center_vertical"
+	                        android:text="￥"
+	                        android:textColor="@color/black"
+	                        android:textSize="18sp"
+	                        android:typeface="serif" />
+		        	<TextView
+	                        android:id="@+id/orderform_fuelOil_price_textView"
+	                        android:layout_width="wrap_content"
+	                        android:layout_height="wrap_content"
+	                        android:layout_gravity="center_vertical"
+	                        android:text="120"
+	                        android:textColor="@color/black"
+	                        android:textSize="18sp"
+	                        android:typeface="serif" />
+		        </LinearLayout>
+		        <LinearLayout
+		            android:id="@+id/orderform_ticketTax_linearLayout"
+		            android:layout_width="wrap_content"
+		            android:layout_height="match_parent"
+		            android:layout_weight="1"
+		            android:orientation="horizontal" >
+		        	<TextView
+	                        android:layout_width="wrap_content"
+	                        android:layout_height="wrap_content"
+	                        android:layout_gravity="center_vertical"
+	                        android:text="税"
+	                        android:textColor="@color/black"
+	                        android:textSize="18sp"
+	                        android:typeface="serif" />
+		        	<TextView
+	                        android:layout_width="wrap_content"
+	                        android:layout_height="wrap_content"
+	                        android:layout_gravity="center_vertical"
+	                        android:text="￥"
+	                        android:textColor="@color/textOrange"
+	                        android:textSize="18sp"
+	                        android:typeface="serif" />
+		        	<TextView
+	                        android:id="@+id/orderform_ticketTax_price_textView"
+	                        android:layout_width="wrap_content"
+	                        android:layout_height="wrap_content"
+	                        android:layout_gravity="center_vertical"
+	                        android:text="1446"
+	                        android:textColor="@color/black"
+	                        android:textSize="18sp"
+	                        android:typeface="serif" />
+		        </LinearLayout>
+			</LinearLayout>
+			<LinearLayout
+			    android:layout_width="match_parent"
+			    android:layout_height="1dp"
+			    android:layout_marginBottom="20dp"
+			    android:orientation="horizontal"
+				android:background="@color/lightgray">
+		    </LinearLayout>
+		    
+			<LinearLayout
+			    android:layout_width="match_parent"
+			    android:layout_height="wrap_content"
+			    android:layout_marginBottom="20dp"
+			    android:orientation="vertical"
+			    android:paddingLeft="15dp"
+			    android:paddingRight="15dp" >
+
+		        <LinearLayout
+		            android:layout_width="match_parent"
+		            android:layout_height="wrap_content"
+		            android:layout_marginBottom="15dp"
+		            android:orientation="horizontal" >
+		
+					<TextView
+					    android:layout_width="wrap_content"
+					    android:layout_height="wrap_content"
+					    android:layout_gravity="top"
+					    android:gravity="top"
+					    android:text="登机人 "
+					    android:textColor="@color/black"
+					    android:textSize="20sp"
+					    android:typeface="serif" />
+
+					<ListView
+					    android:id="@+id/orderform_boardingPeople_listView"
+					    android:layout_width="200dp"
+					    android:layout_height="wrap_content"
+					    android:background="@color/white"
+					    android:divider="@color/white"
+					    android:scrollbars="none" />
+
+				    <LinearLayout
+				        android:id="@+id/orderform_addBoardingPeople_linearLayout"
+				        android:layout_width="70dp"
+				        android:layout_height="30dp"
+				        android:layout_gravity="top"
+				        android:layout_marginTop="5dp"
+				        android:layout_weight="1"
+				        android:orientation="vertical" >
+
+						<ImageView
+						    android:layout_width="wrap_content"
+						    android:layout_height="wrap_content"
+						    android:layout_gravity="right"
+						    android:src="@drawable/add_480_800" />
+				    </LinearLayout>
+				</LinearLayout>
+
+		        <LinearLayout
+		            android:layout_width="match_parent"
+		            android:layout_height="wrap_content"
+		            android:layout_marginBottom="15dp"
+		            android:orientation="horizontal" >
+		
+					<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+					    android:layout_gravity="center_vertical"
+					    android:text="联系手机 "
+					    android:textColor="@color/black"
+					    android:textSize="20sp"
+					    android:typeface="serif" />
+			
+				    <LinearLayout
+				        android:layout_width="wrap_content"
+				        android:layout_height="wrap_content"
+				        android:layout_gravity="center_vertical"
+				        android:layout_weight="1"
+				        android:orientation="vertical" >
+
+						<TextView
+						    android:id="@+id/orderform_phoneNumber_textView"
+						    android:layout_width="wrap_content"
+						    android:layout_height="wrap_content"
+						    android:layout_gravity="right"
+						    android:text="13921616379 "
+						    android:textColor="@color/black"
+						    android:textSize="18sp"
+						    android:textStyle="bold"
+						    android:typeface="serif" />
+
+				    </LinearLayout>
+				</LinearLayout>
+
+		        <LinearLayout
+		            android:layout_width="match_parent"
+		            android:layout_height="wrap_content"
+		            android:layout_marginBottom="15dp"
+		            android:orientation="horizontal" >
+		
+					<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+					    android:layout_gravity="center_vertical"
+					    android:text="保险 "
+					    android:textColor="@color/black"
+					    android:textSize="20sp"
+					    android:typeface="serif" />
+			
+				    <LinearLayout
+				        android:layout_width="wrap_content"
+				        android:layout_height="wrap_content"
+				        android:layout_gravity="center_vertical"
+				        android:layout_weight="1"
+				        android:orientation="vertical" >
+						<LinearLayout
+						    android:id="@+id/orderform_insurance_linearLayout"
+					        android:layout_width="wrap_content"
+					        android:layout_height="wrap_content"
+					        android:layout_gravity="right"
+					        android:layout_weight="1"
+					        android:orientation="horizontal" >
+							<TextView
+							    android:layout_width="wrap_content"
+							    android:layout_height="wrap_content"
+							    android:layout_gravity="right"
+							    android:text="￥"
+							    android:textColor="@color/textOrange"
+							    android:textSize="20sp"
+							    android:typeface="serif" />
+							<TextView
+							    android:id="@+id/orderform_insurance_price_textView"
+							    android:layout_width="wrap_content"
+							    android:layout_height="wrap_content"
+							    android:layout_gravity="right"
+							    android:text="30"
+							    android:textColor="@color/textOrange"
+							    android:textSize="20sp"
+							    android:typeface="serif" />
+							<TextView
+							    android:layout_width="wrap_content"
+							    android:layout_height="wrap_content"
+							    android:layout_gravity="right"
+							    android:text="×"
+							    android:textColor="@color/textOrange"
+							    android:textSize="20sp"
+							    android:typeface="serif" />
+							<TextView
+							    android:id="@+id/orderform_insurance_amount_textView"
+							    android:layout_width="wrap_content"
+							    android:layout_height="wrap_content"
+							    android:layout_gravity="right"
+							    android:text="0"
+							    android:textColor="@color/textOrange"
+							    android:textSize="20sp"
+							    android:typeface="serif" />
+							<TextView
+							    android:layout_width="wrap_content"
+							    android:layout_height="wrap_content"
+							    android:layout_gravity="right"
+							    android:text="份 "
+							    android:textColor="@color/textOrange"
+							    android:textSize="20sp"
+							    android:typeface="serif" />
+						</LinearLayout>
+						<TextView
+						    android:layout_width="wrap_content"
+						    android:layout_height="wrap_content"
+						    android:layout_gravity="right"
+						    android:text="该航班每位乘客至少购买一份保险 "
+						    android:textColor="@color/lightgray"
+						    android:textSize="13sp"
+						    android:typeface="serif" />
+				    </LinearLayout>
+				</LinearLayout>
+
+		        <LinearLayout
+		            android:layout_width="match_parent"
+		            android:layout_height="wrap_content"
+		            android:layout_marginBottom="30dp"
+		            android:orientation="horizontal" >
+		
+					<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+					    android:layout_gravity="center_vertical"
+					    android:text="行程单配送 "
+					    android:textColor="@color/black"
+					    android:textSize="20sp"
+					    android:typeface="serif" />
+			
+				    <LinearLayout
+				        android:layout_width="wrap_content"
+				        android:layout_height="wrap_content"
+				        android:layout_gravity="center_vertical"
+				        android:layout_weight="1"
+				        android:orientation="vertical" >
+						<LinearLayout
+						    android:id="@+id/orderform_journeySheet_linearLayout"
+					        android:layout_width="wrap_content"
+					        android:layout_height="wrap_content"
+					        android:layout_gravity="right"
+					        android:layout_weight="1"
+					        android:orientation="horizontal" >
+							<TextView
+							    android:id="@+id/orderform_journeySheet_textView"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+							    android:text="不需要行程单 "
+							    android:layout_gravity="center_vertical"
+							    android:textColor="@color/textOrange"
+							    android:textSize="18sp"
+							    android:typeface="serif" />
+							<ImageView
+							    android:layout_width="wrap_content"
+							    android:layout_height="wrap_content"
+							    android:layout_gravity="center_vertical"
+							    android:src="@drawable/check2_480_800" />
+						</LinearLayout>
+				    </LinearLayout>
+				</LinearLayout>
+		    </LinearLayout>
+
+		    <LinearLayout
+		        android:layout_width="match_parent"
+		        android:layout_height="50dp"
+		        android:orientation="horizontal" >
+
+		        <LinearLayout
+		            android:layout_width="wrap_content"
+		            android:layout_height="match_parent"
+		            android:layout_weight="5"
+		            android:background="@color/textBlue"
+		            android:orientation="horizontal"
+		            android:paddingLeft="15dp" >
+
+					<TextView
+					    android:layout_width="wrap_content"
+					    android:layout_height="wrap_content"
+					    android:layout_gravity="center_vertical"
+					    android:text="订单总额 : ￥"
+					    android:textColor="@color/white"
+					    android:textSize="20sp"
+					    android:textStyle="bold"
+					    android:typeface="serif" />
+
+					<TextView
+					    android:id="@+id/orderform_totalPrice_textView"
+					    android:layout_width="wrap_content"
+					    android:layout_height="wrap_content"
+					    android:layout_gravity="center_vertical"
+					    android:text="0"
+					    android:textColor="@color/white"
+					    android:textSize="20sp"
+					    android:textStyle="bold"
+					    android:typeface="serif" />
+
+			    </LinearLayout>
+
+		        <LinearLayout
+		            android:id="@+id/orderform_nextStep_linearLayout"
+		            android:layout_width="wrap_content"
+		            android:layout_height="match_parent"
+		            android:layout_weight="1"
+		            android:background="@color/textOrange"
+		            android:orientation="vertical"
+		            android:paddingLeft="15dp"
+		            android:paddingRight="15dp" >
+
+					<LinearLayout
+			            android:layout_width="wrap_content"
+			            android:layout_height="match_parent"
+			            android:layout_gravity="center_horizontal"
+			            android:orientation="horizontal">
+						<TextView
+						    android:layout_width="wrap_content"
+						    android:layout_height="wrap_content"
+						    android:layout_gravity="center_vertical"
+						    android:text="下一步"
+						    android:textColor="@color/white"
+						    android:textSize="20sp"
+						    android:textStyle="bold"
+						    android:typeface="serif" />
+					</LinearLayout>
+			    </LinearLayout>
+		    </LinearLayout>
+		</LinearLayout>
+	</ScrollView>
 </LinearLayout>
 

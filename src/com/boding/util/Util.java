@@ -37,10 +37,12 @@ import android.os.Build;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.CalendarView;
 import android.widget.DatePicker;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 
 public class Util {
@@ -60,8 +62,8 @@ public class Util {
 		
 		Bitmap newBitmap = Bitmap.createBitmap(bitmap, newWidth*pageNumber, 0, newWidth, newHeight);
 		
-		float scaleWidth = ((float) Constants.ScreenWidth ) / newWidth; 
-	    float scaleHeight = ((float) Constants.ScreenHeight ) / newHeight;
+		float scaleWidth = ((float) GlobalVariables.Screen_Width ) / newWidth; 
+	    float scaleHeight = ((float) GlobalVariables.Screen_Height) / newHeight;
 	    
 		
 	    Matrix matrix = new Matrix();
@@ -359,5 +361,25 @@ public class Util {
 		String tempMonth = monthString.substring(0,monthString.length()-1);
 		int month = Integer.parseInt(tempMonth);
 		return month;
+	}
+	
+	public static void setListViewHeightBasedOnChildren(ListView listView) { 
+	    if(listView == null) return;
+
+	    ListAdapter listAdapter = listView.getAdapter(); 
+	    if (listAdapter == null) { 
+	        return; 
+	    } 
+
+	    int totalHeight = 0; 
+	    for (int i = 0; i < listAdapter.getCount(); i++) { 
+	        View listItem = listAdapter.getView(i, null, listView); 
+	        listItem.measure(0, 0); 
+	        totalHeight += listItem.getMeasuredHeight(); 
+	    } 
+
+	    ViewGroup.LayoutParams params = listView.getLayoutParams(); 
+	    params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1)); 
+	    listView.setLayoutParams(params); 
 	}
 }

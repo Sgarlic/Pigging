@@ -221,18 +221,6 @@ public class FilterDialog extends Dialog{
 			ImageView filterItemCompanyImageView;
 			TextView filterItemTextView;
 			CheckBox filterItemCheckBox;
-//			TextView flightEndTimeTextView;
-//			TextView ontimeRateTextView;
-//			TextView flightPriceTextView;
-//			TextView fromAirportTextView;
-//			TextView toAirportTextView;
-//			TextView ticketLeftTextView;
-//			TextView airlineCompanyTextView;
-//			TextView airlineCodeTextView;
-//			TextView planTypeTextView;
-//			TextView flightClassTextView;
-//			LinearLayout moreClassInfoLinearLayout; 
-			//ExpandableListView moreClassListView;
 		}
 	}
 }
