@@ -173,6 +173,16 @@ public class OrderFormActivity extends Activity {
 //				peopleAdapter.addNewPeople(people);
 			}
 		});
+		
+		
+		journeySheetLinearLayout.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				Intent intent = new Intent();
+				intent.setClass(OrderFormActivity.this, JourneySheetDeliveryActivity.class);
+				startActivityForResult(intent,IntentRequestCode.START_JOURNEYSHEET_DELIVERY.getRequestCode());
+			}
+		});
 	}
 	
 	private class BoardingPeopleAdapter extends BaseAdapter {

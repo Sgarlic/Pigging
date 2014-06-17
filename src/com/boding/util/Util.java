@@ -112,10 +112,14 @@ public class Util {
 	}
 	
 	public static String getFormatedDate(Calendar calendar){
+		if(calendar == null)
+			return "";
 		return getFormatedDate(calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH));
 	}
 	
 	public static String getFormatedDate(Date date){
+		if(date == null)
+			return "";
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(date);
 		return getFormatedDate(calendar);
