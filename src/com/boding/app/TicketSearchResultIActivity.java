@@ -273,5 +273,10 @@ public class TicketSearchResultIActivity extends FragmentActivity {
 		  	XMLTask xmltask = new XMLTask(this, whichday);
 			xmltask.execute(url);
 	  }
-
+	  
+	  public void doFilter(List<String> timeConstraints, List<String> classConstraints, List<String> compConstrains){
+		  TicketSearchResultListIAdapter.FlightLineFilter filter = (TicketSearchResultListIAdapter.FlightLineFilter)adapter.getFilter();
+		  filter.setConstraint(timeConstraints, classConstraints, compConstrains);
+		  filter.filter("");
+	  }
 }

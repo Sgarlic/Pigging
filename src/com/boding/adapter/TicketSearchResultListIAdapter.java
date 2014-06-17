@@ -1,6 +1,7 @@
 package com.boding.adapter;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import android.content.ContentValues;
@@ -12,6 +13,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ExpandableListView;
+import android.widget.Filter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -31,6 +33,7 @@ public class TicketSearchResultListIAdapter extends BaseAdapter {
 	private AirlineView airlineView;
     private List<FlightLine> flightLineList;
     private Context context;
+    private FlightLineFilter flightlineFilter;
 	
 	public TicketSearchResultListIAdapter(Context context, AirlineView airlineView) {
 		this.context = context;
@@ -147,6 +150,93 @@ public class TicketSearchResultListIAdapter extends BaseAdapter {
 		LinearLayout moreClassInfoLinearLayout; 
 		ExpandableListView moreClassListView;
 		LinearLayout toOrderLinearLayout;
+	}
+	
+	public Filter getFilter(){
+		if(flightlineFilter != null)
+			return flightlineFilter;
+		else
+			return new FlightLineFilter();
+	}
+	
+	public class FlightLineFilter extends Filter{
+		private List<String> timeConstraint;
+		private List<String> classConstraint;
+		private List<String> compConstraint;
+
+		public void setConstraint(List<String> timeConst, List<String> classConst, List<String> compConst){
+			this.timeConstraint = timeConst;
+			this.classConstraint = classConst;
+			this.compConstraint = compConst;
+		}
+		
+		@Override
+		protected FilterResults performFiltering(CharSequence constraint) {
+			FilterResults filterResults = new FilterResults();
+			List<FlightLine> lines = new ArrayList<FlightLine>();
+			FlightLine flightline = null;
+			boolean tag = false;
+			for (Iterator<FlightLine> iterator = flightLineList.iterator(); iterator.hasNext();) {
+		        flightline = iterator.next();
+		        tag = false;
+		        //System.out.println("---> name=" + name);
+		        if(timeConstraint.size() >0)
+		        	for(String timeSeg : timeConstraint){
+		        	//System.out.println(flightline.getLeaveTime() +"   " +timeSeg);
+		        		if (Util.IsInTimeSegment(flightline.getLeaveTime(), (String)timeSeg)) {
+				          //lines.add(flightline);
+				          tag = true;
+				          break;
+		        		}
+		        	}
+		        else
+		        	tag = true;
+		        if(tag) tag = false;
+		        else
+		        	break;
+		        if(classConstraint.size() > 0)
+		        	for(String flightclass : classConstraint){
+		        	//´ýÌí¼Ó²ÕÎ»ÅÐ¶Ï
+		        		if (true) {
+				          tag = true;
+				          break;
+		        		}
+		        	}
+		        else
+		        	tag = true;
+		        if(tag) tag = false;
+		        else
+		        	break;
+		        if(compConstraint.size() > 0)
+		        	for(String company : compConstraint){
+		        		System.out.println(flightline.getAirCompany());
+		        		if (flightline.getAirCompany().equals(company)) {
+				          //lines.add(flightline);
+				          tag = true;
+				          break;
+		        		}
+		        	}
+		        else
+		        	tag = true;
+		        if(tag) lines.add(flightline);
+		    }
+			
+		    filterResults.values = lines;
+		    return filterResults;
+		}
+
+		@Override
+		protected void publishResults(CharSequence constraint,
+				FilterResults results) {
+			flightLineList = (List<FlightLine>)results.values;
+		    if (results.count > 0) {
+		        notifyDataSetChanged();
+		    } else {
+		        notifyDataSetInvalidated();
+		    }
+			
+		}
+		
 	}
 	
 }

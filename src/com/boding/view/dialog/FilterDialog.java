@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.boding.R;
 import com.boding.app.CitySelectFragment;
+import com.boding.app.TicketSearchResultIActivity;
 import com.boding.constants.GlobalVariables;
 import com.boding.model.AirlineView;
 import com.boding.model.FlightLine;
@@ -85,10 +86,10 @@ public class FilterDialog extends Dialog{
 	 public void initView() {
 		 timeSegmentList = new ArrayList<String>();
 		 timeSegmentList.add("²»ÏÞ");
-		 timeSegmentList.add("00:00--6:00");
-		 timeSegmentList.add("6:00--12:00");
-		 timeSegmentList.add("12:00-18:00");
-		 timeSegmentList.add("18:00-24:00");
+		 timeSegmentList.add("00:00--06:00");
+		 timeSegmentList.add("06:00--12:00");
+		 timeSegmentList.add("12:00--18:00");
+		 timeSegmentList.add("18:00--24:00");
 		 classList = new ArrayList<String>();
 		 classList.add("²»ÏÞ");
 		 classList.add("¾­¼Ã²Õ");
@@ -101,11 +102,11 @@ public class FilterDialog extends Dialog{
 		 companyList.add("¼ªÏéº½¿Õ");
 		 companyList.add("¶«·½º½¿Õ");
 		 companyList.add("É½¶«º½¿Õ");
-		 companyList.add("ÉÏº£º½¿Õ");
-		 companyList.add("´ºÇïº½¿Õ");
-		 companyList.add("¼ªÏéº½¿Õ");
-		 companyList.add("¶«·½º½¿Õ");
-		 companyList.add("É½¶«º½¿Õ");
+		 companyList.add("01º½¿Õ");
+		 companyList.add("02º½¿Õ");
+		 companyList.add("03º½¿Õ");
+		 companyList.add("04º½¿Õ");
+		 companyList.add("05º½¿Õ");
 		 
 		 tabhost = (TabHost) findViewById(R.id.filter_dialog_tabhost);
 		 tabhost.setup();
@@ -146,24 +147,28 @@ public class FilterDialog extends Dialog{
 		 cancelBt.setOnClickListener(new View.OnClickListener(){
 			@Override
 			public void onClick(View arg0) {
-				
+				FilterDialog.this.dismiss();
 			}
 		 });
 		 
 		 clearBt.setOnClickListener(new View.OnClickListener(){
 			@Override
 			public void onClick(View arg0) {
-				System.out.println("---------------");
-					timeSegmentListView.invalidate();
-					classListView.invalidate();
-					companyAdapter.notifyDataSetChanged();
+				timeSegmentAdapter.clearConstraints();
+				classAdapter.clearConstraints();
+				companyAdapter.clearConstraints();
 			}
 		 });
 		 
 		 okBt.setOnClickListener(new View.OnClickListener(){
 			@Override
 			public void onClick(View arg0) {
-					
+				List<String> timeConstraint = timeSegmentAdapter.getConstraints();
+				List<String> classConstraint = classAdapter.getConstraints();
+				List<String> companyConstraint = companyAdapter.getConstraints();
+				System.out.println(timeConstraint);
+				((TicketSearchResultIActivity)context).doFilter(timeConstraint,classConstraint, companyConstraint);
+				FilterDialog.this.dismiss();	
 			}
 		 });
 	 }
@@ -191,11 +196,30 @@ public class FilterDialog extends Dialog{
 		private List<String> itemList;
 		private Context context;
 		private boolean showCompanyLogo;
+		private List<String> constraints;
+		private List<CheckBox> checkedBoxs;
+		private CheckBox nolimit = null;
+		
 		public FilterItemListAdapter(Context context, List itemList, boolean showCompanyLogo) {
 			this.context = context;
 			this.itemList = itemList;
 			this.showCompanyLogo = showCompanyLogo;
+			this.constraints = new ArrayList<String>();
+			this.checkedBoxs = new ArrayList<CheckBox>();
 		}
+		
+		public List<String> getConstraints(){
+			return constraints;
+		}
+		
+		public void clearConstraints(){
+			for(CheckBox cb : checkedBoxs){
+				cb.setChecked(false);
+			}
+			checkedBoxs.clear();
+			constraints.clear();
+		}
+		
 		@Override
 		public int getCount() {
 			return itemList.size();
@@ -223,20 +247,7 @@ public class FilterDialog extends Dialog{
 	            holder.filterItemTextView = (TextView) convertView.findViewById(R.id.filter_item_textView);
 	            holder.filterItemCheckBox = (CheckBox) convertView.findViewById(R.id.filter_item_checkBox);
 	            
-	            holder.filterItemTextView.setText(getItem(position));
-	            
-	            holder.filterItemLinearLayout.setOnClickListener(new View.OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						if(holder.filterItemCheckBox.isChecked()){
-							holder.filterItemCheckBox.setChecked(false);
-							holder.filterItemCheckBox.setText("");
-						}else{
-							holder.filterItemCheckBox.setChecked(true);
-							holder.filterItemCheckBox.setText("selected");
-						}
-					}
-				});
+	           
 	            
 	            if(showCompanyLogo){
 	            	// show corresponding company logo
@@ -248,6 +259,61 @@ public class FilterDialog extends Dialog{
 	        } else {  
 	            holder = (ViewHolder) convertView.getTag();  
 	        }  
+			
+			holder.filterItemTextView.setText(getItem(position));
+			holder.filterItemCheckBox.setTag(position);		
+          
+            holder.filterItemLinearLayout.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					String constraint = "";
+					int pos =((Integer)holder.filterItemCheckBox.getTag()).intValue();
+					System.out.println("*****" + pos);
+					if(holder.filterItemCheckBox.isChecked()){
+						holder.filterItemCheckBox.setChecked(false);
+						if(pos != 0){
+							checkedBoxs.remove(holder.filterItemCheckBox);
+							constraints.remove((String)holder.filterItemTextView.getText());
+						}
+					}else{
+						holder.filterItemCheckBox.setChecked(true);
+						if(pos == 0){
+							nolimit = holder.filterItemCheckBox;
+							clearConstraints();
+						}else{
+							if(nolimit != null)
+								nolimit.setChecked(false);
+							checkedBoxs.add(holder.filterItemCheckBox);
+							constraints.add((String)holder.filterItemTextView.getText());
+						}
+					}
+				}
+			});
+            
+            holder.filterItemCheckBox.setOnClickListener(new View.OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					CheckBox cb = (CheckBox) v;
+					int pos = (Integer)cb.getTag();
+					if(cb.isChecked()){
+						if(pos == 0){
+							nolimit = holder.filterItemCheckBox;
+							clearConstraints();
+						}else{
+							if(nolimit != null)
+								nolimit.setChecked(false);
+							checkedBoxs.add(cb);
+							constraints.add((String)holder.filterItemTextView.getText());
+						}						
+					}else{
+						if(pos != 0){
+							checkedBoxs.remove(cb);
+							constraints.remove((String)holder.filterItemTextView.getText());
+						}
+					}
+				}
+			});
 			
 	        return convertView;  
 		}

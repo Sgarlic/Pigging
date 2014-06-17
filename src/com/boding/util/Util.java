@@ -386,4 +386,25 @@ public class Util {
 	    params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1)); 
 	    listView.setLayoutParams(params); 
 	}
+	
+	/**
+	 * 
+	 * @param time like 0000
+	 * @param timeSegment like 00:00--06:00
+	 * @return
+	 */
+	public static boolean IsInTimeSegment(String time, String timeSegment){
+		if(timeSegment == null) return true; //时间段不存在返回true
+		if(time == null) return false;
+		System.out.println(timeSegment.length());
+		if(timeSegment.length() != 12) return false; //格式不对，返回false
+		String left = timeSegment.substring(0, 5);
+		String right = timeSegment.substring(7);
+		String ftime = time.substring(0, 2) + ":" + time.substring(2); 
+		System.out.println("left: " +left);
+		System.out.println("right: " + right +" time: " + ftime);
+		if(ftime.compareTo(left) >= 0 && time.compareTo(right) <=0)
+			return true;
+		return false;
+	}
 }
