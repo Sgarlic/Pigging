@@ -7,9 +7,11 @@ import com.boding.R;
 import com.boding.constants.IntentRequestCode;
 import com.boding.model.BoardingPeople;
 import com.boding.util.Util;
+import com.boding.view.dialog.ClassSelectionDialog;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +19,8 @@ import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -28,6 +32,8 @@ public class JourneySheetDeliveryActivity extends Activity {
 	private LinearLayout selectDeliveryMethodsLinearLayout;
 	private TextView deliveryMethodTextView;
 	private LinearLayout selectDeliveryAddrLinearLayout;
+	
+	private LinearLayout showJourneySheetInfoLinearLayout;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -57,10 +63,29 @@ public class JourneySheetDeliveryActivity extends Activity {
 		deliveryMethodTextView = (TextView) findViewById(R.id.journeysheet_deliveryMethods_textView);
 		selectDeliveryAddrLinearLayout = (LinearLayout) findViewById(R.id.journeysheet_selectDeliveryAddress_linearLayout);
 		
+		showJourneySheetInfoLinearLayout = (LinearLayout) findViewById(R.id.journeysheet_showJourneySheetInfo_linearLayout);
 		addListeners();
 	}
 	
 	private void addListeners(){
+		needJourneySheetCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton arg0, boolean checked) {
+				if(checked)
+					showJourneySheetInfoLinearLayout.setVisibility(View.VISIBLE);
+				else
+					showJourneySheetInfoLinearLayout.setVisibility(View.INVISIBLE);
+			}
+		});
+		
+		selectDeliveryMethodsLinearLayout.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				ClassSelectionDialog classSelectionDialog = new ClassSelectionDialog(JourneySheetDeliveryActivity.this,R.style.Custom_Dialog_Theme);
+				classSelectionDialog.show();
+			}
+		});
+		
 		needJourneySheetInfoLinearLayout.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
@@ -68,6 +93,15 @@ public class JourneySheetDeliveryActivity extends Activity {
 					needJourneySheetCheckBox.setChecked(false);
 				else
 					needJourneySheetCheckBox.setChecked(true);
+			}
+		});
+		
+		selectDeliveryAddrLinearLayout.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				Intent intent = new Intent();
+				intent.setClass(JourneySheetDeliveryActivity.this, ChooseDeliveryAddressActivity.class);
+				startActivityForResult(intent,IntentRequestCode.START_CHOOSE_DELIVERYADDR.getRequestCode());
 			}
 		});
 	}
