@@ -137,18 +137,29 @@ public class OrderFormActivity extends Activity {
 		if(isRoundTrip)
 			ticketPriceTextView.setText("往返总价");
 		
+		peopleAdapter = new BoardingPeopleAdapter(this, peopleList);
+		boardingPeopleListView.setAdapter(peopleAdapter);
 		addListeners();
     }
 	
 	private static int count = 0;
 	
 	private void addListeners(){
+		DataSetObserver observer=new DataSetObserver(){  
+	        public void onChanged() {  
+	            Util.setListViewHeightBasedOnChildren(boardingPeopleListView);
+	            boardingPeopleAmountTextView.setText(String.valueOf(peopleList.size()));
+	        }  
+	    };
+	    peopleAdapter.registerDataSetObserver(observer);
+		
 		addBoardingPeopleLinearLayout.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				BoardingPeople people = new BoardingPeople(true, "李大嘴"+(count++), "356258745985653241"+(count++)); 
-				peopleList.add(people);
-				setBoardingPeople();
+//				peopleList.add(people);
+//				setBoardingPeople();
+				peopleAdapter.addNewPeople(people);
 			}
 		});
 	}
@@ -175,11 +186,11 @@ public class OrderFormActivity extends Activity {
 			return position;
 		}
 		
-		@Override
-		public void registerDataSetObserver(DataSetObserver observer){
-			Log.d("poding","changed");
+		public void addNewPeople(BoardingPeople people){
+			peopleList.add(people);
+			notifyDataSetChanged();
 		}
-		
+
 		@Override
 		public View getView(final int position, View convertView, ViewGroup parent) {
 			ViewHolder holder;
@@ -191,25 +202,22 @@ public class OrderFormActivity extends Activity {
 	            holder.idNumberTextView = (TextView) convertView.findViewById(R.id.boardingpeople_idnumber_textView);
 	            holder.deleteLinearLayout = (LinearLayout) convertView.findViewById(R.id.boardingpeople_delete_linearLayout);
 	            
-	            BoardingPeople people = getItem(position);
-	            holder.nameTextView.setText(people.getName());
-	            holder.idNumberTextView.setText(people.getCardNumber());
-	            holder.deleteLinearLayout.setOnClickListener(new View.OnClickListener() {
-					@Override
-					public void onClick(View v) {
-//						Integer index = (Integer) v.getTag();
-						peopleList.remove(position); 
-						notifyDataSetChanged();
-						
-//						deleteBoardingPeople(position);
-					}
-				});
-	            
 	            convertView.setTag(holder);  
 	        } else {  
 	            holder = (ViewHolder) convertView.getTag();  
 	        }  
 			
+			BoardingPeople people = getItem(position);
+            holder.nameTextView.setText(people.getName());
+            holder.idNumberTextView.setText(people.getCardNumber());
+			holder.deleteLinearLayout.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						peopleList.remove(position); 
+						Log.d("poding",position+"");
+						notifyDataSetChanged();
+					}
+				});
 	        return convertView;  
 		}
 		
@@ -218,17 +226,5 @@ public class OrderFormActivity extends Activity {
 			TextView idNumberTextView;
 			LinearLayout deleteLinearLayout;
 		}
-	}
-	
-	private void deleteBoardingPeople(int positon){
-		peopleList.remove(positon);
-		setBoardingPeople();
-	}
-	
-	private void setBoardingPeople(){
-		peopleAdapter = new BoardingPeopleAdapter(this, peopleList);
-		boardingPeopleListView.setAdapter(peopleAdapter);
-		boardingPeopleAmountTextView.setText(String.valueOf(peopleList.size()));
-		Util.setListViewHeightBasedOnChildren(boardingPeopleListView);
 	}
 }

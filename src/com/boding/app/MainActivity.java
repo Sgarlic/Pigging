@@ -11,7 +11,9 @@ import com.boding.constants.GlobalVariables;
 import com.boding.constants.IntentRequestCode;
 import com.boding.task.InitCityTask;
 import com.boding.util.Util;
+import com.boding.view.dialog.ClassSelectionDialog;
 import com.boding.view.dialog.VerticalViewPager;
+import com.boding.view.layout.OrderFlightInfoLayout;
 import com.boding.R;
 import com.boding.model.City;
 
@@ -64,6 +66,7 @@ public class MainActivity extends FragmentActivity {
 	private TextView leftpageFlyFromDateTextView;
 	private TextView leftpageFlyToDateTextView;
 	private ImageView leftpageVoiceSearchImageView;
+	private LinearLayout leftpageClassSelectionLinearLayout;
 	
 	
 	
@@ -122,16 +125,9 @@ public class MainActivity extends FragmentActivity {
 		switchToSingleWay();
 		
 		leftpageFlyFromTextView = (TextView)leftPageView.findViewById(R.id.leftpage_fly_from_textView);
-//		leftpageFlyFromTextView.setOnClickListener(openCitySelectOnClickListener);
-		
 		leftPageFlyFromCodeTextView = (TextView)leftPageView.findViewById(R.id.leftpage_fly_from_code_textView);
-//		leftPageFlyFromCodeTextView.setOnClickListener(openCitySelectOnClickListener);
-		
 		leftpageFlyToTextView = (TextView)leftPageView.findViewById(R.id.leftpage_fly_to_textView);
-//		leftpageFlyToTextView.setOnClickListener(openCitySelectOnClickListener);
-		
 		leftpageFlyToCodeTextView = (TextView)leftPageView.findViewById(R.id.leftpage_fly_to_code_textView);
-//		leftpageFlyToCodeTextView.setOnClickListener(openCitySelectOnClickListener);
 		
 		leftpageFlyFromLinearLayout = (LinearLayout)leftPageView.findViewById(R.id.leftpage_fly_from_linearlayout);
 		leftpageFlyToLinearLayout = (LinearLayout)leftPageView.findViewById(R.id.leftpage_fly_to_linearlayout);
@@ -172,6 +168,15 @@ public class MainActivity extends FragmentActivity {
 			}
 			
 		});
+		
+		leftpageClassSelectionLinearLayout = (LinearLayout) leftPageView.findViewById(R.id.flight_class_selection_linearLayout);
+		leftpageClassSelectionLinearLayout.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View arg0) {
+				ClassSelectionDialog classSelectionDialog = new ClassSelectionDialog(MainActivity.this,R.style.Custom_Dialog_Theme);
+				classSelectionDialog.show();
+			}
+        });
 	}
 	
 	private void switchToSingleWay(){

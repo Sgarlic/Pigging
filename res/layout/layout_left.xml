@@ -320,6 +320,7 @@
 						    android:typeface="serif" />
 	
 						<LinearLayout
+						    android:id="@+id/flight_class_selection_linearLayout"
 				    	    android:layout_width="wrap_content"
 				    	    android:layout_height="wrap_content"
 				    	    android:orientation="horizontal"

@@ -3,6 +3,7 @@ package com.boding.view.layout;
 import com.boding.R;
 import com.boding.constants.Constants;
 import com.boding.constants.GlobalVariables;
+import com.boding.view.dialog.SeatChangeBackDialog;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -12,6 +13,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -116,6 +118,17 @@ public class OrderFlightInfoILayout extends LinearLayout{
 		
 		
 		this.addView(view);
+		addListeners();
+	}
+	
+	private void addListeners(){
+		seatBackChangeInfoLinearLayout.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View arg0) {
+				SeatChangeBackDialog seatChangeBackDialog = new SeatChangeBackDialog(OrderFlightInfoILayout.this.context,R.style.Custom_Dialog_Theme);
+				seatChangeBackDialog.show();
+			}
+        });
 	}
 }
  

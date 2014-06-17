@@ -1,8 +1,12 @@
 package com.boding.view.layout;
 
 import com.boding.R;
+import com.boding.app.CitySelectActivity;
 import com.boding.constants.Constants;
 import com.boding.constants.GlobalVariables;
+import com.boding.view.dialog.ClassSelectionDialog;
+import com.boding.view.dialog.SearchCityDialog;
+import com.boding.view.dialog.SeatChangeBackDialog;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -12,12 +16,15 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class OrderFlightInfoLayout extends LinearLayout{
 	private Context context;
+	
+	private boolean hasStopover = false;
 	
 	private TextView flyFromTextView;
 	private TextView flyToTextView;
@@ -32,7 +39,7 @@ public class OrderFlightInfoLayout extends LinearLayout{
 	private TextView toDateDayTextView;
 	private TextView toDateTimeTextView;
 	private TextView toTerminalTextView;
-	private LinearLayout seatBackChangeLinearLayout;
+	private LinearLayout seatBackChangeInfoLinearLayout;
 	private TextView changeSeatTextView;
 	private LinearLayout stopOverLinearLayout;
 	
@@ -78,12 +85,37 @@ public class OrderFlightInfoLayout extends LinearLayout{
 		toDateDayTextView = (TextView)view.findViewById(R.id.flightinfo_toDateDay_textView);
 		toDateTimeTextView = (TextView)view.findViewById(R.id.flightinfo_toDateTime_textView);
 		toTerminalTextView = (TextView)view.findViewById(R.id.flightinfo_toTerminal_textView);
-		seatBackChangeLinearLayout = (LinearLayout)view.findViewById(R.id.flightinfo_seatBackChangeInfo_linearLayout);
+		seatBackChangeInfoLinearLayout = (LinearLayout)view.findViewById(R.id.flightinfo_seatBackChangeInfo_linearLayout);
 		changeSeatTextView = (TextView)view.findViewById(R.id.flightinfo_changeClass_textView);
 		stopOverLinearLayout = (LinearLayout) view.findViewById(R.id.flightinfo_stopover_linearLayout);
 		
 		
+		if(!hasStopover)
+			stopOverLinearLayout.setVisibility(View.INVISIBLE);
+		
 		this.addView(view);
+		
+		addListeners();
 	}
+	
+	
+	private void addListeners(){
+		seatBackChangeInfoLinearLayout.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View arg0) {
+				SeatChangeBackDialog seatChangeBackDialog = new SeatChangeBackDialog(OrderFlightInfoLayout.this.context,R.style.Custom_Dialog_Theme);
+				seatChangeBackDialog.show();
+			}
+        });
+		
+		changeSeatTextView.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View arg0) {
+				ClassSelectionDialog classSelectionDialog = new ClassSelectionDialog(OrderFlightInfoLayout.this.context,R.style.Custom_Dialog_Theme);
+				classSelectionDialog.show();
+			}
+        });
+	}
+	
 }
  

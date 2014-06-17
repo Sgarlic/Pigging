@@ -130,7 +130,7 @@ public class TicketSearchResultIActivity extends FragmentActivity {
 		todayLinearLayout.setOnClickListener(new OnClickListener(){
             @Override
             public void onClick(View arg0) {
-            	CalendarDialog calendarDialog = new CalendarDialog(TicketSearchResultIActivity.this,R.style.Warning_Dialog_Theme);
+            	CalendarDialog calendarDialog = new CalendarDialog(TicketSearchResultIActivity.this,R.style.Custom_Dialog_Theme);
             	calendarDialog.show();
             }
             
@@ -215,7 +215,7 @@ public class TicketSearchResultIActivity extends FragmentActivity {
 //				
 //				fd.show(getSupportFragmentManager(), "filterDialog");
 				
-				FilterDialog filterDialog = new FilterDialog(TicketSearchResultIActivity.this,R.style.Warning_Dialog_Theme);
+				FilterDialog filterDialog = new FilterDialog(TicketSearchResultIActivity.this,R.style.Custom_Dialog_Theme);
 				filterDialog.show();
 			}
         });

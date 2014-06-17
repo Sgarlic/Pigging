@@ -1,0 +1,53 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="280dp"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shape_radius"
+    android:minWidth="280dip"
+    android:orientation="vertical"
+    tools:ignore="MergeRootFrame" >
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="10dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="10dp" >
+
+	    <TextView
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:gravity="center_vertical"
+		    android:text="舱位选择"
+		    android:textColor="@color/textOrange"
+		    android:textSize="18dp" />
+    </LinearLayout>
+    
+	<LinearLayout
+	    android:layout_width="match_parent"
+	    android:layout_height="2dp"
+	    android:background="@color/panelOrange"
+	    android:orientation="vertical" >
+    </LinearLayout>
+
+	
+	<LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp" >
+
+	    <ListView
+		    android:id="@+id/class_selector_listView"
+		    android:layout_width="fill_parent"
+		    android:layout_height="wrap_content"
+		    android:background="@color/white"
+		    android:divider="@color/tabDivider"
+        	android:dividerHeight="1px"
+		    android:scrollbars="none" />
+    </LinearLayout>
+</LinearLayout>
+

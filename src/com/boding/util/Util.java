@@ -344,7 +344,7 @@ public class Util {
 		}
 		
 		if(toastInfo!=null){
-			WarningDialog warningDialog = new WarningDialog(context, R.style.Warning_Dialog_Theme);
+			WarningDialog warningDialog = new WarningDialog(context, R.style.Custom_Dialog_Theme);
 			warningDialog.setContent(toastInfo);
 			warningDialog.setKnown("ÖªµÀÁË");
 			warningDialog.show();

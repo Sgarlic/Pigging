@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="280dp"
     android:layout_height="wrap_content"
-    android:background="@drawable/radius_shape"
+    android:background="@drawable/shape_radius"
     android:minWidth="280dip"
     android:orientation="vertical"
     tools:ignore="MergeRootFrame" >
@@ -18,16 +18,18 @@
 	    android:textColor="@color/black"
 	    android:textSize="15dp" />
 
-	<ImageView
+	<LinearLayout
 	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content"
-	    android:layout_gravity="center_horizontal"
-	    android:src="@drawable/leftpage_line_480_800" />
+	    android:layout_height="1dp"
+	    android:background="@color/tabDivider"
+	    android:orientation="vertical" >
+
+    </LinearLayout>
 
 	<TextView
 	    android:id="@+id/warning_known_textView"
 	    android:layout_width="match_parent"
-	    android:layout_height="40dp"
+	    android:layout_height="50dp"
 	    android:background="#ffffff"
 	    android:gravity="center"
 	    android:padding="5dip"

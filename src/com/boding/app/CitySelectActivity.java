@@ -101,7 +101,7 @@ public class CitySelectActivity extends FragmentActivity {
         citySearchLinearLayout.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View arg0) {
-				SearchCityDialog searchCityDialog = new SearchCityDialog(CitySelectActivity.this,R.style.Warning_Dialog_Theme,isFlyToCitySelection);
+				SearchCityDialog searchCityDialog = new SearchCityDialog(CitySelectActivity.this,R.style.Custom_Dialog_Theme,isFlyToCitySelection);
 				searchCityDialog.show();
 			}
         });
@@ -133,7 +133,7 @@ public class CitySelectActivity extends FragmentActivity {
      * tab changes.
      */
     public static class TabsAdapter extends FragmentPagerAdapter
-            implements TabHost.OnTabChangeListener, ViewPager.OnPageChangeListener {
+        implements TabHost.OnTabChangeListener, ViewPager.OnPageChangeListener {
         private final Context mContext;
         private final TabHost mTabHost;
         private final ViewPager mViewPager;
@@ -219,15 +219,8 @@ public class CitySelectActivity extends FragmentActivity {
             int oldFocusability = widget.getDescendantFocusability();
             widget.setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS);
             
-            View previousTabView = mTabHost.getCurrentTabView();
-            TextView previousTabTextView = (TextView) previousTabView.findViewById(R.id.tab_label);
-            previousTabTextView.setTextColor(R.color.black);
             
             mTabHost.setCurrentTab(position);
-            
-            View currentTabView = mTabHost.getCurrentTabView();
-            TextView currentTabTextView = (TextView) currentTabView.findViewById(R.id.tab_label);
-            currentTabTextView.setTextColor(R.color.panelOrange);
             
             widget.setDescendantFocusability(oldFocusability);
         }
