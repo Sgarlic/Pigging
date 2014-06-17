@@ -18,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.view.ViewTreeObserver;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
@@ -81,8 +82,6 @@ public class CalendarLayout extends LinearLayout{
 		currYearTextView = (TextView)v.findViewById(R.id.current_year_textView);
 		monthSelectorLinearLayout = (LinearLayout)v.findViewById(R.id.calendar_month_selector_linearLayout);
 		
-		parentWidth = 105;
-		
 		dateSelectCalendarView = (DateSelectCalendarView)v.findViewById(R.id.date_select_calendarView);
 		dateSelectCalendarView.setOnItemClickListener(new DateSelectCalendarView.OnItemClickListener(){
 			@Override
@@ -103,10 +102,17 @@ public class CalendarLayout extends LinearLayout{
 					popupWindowShowing();
 			}
 		});
-		initPopupWindow();
 		this.addView(v);
+		currMonthTextView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+			public boolean onPreDraw() {
+//				int finalHeight = currMonthTextView.getMeasuredHeight();
+				int finalWidth = currMonthTextView.getMeasuredWidth();
+				parentWidth = finalWidth;
+				initPopupWindow();
+				return true;
+			}
+		});
 	}
-	
 	private void generateMonthData(){
 		monthList = new ArrayList<String>();
 		Calendar calendar = Calendar.getInstance();
@@ -139,6 +145,11 @@ public class CalendarLayout extends LinearLayout{
 		currMonthTextView.setText(monthList.get(curDateMonth - minMonth));
 	}
 	
+	private void setAdapter(){
+		monthAdapter = new MonthAdapter(monthList);
+		monthListView.setAdapter(monthAdapter);
+	}
+	
 	private void initPopupWindow(){
 		View popupWindow =  LayoutInflater.from(context).inflate(R.layout.popup_month_selector, null);
 		monthListView = (ListView)popupWindow.findViewById(R.id.calendar_month_select_list);
@@ -147,12 +158,6 @@ public class CalendarLayout extends LinearLayout{
 		monthSelector.setOutsideTouchable(true);
 		monthSelector.setBackgroundDrawable(new BitmapDrawable());
 	}
-	
-	private void setAdapter(){
-		monthAdapter = new MonthAdapter(monthList);
-		monthListView.setAdapter(monthAdapter);
-	}
-	
 	private void popupWindowShowing(){
 		monthSelector.showAsDropDown(currMonthTextView, 0, -3);
 	}

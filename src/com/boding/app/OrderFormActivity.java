@@ -18,7 +18,9 @@ import com.boding.view.layout.OrderFlightInfoLayout;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.database.DataSetObserver;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -31,6 +33,7 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 public class OrderFormActivity extends Activity {
@@ -62,6 +65,10 @@ public class OrderFormActivity extends Activity {
 	
 	private List<BoardingPeople> peopleList;
 	private BoardingPeopleAdapter peopleAdapter;
+	
+//	private PopupWindow insuranceAmountSelector;
+//	private ListView insuranceSelectorListView;
+//	private int insurancePopupParentWidth;
 
 	// if init complete
 	private boolean flag = false;
@@ -140,6 +147,8 @@ public class OrderFormActivity extends Activity {
 		peopleAdapter = new BoardingPeopleAdapter(this, peopleList);
 		boardingPeopleListView.setAdapter(peopleAdapter);
 		addListeners();
+		
+//		insurancePopupParentWidth = insuranceLinearLayout.getWidth();
     }
 	
 	private static int count = 0;
@@ -156,10 +165,12 @@ public class OrderFormActivity extends Activity {
 		addBoardingPeopleLinearLayout.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				BoardingPeople people = new BoardingPeople(true, "李大嘴"+(count++), "356258745985653241"+(count++)); 
-//				peopleList.add(people);
-//				setBoardingPeople();
-				peopleAdapter.addNewPeople(people);
+				Intent intent = new Intent();
+				intent.setClass(OrderFormActivity.this, ChooseBoardingPeopleActivity.class);
+				startActivityForResult(intent,IntentRequestCode.START_CHOOSE_BOARDINGPEOPLE.getRequestCode());
+				
+//				BoardingPeople people = new BoardingPeople(true, "李大嘴"+(count++), "356258745985653241"+(count++)); 
+//				peopleAdapter.addNewPeople(people);
 			}
 		});
 	}
@@ -200,6 +211,7 @@ public class OrderFormActivity extends Activity {
 	            
 	            holder.nameTextView = (TextView) convertView.findViewById(R.id.boardingpeople_name_textView);
 	            holder.idNumberTextView = (TextView) convertView.findViewById(R.id.boardingpeople_idnumber_textView);
+	            holder.idTypeTextView = (TextView) convertView.findViewById(R.id.boardingpeople_idtype_textView);
 	            holder.deleteLinearLayout = (LinearLayout) convertView.findViewById(R.id.boardingpeople_delete_linearLayout);
 	            
 	            convertView.setTag(holder);  
@@ -224,7 +236,24 @@ public class OrderFormActivity extends Activity {
 		private class ViewHolder {
 			TextView nameTextView;
 			TextView idNumberTextView;
+			TextView idTypeTextView;
 			LinearLayout deleteLinearLayout;
 		}
 	}
+//	
+//	private void initPopupWindow(){
+//		View popupWindow =  LayoutInflater.from(this).inflate(R.layout.popup_insurance_selector, null);
+//		insuranceSelectorListView = (ListView)popupWindow.findViewById(R.id.insurance_select_list);
+//		insuranceAmountSelector = new PopupWindow(popupWindow,insurancePopupParentWidth,LayoutParams.WRAP_CONTENT,true);
+//		insuranceAmountSelector.setOutsideTouchable(true);
+//		insuranceAmountSelector.setBackgroundDrawable(new BitmapDrawable());
+//	}
+//	
+//	private void popupWindowShowing(){
+//		insuranceAmountSelector.showAsDropDown(insuranceLinearLayout, 0, -3);
+//	}
+//	
+//	private void popupWindowDismiss(){
+//		insuranceAmountSelector.dismiss();
+//	}
 }

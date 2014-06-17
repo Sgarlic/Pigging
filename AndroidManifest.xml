@@ -64,5 +64,11 @@
             android:theme="@android:style/Theme.NoTitleBar"
             android:screenOrientation="portrait" >
         </activity>
+        <activity
+            android:name="com.boding.app.ChooseBoardingPeopleActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:screenOrientation="portrait" >
+        </activity>
     </application>
 </manifest>

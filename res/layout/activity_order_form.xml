@@ -259,7 +259,6 @@
 				        android:layout_weight="1"
 				        android:orientation="vertical" >
 				        <LinearLayout
-					        android:id="@+id/orderform_addBoardingPeople_linearLayout"
 					        android:layout_width="wrap_content"
 					        android:layout_height="wrap_content"
 					        android:layout_gravity="right"
@@ -293,11 +292,14 @@
 							    android:textColor="@color/lightgray"
 							    android:textSize="16sp"
 							    android:typeface="serif" />
+
 							<ImageView
 							    android:layout_width="wrap_content"
 							    android:layout_height="wrap_content"
 							    android:layout_gravity="right"
+							    android:layout_marginLeft="5dp"
 							    android:src="@drawable/add_480_800" />
+
 						</LinearLayout>
 				    </LinearLayout>
 				</LinearLayout>
