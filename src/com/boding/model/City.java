@@ -2,7 +2,6 @@ package com.boding.model;
 
 import java.util.Comparator;
 
-import com.boding.constants.CityProperty;
 import com.boding.util.Util;
 
 public class City {
@@ -10,7 +9,6 @@ public class City {
 	private String cityCode;
 	private boolean isInternationalCity;
 	private String belongsToCountry;
-	private CityProperty property;
 	private String pinyin;
 	
 	public City(){}
@@ -56,18 +54,6 @@ public class City {
 			return true;
 		return false;
 		
-	}
-
-	public CityProperty getProperty() {
-		return property;
-	}
-
-	public void setProperty(CityProperty property) {
-		this.property = property;
-	}
-	
-	public String getPinyinofName(){
-		return Util.getPinYin(cityName);
 	}
 	
 	public String getPinyin() {

@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.boding.R;
-import com.boding.constants.CityProperty;
 import com.boding.constants.Constants;
 import com.boding.constants.GlobalVariables;
 import com.boding.model.Country;

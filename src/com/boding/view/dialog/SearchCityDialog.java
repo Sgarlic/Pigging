@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.boding.R;
-import com.boding.constants.CityProperty;
 import com.boding.constants.Constants;
 import com.boding.constants.GlobalVariables;
 import com.boding.model.City;
@@ -186,15 +185,11 @@ public class SearchCityDialog extends Dialog{
 	private List<City> searchCity(String searchText){
 		List<City> searchResult = new ArrayList<City>();
 		for(City city : GlobalVariables.allCitiesList){
-			if(city.getCityName().contains(searchText)){
+			if(city.getCityName().contains(searchText) || city.getPinyin().contains(searchText) 
+					|| city.getCityCode().contains(searchText)){
 				searchResult.add(city);
 				continue;
 			}
-			if(city.getCityName().contains(searchText)){
-				searchResult.add(city);
-				continue;
-			}
-				
 		}
 		
 		return searchResult;

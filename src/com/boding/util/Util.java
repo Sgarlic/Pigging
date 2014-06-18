@@ -325,9 +325,9 @@ public class Util {
 	}
 	
 	public static void selectCityOperation(ListView listView, int position, boolean isFlyToCitySelection, Context context, Dialog dialog){
-		ContentValues content = (ContentValues) listView.getAdapter().getItem(position);
-		String cityName = content.getAsString(Constants.CITY_NAME);
-		String cityCode = content.getAsString(Constants.CITY_CODE);
+		City city = (City) listView.getAdapter().getItem(position);
+		String cityName = city.getCityName();
+		String cityCode = city.getCityCode();
 		boolean isInternationalCity = false;
 		String cityCountry = "";
 		

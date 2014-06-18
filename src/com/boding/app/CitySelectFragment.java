@@ -21,7 +21,7 @@ import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 
 import com.boding.R;
-import com.boding.constants.CityProperty;
+import com.boding.app.NationalitySelectActivity.SortByAlpha;
 import com.boding.constants.Constants;
 import com.boding.constants.GlobalVariables;
 import com.boding.model.City;
@@ -137,6 +137,9 @@ public class CitySelectFragment extends Fragment {
         private List<City> contentList;
     	
     	public CityListAdapter(Context context, List<City> historyCityList, List<City> hotCityList, List<City> cityList) {
+    		if(cityList == null)
+    			return;
+    		//Collections.sort(cityList, new SortByAlpha());
     		this.inflater = LayoutInflater.from(context);
     		this.contentList = new ArrayList<City>();
     		alphaIndexer = new HashMap<String, Integer>();
@@ -148,19 +151,24 @@ public class CitySelectFragment extends Fragment {
     			c.setCityCode("123");
     			c.setInternationalCity(false);
     			c.setBelongsToCountry("china");
-    			c.setProperty(CityProperty.LOCATECITY);
     			c.setPinyin("shanghai");
     			contentList.add(c);
     		}
     		
-    		contentList.addAll(historyCityList);
-    		contentList.addAll(hotCityList);
+    		if(historyCityList.size()!= 0 && historyCityList != null){
+    			contentList.addAll(historyCityList);
+    			sectionSize+=historyCityList.size();
+    		}
+    		if(hotCityList.size() != 0 && hotCityList != null){
+    			contentList.addAll(hotCityList);
+    			sectionSize += hotCityList.size();
+    		}
     		contentList.addAll(cityList);
     		
     		//Collections.sort(contentList, new City.CityNameComp());
     		
     		GlobalVariables.allCitiesList.addAll(contentList); 
-    		sectionSize+=(historyCityList.size()+hotCityList.size()+contentList.size());
+    		sectionSize += contentList.size();
     		sections = new String[sectionSize];
     		
     		int sectionPointer = 0;
@@ -171,25 +179,22 @@ public class CitySelectFragment extends Fragment {
     			sectionPointer++;
     		}
     		
-    		for(City historyCity : historyCityList){
-    			sections[sectionPointer] = Constants.HISTORY;
-    			if(!alphaIndexer.containsKey(Constants.HISTORY))
-    				alphaIndexer.put(Constants.HISTORY, sectionPointer);
-    			sectionPointer++;
+    		if(historyCityList.size()!= 0 && historyCityList != null){
+	    		alphaIndexer.put(Constants.HISTORY, sectionPointer);
+	    		sections[sectionPointer] = Constants.HISTORY;
+	    		sectionPointer += historyCityList.size();
     		}
     		
-    		for(City hotCity : hotCityList){
-    			sections[sectionPointer] = Constants.HOT;
-    			if(!alphaIndexer.containsKey(Constants.HOT))
-    				alphaIndexer.put(Constants.HOT, sectionPointer);
-    			sectionPointer++;
+    		if(hotCityList.size() != 0 && hotCityList != null){
+	    		alphaIndexer.put(Constants.HOT, sectionPointer);
+	    		sections[sectionPointer] = Constants.HOT;
+	    		sectionPointer += hotCityList.size();
     		}
-    		
     		for (int i = 0; i < cityList.size(); i++,sectionPointer++) {
     			//当前汉语拼音首字母
-    			String currentStr = Util.getAlpha(cityList.get(i).getPinyinofName());
+    			String currentStr = Util.getAlpha(cityList.get(i).getPinyin());
     			//上一个汉语拼音首字母，如果不存在为“ ”
-                String previewStr = (i - 1) >= 0 ? Util.getAlpha(cityList.get(i - 1).getPinyinofName()) : " ";
+                String previewStr = (i - 1) >= 0 ? Util.getAlpha(cityList.get(i - 1).getPinyin()) : " ";
                 if (!previewStr.equals(currentStr)) {
                 	//String name = Util.getAlpha(cityList.get(i).getPinyinofName();
                 	alphaIndexer.put(currentStr, sectionPointer);  
@@ -231,11 +236,8 @@ public class CitySelectFragment extends Fragment {
 //            holder.number.setText(cv.getAsString(NUMBER));
 //            String currentStr = getAlpha(list.get(position).getAsString(SORT_KEY));
 //            String previewStr = (position - 1) >= 0 ? getAlpha(list.get(position - 1).getAsString(SORT_KEY)) : " ";
-            String currentStr = getContentValuesTitle(cv);
-            String previewStr = (position - 1) >= 0 ? getContentValuesTitle(contentList.get(position-1)) : " ";
-            //System.out.println(currentStr);
-            //System.out.println(previewStr);
-            if (!previewStr.equals(currentStr)) {  
+            String currentStr = sections[position];
+            if (currentStr!=null) {  
                 holder.alpha.setVisibility(View.VISIBLE);
                 holder.alpha.setText(currentStr);
             } else {  
@@ -250,14 +252,6 @@ public class CitySelectFragment extends Fragment {
 //            TextView number;
 		}
     	
-    }
-    
-    private String getContentValuesTitle(City city){
-    	String title = city.getProperty().getProperty();
-    	if(title.equals(CityProperty.CityList.getProperty())){
-    		title = Util.getAlpha(city.getPinyinofName());
-    	}
-    	return title;
     }
     
 //    //初始化汉语拼音首字母弹出提示框
@@ -303,92 +297,11 @@ public class CitySelectFragment extends Fragment {
 //    	
 //    }
 //    
-    class SortBySortKey implements Comparator<ContentValues>{
+    class SortByAlpha implements Comparator<City>{
 		@Override
-		public int compare(ContentValues value0, ContentValues value1) {
-			String key0 = value0.getAsString(Constants.SORT_KEY);
-    		String key1 = value1.getAsString(Constants.SORT_KEY);
-    		return key0.compareTo(key1);
+		public int compare(City value0, City value1) {
+    		return value0.getPinyin().compareTo(value1.getPinyin());
 		}
     	
     }
-    
-    private List<ContentValues> getCitiesList(){
-        List<ContentValues> list = new ArrayList<ContentValues>();  
-        String[] cities = {
-         	"北京","上海","广州","天津","重庆",
-           	"哈尔滨","长春","沈阳","大连","济南","青岛","西安","成都","武汉","南京","杭州","宁波","厦门","深圳",
-           	"连云港","徐州","宿迁","淮安","盐城","泰州","扬州","镇江","南通","常州","无锡","苏州","乌鲁木齐","齐齐哈尔",
-           	"超长的测试城市1","超长的测试城市2"
-        };
-        for(int i=0;i<cities.length;i++){
-           	list.add(generateContentValues(cities[i],CityProperty.CityList));
-        }
-        if (list.size() > 0) {  
-           	Collections.sort(list,new SortBySortKey());
-//            setAdapter(list);  
-        }  
-        return list;
-    }
-    
-    private List<ContentValues> getCitiesListI(){
-        List<ContentValues> list = new ArrayList<ContentValues>();  
-        String[] cities = {
-         	"香港(HKG/中国)","首尔(SEL/韩国)","澳门(MFM/中国)","东京(TYO/日本)","新加坡(SIN/新加坡)",
-           	"台北(TEP/中国)"};
-        for(int i=0;i<cities.length;i++){
-           	list.add(generateContentValues(cities[i],CityProperty.CityList));
-        }
-        if (list.size() > 0) {  
-           	Collections.sort(list,new SortBySortKey());
-//            setAdapter(list);  
-        }  
-        return list;
-    }
-    
-    private List<ContentValues> getHistoryCityList(){
-    	String[] historyCities = {"厦门","南京","西安"};
-    	List<ContentValues> list = new ArrayList<ContentValues>(); 
-    	for(int i=0;i<historyCities.length;i++){
-           	list.add(generateContentValues(historyCities[i],CityProperty.HISTORY));
-        }
-        return list;
-    }
-    
-    private List<ContentValues> getHistoryCityListI(){
-    	String[] historyCities = {"首尔(SEL/韩国)","澳门(MFM/中国)","东京(TYO/日本)"};
-    	List<ContentValues> list = new ArrayList<ContentValues>(); 
-    	for(int i=0;i<historyCities.length;i++){
-           	list.add(generateContentValues(historyCities[i],CityProperty.HISTORY));
-        }
-        return list;
-    }
-    
-    private List<ContentValues> getHotCityList(){
-    	String[] hotCities = {"北京","上海","广州"};
-    	List<ContentValues> list = new ArrayList<ContentValues>(); 
-    	for(int i=0;i<hotCities.length;i++){
-           	list.add(generateContentValues(hotCities[i],CityProperty.HOT));
-        }
-        return list;
-    }
-    private List<ContentValues> getHotCityListI(){
-    	String[] hotCities = {"澳门(MFM/中国)","东京(TYO/日本)","新加坡(SIN/新加坡)"};
-    	List<ContentValues> list = new ArrayList<ContentValues>(); 
-    	for(int i=0;i<hotCities.length;i++){
-           	list.add(generateContentValues(hotCities[i],CityProperty.HOT));
-        }
-        return list;
-    }
-    
-    private ContentValues generateContentValues(String cityName, CityProperty cityProperty){
-    	ContentValues cv = new ContentValues();
-       	cv.put(Constants.CITY_NAME, cityName);
-       	cv.put(Constants.CITY_CODE, Util.getPinYin(cityName));
-       	cv.put(Constants.SORT_KEY, Util.getPinYin(cityName));
-       	cv.put(Constants.PROPERTY, cityProperty.getProperty());
-       	return cv;
-    }
-
-    
 }

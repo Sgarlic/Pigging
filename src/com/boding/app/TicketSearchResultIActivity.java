@@ -9,7 +9,6 @@ import com.boding.R.id;
 import com.boding.R.layout;
 import com.boding.R.menu;
 import com.boding.adapter.TicketSearchResultListIAdapter;
-import com.boding.constants.CityProperty;
 import com.boding.constants.GlobalVariables;
 import com.boding.constants.IntentRequestCode;
 import com.boding.model.AirlineView;

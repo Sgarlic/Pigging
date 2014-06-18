@@ -13,7 +13,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.boding.constants.CityProperty;
 import com.boding.constants.GlobalVariables;
 import com.boding.model.City;
 import com.boding.util.Util;
@@ -72,28 +71,21 @@ public class InitCityTask extends AsyncTask<Object,Void,Object>{
 				//System.out.println(jo.getString("IsDomestic"));
 				if("True".equals(jo.getString("IsDomestic"))){
 					city.setInternationalCity(false);
-					city.setProperty(CityProperty.CityList);
 					GlobalVariables.domesticCitiesList.add(city);
 				}
 				else{
 					city.setInternationalCity(true);
-					city.setProperty(CityProperty.CityList);
 					GlobalVariables.interCitiesList.add(city);
 				}
 				type = jo.getString("type");
 				if(type.contains("A")){
-					city.setProperty(CityProperty.HOT);
 					GlobalVariables.domHotCitiesList.add(city);
 				}
 				if(type.contains("B")){
-					city.setProperty(CityProperty.HOT);
 					GlobalVariables.interHotCitiesList.add(city);
 				}
 			}
 			
-			for(City c : GlobalVariables.domesticCitiesList){
-				System.out.println(c.getProperty().getProperty());
-			}
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
