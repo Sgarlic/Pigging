@@ -9,7 +9,7 @@ import com.boding.R;
 import com.boding.constants.CityProperty;
 import com.boding.constants.Constants;
 import com.boding.constants.GlobalVariables;
-import com.boding.model.City;
+import com.boding.model.Country;
 import com.boding.util.Util;
 
 import android.app.Dialog;
@@ -39,11 +39,15 @@ public class SearchNationalityDialog extends Dialog{
 	private LinearLayout searchCityListLinearLayout;
 	private ListView searchResultListView;
 	private Context context;
-	public SearchNationalityDialog(Context context, int theme){
+	
+	private List<Country> countryList;
+	
+	public SearchNationalityDialog(Context context, int theme,List<Country> countryList){
 		super(context,theme);
 		setContentView(R.layout.dialog_search_city);
 		setWidthHeight();
 		this.context = context;
+		this.countryList = countryList;
 		initView();
 	}
 	
@@ -105,7 +109,8 @@ public class SearchNationalityDialog extends Dialog{
 				hideListView();
 			}else{
 				showListView();
-				SearchResultCityListAdapter adapter = new SearchResultCityListAdapter(SearchNationalityDialog.this.getContext(), searchCity(searchText));
+				SearchCountryResultAdapter adapter = 
+						new SearchCountryResultAdapter(SearchNationalityDialog.this.getContext(), searchCity(searchText));
 				searchResultListView.setAdapter(adapter);
 			}
 			
@@ -130,11 +135,11 @@ public class SearchNationalityDialog extends Dialog{
 		searchCityListLinearLayout.setVisibility(View.VISIBLE);
 	}
 	
-	private class SearchResultCityListAdapter extends BaseAdapter {
+	private class SearchCountryResultAdapter extends BaseAdapter {
     	private LayoutInflater inflater;  
-        private List<City> contentList;
+        private List<Country> contentList;
     	
-    	public SearchResultCityListAdapter(Context context, List<City> cityList) {
+    	public SearchCountryResultAdapter(Context context, List<Country> cityList) {
     		this.inflater = LayoutInflater.from(context);
     		this.contentList = cityList;
     	}
@@ -145,7 +150,7 @@ public class SearchNationalityDialog extends Dialog{
 		}
 
 		@Override
-		public City getItem(int position) {
+		public Country getItem(int position) {
 			return contentList.get(position);
 		}
 
@@ -167,35 +172,24 @@ public class SearchNationalityDialog extends Dialog{
                 holder = (ViewHolder) convertView.getTag(); 
                 
             }  
-            City cv = contentList.get(position);  
-            holder.name.setText(cv.getCityName());
-//            holder.number.setText(cv.getAsString(NUMBER));
-//            String currentStr = getAlpha(list.get(position).getAsString(SORT_KEY));
-//            String previewStr = (position - 1) >= 0 ? getAlpha(list.get(position - 1).getAsString(SORT_KEY)) : " ";
+			Country country = contentList.get(position);  
+            holder.name.setText(country.getCountryName());
             return convertView;  
 		}
 		
 		private class ViewHolder {
             TextView name;  
-//            TextView number;
 		}
     	
     }
 	
-	private List<City> searchCity(String searchText){
-		List<City> searchResult = new ArrayList<City>();
-		for(City city : GlobalVariables.allCitiesList){
-			if(city.getCityName().contains(searchText)){
-				searchResult.add(city);
-				continue;
+	private List<Country> searchCity(String searchText){
+		List<Country> searchResult = new ArrayList<Country>();
+		for(Country country : countryList){
+			if(country.getCountryName().contains(searchText)||country.getCountryPinyin().contains(searchText)){
+				searchResult.add(country);
 			}
-			if(city.getCityName().contains(searchText)){
-				searchResult.add(city);
-				continue;
-			}
-				
 		}
-		
 		return searchResult;
 	}
 	
