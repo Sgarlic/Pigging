@@ -15,7 +15,7 @@ public class GlobalVariables {
 	public static int Screen_Height = 0;
 	public static int App_Height = 0;
 	
-	public static List<ContentValues> allCitiesList = new ArrayList<ContentValues>();
+	public static List<City> allCitiesList = new ArrayList<City>();
 	public static List<City> domesticCitiesList = new ArrayList<City>();
 	public static List<City> interCitiesList = new ArrayList<City>();
 	public static List<City> domHotCitiesList = new ArrayList<City>();

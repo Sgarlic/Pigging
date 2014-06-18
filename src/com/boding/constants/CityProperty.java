@@ -1,6 +1,6 @@
 package com.boding.constants;
 
-public enum CityProperty {
+public enum CityProperty{
 	LOCATECITY("定位"),
 	HISTORY("历史"),
 	HOT("热门"),

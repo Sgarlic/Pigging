@@ -24,6 +24,7 @@ import com.boding.R;
 import com.boding.constants.CityProperty;
 import com.boding.constants.Constants;
 import com.boding.constants.GlobalVariables;
+import com.boding.model.City;
 import com.boding.util.Util;
 import com.boding.view.listview.CitySelectLetterListView;
 import com.boding.view.listview.CitySelectLetterListView.OnTouchingLetterChangedListener;
@@ -123,30 +124,42 @@ public class CitySelectFragment extends Fragment {
     
     private void setAdapter() {
     	if(isInternational)
-    		adapter = new CityListAdapter(currentView.getContext(), getHistoryCityListI(),getHotCityListI(),getCitiesListI());
+    		adapter = new CityListAdapter(currentView.getContext(), new ArrayList<City>(), 
+    				GlobalVariables.interHotCitiesList, GlobalVariables.interCitiesList);
     	else
-    		adapter = new CityListAdapter(currentView.getContext(), getHistoryCityList(),getHotCityList(),getCitiesList());
+    		adapter = new CityListAdapter(currentView.getContext(), new ArrayList<City>(),
+    				GlobalVariables.domHotCitiesList, GlobalVariables.domesticCitiesList);
         allCitiesListView.setAdapter(adapter);  
     }
     
     private class CityListAdapter extends BaseAdapter {
     	private LayoutInflater inflater;  
-        private List<ContentValues> contentList;
+        private List<City> contentList;
     	
-    	public CityListAdapter(Context context, List<ContentValues> historyCityList, List<ContentValues> hotCityList, List<ContentValues> cityList) {
+    	public CityListAdapter(Context context, List<City> historyCityList, List<City> hotCityList, List<City> cityList) {
     		this.inflater = LayoutInflater.from(context);
-    		this.contentList = new ArrayList<ContentValues>();
+    		this.contentList = new ArrayList<City>();
     		alphaIndexer = new HashMap<String, Integer>();
     		int sectionSize = 0;
     		if(locatedCity!=null){
     			sectionSize+=1;
-    			contentList.add(generateContentValues(locatedCity,CityProperty.LOCATECITY));
+    			City c = new City();
+    			c.setCityName("aa");
+    			c.setCityCode("123");
+    			c.setInternationalCity(false);
+    			c.setBelongsToCountry("china");
+    			c.setProperty(CityProperty.LOCATECITY);
+    			c.setPinyin("shanghai");
+    			contentList.add(c);
     		}
     		
     		contentList.addAll(historyCityList);
     		contentList.addAll(hotCityList);
     		contentList.addAll(cityList);
-    		GlobalVariables.allCitiesList.addAll(contentList);
+    		
+    		//Collections.sort(contentList, new City.CityNameComp());
+    		
+    		GlobalVariables.allCitiesList.addAll(contentList); 
     		sectionSize+=(historyCityList.size()+hotCityList.size()+contentList.size());
     		sections = new String[sectionSize];
     		
@@ -158,14 +171,14 @@ public class CitySelectFragment extends Fragment {
     			sectionPointer++;
     		}
     		
-    		for(ContentValues historyCity : historyCityList){
+    		for(City historyCity : historyCityList){
     			sections[sectionPointer] = Constants.HISTORY;
     			if(!alphaIndexer.containsKey(Constants.HISTORY))
     				alphaIndexer.put(Constants.HISTORY, sectionPointer);
     			sectionPointer++;
     		}
     		
-    		for(ContentValues hotCity : hotCityList){
+    		for(City hotCity : hotCityList){
     			sections[sectionPointer] = Constants.HOT;
     			if(!alphaIndexer.containsKey(Constants.HOT))
     				alphaIndexer.put(Constants.HOT, sectionPointer);
@@ -174,13 +187,13 @@ public class CitySelectFragment extends Fragment {
     		
     		for (int i = 0; i < cityList.size(); i++,sectionPointer++) {
     			//当前汉语拼音首字母
-    			String currentStr = Util.getAlpha(cityList.get(i).getAsString(Constants.SORT_KEY));
+    			String currentStr = Util.getAlpha(cityList.get(i).getPinyinofName());
     			//上一个汉语拼音首字母，如果不存在为“ ”
-                String previewStr = (i - 1) >= 0 ? Util.getAlpha(cityList.get(i - 1).getAsString(Constants.SORT_KEY)) : " ";
+                String previewStr = (i - 1) >= 0 ? Util.getAlpha(cityList.get(i - 1).getPinyinofName()) : " ";
                 if (!previewStr.equals(currentStr)) {
-                	String name = Util.getAlpha(cityList.get(i).getAsString(Constants.SORT_KEY));
-                	alphaIndexer.put(name, sectionPointer);  
-                	sections[sectionPointer] = name; 
+                	//String name = Util.getAlpha(cityList.get(i).getPinyinofName();
+                	alphaIndexer.put(currentStr, sectionPointer);  
+                	sections[sectionPointer] = currentStr; 
                 }
             }
     	}
@@ -191,7 +204,7 @@ public class CitySelectFragment extends Fragment {
 		}
 
 		@Override
-		public ContentValues getItem(int position) {
+		public City getItem(int position) {
 			return contentList.get(position);
 		}
 
@@ -213,13 +226,15 @@ public class CitySelectFragment extends Fragment {
             } else {  
                 holder = (ViewHolder) convertView.getTag();  
             }  
-            ContentValues cv = contentList.get(position);  
-            holder.name.setText(cv.getAsString(Constants.CITY_NAME));
+            City cv = contentList.get(position);  
+            holder.name.setText(cv.getCityName());
 //            holder.number.setText(cv.getAsString(NUMBER));
 //            String currentStr = getAlpha(list.get(position).getAsString(SORT_KEY));
 //            String previewStr = (position - 1) >= 0 ? getAlpha(list.get(position - 1).getAsString(SORT_KEY)) : " ";
             String currentStr = getContentValuesTitle(cv);
             String previewStr = (position - 1) >= 0 ? getContentValuesTitle(contentList.get(position-1)) : " ";
+            //System.out.println(currentStr);
+            //System.out.println(previewStr);
             if (!previewStr.equals(currentStr)) {  
                 holder.alpha.setVisibility(View.VISIBLE);
                 holder.alpha.setText(currentStr);
@@ -237,10 +252,10 @@ public class CitySelectFragment extends Fragment {
     	
     }
     
-    private String getContentValuesTitle(ContentValues content){
-    	String title = content.getAsString(Constants.PROPERTY);
+    private String getContentValuesTitle(City city){
+    	String title = city.getProperty().getProperty();
     	if(title.equals(CityProperty.CityList.getProperty())){
-    		title = Util.getAlpha(content.getAsString(Constants.SORT_KEY));
+    		title = Util.getAlpha(city.getPinyinofName());
     	}
     	return title;
     }

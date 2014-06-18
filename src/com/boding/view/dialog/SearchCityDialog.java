@@ -8,6 +8,7 @@ import com.boding.R;
 import com.boding.constants.CityProperty;
 import com.boding.constants.Constants;
 import com.boding.constants.GlobalVariables;
+import com.boding.model.City;
 import com.boding.util.Util;
 
 import android.app.Dialog;
@@ -132,9 +133,9 @@ public class SearchCityDialog extends Dialog{
 	
 	private class SearchResultCityListAdapter extends BaseAdapter {
     	private LayoutInflater inflater;  
-        private List<ContentValues> contentList;
+        private List<City> contentList;
     	
-    	public SearchResultCityListAdapter(Context context, List<ContentValues> cityList) {
+    	public SearchResultCityListAdapter(Context context, List<City> cityList) {
     		this.inflater = LayoutInflater.from(context);
     		this.contentList = cityList;
     	}
@@ -145,7 +146,7 @@ public class SearchCityDialog extends Dialog{
 		}
 
 		@Override
-		public ContentValues getItem(int position) {
+		public City getItem(int position) {
 			return contentList.get(position);
 		}
 
@@ -167,8 +168,8 @@ public class SearchCityDialog extends Dialog{
                 holder = (ViewHolder) convertView.getTag(); 
                 
             }  
-            ContentValues cv = contentList.get(position);  
-            holder.name.setText(cv.getAsString(Constants.CITY_NAME));
+            City cv = contentList.get(position);  
+            holder.name.setText(cv.getCityName());
 //            holder.number.setText(cv.getAsString(NUMBER));
 //            String currentStr = getAlpha(list.get(position).getAsString(SORT_KEY));
 //            String previewStr = (position - 1) >= 0 ? getAlpha(list.get(position - 1).getAsString(SORT_KEY)) : " ";
@@ -182,15 +183,15 @@ public class SearchCityDialog extends Dialog{
     	
     }
 	
-	private List<ContentValues> searchCity(String searchText){
-		List<ContentValues> searchResult = new ArrayList<ContentValues>();
-		for(ContentValues contentValues : GlobalVariables.allCitiesList){
-			if(contentValues.getAsString(Constants.CITY_NAME).contains(searchText)){
-				searchResult.add(contentValues);
+	private List<City> searchCity(String searchText){
+		List<City> searchResult = new ArrayList<City>();
+		for(City city : GlobalVariables.allCitiesList){
+			if(city.getCityName().contains(searchText)){
+				searchResult.add(city);
 				continue;
 			}
-			if(contentValues.getAsString(Constants.SORT_KEY).contains(searchText)){
-				searchResult.add(contentValues);
+			if(city.getCityName().contains(searchText)){
+				searchResult.add(city);
 				continue;
 			}
 				
