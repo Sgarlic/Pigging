@@ -16,7 +16,7 @@
 		    android:layout_width="wrap_content"
 		    android:layout_height="wrap_content"
 		    android:layout_gravity="center_vertical"
-		    android:button="@layout/selector_chooseboardingpeople_checkbox_bg"/>
+		    android:button="@layout/selector_choosepassenger_checkbox_bg"/>
 
 	</LinearLayout>
 

@@ -8,7 +8,7 @@ import com.boding.R;
 import com.boding.constants.Constants;
 import com.boding.constants.GlobalVariables;
 import com.boding.constants.IntentRequestCode;
-import com.boding.model.BoardingPeople;
+import com.boding.model.Passenger;
 import com.boding.util.Util;
 import com.boding.view.calendar.DateSelectCalendarView;
 import com.boding.view.calendar.DateSelectCalendarView.OnItemClickListener;
@@ -51,9 +51,9 @@ public class OrderFormActivity extends Activity {
 	private TextView fuelOilPriceTextView;
 	private LinearLayout ticketTaxLinearLayout; 
 	private TextView ticketTaxPriceTextView;
-	private TextView boardingPeopleAmountTextView;
-	private ListView boardingPeopleListView;
-	private LinearLayout addBoardingPeopleLinearLayout;
+	private TextView passengerAmountTextView;
+	private ListView passengerListView;
+	private LinearLayout addPassengerLinearLayout;
 	private TextView phoneNumberTextView;
 	private LinearLayout insuranceLinearLayout;
 	private TextView insurancePriceTextView;
@@ -63,8 +63,8 @@ public class OrderFormActivity extends Activity {
 	private TextView totalPriceTextView;
 	private LinearLayout nextStepLinearLayout; 
 	
-	private List<BoardingPeople> peopleList;
-	private BoardingPeopleAdapter peopleAdapter;
+	private List<Passenger> peopleList;
+	private PassengerAdapter peopleAdapter;
 	
 //	private PopupWindow insuranceAmountSelector;
 //	private ListView insuranceSelectorListView;
@@ -93,7 +93,7 @@ public class OrderFormActivity extends Activity {
 	}
 	
 	private void initView(){
-		peopleList = new ArrayList<BoardingPeople>();
+		peopleList = new ArrayList<Passenger>();
 		LinearLayout returnLinearLayout = (LinearLayout)findViewById(R.id.return_logo_linearLayout);
 		returnLinearLayout.setOnClickListener(new OnClickListener(){
 			@Override
@@ -122,9 +122,9 @@ public class OrderFormActivity extends Activity {
 		fuelOilPriceTextView = (TextView) findViewById(R.id.orderform_fuelOil_price_textView);
 		ticketTaxLinearLayout = (LinearLayout) findViewById(R.id.orderform_ticketTax_linearLayout); 
 		ticketTaxPriceTextView = (TextView) findViewById(R.id.orderform_ticketTax_price_textView);
-		boardingPeopleAmountTextView = (TextView) findViewById(R.id.orderform_boardingPeopleAmount_textView);
-		boardingPeopleListView = (ListView) findViewById(R.id.orderform_boardingPeople_listView);
-		addBoardingPeopleLinearLayout = (LinearLayout) findViewById(R.id.orderform_addBoardingPeople_linearLayout);
+		passengerAmountTextView = (TextView) findViewById(R.id.orderform_passengerAmount_textView);
+		passengerListView = (ListView) findViewById(R.id.orderform_passenger_listView);
+		addPassengerLinearLayout = (LinearLayout) findViewById(R.id.orderform_addPassenger_linearLayout);
 		phoneNumberTextView = (TextView) findViewById(R.id.orderform_phoneNumber_textView);
 		insuranceLinearLayout = (LinearLayout) findViewById(R.id.orderform_insurance_linearLayout);
 		insurancePriceTextView = (TextView) findViewById(R.id.orderform_insurance_price_textView);
@@ -144,8 +144,8 @@ public class OrderFormActivity extends Activity {
 		if(isRoundTrip)
 			ticketPriceTextView.setText("往返总价");
 		
-		peopleAdapter = new BoardingPeopleAdapter(this, peopleList);
-		boardingPeopleListView.setAdapter(peopleAdapter);
+		peopleAdapter = new PassengerAdapter(this, peopleList);
+		passengerListView.setAdapter(peopleAdapter);
 		addListeners();
 		
 //		insurancePopupParentWidth = insuranceLinearLayout.getWidth();
@@ -156,21 +156,21 @@ public class OrderFormActivity extends Activity {
 	private void addListeners(){
 		DataSetObserver observer=new DataSetObserver(){  
 	        public void onChanged() {  
-	            Util.setListViewHeightBasedOnChildren(boardingPeopleListView);
-	            boardingPeopleAmountTextView.setText(String.valueOf(peopleList.size()));
+	            Util.setListViewHeightBasedOnChildren(passengerListView);
+	            passengerAmountTextView.setText(String.valueOf(peopleList.size()));
 	        }  
 	    };
 	    peopleAdapter.registerDataSetObserver(observer);
 		
-		addBoardingPeopleLinearLayout.setOnClickListener(new View.OnClickListener() {
+		addPassengerLinearLayout.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent();
-				intent.setClass(OrderFormActivity.this, ChooseBoardingPeopleActivity.class);
-				startActivityForResult(intent,IntentRequestCode.START_CHOOSE_BOARDINGPEOPLE.getRequestCode());
+				Passenger people = new Passenger(true, "李大嘴"+(count++), "356258745985653241"+(count++)); 
+				peopleAdapter.addPassenger(people);
 				
-//				BoardingPeople people = new BoardingPeople(true, "李大嘴"+(count++), "356258745985653241"+(count++)); 
-//				peopleAdapter.addNewPeople(people);
+				Intent intent = new Intent();
+				intent.setClass(OrderFormActivity.this, ChoosePassengerActivity.class);
+				startActivityForResult(intent,IntentRequestCode.START_CHOOSE_PASSENGER.getRequestCode());
 			}
 		});
 		
@@ -185,21 +185,21 @@ public class OrderFormActivity extends Activity {
 		});
 	}
 	
-	private class BoardingPeopleAdapter extends BaseAdapter {
-		private List<BoardingPeople> peopleList;
+	private class PassengerAdapter extends BaseAdapter {
+		private List<Passenger> passengerList;
 		private Context context;
-		public BoardingPeopleAdapter(Context context, List<BoardingPeople> peopleList) {
+		public PassengerAdapter(Context context, List<Passenger> passengerList) {
 			this.context = context;
-			this.peopleList = peopleList;
+			this.passengerList = passengerList;
 		}
 		@Override
 		public int getCount() {
-			return peopleList.size();
+			return passengerList.size();
 		}
 
 		@Override
-		public BoardingPeople getItem(int position) {
-			return peopleList.get(position);
+		public Passenger getItem(int position) {
+			return passengerList.get(position);
 		}
 
 		@Override
@@ -207,8 +207,8 @@ public class OrderFormActivity extends Activity {
 			return position;
 		}
 		
-		public void addNewPeople(BoardingPeople people){
-			peopleList.add(people);
+		public void addPassenger(Passenger passenger){
+			passengerList.add(passenger);
 			notifyDataSetChanged();
 		}
 
@@ -216,26 +216,26 @@ public class OrderFormActivity extends Activity {
 		public View getView(final int position, View convertView, ViewGroup parent) {
 			ViewHolder holder;
 			if (convertView == null) {  
-	            convertView = LayoutInflater.from(context).inflate(R.layout.list_item_boardingpeople, null);
+	            convertView = LayoutInflater.from(context).inflate(R.layout.list_item_passenger, null);
 	            holder = new ViewHolder();  
 	            
-	            holder.nameTextView = (TextView) convertView.findViewById(R.id.boardingpeople_name_textView);
-	            holder.idNumberTextView = (TextView) convertView.findViewById(R.id.boardingpeople_idnumber_textView);
-	            holder.idTypeTextView = (TextView) convertView.findViewById(R.id.boardingpeople_idtype_textView);
-	            holder.deleteLinearLayout = (LinearLayout) convertView.findViewById(R.id.boardingpeople_delete_linearLayout);
+	            holder.nameTextView = (TextView) convertView.findViewById(R.id.passenger_name_textView);
+	            holder.idNumberTextView = (TextView) convertView.findViewById(R.id.passenger_idnumber_textView);
+	            holder.idTypeTextView = (TextView) convertView.findViewById(R.id.passenger_idtype_textView);
+	            holder.deleteLinearLayout = (LinearLayout) convertView.findViewById(R.id.passenger_delete_linearLayout);
 	            
 	            convertView.setTag(holder);  
 	        } else {  
 	            holder = (ViewHolder) convertView.getTag();  
 	        }  
 			
-			BoardingPeople people = getItem(position);
+			Passenger people = getItem(position);
             holder.nameTextView.setText(people.getName());
             holder.idNumberTextView.setText(people.getCardNumber());
 			holder.deleteLinearLayout.setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						peopleList.remove(position); 
+						passengerList.remove(position); 
 						Log.d("poding",position+"");
 						notifyDataSetChanged();
 					}

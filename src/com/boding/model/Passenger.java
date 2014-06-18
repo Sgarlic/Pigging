@@ -4,7 +4,7 @@ import java.util.Date;
 
 import com.boding.constants.IdentityType;
 
-public class BoardingPeople {
+public class Passenger {
 	private boolean isInternal;
 	private String name;
 	private String lastName;
@@ -34,7 +34,7 @@ public class BoardingPeople {
 		this.cardNumber = cardNumber;
 	}
 	
-	public BoardingPeople(boolean isInternal, String name, String cardNumber){
+	public Passenger(boolean isInternal, String name, String cardNumber){
 		this.isInternal = isInternal;
 		this.name = name;
 		this.cardNumber = cardNumber;

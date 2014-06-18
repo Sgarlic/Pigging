@@ -6,7 +6,7 @@ import java.util.List;
 import com.boding.R;
 import com.boding.constants.IntentRequestCode;
 import com.boding.model.DeliveryAddress;
-import com.boding.model.BoardingPeople;
+import com.boding.model.Passenger;
 import com.boding.util.Util;
 
 import android.app.Activity;

@@ -48,12 +48,14 @@
 		            android:typeface="serif" />
 	        </LinearLayout>
 		</LinearLayout>
+
 		<LinearLayout
-		    android:id="@+id/choose_boardingpeople_complete_linearLayout"
-	        android:layout_width="wrap_content"
+		    android:id="@+id/choose_passenger_complete_linearLayout"
+		    android:layout_width="wrap_content"
 		    android:layout_height="match_parent"
 		    android:layout_weight="1"
-		    android:orientation="horizontal">
+		    android:orientation="horizontal" >
+
 	        <LinearLayout
 		        android:layout_width="match_parent"
 		        android:layout_height="wrap_content"
@@ -113,7 +115,7 @@
 			    android:typeface="serif" />
 
 		    <LinearLayout
-		        android:id="@+id/choose_boardingpeople_addBoardingPeople_linearLayout"
+		        android:id="@+id/choose_passenger_addPassenger_linearLayout"
 		        android:layout_width="wrap_content"
 		        android:layout_height="match_parent"
 		        android:layout_gravity="top"
@@ -140,14 +142,16 @@
 	        android:layout_width="match_parent"
 	        android:layout_height="match_parent"
 	        android:orientation="vertical" >
+
 		    <ListView
-		        android:id="@+id/choose_boardingpeople_boardingpeole_listView"
+		        android:id="@+id/choose_passenger_passenger_listView"
 		        android:layout_width="fill_parent"
 		        android:layout_height="wrap_content"
 		        android:background="@color/white"
 		        android:cacheColorHint="@android:color/white"
 		        android:divider="@color/white"
 		        android:scrollbars="none" />
+
 		</LinearLayout>
     </LinearLayout>
 </LinearLayout>

@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.boding.R;
 import com.boding.constants.IntentRequestCode;
-import com.boding.model.BoardingPeople;
+import com.boding.model.Passenger;
 import com.boding.util.Util;
 import com.boding.view.dialog.ClassSelectionDialog;
 
@@ -38,7 +38,7 @@ public class JourneySheetDeliveryActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_journeysheet_distribution);
+		setContentView(R.layout.activity_journeysheet_delivery);
 //		Bundle arguments = getIntent().getExtras();
 //        if(arguments != null)
 //        	isReturnDateSelection = arguments.getBoolean(Constants.IS_RETURN_DATE_SELECTION);
@@ -51,7 +51,7 @@ public class JourneySheetDeliveryActivity extends Activity {
 		returnLinearLayout.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View arg0) {
-				Util.returnToPreviousPage(JourneySheetDeliveryActivity.this, IntentRequestCode.START_CHOOSE_BOARDINGPEOPLE);
+				Util.returnToPreviousPage(JourneySheetDeliveryActivity.this, IntentRequestCode.START_CHOOSE_PASSENGER);
 			}
 			
 		});

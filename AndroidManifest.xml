@@ -65,7 +65,7 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.boding.app.ChooseBoardingPeopleActivity"
+            android:name="com.boding.app.ChoosePassengerActivity"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.NoTitleBar"
             android:screenOrientation="portrait" >

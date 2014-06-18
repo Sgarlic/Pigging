@@ -250,14 +250,16 @@
 					    android:textColor="@color/black"
 					    android:textSize="20sp"
 					    android:typeface="serif" />
+
 				    <LinearLayout
-				        android:id="@+id/orderform_addBoardingPeople_linearLayout"
+				        android:id="@+id/orderform_addPassenger_linearLayout"
 				        android:layout_width="wrap_content"
 				        android:layout_height="wrap_content"
 				        android:layout_gravity="top"
 				        android:layout_marginTop="5dp"
 				        android:layout_weight="1"
 				        android:orientation="vertical" >
+
 				        <LinearLayout
 					        android:layout_width="wrap_content"
 					        android:layout_height="wrap_content"
@@ -273,8 +275,9 @@
 							    android:textColor="@color/lightgray"
 							    android:textSize="16sp"
 							    android:typeface="serif" />
+
 							<TextView
-							    android:id="@+id/orderform_boardingPeopleAmount_textView"
+							    android:id="@+id/orderform_passengerAmount_textView"
 							    android:layout_width="wrap_content"
 							    android:layout_height="wrap_content"
 							    android:layout_gravity="top"
@@ -283,6 +286,7 @@
 							    android:textColor="@color/lightgray"
 							    android:textSize="16sp"
 							    android:typeface="serif" />
+
 							<TextView
 							    android:layout_width="wrap_content"
 							    android:layout_height="wrap_content"
@@ -308,13 +312,15 @@
 		            android:layout_height="wrap_content"
 		            android:layout_marginBottom="15dp"
 		            android:orientation="horizontal" >
+
 				    <ListView
-					    android:id="@+id/orderform_boardingPeople_listView"
-					    android:layout_width="match_parent"
-					    android:layout_height="wrap_content"
-					    android:background="@color/white"
-					    android:divider="@color/white"
-					    android:scrollbars="none" />
+				        android:id="@+id/orderform_passenger_listView"
+				        android:layout_width="match_parent"
+				        android:layout_height="wrap_content"
+				        android:background="@color/white"
+				        android:divider="@color/white"
+				        android:scrollbars="none" />
+
 				</LinearLayout>
 		        <LinearLayout
 		            android:layout_width="match_parent"

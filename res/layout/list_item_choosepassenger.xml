@@ -12,16 +12,16 @@
 	    android:orientation="horizontal" >
 
 	    <CheckBox
-		    android:id="@+id/chooseboardingpeople_choose_checkBox"
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"
-		    android:layout_gravity="center_vertical"
-		    android:button="@layout/selector_chooseboardingpeople_checkbox_bg"/>
+	        android:id="@+id/choosepassenger_choose_checkBox"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center_vertical"
+	        android:button="@layout/selector_choosepassenger_checkbox_bg" />
 
 	</LinearLayout>
 
 	<LinearLayout
-	    android:id="@+id/chooseboardingpeople_choose_linearLayout"
+	    android:id="@+id/choosepassenger_choose_linearLayout"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:orientation="vertical" >
@@ -29,30 +29,33 @@
 		    android:layout_width="wrap_content"
 		    android:layout_height="match_parent"
 		    android:orientation="horizontal">
+
 			<TextView
-		        android:id="@+id/chooseboardingpeople_name_textView"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:text="李大嘴 "
-		        android:textColor="@color/black"
-		        android:textSize="16sp"
-		        android:typeface="serif" />
+			    android:id="@+id/choosepassenger_name_textView"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:text="李大嘴 "
+			    android:textColor="@color/black"
+			    android:textSize="16sp"
+			    android:typeface="serif" />
+
 		</LinearLayout>
 		<LinearLayout
 		    android:layout_width="wrap_content"
 		    android:layout_height="match_parent"
 		    android:orientation="horizontal">
+
 			<TextView
-			    android:id="@+id/chooseboardingpeople_idType_textView"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:text="身份证 "
-		        android:textColor="@color/lightgray"
-		        android:textSize="16sp"
-		        android:typeface="serif" />
+			    android:id="@+id/choosepassenger_idType_textView"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:text="身份证 "
+			    android:textColor="@color/lightgray"
+			    android:textSize="16sp"
+			    android:typeface="serif" />
 
 		    <TextView
-		        android:id="@+id/chooseboardingpeople_idnumber_textView"
+		        android:id="@+id/choosepassenger_idnumber_textView"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
 		        android:layout_marginLeft="5dp"
@@ -69,7 +72,7 @@
 	    android:orientation="vertical">
 
 		<LinearLayout
-		    android:id="@+id/chooseboardingpeople_edit_linearLayout"
+		    android:id="@+id/choosepassenger_edit_linearLayout"
 		    android:layout_width="wrap_content"
 		    android:layout_height="match_parent"
 		    android:layout_gravity="right"
