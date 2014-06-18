@@ -10,6 +10,7 @@ import com.boding.util.Util;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -59,6 +60,19 @@ public class ChoosePassengerActivity extends Activity {
 		peopleList.add(new Passenger(true, "Àî´ó×ìwew", "1225478965325468774"));
 		peopleAdapter = new PassengerAdapter(this, peopleList);
 		passengerListView.setAdapter(peopleAdapter);
+		
+		addListeenrs();
+	}
+	
+	private void addListeenrs(){
+		addPassengerLinearLayout.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				Intent intent = new Intent();
+				intent.setClass(ChoosePassengerActivity.this, AddPassengerInfoActivity.class);
+				startActivityForResult(intent, IntentRequestCode.START_ADD_PASSENGERINFO.getRequestCode());
+			}
+		});
 	}
 	
 	private class PassengerAdapter extends BaseAdapter {

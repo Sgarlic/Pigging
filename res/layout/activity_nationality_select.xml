@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
@@ -9,8 +10,9 @@
 
 	<LinearLayout
 	    android:layout_width="match_parent"
-	    android:layout_height="60dp"
-	    android:layout_weight="4"
+	    android:layout_height="50dp"
+	    android:layout_marginLeft="15dp"
+	    android:layout_marginRight="15dp"
 	    android:orientation="horizontal" >
 
 		<LinearLayout
@@ -24,7 +26,6 @@
 	            android:id="@+id/return_logo_imageView"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
-	            android:layout_marginLeft="15dp"
 	            android:layout_gravity="center_vertical"
 	            android:src="@drawable/return_1x" />
         </LinearLayout>
@@ -39,11 +40,10 @@
 			    android:layout_gravity="center_horizontal"
 			    android:orientation="horizontal">
 		        <TextView
-		            android:id="@+id/city_select_title_textView"
 		            android:layout_width="wrap_content"
 		            android:layout_height="wrap_content"
 		            android:layout_gravity="center_vertical"
-		            android:text="出发城市"
+		            android:text="选择国籍"
 		            android:textColor="@color/textOrange"
 		            android:textColorHint="@color/white"
 		            android:textSize="20dp"
@@ -51,35 +51,45 @@
 	        </LinearLayout>
 		</LinearLayout>
 		<LinearLayout
+		    android:id="@+id/nationality_search_linearLayout"
 	        android:layout_width="wrap_content"
 		    android:layout_height="match_parent"
 		    android:layout_weight="1"
-		    android:orientation="horizontal">
+		    android:orientation="vertical">
+	        <LinearLayout
+		        android:layout_width="wrap_content"
+			    android:layout_height="match_parent"
+			    android:layout_weight="1"
+			    android:orientation="horizontal"
+		        android:layout_gravity="right">
+		        <ImageView
+				    android:layout_width="wrap_content"
+				    android:layout_height="wrap_content"
+				    android:layout_gravity="center_vertical"
+				    android:src="@drawable/searchicon" />
+		    </LinearLayout>
 	    </LinearLayout>
     </LinearLayout>
     <LinearLayout
 	    android:layout_width="match_parent"
-	    android:layout_height="1dp"
+	    android:layout_height="2dp"
 	    android:background="@color/panelOrange"
 	    android:orientation="horizontal">
 	</LinearLayout>
 
     <LinearLayout
-        android:id="@+id/from_date_linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="13dp"
-        android:layout_marginRight="13dp"
-        android:layout_weight="11"
+        android:layout_height="match_parent"
         android:orientation="vertical" >
-
-        <RelativeLayout
-		    android:orientation="vertical"  
-		    android:layout_width="fill_parent"  
-		    android:layout_height="fill_parent" > 
+		<RelativeLayout
+			android:orientation="vertical"  
+			android:layout_width="match_parent"  
+			android:layout_height="match_parent"
+			android:layout_marginLeft="13dp"
+	        android:layout_marginRight="13dp" > 
 		     
 		    <ListView
-		        android:id="@+id/city_select_listView"
+		        android:id="@+id/nationality_select_listView"
 		        android:layout_width="fill_parent"
 		        android:layout_height="wrap_content"
 		        android:background="@color/white"
@@ -88,13 +98,11 @@
 		        android:scrollbars="none" />
 		
 		    <com.boding.view.listview.LetterSelectListView
-		        android:id="@+id/city_select_letter_listView"
+		        android:id="@+id/nationality_select_letter_listView"
 		        android:layout_width="30dip"
 		        android:layout_height="fill_parent"
 		        android:layout_alignParentRight="true"
 		        android:background="@color/white" />
-		
 		</RelativeLayout> 
-
     </LinearLayout>
 </LinearLayout>

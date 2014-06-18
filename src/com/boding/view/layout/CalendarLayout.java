@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnLayoutChangeListener;
 import android.view.ViewGroup.LayoutParams;
 import android.view.ViewTreeObserver;
 import android.widget.BaseAdapter;
@@ -103,14 +104,17 @@ public class CalendarLayout extends LinearLayout{
 			}
 		});
 		this.addView(v);
-		currMonthTextView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-			public boolean onPreDraw() {
-//				int finalHeight = currMonthTextView.getMeasuredHeight();
-				int finalWidth = currMonthTextView.getMeasuredWidth();
-				parentWidth = finalWidth;
-				initPopupWindow();
-				return true;
+		currMonthTextView.addOnLayoutChangeListener(new OnLayoutChangeListener(){
+			@Override
+			public void onLayoutChange(View v, int left, int top, int right,
+					int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+				int finalWidth = right-left;
+				if(finalWidth > 0){
+					parentWidth = finalWidth;
+					initPopupWindow();
+				}
 			}
+			
 		});
 	}
 	private void generateMonthData(){

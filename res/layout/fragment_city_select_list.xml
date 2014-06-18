@@ -7,20 +7,20 @@
 		android:layout_marginLeft="13dp"
         android:layout_marginRight="13dp" > 
 		     
-		    <ListView
-		        android:id="@+id/city_select_listView"
-		        android:layout_width="fill_parent"
-		        android:layout_height="wrap_content"
-		        android:background="@color/white"
-		        android:cacheColorHint="@android:color/white"
-		        android:divider="@color/white"
-		        android:scrollbars="none" />
+    <ListView
+        android:id="@+id/city_select_listView"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:cacheColorHint="@android:color/white"
+        android:divider="@color/white"
+        android:scrollbars="none" />
+
+    <com.boding.view.listview.LetterSelectListView
+        android:id="@+id/city_select_letter_listView"
+        android:layout_width="30dip"
+        android:layout_height="fill_parent"
+        android:layout_alignParentRight="true"
+        android:background="@color/white" />
 		
-		    <com.boding.view.listview.CitySelectLetterListView
-		        android:id="@+id/city_select_letter_listView"
-		        android:layout_width="30dip"
-		        android:layout_height="fill_parent"
-		        android:layout_alignParentRight="true"
-		        android:background="@color/white" />
-		
-		</RelativeLayout> 
+</RelativeLayout> 

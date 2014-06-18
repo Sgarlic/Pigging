@@ -1,10 +1,13 @@
 package com.boding.view.layout;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.boding.R;
 import com.boding.app.CitySelectActivity;
 import com.boding.constants.Constants;
 import com.boding.constants.GlobalVariables;
-import com.boding.view.dialog.ClassSelectionDialog;
+import com.boding.view.dialog.SelectionDialog;
 import com.boding.view.dialog.SearchCityDialog;
 import com.boding.view.dialog.SeatChangeBackDialog;
 
@@ -111,7 +114,12 @@ public class OrderFlightInfoLayout extends LinearLayout{
 		changeSeatTextView.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View arg0) {
-				ClassSelectionDialog classSelectionDialog = new ClassSelectionDialog(OrderFlightInfoLayout.this.context,R.style.Custom_Dialog_Theme);
+				List<String> classList = new ArrayList<String>();
+				classList.add("经济舱");
+				classList.add("公务舱/头等舱");
+				
+				SelectionDialog classSelectionDialog = new SelectionDialog(OrderFlightInfoLayout.this.context,
+						R.style.Custom_Dialog_Theme, "选择舱位",classList);
 				classSelectionDialog.show();
 			}
         });

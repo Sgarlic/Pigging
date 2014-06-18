@@ -11,6 +11,7 @@ import com.boding.util.Util;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -60,7 +61,22 @@ public class ChooseDeliveryAddressActivity extends Activity {
 		addressList.add(new DeliveryAddress("李大嘴2","上海市2","宝山区七宝2","203300"));
 		addressAdapter = new DeliveryAddressAdapter(this, addressList);
 		deliveryAddrListView.setAdapter(addressAdapter);
+		
+		addListeners();
 	}
+
+	private void addListeners(){
+		addNewAddrLinearLayout.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				Intent intent = new Intent();
+				intent.setClass(ChooseDeliveryAddressActivity.this, AddDeliveryAddrActivity.class);
+				startActivityForResult(intent,IntentRequestCode.START_ADD_DELIVERYADDR.getRequestCode());
+			}
+		});
+	}
+	
 	
 	private class DeliveryAddressAdapter extends BaseAdapter {
 		private List<DeliveryAddress> addressList;

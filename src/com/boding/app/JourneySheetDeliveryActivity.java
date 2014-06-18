@@ -7,7 +7,8 @@ import com.boding.R;
 import com.boding.constants.IntentRequestCode;
 import com.boding.model.Passenger;
 import com.boding.util.Util;
-import com.boding.view.dialog.ClassSelectionDialog;
+import com.boding.view.dialog.SelectionDialog;
+import com.boding.view.layout.OrderFlightInfoLayout;
 
 import android.app.Activity;
 import android.content.Context;
@@ -81,8 +82,13 @@ public class JourneySheetDeliveryActivity extends Activity {
 		selectDeliveryMethodsLinearLayout.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				ClassSelectionDialog classSelectionDialog = new ClassSelectionDialog(JourneySheetDeliveryActivity.this,R.style.Custom_Dialog_Theme);
-				classSelectionDialog.show();
+				List<String> deliverMethodList = new ArrayList<String>();
+				deliverMethodList.add("江浙沪（￥10）");
+				deliverMethodList.add("其他地区（￥20）");
+				
+				SelectionDialog deliveryMethodDialog = new SelectionDialog(JourneySheetDeliveryActivity.this,
+						R.style.Custom_Dialog_Theme, "选择配送方式",deliverMethodList);
+				deliveryMethodDialog.show();
 			}
 		});
 		

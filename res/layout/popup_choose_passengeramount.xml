@@ -3,14 +3,13 @@
     android:orientation="vertical"     
     android:layout_width="fill_parent"     
     android:layout_height="wrap_content"     
-    android:gravity="center_horizontal"     >  
+    android:gravity="center_horizontal"
+    android:background="@color/panelBackColor"     >  
 
     <ListView
-        android:id="@+id/calendar_month_select_list"
+        android:id="@+id/passengeramount_select_list"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:cacheColorHint="@color/white" 
         android:divider="@color/white"
 		android:scrollbars="none">
  
