@@ -15,7 +15,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 
-public class CitySelectLetterListView extends View {
+public class LetterSelectListView extends View {
 	
 	OnTouchingLetterChangedListener onTouchingLetterChangedListener;
 	String[] cityLetters = {"","定位","历史","热门","A","B","C","D","E","F","G","H","I","J","K","L"
@@ -24,15 +24,15 @@ public class CitySelectLetterListView extends View {
 	Paint paint = new Paint();
 //	boolean showBkg = false;
 
-	public CitySelectLetterListView(Context context, AttributeSet attrs, int defStyle) {
+	public LetterSelectListView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 	}
 
-	public CitySelectLetterListView(Context context, AttributeSet attrs) {
+	public LetterSelectListView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 	}
 
-	public CitySelectLetterListView(Context context) {
+	public LetterSelectListView(Context context) {
 		super(context);
 	}
 	

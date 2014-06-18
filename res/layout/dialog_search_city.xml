@@ -27,7 +27,8 @@
 	   	        android:layout_marginLeft="20dp"
 	   	        android:layout_marginRight="20dp"
 	   	        android:ems="10"
-	   	        android:gravity="center_vertical" >
+	   	        android:gravity="center_vertical"
+	   	        android:hint = "北京/beijing/bj/bjs">
 	
 		        <requestFocus />
 		    </EditText>

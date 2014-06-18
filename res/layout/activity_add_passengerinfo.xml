@@ -1,0 +1,332 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:ignore="MergeRootFrame" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp" >
+
+		<LinearLayout
+		    android:id="@+id/return_logo_linearLayout"
+		    android:layout_width="wrap_content"
+		    android:layout_height="match_parent"
+		    android:layout_weight="1"
+		    android:orientation="horizontal" >
+
+	        <ImageView
+	            android:id="@+id/return_logo_imageView"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_gravity="center_vertical"
+	            android:src="@drawable/return_1x" />
+        </LinearLayout>
+	    <LinearLayout
+	        android:layout_width="wrap_content"
+		    android:layout_height="match_parent"
+		    android:layout_weight="1"
+		    android:orientation="vertical">
+	        <LinearLayout
+		        android:layout_width="wrap_content"
+			    android:layout_height="match_parent"
+			    android:layout_gravity="center_horizontal"
+			    android:orientation="horizontal">
+
+		        <TextView
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_gravity="center_vertical"
+		            android:text="新增登机人"
+		            android:textColor="@color/textOrange"
+		            android:textSize="20dp"
+		            android:typeface="serif" />
+
+	        </LinearLayout>
+		</LinearLayout>
+		<LinearLayout
+		    android:id="@+id/addpassenger_complete_linearLayout"
+	        android:layout_width="wrap_content"
+		    android:layout_height="match_parent"
+		    android:layout_weight="1"
+		    android:orientation="horizontal">
+	        <LinearLayout
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:layout_gravity="center_vertical"
+		        android:layout_weight="1"
+		        android:orientation="vertical" >
+	
+		        <TextView
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_gravity="right"
+		            android:text="完成"
+		            android:textColor="@color/textOrange"
+		            android:textSize="20dp"
+		            android:typeface="serif" />
+		    </LinearLayout>
+	    </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/panelOrange"
+        android:orientation="horizontal" >
+
+	</LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingTop="20dp" >
+
+		<LinearLayout
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:layout_marginBottom="25dp"
+		    android:orientation="horizontal" >
+
+			<TextView
+			    android:id="@+id/addpassenger_passengerName_textView"
+			    android:layout_width="120dp"
+			    android:layout_height="wrap_content"
+			    android:layout_gravity="center_vertical"
+			    android:gravity="top"
+			    android:maxLines="1"
+			    android:text="姓名"
+			    android:textColor="@color/black"
+			    android:textSize="18sp"
+			    android:typeface="serif" />
+
+			<EditText
+			    android:id="@+id/addpassenger_input_passengerName_editText"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:background="@color/white"
+			    android:ems="8"
+			    android:hint="所选证件姓名"
+			    android:maxLines="1"
+			    android:textSize="18sp"
+			    android:typeface="serif" >
+
+			    <requestFocus />
+			</EditText>
+	    </LinearLayout>
+
+	    <LinearLayout
+	        android:id="@+id/addpassenger_chooseIDType_linearLayout"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_marginBottom="25dp"
+	        android:orientation="horizontal" >
+
+		    <TextView
+		        android:layout_width="120dp"
+		        android:layout_height="wrap_content"
+		        android:layout_gravity="center_vertical"
+		        android:gravity="top"
+		        android:text="证件类型"
+		        android:textColor="@color/black"
+		        android:textSize="18sp"
+		        android:typeface="serif" />
+
+		    <TextView
+		        android:id="@+id/addpassenger_choosedIDType_textView"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_gravity="center_vertical"
+		        android:gravity="top"
+		        android:text="请选择证件类型"
+		        android:textColor="@color/black"
+		        android:textSize="18sp"
+		        android:typeface="serif" />
+
+		</LinearLayout>
+
+		<LinearLayout
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:layout_marginBottom="25dp"
+		    android:orientation="horizontal" >
+
+		    <TextView
+		        android:layout_width="120dp"
+		        android:layout_height="wrap_content"
+		        android:layout_gravity="center_vertical"
+		        android:gravity="top"
+		        android:text="证件号码"
+		        android:textColor="@color/black"
+		        android:textSize="18sp"
+		        android:typeface="serif" />
+
+			<EditText
+			    android:id="@+id/addpassenger_input_IDNumber_editText"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:background="@color/white"
+			    android:ems="8"
+			    android:hint="请输入证件号"
+			    android:textSize="18sp"
+			    android:typeface="serif" >
+
+			</EditText>
+		</LinearLayout>
+		<LinearLayout
+		    android:id="@+id/addpassenger_otherIDType_linearLayout"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:orientation="vertical" >
+
+			<LinearLayout
+			    android:id="@+id/addpassenger_chooseValidDate_linearLayout"
+			    android:layout_width="match_parent"
+			    android:layout_height="wrap_content"
+			    android:layout_marginBottom="25dp"
+			    android:orientation="horizontal" >
+	
+			    <TextView
+			        android:layout_width="120dp"
+			        android:layout_height="wrap_content"
+			        android:layout_gravity="center_vertical"
+			        android:gravity="top"
+			        android:text="证件有效期"
+			        android:textColor="@color/black"
+			        android:textSize="18sp"
+			        android:typeface="serif" />
+	
+				<TextView
+			        android:id="@+id/addpassenger_choosedValidDate_textView"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:layout_gravity="center_vertical"
+			        android:gravity="top"
+			        android:text="请选择有效期"
+			        android:textColor="@color/black"
+			        android:textSize="18sp"
+			        android:typeface="serif" />
+			</LinearLayout>
+
+			<LinearLayout
+			    android:id="@+id/addpassenger_chooseNationality_linearLayout"
+			    android:layout_width="match_parent"
+			    android:layout_height="wrap_content"
+			    android:layout_marginBottom="25dp"
+			    android:orientation="horizontal" >
+	
+			    <TextView
+			        android:layout_width="120dp"
+			        android:layout_height="wrap_content"
+			        android:layout_gravity="center_vertical"
+			        android:gravity="top"
+			        android:text="国籍"
+			        android:textColor="@color/black"
+			        android:textSize="18sp"
+			        android:typeface="serif" />
+	
+				<TextView
+			        android:id="@+id/addpassenger_choosedNationality_textView"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:layout_gravity="center_vertical"
+			        android:gravity="top"
+			        android:text="请选择国籍"
+			        android:textColor="@color/black"
+			        android:textSize="18sp"
+			        android:typeface="serif" />
+				
+				<LinearLayout
+			        android:layout_width="wrap_content"
+			        android:layout_height="match_parent"
+			        android:layout_gravity="top"
+			        android:layout_weight="1"
+			        android:orientation="vertical" >
+	
+			        <LinearLayout
+			            android:layout_width="wrap_content"
+			            android:layout_height="match_parent"
+			            android:layout_gravity="right"
+			            android:layout_weight="1"
+			            android:orientation="horizontal" >
+	
+						<ImageView
+						    android:layout_width="wrap_content"
+						    android:layout_height="wrap_content"
+						    android:layout_gravity="center_vertical"
+						    android:layout_marginLeft="5dp"
+						    android:src="@drawable/check2_480_800" />
+	
+					</LinearLayout>
+			    </LinearLayout>
+			</LinearLayout>
+
+			<LinearLayout
+			    android:id="@+id/addpassenger_chooseGenderlinearLayout"
+			    android:layout_width="match_parent"
+			    android:layout_height="wrap_content"
+			    android:layout_marginBottom="25dp"
+			    android:orientation="horizontal" >
+	
+			    <TextView
+			        android:layout_width="120dp"
+			        android:layout_height="wrap_content"
+			        android:layout_gravity="center_vertical"
+			        android:gravity="top"
+			        android:text="性别"
+			        android:textColor="@color/black"
+			        android:textSize="18sp"
+			        android:typeface="serif" />
+	
+				<TextView
+			        android:id="@+id/addpassenger_choosedGender_textView"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:layout_gravity="center_vertical"
+			        android:gravity="top"
+			        android:text="请选择性别"
+			        android:textColor="@color/black"
+			        android:textSize="18sp"
+			        android:typeface="serif" />
+			</LinearLayout>
+
+			<LinearLayout
+			    android:id="@+id/addpassenger_chooseBirthday_linearLayout"
+			    android:layout_width="match_parent"
+			    android:layout_height="wrap_content"
+			    android:orientation="horizontal" >
+	
+			    <TextView
+			        android:layout_width="120dp"
+			        android:layout_height="wrap_content"
+			        android:layout_gravity="center_vertical"
+			        android:gravity="top"
+			        android:text="出生日期"
+			        android:textColor="@color/black"
+			        android:textSize="18sp"
+			        android:typeface="serif" />
+	
+				<TextView
+			        android:id="@+id/addpassenger_choosedBirthday_textView"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:layout_gravity="center_vertical"
+			        android:gravity="top"
+			        android:text="请选择出生日期"
+			        android:textColor="@color/black"
+			        android:textSize="18sp"
+			        android:typeface="serif" />
+			</LinearLayout>
+		</LinearLayout>
+    </LinearLayout>
+</LinearLayout>
+

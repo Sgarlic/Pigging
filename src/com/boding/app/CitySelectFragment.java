@@ -26,15 +26,15 @@ import com.boding.constants.Constants;
 import com.boding.constants.GlobalVariables;
 import com.boding.model.City;
 import com.boding.util.Util;
-import com.boding.view.listview.CitySelectLetterListView;
-import com.boding.view.listview.CitySelectLetterListView.OnTouchingLetterChangedListener;
+import com.boding.view.listview.LetterSelectListView;
+import com.boding.view.listview.LetterSelectListView.OnTouchingLetterChangedListener;
 
 public class CitySelectFragment extends Fragment {
 	private boolean isInternational = false;
 	private boolean isFlyToCitySelection = false;
 	private BaseAdapter adapter;  
     private ListView allCitiesListView;
-    private CitySelectLetterListView letterListView;
+    private LetterSelectListView letterListView;
     private HashMap<String, Integer> alphaIndexer;//存放存在的汉语拼音首字母和与之对应的列表位置
     private String[] sections;//存放存在的汉语拼音首字母
 //    private Handler handler;
@@ -102,7 +102,7 @@ public class CitySelectFragment extends Fragment {
     		
     	});
     	
-        letterListView = (CitySelectLetterListView) currentView.findViewById(R.id.city_select_letter_listView);
+        letterListView = (LetterSelectListView) currentView.findViewById(R.id.city_select_letter_listView);
         letterListView.setOnTouchingLetterChangedListener(new LetterListViewListener());
         
 //        asyncQuery = new MyAsyncQueryHandler(getContentResolver());

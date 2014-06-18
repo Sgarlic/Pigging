@@ -2,6 +2,7 @@ package com.boding.app;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import com.boding.adapter.HPagerAdapter;
@@ -11,9 +12,11 @@ import com.boding.constants.GlobalVariables;
 import com.boding.constants.IntentRequestCode;
 import com.boding.task.InitCityTask;
 import com.boding.util.Util;
-import com.boding.view.dialog.ClassSelectionDialog;
+import com.boding.view.dialog.SelectionDialog;
 import com.boding.view.dialog.VerticalViewPager;
+import com.boding.view.layout.CalendarLayout;
 import com.boding.view.layout.OrderFlightInfoLayout;
+import com.boding.view.layout.CalendarLayout.OnItemClickListener;
 import com.boding.R;
 import com.boding.model.City;
 
@@ -25,17 +28,23 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Point;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnLayoutChangeListener;
+import android.view.ViewTreeObserver;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.WindowManager;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 public class MainActivity extends FragmentActivity {
@@ -67,7 +76,16 @@ public class MainActivity extends FragmentActivity {
 	private TextView leftpageFlyToDateTextView;
 	private ImageView leftpageVoiceSearchImageView;
 	private LinearLayout leftpageClassSelectionLinearLayout;
-	
+	private LinearLayout leftpagePassengerAdultLinearLayout;
+	private LinearLayout leftpagePassengerChildLinearLayout;
+	private TextView leftpagePassengerAdultTextView;
+	private TextView leftpagePassengerChildTextView;
+	private PopupWindow leftpagePassengerAudltPopup;
+	private PopupWindow leftpagePassengerChildPopup;
+	private ListView leftpagePassengerAmountSelectAudltListView; 
+	private ListView leftpagePassengerAmountSelectChildListView; 
+	private PassengerAmountAdapter leftpagePassengerAmountSelectAdultAdapter; 
+	private PassengerAmountAdapter leftpagePassengerAmountSelectChildAdapter; 
 	
 	
 	private View leftPageView;
@@ -173,10 +191,101 @@ public class MainActivity extends FragmentActivity {
 		leftpageClassSelectionLinearLayout.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View arg0) {
-				ClassSelectionDialog classSelectionDialog = new ClassSelectionDialog(MainActivity.this,R.style.Custom_Dialog_Theme);
+				List<String> classList = new ArrayList<String>();
+				classList.add("经济舱");
+				classList.add("公务舱/头等舱");
+				
+				SelectionDialog classSelectionDialog = new SelectionDialog(MainActivity.this,
+						R.style.Custom_Dialog_Theme, "选择舱位",classList);
 				classSelectionDialog.show();
 			}
         });
+		
+		leftpagePassengerAdultLinearLayout = (LinearLayout) leftPageView.findViewById(R.id.flight_passengar_adult_linearLayout);
+		leftpagePassengerAdultTextView = (TextView) leftPageView.findViewById(R.id.flight_passengar_adult_textView);
+		leftpagePassengerAdultLinearLayout.addOnLayoutChangeListener(new OnLayoutChangeListener(){
+			@Override
+			public void onLayoutChange(View v, int left, int top, int right,
+					int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+				int finalWidth = right-left;
+				if(finalWidth > 0){
+					initPopupWindow(true, finalWidth);
+				}
+			}
+			
+		});
+		leftpagePassengerAdultLinearLayout.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				popupWindowShowing(true);
+			}
+		});
+		
+		
+		leftpagePassengerChildLinearLayout = (LinearLayout) leftPageView.findViewById(R.id.flight_passengar_child_linearLayout);
+		leftpagePassengerChildTextView = (TextView) leftPageView.findViewById(R.id.flight_passengar_child_textView);
+		leftpagePassengerChildLinearLayout.addOnLayoutChangeListener(new OnLayoutChangeListener(){
+			@Override
+			public void onLayoutChange(View v, int left, int top, int right,
+					int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+				int finalWidth = right-left;
+				if(finalWidth > 0){
+					initPopupWindow(false, finalWidth);
+				}
+			}
+			
+		});
+		leftpagePassengerChildLinearLayout.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				popupWindowShowing(false);
+			}
+		});
+		
+	}
+	
+	private void initPopupWindow(boolean isAdult, int parentWidth){
+		List<String> passengerAmountList = new ArrayList<String>();
+		passengerAmountList.add("1");
+		passengerAmountList.add("2");
+		passengerAmountList.add("3");
+		passengerAmountList.add("4");
+		passengerAmountList.add("5");
+		passengerAmountList.add("6");
+		passengerAmountList.add("7");
+		passengerAmountList.add("8");
+		passengerAmountList.add("9");
+		View popupWindow =  LayoutInflater.from(this).inflate(R.layout.popup_choose_passengeramount, null);
+		if(isAdult){
+			leftpagePassengerAmountSelectAudltListView = (ListView)popupWindow.findViewById(R.id.passengeramount_select_list);
+			leftpagePassengerAmountSelectAdultAdapter = new PassengerAmountAdapter(passengerAmountList, true);
+			leftpagePassengerAmountSelectAudltListView.setAdapter(leftpagePassengerAmountSelectAdultAdapter);
+			leftpagePassengerAudltPopup = new PopupWindow(popupWindow,parentWidth,LayoutParams.WRAP_CONTENT,true);
+			leftpagePassengerAudltPopup.setOutsideTouchable(true);
+			leftpagePassengerAudltPopup.setBackgroundDrawable(new BitmapDrawable());
+		}else{
+			leftpagePassengerAmountSelectChildListView = (ListView)popupWindow.findViewById(R.id.passengeramount_select_list);
+			leftpagePassengerAmountSelectChildAdapter = new PassengerAmountAdapter(passengerAmountList, false);
+			leftpagePassengerAmountSelectChildListView.setAdapter(leftpagePassengerAmountSelectChildAdapter);
+			leftpagePassengerChildPopup = new PopupWindow(popupWindow,parentWidth,LayoutParams.WRAP_CONTENT,true);
+			leftpagePassengerChildPopup.setOutsideTouchable(true);
+			leftpagePassengerChildPopup.setBackgroundDrawable(new BitmapDrawable());
+		}
+	}
+	private void popupWindowShowing(boolean isAdult){
+		if(isAdult){
+			leftpagePassengerAudltPopup.showAsDropDown(leftpagePassengerAdultLinearLayout, 0, -3);
+		}else{
+			leftpagePassengerChildPopup.showAsDropDown(leftpagePassengerChildLinearLayout, 0, -3);
+		}
+	}
+	
+	private void popupWindowDismiss(boolean isAdult){
+		if(isAdult){
+			leftpagePassengerAudltPopup.dismiss();
+		}else{
+			leftpagePassengerChildPopup.dismiss();
+		}
 	}
 	
 	private void switchToSingleWay(){
@@ -336,13 +445,69 @@ public class MainActivity extends FragmentActivity {
 	
 	@Override
 	 protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-	  super.onActivityResult(requestCode, resultCode, data);
-	  if(data == null)
-		  return;
-	  if(requestCode==IntentRequestCode.START_DATE_SELECTION.getRequestCode()){
-		  setFlyFromReturnDate();
-	  }
-	  if(requestCode == IntentRequestCode.START_CITY_SELECTION.getRequestCode())
-		  setFlyFromToCity();
+		  super.onActivityResult(requestCode, resultCode, data);
+		  if(data == null)
+			  return;
+		  if(requestCode==IntentRequestCode.START_DATE_SELECTION.getRequestCode()){
+			  setFlyFromReturnDate();
+		  }
+		  if(requestCode == IntentRequestCode.START_CITY_SELECTION.getRequestCode())
+			  setFlyFromToCity();
 	 }
+	
+	private class PassengerAmountAdapter extends BaseAdapter{
+		List<String> passengerAmountList;
+		boolean isAdult;
+		
+		public PassengerAmountAdapter(List<String> passengerAmountList, boolean isAdult){
+			this.passengerAmountList = passengerAmountList;
+			this.isAdult = isAdult;
+		}
+		
+		
+		@Override
+		public int getCount() {
+			return passengerAmountList.size();
+		}
+
+		@Override
+		public String getItem(int position) {
+			return passengerAmountList.get(position);
+		}
+
+		@Override
+		public long getItemId(int position) {
+			return position;
+		}
+
+		@Override
+		public View getView(final int position, View convertView, ViewGroup parent) {
+			ViewHolder holder = null;
+			if(convertView == null){
+				holder = new ViewHolder();
+				convertView = LayoutInflater.from(MainActivity.this).inflate(R.layout.list_item_passengeramount_selector, null);
+				holder.textView = (TextView)convertView.findViewById(R.id.current_passengerselector_dialog_textView);
+				holder.linearLayout = (LinearLayout) convertView.findViewById(R.id.current_passengerselector_dialog_lienarLayout);
+				
+				convertView.setTag(holder);
+			}else{
+				holder = (ViewHolder)convertView.getTag();
+			}
+			holder.textView.setText(passengerAmountList.get(position));
+			holder.linearLayout.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					popupWindowDismiss(isAdult);
+				}
+			});
+			return convertView;
+		}
+		
+		class ViewHolder{
+			LinearLayout linearLayout;
+			TextView textView;
+		}
+		
+	}
+
 }

@@ -92,6 +92,7 @@
         android:paddingTop="20dp" >
 
 		<LinearLayout
+		    android:id="@+id/choose_passenger_addPassenger_linearLayout"
 	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"
 	        android:layout_marginBottom="15dp"
@@ -115,7 +116,6 @@
 			    android:typeface="serif" />
 
 		    <LinearLayout
-		        android:id="@+id/choose_passenger_addPassenger_linearLayout"
 		        android:layout_width="wrap_content"
 		        android:layout_height="match_parent"
 		        android:layout_gravity="top"
