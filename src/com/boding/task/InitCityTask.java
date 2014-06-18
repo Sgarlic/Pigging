@@ -1,7 +1,16 @@
 package com.boding.task;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.StreamCorruptedException;
 import java.util.Collections;
+import java.util.List;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -17,15 +26,31 @@ import com.boding.constants.GlobalVariables;
 import com.boding.model.City;
 import com.boding.util.Util;
 
+import android.content.Context;
 import android.os.AsyncTask;
 
 public class InitCityTask extends AsyncTask<Object,Void,Object>{ 
+	private Context context;
+	public InitCityTask(Context context){
+		this.context = context;
+	}
+	
 	
 	@Override
 	protected Object doInBackground(Object... params) {
+		boolean isok = false;
+		try {
+			isok = restoreCitiesFromFile();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		if(!isok){
+			System.out.println("FFFFFFFFFFFFFirst!");
+			parseJson(requestCityJSON((String)params[0])); 
+			sortCityLists();
+			saveCitiesToFile();
+		}
 		
-		parseJson(requestCityJSON((String)params[0])); 
-		sortCityLists();
 		return null;
 	}
 	
@@ -68,7 +93,6 @@ public class InitCityTask extends AsyncTask<Object,Void,Object>{
 				city.setCityCode(jo.getString("citycode"));
 				city.setBelongsToCountry(jo.getString("area"));
 				city.setPinyin(Util.getPinYin(city.getCityName()));
-				//System.out.println(jo.getString("IsDomestic"));
 				if("True".equals(jo.getString("IsDomestic"))){
 					city.setInternationalCity(false);
 					GlobalVariables.domesticCitiesList.add(city);
@@ -99,5 +123,65 @@ public class InitCityTask extends AsyncTask<Object,Void,Object>{
 		Collections.sort(GlobalVariables.interCitiesList, comp);
 		//Collections.sort(GlobalVariables.interHotCitiesList, comp);
 		//Collections.sort(GlobalVariables.interHistoryCitiesList, comp);
+	}
+	
+	private void saveCitiesToFile(){
+		ObjectOutputStream oos = null;		
+		try {
+			oos = new ObjectOutputStream(context.openFileOutput(GlobalVariables.domeCityFile, context.MODE_PRIVATE));
+			oos.writeObject(GlobalVariables.domesticCitiesList);
+			oos.close();
+			oos = new ObjectOutputStream(context.openFileOutput(GlobalVariables.domHotCityFile, context.MODE_PRIVATE));
+			oos.writeObject(GlobalVariables.domHotCitiesList);
+			oos.close();
+			oos = new ObjectOutputStream(context.openFileOutput(GlobalVariables.interCityFile, context.MODE_PRIVATE));
+			oos.writeObject(GlobalVariables.interCitiesList);
+			oos.close();
+			oos = new ObjectOutputStream(context.openFileOutput(GlobalVariables.interHotCityFile, context.MODE_PRIVATE));
+			oos.writeObject(GlobalVariables.interHotCitiesList);
+			oos.close();
+		} catch (Exception e) {
+				e.printStackTrace();
+		}
+		
+	}
+	
+	private boolean restoreCitiesFromFile() throws Exception{
+		boolean isok = true;
+		ObjectInputStream ois;
+		String path = GlobalVariables.filepath;
+		File domefile = new File(path + GlobalVariables.domeCityFile);
+		if(domefile.exists()){
+			System.out.println("EEEEEEEEEEEEEexits");
+			ois = new ObjectInputStream(context.openFileInput(GlobalVariables.domeCityFile));
+			GlobalVariables.domesticCitiesList = (List<City>)(ois.readObject());
+			ois.close();
+		}else
+			isok = false;
+		
+		File domehotfile = new File(path + GlobalVariables.domHotCityFile);
+		if(domehotfile.exists()){
+			ois = new ObjectInputStream(context.openFileInput(GlobalVariables.domHotCityFile));
+			GlobalVariables.domHotCitiesList = (List<City>)(ois.readObject());
+			ois.close();
+		}else
+			isok = false;
+		
+		File interfile = new File(path + GlobalVariables.interCityFile);
+		if(interfile.exists()){
+			ois = new ObjectInputStream(context.openFileInput(GlobalVariables.interCityFile));
+			GlobalVariables.interCitiesList = (List<City>)(ois.readObject());
+			ois.close();
+		}else
+			isok = false;
+		
+		File interhotfile = new File(path + GlobalVariables.interHotCityFile);
+		if(interhotfile.exists()){
+			ois = new ObjectInputStream(context.openFileInput(GlobalVariables.interHotCityFile));
+			GlobalVariables.interHotCitiesList = (List<City>)(ois.readObject());
+			ois.close();
+		}else
+			isok = false;
+		return isok;
 	}
 }

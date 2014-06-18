@@ -22,6 +22,12 @@ public class GlobalVariables {
 	public static List<City> interHotCitiesList = new ArrayList<City>();
 	public static List<City> domHistoryCitiesList = new ArrayList<City>();
 	public static List<City> interHistoryCitiesList = new ArrayList<City>();
+	
+	public static String filepath ="/data/data/com.boding/files/";
+	public static String domeCityFile ="domeCities";
+	public static String domHotCityFile ="domHotCities";
+	public static String interCityFile ="interCities";
+	public static String interHotCityFile ="interHotCities";
 //	public static boolean isFlyToCitySelection = false;
 //	public static boolean isInternationCitySelection = false;
 }

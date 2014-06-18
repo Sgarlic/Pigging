@@ -1,15 +1,11 @@
 package com.boding.app;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,7 +17,6 @@ import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 
 import com.boding.R;
-import com.boding.app.NationalitySelectActivity.SortByAlpha;
 import com.boding.constants.Constants;
 import com.boding.constants.GlobalVariables;
 import com.boding.model.City;
@@ -41,24 +36,6 @@ public class CitySelectFragment extends Fragment {
 //    private OverlayThread overlayThread;
     private String locatedCity = "上海";
     private View currentView;
-    int mNum;
-
-//    /**
-//     * Create a new instance of CountingFragment, providing "num"
-//     * as an argument.
-//     */
-//    static CountingFragment newInstance(int num) {
-//    	Log.d("poding",String.valueOf(num));
-//    	Log.d("poding","newinstance");
-//        CountingFragment f = new CountingFragment();
-//
-//        // Supply num input as an argument.
-//        Bundle args = new Bundle();
-//        args.putInt("num", num);
-//        f.setArguments(args);
-//
-//        return f;
-//    }
 
     /**
      * When creating, retrieve this instance's number from its arguments.
@@ -72,7 +49,6 @@ public class CitySelectFragment extends Fragment {
         	isFlyToCitySelection = arguments.getBoolean(Constants.IS_FLY_TO_CITY_SELECTION);
         	
         }
-//        mNum = getArguments() != null ? getArguments().getInt("num") : 1;
     }
     
     @Override
@@ -80,9 +56,6 @@ public class CitySelectFragment extends Fragment {
             Bundle savedInstanceState) {
     	currentView = inflater.inflate(R.layout.fragment_city_select_list, container, false);
         initView();
-//        View tv = v.findViewById(R.id.text);
-//        ((TextView)tv).setText("Fragment #" + mNum);
-//        tv.setBackgroundDrawable(getResources().getDrawable(android.R.drawable.gallery_thumb));
         return currentView;
     }
     
@@ -107,17 +80,6 @@ public class CitySelectFragment extends Fragment {
         
 //        asyncQuery = new MyAsyncQueryHandler(getContentResolver());
         alphaIndexer = new HashMap<String, Integer>();
-//        handler = new Handler();
-//        overlayThread = new OverlayThread();
-//        initOverlay();
-//        
-//        LinearLayout returnLogoLinearLayout = (LinearLayout)findViewById(R.id.return_logo_linearLayout);
-//        returnLogoLinearLayout.setOnClickListener(new OnClickListener(){
-//			@Override
-//			public void onClick(View arg0) {
-//				Util.returnToPreviousPage(FragmentStackSupport.this, IntentRequestCode.START_CITY_SELECTION);
-//			}
-//        });
         
         setAdapter();
     }  
@@ -139,7 +101,6 @@ public class CitySelectFragment extends Fragment {
     	public CityListAdapter(Context context, List<City> historyCityList, List<City> hotCityList, List<City> cityList) {
     		if(cityList == null)
     			return;
-    		//Collections.sort(cityList, new SortByAlpha());
     		this.inflater = LayoutInflater.from(context);
     		this.contentList = new ArrayList<City>();
     		alphaIndexer = new HashMap<String, Integer>();
@@ -147,7 +108,7 @@ public class CitySelectFragment extends Fragment {
     		if(locatedCity!=null){
     			sectionSize+=1;
     			City c = new City();
-    			c.setCityName("aa");
+    			c.setCityName(locatedCity);
     			c.setCityCode("123");
     			c.setInternationalCity(false);
     			c.setBelongsToCountry("china");
@@ -165,9 +126,7 @@ public class CitySelectFragment extends Fragment {
     		}
     		contentList.addAll(cityList);
     		
-    		//Collections.sort(contentList, new City.CityNameComp());
-    		
-    		GlobalVariables.allCitiesList.addAll(contentList); 
+    		GlobalVariables.allCitiesList.addAll(cityList); 
     		sectionSize += contentList.size();
     		sections = new String[sectionSize];
     		
@@ -196,7 +155,6 @@ public class CitySelectFragment extends Fragment {
     			//上一个汉语拼音首字母，如果不存在为“ ”
                 String previewStr = (i - 1) >= 0 ? Util.getAlpha(cityList.get(i - 1).getPinyin()) : " ";
                 if (!previewStr.equals(currentStr)) {
-                	//String name = Util.getAlpha(cityList.get(i).getPinyinofName();
                 	alphaIndexer.put(currentStr, sectionPointer);  
                 	sections[sectionPointer] = currentStr; 
                 }
@@ -226,16 +184,12 @@ public class CitySelectFragment extends Fragment {
                 holder = new ViewHolder();  
                 holder.alpha = (TextView) convertView.findViewById(R.id.alpha);  
                 holder.name = (TextView) convertView.findViewById(R.id.name);  
-//                holder.number = (TextView) convertView.findViewById(R.id.number);  
                 convertView.setTag(holder);  
             } else {  
                 holder = (ViewHolder) convertView.getTag();  
             }  
             City cv = contentList.get(position);  
             holder.name.setText(cv.getCityName());
-//            holder.number.setText(cv.getAsString(NUMBER));
-//            String currentStr = getAlpha(list.get(position).getAsString(SORT_KEY));
-//            String previewStr = (position - 1) >= 0 ? getAlpha(list.get(position - 1).getAsString(SORT_KEY)) : " ";
             String currentStr = sections[position];
             if (currentStr!=null) {  
                 holder.alpha.setVisibility(View.VISIBLE);
@@ -254,22 +208,6 @@ public class CitySelectFragment extends Fragment {
     	
     }
     
-//    //初始化汉语拼音首字母弹出提示框
-//    private void initOverlay() {
-//    	Log.d("poding","init overlay");
-//    	LayoutInflater inflater = LayoutInflater.from(this);
-//    	overlay = (TextView) inflater.inflate(R.layout.wraning_info_overlay, null);
-//    	overlay.setVisibility(View.INVISIBLE);
-//		WindowManager.LayoutParams lp = new WindowManager.LayoutParams(
-//				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT,
-//				WindowManager.LayoutParams.TYPE_APPLICATION,
-//				WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
-//						| WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-//				PixelFormat.TRANSLUCENT);
-//		WindowManager windowManager = (WindowManager) this.getSystemService(Context.WINDOW_SERVICE);
-//		windowManager.addView(overlay, lp);
-//    }
-    
     private class LetterListViewListener implements OnTouchingLetterChangedListener{
 
 		@Override
@@ -277,30 +215,7 @@ public class CitySelectFragment extends Fragment {
 			if(alphaIndexer.get(s) != null) {
 				int position = alphaIndexer.get(s);
 				allCitiesListView.setSelection(position);
-//				overlay.setText(sections[position]);
-//				overlay.setVisibility(View.VISIBLE);
-//				handler.removeCallbacks(overlayThread);
-				//延迟一秒后执行，让overlay为不可见
-//				handler.postDelayed(overlayThread, 1500);
 			} 
-		}
-    	
-    }
-//    
-//    //设置overlay不可见
-//    private class OverlayThread implements Runnable {
-//
-//		@Override
-//		public void run() {
-//			overlay.setVisibility(View.GONE);
-//		}
-//    	
-//    }
-//    
-    class SortByAlpha implements Comparator<City>{
-		@Override
-		public int compare(City value0, City value1) {
-    		return value0.getPinyin().compareTo(value1.getPinyin());
 		}
     	
     }

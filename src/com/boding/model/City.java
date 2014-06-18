@@ -1,10 +1,15 @@
 package com.boding.model;
 
+import java.io.Serializable;
 import java.util.Comparator;
 
 import com.boding.util.Util;
 
-public class City {
+public class City implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3055460233193084538L;
 	private String cityName;
 	private String cityCode;
 	private boolean isInternationalCity;
