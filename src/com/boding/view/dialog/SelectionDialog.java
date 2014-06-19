@@ -1,17 +1,17 @@
 package com.boding.view.dialog;
 
-import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.boding.R;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +22,8 @@ public class SelectionDialog extends Dialog{
 	private SelectionAdapter selectorAdapter;
 	private Context context;
 	private List<String> selectionList;
+	
+	private OnItemSelectedListener onItemSelectedListener;
 	
 	public SelectionDialog(Context context, int theme, String title, List<String> selectionList){
 		super(context,theme);
@@ -42,7 +44,27 @@ public class SelectionDialog extends Dialog{
 		selectorAdapter = new SelectionAdapter(this.context, selectionList);
 		selectorListView.setAdapter(selectorAdapter);
 		
+		selectorListView.setOnItemClickListener(new OnItemClickListener(){
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				//响应监听事件
+				if(onItemSelectedListener!=null)
+					onItemSelectedListener.OnItemSelected(position);
+				SelectionDialog.this.dismiss();
+			}
+			
+		});
+		
 		titleTextView = (TextView) findViewById(R.id.selection_title_textView);
+	}
+	
+	//给控件设置监听事件
+	public void setOnItemSelectedListener(OnItemSelectedListener onItemSelectedListener){
+		this.onItemSelectedListener =  onItemSelectedListener;
+	}
+	//监听接口
+	public interface OnItemSelectedListener {
+		void OnItemSelected(int position);
 	}
  
 	private class SelectionAdapter extends BaseAdapter {

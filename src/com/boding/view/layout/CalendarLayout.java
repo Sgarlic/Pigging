@@ -94,7 +94,6 @@ public class CalendarLayout extends LinearLayout{
 		});
 		dateSelectCalendarView.setMinClickableDate(minClickableDate);
 		dateSelectCalendarView.setDate(curDate);
-		generateMonthData();
 		
 		monthSelectorLinearLayout.setOnClickListener(new View.OnClickListener(){
 			@Override
@@ -111,13 +110,14 @@ public class CalendarLayout extends LinearLayout{
 				int finalWidth = right-left;
 				if(finalWidth > 0){
 					parentWidth = finalWidth;
-					initPopupWindow();
+					int previousPositon = generateMonthData();
+					initPopupWindow(previousPositon);
 				}
 			}
 			
 		});
 	}
-	private void generateMonthData(){
+	private int generateMonthData(){
 		monthList = new ArrayList<String>();
 		Calendar calendar = Calendar.getInstance();
 		int todayMonth = calendar.get(Calendar.MONTH) + 1;
@@ -147,16 +147,17 @@ public class CalendarLayout extends LinearLayout{
 			curDateMonth += 12;
 		
 		currMonthTextView.setText(monthList.get(curDateMonth - minMonth));
+		return monthList.indexOf(curDateMonth+"ÔÂ");
 	}
 	
 	private void setAdapter(){
-		monthAdapter = new MonthAdapter(monthList);
-		monthListView.setAdapter(monthAdapter);
 	}
 	
-	private void initPopupWindow(){
+	private void initPopupWindow(int previousPos){
 		View popupWindow =  LayoutInflater.from(context).inflate(R.layout.popup_month_selector, null);
 		monthListView = (ListView)popupWindow.findViewById(R.id.calendar_month_select_list);
+		monthAdapter = new MonthAdapter(monthList, previousPos);
+		monthListView.setAdapter(monthAdapter);
 		setAdapter();
 		monthSelector = new PopupWindow(popupWindow,parentWidth,LayoutParams.WRAP_CONTENT,true);
 		monthSelector.setOutsideTouchable(true);
@@ -174,8 +175,9 @@ public class CalendarLayout extends LinearLayout{
 		List<String> monthList;
 		int previousPos = 0;
 		
-		public MonthAdapter(List<String> monthList){
+		public MonthAdapter(List<String> monthList,int previousPos){
 			this.monthList = monthList;
+			this.previousPos = previousPos;
 		}
 		
 		

@@ -5,22 +5,22 @@ import java.util.Date;
 import com.boding.constants.IdentityType;
 
 public class Passenger {
-	private boolean isInternal;
+	private String auto_id;
+	private String cardno;
 	private String name;
-	private String lastName;
-	private String firstName;
+	private String eName;//姓/名
 	private IdentityType IdentityType;
+	private String PassPaper;// 证件信息 格式:证件类型^证件号^证件有效期| 
 	private String cardNumber;
 	private Date validDate;
 	private String nationality;
-	private boolean gender;//true is male, false is female
-	private Date birthDate;
-	public boolean isInternal() {
-		return isInternal;
-	}
-	public void setInternal(boolean isInternal) {
-		this.isInternal = isInternal;
-	}
+	private boolean isFemale;
+	private Date birthDate;//格式:YYYY-MM-DD
+	
+	// for other identity type
+	private String paperCode;
+	private String paperNum;
+	
 	public String getName() {
 		return name;
 	}
@@ -34,8 +34,14 @@ public class Passenger {
 		this.cardNumber = cardNumber;
 	}
 	
-	public Passenger(boolean isInternal, String name, String cardNumber){
-		this.isInternal = isInternal;
+	public String getGenderCode(){
+		if(isFemale)
+			return "F";
+		else
+			return "M";
+	}
+	
+	public Passenger(String name, String cardNumber){
 		this.name = name;
 		this.cardNumber = cardNumber;
 	}

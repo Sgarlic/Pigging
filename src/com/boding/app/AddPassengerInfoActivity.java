@@ -49,15 +49,17 @@ public class AddPassengerInfoActivity extends Activity {
 	private LinearLayout chooseBirthdayLinearLayout;
 	private TextView choosedBirthdayTextView;
 	
-	private IdentityType selectedIDType;
+	private IdentityType selectedIDType = null;
 	private boolean isChooseingBirthday = false;
+	
+	List<String> idTypeList;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_add_passengerinfo);
 		
-		selectedIDType = IdentityType.ID_CARD;
+//		selectedIDType = IdentityType.values()[0];
 //		Bundle arguments = getIntent().getExtras();
 //        if(arguments != null)
 //        	isReturnDateSelection = arguments.getBoolean(Constants.IS_RETURN_DATE_SELECTION);
@@ -93,6 +95,11 @@ public class AddPassengerInfoActivity extends Activity {
 
 		setViewAccordingtoIDType();
 		addListeners();
+		
+		idTypeList = new ArrayList<String>();
+		for(IdentityType identityType : IdentityType.values()){
+			idTypeList.add(identityType.getIdentityName());
+		}
 	}
 	
 	DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener(){
@@ -125,15 +132,15 @@ public class AddPassengerInfoActivity extends Activity {
 		chooseIDTypeLinearLayout.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				selectedIDType = IdentityType.OTHER_CARD;
-				setViewAccordingtoIDType();
-				
-				List<String> idTypeList = new ArrayList<String>();
-				idTypeList.add(IdentityType.ID_CARD.getIdentityType());
-				idTypeList.add(IdentityType.OTHER_CARD.getIdentityType());
-				
 				SelectionDialog chooseIDTypeDialog = new SelectionDialog(AddPassengerInfoActivity.this,
 						R.style.Custom_Dialog_Theme, "选择证件类型",idTypeList);
+				chooseIDTypeDialog.setOnItemSelectedListener(new SelectionDialog.OnItemSelectedListener() {
+					@Override
+					public void OnItemSelected(int position) {
+						selectedIDType = IdentityType.values()[position];
+						setViewAccordingtoIDType();
+					}
+				});
 				chooseIDTypeDialog.show();
 			}
 		});
@@ -178,7 +185,9 @@ public class AddPassengerInfoActivity extends Activity {
 	}
 	
 	private void setViewAccordingtoIDType(){
-		if(selectedIDType == IdentityType.ID_CARD){
+		if(selectedIDType == null)
+			return;
+		if(selectedIDType.isDomestic()){
 			passengerNameTextView.setText("姓名");
 			passengerNameEditText.setHint("所选证件姓名");
 			otherIDTypeLinearLayout.setVisibility(View.INVISIBLE);
@@ -187,5 +196,6 @@ public class AddPassengerInfoActivity extends Activity {
 			passengerNameEditText.setHint("Last(姓)/First(名)");
 			otherIDTypeLinearLayout.setVisibility(View.VISIBLE);
 		}
+		choosedIDTypeTextView.setText(selectedIDType.getIdentityName());
 	}
 }

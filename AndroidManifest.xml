@@ -100,5 +100,17 @@
             android:theme="@android:style/Theme.NoTitleBar"
             android:screenOrientation="portrait" >
         </activity>
+        <activity
+            android:name="com.boding.app.OrderPaymentActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.boding.app.BankCardSelectActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:screenOrientation="portrait" >
+        </activity>
     </application>
 </manifest>

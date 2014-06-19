@@ -1,13 +1,15 @@
 package com.boding.view.dialog;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
 import com.boding.R;
 import com.boding.constants.Constants;
 import com.boding.constants.GlobalVariables;
-import com.boding.model.City;
+import com.boding.model.BankCard;
+import com.boding.model.Country;
 import com.boding.util.Util;
 
 import android.app.Dialog;
@@ -31,19 +33,21 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.View.OnClickListener;
 
-public class SearchCityDialog extends Dialog{
-	private EditText citySearchEditText;
-	private LinearLayout cancelCitySearchLinearLayout;
-	private LinearLayout searchCityListLinearLayout;
+public class SearchBankcardDialog extends Dialog{
+	private EditText bankcardEditText;
+	private LinearLayout cancelBankcardSearchLinearLayout;
+	private LinearLayout searchBankcardLinearLayout;
 	private ListView searchResultListView;
-	private boolean isFlyToCitySelection;
 	private Context context;
-	public SearchCityDialog(Context context, int theme, boolean isFlyToCitySelection){
+	
+	private List<BankCard> bankcardList;
+	
+	public SearchBankcardDialog(Context context, int theme,List<BankCard> bankcardList){
 		super(context,theme);
 		setContentView(R.layout.dialog_search_city);
 		setWidthHeight();
-		this.isFlyToCitySelection = isFlyToCitySelection;
 		this.context = context;
+		this.bankcardList = bankcardList;
 		initView();
 	}
 	
@@ -62,26 +66,26 @@ public class SearchCityDialog extends Dialog{
 	}
 	
 	private void initView(){
-		citySearchEditText = (EditText)findViewById(R.id.city_search_editText);
-		citySearchEditText.addTextChangedListener(citySearchTextWatcher);
+		bankcardEditText = (EditText)findViewById(R.id.city_search_editText);
+		bankcardEditText.addTextChangedListener(bankcardSearchTextWatcher);
 		
-		cancelCitySearchLinearLayout = (LinearLayout)findViewById(R.id.cancel_citysearch_linearLayout);
-		cancelCitySearchLinearLayout.setClickable(true);
-		cancelCitySearchLinearLayout.setOnClickListener(new View.OnClickListener() {
+		cancelBankcardSearchLinearLayout = (LinearLayout)findViewById(R.id.cancel_citysearch_linearLayout);
+		cancelBankcardSearchLinearLayout.setClickable(true);
+		cancelBankcardSearchLinearLayout.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				SearchCityDialog.this.dismiss();
+				SearchBankcardDialog.this.dismiss();
 			}
 		});
 		
-		searchCityListLinearLayout = (LinearLayout)findViewById(R.id.search_city_list_linearLayout);
+		searchBankcardLinearLayout = (LinearLayout)findViewById(R.id.search_city_list_linearLayout);
 		
 		searchResultListView = (ListView)findViewById(R.id.city_search_result_listView);
 		searchResultListView.setOnItemClickListener(new OnItemClickListener(){
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				Util.selectCityOperation(searchResultListView, position, isFlyToCitySelection, SearchCityDialog.this.context, SearchCityDialog.this);
+//				Util.selectCityOperation(searchResultListView, position, isFlyToCitySelection, SearchNationalityDialog.this.context, SearchNationalityDialog.this);
 			}
 			
 		});
@@ -90,13 +94,13 @@ public class SearchCityDialog extends Dialog{
 	}
 	
 	public void setContent(String content){
-		citySearchEditText.setText(content);
+		bankcardEditText.setText(content);
 	}
 	
 	/**
 	 * ËÑË÷¿òÊÂ¼þ
 	 */
-	private TextWatcher citySearchTextWatcher = new TextWatcher() {
+	private TextWatcher bankcardSearchTextWatcher = new TextWatcher() {
 		@Override
 		public void afterTextChanged(Editable s) {
 			String searchText = s.toString();
@@ -105,7 +109,8 @@ public class SearchCityDialog extends Dialog{
 				hideListView();
 			}else{
 				showListView();
-				SearchResultCityListAdapter adapter = new SearchResultCityListAdapter(SearchCityDialog.this.getContext(), searchCity(searchText));
+				SearchBankcardResultListAdapter adapter = 
+						new SearchBankcardResultListAdapter(SearchBankcardDialog.this.getContext(), searchBankcard(searchText));
 				searchResultListView.setAdapter(adapter);
 			}
 			
@@ -124,19 +129,19 @@ public class SearchCityDialog extends Dialog{
 	};
     
 	private void hideListView(){
-		searchCityListLinearLayout.setVisibility(View.INVISIBLE);
+		searchBankcardLinearLayout.setVisibility(View.INVISIBLE);
 	}
 	private void showListView(){
-		searchCityListLinearLayout.setVisibility(View.VISIBLE);
+		searchBankcardLinearLayout.setVisibility(View.VISIBLE);
 	}
 	
-	private class SearchResultCityListAdapter extends BaseAdapter {
+	private class SearchBankcardResultListAdapter extends BaseAdapter {
     	private LayoutInflater inflater;  
-        private List<City> contentList;
+        private List<BankCard> contentList;
     	
-    	public SearchResultCityListAdapter(Context context, List<City> cityList) {
+    	public SearchBankcardResultListAdapter(Context context, List<BankCard> bankcardList) {
     		this.inflater = LayoutInflater.from(context);
-    		this.contentList = cityList;
+    		this.contentList = bankcardList;
     	}
     	
 		@Override
@@ -145,7 +150,7 @@ public class SearchCityDialog extends Dialog{
 		}
 
 		@Override
-		public City getItem(int position) {
+		public BankCard getItem(int position) {
 			return contentList.get(position);
 		}
 
@@ -167,32 +172,26 @@ public class SearchCityDialog extends Dialog{
                 holder = (ViewHolder) convertView.getTag(); 
                 
             }  
-            City cv = contentList.get(position);  
-            holder.name.setText(cv.getCityName());
-//            holder.number.setText(cv.getAsString(NUMBER));
-//            String currentStr = getAlpha(list.get(position).getAsString(SORT_KEY));
-//            String previewStr = (position - 1) >= 0 ? getAlpha(list.get(position - 1).getAsString(SORT_KEY)) : " ";
+			BankCard bankcard = contentList.get(position);  
+            holder.name.setText(bankcard.getBankName());
             return convertView;  
 		}
 		
 		private class ViewHolder {
             TextView name;  
-//            TextView number;
 		}
     	
     }
 	
-	private List<City> searchCity(String searchText){
+	private List<BankCard> searchBankcard(String searchText){
 		searchText = searchText.toLowerCase();
-		List<City> searchResult = new ArrayList<City>();
-		for(City city : GlobalVariables.allCitiesList){
-			if(city.getCityName().contains(searchText) || city.getPinyin().contains(searchText) 
-					|| city.getCityCode().contains(searchText)){
-				searchResult.add(city);
-				continue;
+		List<BankCard> searchResult = new ArrayList<BankCard>();
+		for(BankCard bankcard : bankcardList){
+			if(bankcard.getBankName().contains(searchText)||bankcard.getBankPinyin().contains(searchText)){
+				searchResult.add(bankcard);
 			}
 		}
-		
 		return searchResult;
 	}
+	
 }

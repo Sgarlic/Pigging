@@ -60,8 +60,9 @@ public class DateSelectCalendarView extends View implements View.OnTouchListener
 		curDate = selectedStartDate = selectedEndDate = today = new Date();
 		minClickableDate = curDate;
 		Calendar minDateCalendar = Calendar.getInstance();
-		minDateCalendar.add(Calendar.MONTH, 6);
+		minDateCalendar.add(Calendar.MONTH, 5);
 		maxDate = minDateCalendar.getTime();
+		Log.d("poding",maxDate.toString());
 		calendar = Calendar.getInstance();
 		calendar.setTime(curDate);
 		surface = new Surface();
@@ -166,6 +167,19 @@ public class DateSelectCalendarView extends View implements View.OnTouchListener
 			minClickableDateIndex = 42;
 		
 		/**
+		 * 获得可以点击的最小日期的索引
+		 */
+		int maxClickableDateIndex = 42;
+		int compareMaxDateResult = Util.compareYearAndMonth(curDate, maxDate);
+		if( compareMaxDateResult== 0){
+			Calendar maxDateResultCalendar = Calendar.getInstance();
+			maxDateResultCalendar.setTime(maxDate);
+			int maxClickableNumber = maxDateResultCalendar.get(Calendar.DAY_OF_MONTH);
+			maxClickableDateIndex = curStartIndex + maxClickableNumber - 1;
+		}else if( compareMaxDateResult == 1)
+			maxClickableDateIndex = -1;
+		
+		/**
 		 * 绘制日期
 		 */
 		for (int i = 0; i < 42; i++) {
@@ -180,12 +194,7 @@ public class DateSelectCalendarView extends View implements View.OnTouchListener
 			if (todayIndex != -1 && todayIndex == i){
 				textColor = resource.getColor(R.color.textOrange);
 			}
-			
-			// 小于最小可点击日期的是灰色背景不可点击
-			if (minClickableDateIndex!=-1 && i < minClickableDateIndex){
-				textColor = resource.getColor(R.color.calendarPreMonthTextColor);
-				drawCellBg(canvas, i , resource.getColor(R.color.calendarPreMonthBgColor));
-			}
+
 			// 今天是橙色
 			if (todayIndex != -1 && i == todayIndex) {
 				textColor = surface.todayNumberColor;
@@ -205,6 +214,11 @@ public class DateSelectCalendarView extends View implements View.OnTouchListener
 				hintText ="返回";
 			}
 			
+			// 小于最小可点击日期的是灰色背景不可点击
+			if ((minClickableDateIndex!=-1 && i < minClickableDateIndex)||(maxClickableDateIndex != 42 && i > maxClickableDateIndex)){
+				textColor = resource.getColor(R.color.calendarPreMonthTextColor);
+				drawCellBg(canvas, i , resource.getColor(R.color.calendarPreMonthBgColor));
+			}
 			drawCellText(canvas, i, date[i] + "", textColor, hintText);
 		}
 		super.onDraw(canvas);
@@ -663,6 +677,7 @@ public class DateSelectCalendarView extends View implements View.OnTouchListener
 			boxPath.rLineTo(0, height - monthHeight - weekHeight);
 			boxPath.moveTo(0, monthHeight + weekHeight + cellHeight*6);
 			boxPath.rLineTo(width, 0);
+			Log.d("poding","surfacedrawpath");
 			//preMonthBtnPath = new Path();
 			//int btnHeight = (int) (monthHeight * 0.6f);
 			//preMonthBtnPath.moveTo(monthChangeWidth / 2f, monthHeight / 2f);

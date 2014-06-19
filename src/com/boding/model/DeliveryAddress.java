@@ -1,10 +1,19 @@
 package com.boding.model;
 
 public class DeliveryAddress {
+	private String addrID;
 	private String recipientName;
 	private String area;
 	private String detailedAddr;
 	private String zipcode;
+	
+	private String Province;
+	private String City;
+	private String Area;
+	
+	private String mobile;
+	private String phone;
+	
 	public DeliveryAddress(String recipientName,String area,String detailedAddr,String zipcode){
 		this.recipientName = recipientName;
 		this.area = area;

@@ -1,17 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-  xmlns:android="http://schemas.android.com/apk/res/android"
-  android:layout_width="match_parent"
-  android:layout_height="match_parent">	
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:minWidth="280dip"
+    android:orientation="vertical"
+    android:paddingBottom="10dp"
+    android:paddingTop="10dp"
+    tools:ignore="MergeRootFrame" >
+
     <TextView
         android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/alpha"
-        android:layout_marginLeft="2.0dip"
-        android:layout_marginRight="5.0dip"
-        android:layout_marginTop="6.0dip"
+        android:paddingLeft="15dp"
         android:singleLine="true"
-        android:textAppearance="?android:textAppearanceMedium"
+        android:text="123"
         android:textColor="@color/priceGray" />
-</RelativeLayout>
+
+</LinearLayout>

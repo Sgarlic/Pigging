@@ -183,6 +183,7 @@ public class SearchNationalityDialog extends Dialog{
     }
 	
 	private List<Country> searchCity(String searchText){
+		searchText = searchText.toLowerCase();
 		List<Country> searchResult = new ArrayList<Country>();
 		for(Country country : countryList){
 			if(country.getCountryName().contains(searchText)||country.getCountryPinyin().contains(searchText)){

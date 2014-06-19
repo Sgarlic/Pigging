@@ -165,7 +165,7 @@ public class OrderFormActivity extends Activity {
 		addPassengerLinearLayout.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Passenger people = new Passenger(true, "李大嘴"+(count++), "356258745985653241"+(count++)); 
+				Passenger people = new Passenger("李大嘴"+(count++), "356258745985653241"+(count++)); 
 				peopleAdapter.addPassenger(people);
 				
 				Intent intent = new Intent();
@@ -181,6 +181,15 @@ public class OrderFormActivity extends Activity {
 				Intent intent = new Intent();
 				intent.setClass(OrderFormActivity.this, JourneySheetDeliveryActivity.class);
 				startActivityForResult(intent,IntentRequestCode.START_JOURNEYSHEET_DELIVERY.getRequestCode());
+			}
+		});
+		
+		nextStepLinearLayout.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				Intent intent = new Intent();
+				intent.setClass(OrderFormActivity.this, OrderPaymentActivity.class);
+				startActivityForResult(intent,IntentRequestCode.START_ORDER_PAYEMNT.getRequestCode());
 			}
 		});
 	}
