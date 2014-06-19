@@ -38,14 +38,16 @@
 			    android:layout_height="match_parent"
 			    android:layout_gravity="center_horizontal"
 			    android:orientation="horizontal">
+
 		        <TextView
 		            android:layout_width="wrap_content"
 		            android:layout_height="wrap_content"
 		            android:layout_gravity="center_vertical"
 		            android:text="订单支付"
 		            android:textColor="@color/textOrange"
-		            android:textSize="20dp"
+		            android:textSize="20sp"
 		            android:typeface="serif" />
+
 	        </LinearLayout>
 		</LinearLayout>
 		<LinearLayout
@@ -82,7 +84,7 @@
 			    android:layout_height="wrap_content"
 			    android:layout_gravity="center_vertical"
 			    android:text="上海-东京"
-			    android:textColor="@color/black"
+			    android:textColor="@color/priceGray"
 			    android:textSize="18sp"/>
 	        <TextView
 	            android:id="@+id/orderpayment_singleorroundway_textView"
@@ -91,7 +93,7 @@
 	            android:layout_gravity="center_vertical"
 	            android:layout_marginLeft="5dp"
 	            android:text="单程"
-	            android:textColor="@color/black"
+	            android:textColor="@color/listviewDividerColor"
 	            android:textSize="18sp"
 	            android:typeface="serif" />
 			<LinearLayout
@@ -103,6 +105,7 @@
 			        android:layout_height="match_parent"
 			        android:layout_gravity="right"
 			        android:orientation="horizontal" >
+
 			        <TextView
 			            android:layout_width="wrap_content"
 			            android:layout_height="wrap_content"
@@ -112,25 +115,26 @@
 			            android:textColor="@color/black"
 			            android:textSize="18sp"
 			            android:typeface="serif" />
+
 			        <TextView
 			            android:id="@+id/orderpayment_orderTotal_textView"
 			            android:layout_width="wrap_content"
 			            android:layout_height="wrap_content"
 			            android:layout_gravity="center_vertical"
-			            android:layout_marginLeft="5dp"
 			            android:text="35"
-			            android:textColor="@color/black"
-			            android:textSize="18sp"
+			            android:textColor="@color/textOrange"
+			            android:textSize="20sp"
 			            android:typeface="serif" />
+
 			        <TextView
 			            android:layout_width="wrap_content"
 			            android:layout_height="wrap_content"
 			            android:layout_gravity="center_vertical"
-			            android:layout_marginLeft="5dp"
 			            android:text="元 "
-			            android:textColor="@color/black"
-			            android:textSize="18sp"
+			            android:textColor="@color/textOrange"
+			            android:textSize="20sp"
 			            android:typeface="serif" />
+
 			    </LinearLayout>
 		    </LinearLayout>
 		</LinearLayout>
@@ -140,6 +144,7 @@
 		    android:layout_marginTop="10dp"
 		    android:orientation="vertical" >
 	        <LinearLayout
+	            android:id="@+id/orderpayment_bodingDeduction_linearLayout"
 		        android:layout_width="wrap_content"
 		        android:layout_height="match_parent"
 		        android:layout_gravity="right"
@@ -160,7 +165,7 @@
 		            android:layout_gravity="center_vertical"
 		            android:layout_marginLeft="5dp"
 		            android:text="5"
-		            android:textColor="@color/black"
+		            android:textColor="@color/listviewDividerColor"
 		            android:textSize="18sp"
 		            android:typeface="serif" />
 		        <TextView
@@ -169,16 +174,25 @@
 		            android:layout_gravity="center_vertical"
 		            android:layout_marginLeft="5dp"
 		            android:text="元 "
-		            android:textColor="@color/black"
+		            android:textColor="@color/listviewDividerColor"
 		            android:textSize="18sp"
 		            android:typeface="serif" />
+
+		        <CheckBox
+		            android:id="@+id/orderpayment_usePodingDeduction__checkBox"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_gravity="center_vertical"
+		            android:layout_margin="5dp"
+		            android:button="@layout/selector_filter_checkbox_bg" />
+
 		    </LinearLayout>
 	    </LinearLayout>
 	</LinearLayout>
 	<LinearLayout
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:background="@color/tabDivider"
+        android:background="@color/dividerGray1"
         android:orientation="horizontal" >
 	</LinearLayout>
 
@@ -216,7 +230,7 @@
 			        android:layout_gravity="top"
 			        android:text="支付方式"
 			        android:textColor="@color/black"
-			        android:textSize="18sp"
+			        android:textSize="19sp"
 			        android:typeface="serif" />
 			</LinearLayout>
 
@@ -234,7 +248,7 @@
 			        android:layout_height="wrap_content"
 			        android:layout_gravity="center_vertical"
 			        android:text="信用卡支付"
-			        android:textColor="@color/black"
+			        android:textColor="@color/paymentMethodColor"
 			        android:textSize="18sp"
 			        android:typeface="serif" />
 			    <LinearLayout
@@ -269,7 +283,7 @@
 			        android:layout_height="wrap_content"
 			        android:layout_gravity="center_vertical"
 			        android:text="储蓄卡支付"
-			        android:textColor="@color/black"
+			        android:textColor="@color/paymentMethodColor"
 			        android:textSize="18sp"
 			        android:typeface="serif" />
 			    <LinearLayout
@@ -304,7 +318,7 @@
 			        android:layout_height="wrap_content"
 			        android:layout_gravity="center_vertical"
 			        android:text="支付宝支付"
-			        android:textColor="@color/black"
+			        android:textColor="@color/paymentMethodColor"
 			        android:textSize="18sp"
 			        android:typeface="serif" />
 			    <LinearLayout
@@ -339,7 +353,7 @@
 			        android:layout_height="wrap_content"
 			        android:layout_gravity="center_vertical"
 			        android:text="财付通支付"
-			        android:textColor="@color/black"
+			        android:textColor="@color/paymentMethodColor"
 			        android:textSize="18sp"
 			        android:typeface="serif" />
 			    <LinearLayout

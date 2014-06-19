@@ -24,7 +24,9 @@
 	    android:id="@+id/choosepassenger_choose_linearLayout"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
+	    android:layout_marginLeft="5dp"
 	    android:orientation="vertical" >
+
 		<LinearLayout
 		    android:layout_width="wrap_content"
 		    android:layout_height="match_parent"
@@ -36,7 +38,7 @@
 			    android:layout_height="wrap_content"
 			    android:text="李大嘴 "
 			    android:textColor="@color/black"
-			    android:textSize="16sp"
+			    android:textSize="17sp"
 			    android:typeface="serif" />
 
 		</LinearLayout>
@@ -50,8 +52,8 @@
 			    android:layout_width="wrap_content"
 			    android:layout_height="wrap_content"
 			    android:text="身份证 "
-			    android:textColor="@color/lightgray"
-			    android:textSize="16sp"
+			    android:textColor="@color/black"
+			    android:textSize="17sp"
 			    android:typeface="serif" />
 
 		    <TextView
@@ -60,8 +62,8 @@
 		        android:layout_height="wrap_content"
 		        android:layout_marginLeft="5dp"
 		        android:text="365245896574123520 "
-		        android:textColor="@color/lightgray"
-		        android:textSize="16sp"
+		        android:textColor="@color/black"
+		        android:textSize="17sp"
 		        android:typeface="serif" />
 
 	    </LinearLayout>

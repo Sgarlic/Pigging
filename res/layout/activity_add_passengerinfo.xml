@@ -45,7 +45,7 @@
 		            android:layout_gravity="center_vertical"
 		            android:text="新增登机人"
 		            android:textColor="@color/textOrange"
-		            android:textSize="20dp"
+		            android:textSize="20sp"
 		            android:typeface="serif" />
 
 	        </LinearLayout>
@@ -69,7 +69,7 @@
 		            android:layout_gravity="right"
 		            android:text="完成"
 		            android:textColor="@color/textOrange"
-		            android:textSize="20dp"
+		            android:textSize="19sp"
 		            android:typeface="serif" />
 		    </LinearLayout>
 	    </LinearLayout>
@@ -105,8 +105,8 @@
 			    android:gravity="top"
 			    android:maxLines="1"
 			    android:text="姓名"
-			    android:textColor="@color/black"
-			    android:textSize="18sp"
+			    android:textColor="@color/priceGray"
+			    android:textSize="17sp"
 			    android:typeface="serif" />
 
 			<EditText
@@ -117,7 +117,9 @@
 			    android:ems="8"
 			    android:hint="所选证件姓名"
 			    android:maxLines="1"
-			    android:textSize="18sp"
+			    android:textColor="@color/black"
+			    android:textColorHint="@color/listviewDividerColor"
+			    android:textSize="17sp"
 			    android:typeface="serif" >
 
 			    <requestFocus />
@@ -137,9 +139,9 @@
 		        android:layout_gravity="center_vertical"
 		        android:gravity="top"
 		        android:text="证件类型"
-		        android:textColor="@color/black"
-		        android:textSize="18sp"
-		        android:typeface="serif" />
+		        android:textColor="@color/priceGray"
+			    android:textSize="17sp"
+			    android:typeface="serif" />
 
 		    <TextView
 		        android:id="@+id/addpassenger_choosedIDType_textView"
@@ -148,8 +150,8 @@
 		        android:layout_gravity="center_vertical"
 		        android:gravity="top"
 		        android:text="请选择证件类型"
-		        android:textColor="@color/black"
-		        android:textSize="18sp"
+		        android:textColor="@color/listviewDividerColor"
+		        android:textSize="17sp"
 		        android:typeface="serif" />
 
 		</LinearLayout>
@@ -166,9 +168,9 @@
 		        android:layout_gravity="center_vertical"
 		        android:gravity="top"
 		        android:text="证件号码"
-		        android:textColor="@color/black"
-		        android:textSize="18sp"
-		        android:typeface="serif" />
+		        android:textColor="@color/priceGray"
+			    android:textSize="17sp"
+			    android:typeface="serif" />
 
 			<EditText
 			    android:id="@+id/addpassenger_input_IDNumber_editText"
@@ -177,7 +179,9 @@
 			    android:background="@color/white"
 			    android:ems="8"
 			    android:hint="请输入证件号"
-			    android:textSize="18sp"
+			    android:textColor="@color/black"
+			    android:textColorHint="@color/listviewDividerColor"
+			    android:textSize="17sp"
 			    android:typeface="serif" >
 
 			</EditText>
@@ -201,9 +205,9 @@
 			        android:layout_gravity="center_vertical"
 			        android:gravity="top"
 			        android:text="证件有效期"
-			        android:textColor="@color/black"
-			        android:textSize="18sp"
-			        android:typeface="serif" />
+			        android:textColor="@color/priceGray"
+				    android:textSize="17sp"
+				    android:typeface="serif" />
 	
 				<TextView
 			        android:id="@+id/addpassenger_choosedValidDate_textView"
@@ -212,8 +216,8 @@
 			        android:layout_gravity="center_vertical"
 			        android:gravity="top"
 			        android:text="请选择有效期"
-			        android:textColor="@color/black"
-			        android:textSize="18sp"
+			        android:textColor="@color/listviewDividerColor"
+			        android:textSize="17sp"
 			        android:typeface="serif" />
 			</LinearLayout>
 
@@ -230,9 +234,9 @@
 			        android:layout_gravity="center_vertical"
 			        android:gravity="top"
 			        android:text="国籍"
-			        android:textColor="@color/black"
-			        android:textSize="18sp"
-			        android:typeface="serif" />
+			        android:textColor="@color/priceGray"
+				    android:textSize="17sp"
+				    android:typeface="serif" />
 	
 				<TextView
 			        android:id="@+id/addpassenger_choosedNationality_textView"
@@ -241,8 +245,8 @@
 			        android:layout_gravity="center_vertical"
 			        android:gravity="top"
 			        android:text="请选择国籍"
-			        android:textColor="@color/black"
-			        android:textSize="18sp"
+			        android:textColor="@color/listviewDividerColor"
+			        android:textSize="17sp"
 			        android:typeface="serif" />
 				
 				<LinearLayout
@@ -265,7 +269,6 @@
 						    android:layout_gravity="center_vertical"
 						    android:layout_marginLeft="5dp"
 						    android:src="@drawable/check2_480_800" />
-	
 					</LinearLayout>
 			    </LinearLayout>
 			</LinearLayout>
@@ -283,9 +286,9 @@
 			        android:layout_gravity="center_vertical"
 			        android:gravity="top"
 			        android:text="性别"
-			        android:textColor="@color/black"
-			        android:textSize="18sp"
-			        android:typeface="serif" />
+			        android:textColor="@color/priceGray"
+				    android:textSize="17sp"
+				    android:typeface="serif" />
 	
 				<TextView
 			        android:id="@+id/addpassenger_choosedGender_textView"
@@ -294,8 +297,8 @@
 			        android:layout_gravity="center_vertical"
 			        android:gravity="top"
 			        android:text="请选择性别"
-			        android:textColor="@color/black"
-			        android:textSize="18sp"
+			        android:textColor="@color/listviewDividerColor"
+			        android:textSize="17sp"
 			        android:typeface="serif" />
 			</LinearLayout>
 
@@ -311,9 +314,9 @@
 			        android:layout_gravity="center_vertical"
 			        android:gravity="top"
 			        android:text="出生日期"
-			        android:textColor="@color/black"
-			        android:textSize="18sp"
-			        android:typeface="serif" />
+			        android:textColor="@color/priceGray"
+				    android:textSize="17sp"
+				    android:typeface="serif" />
 	
 				<TextView
 			        android:id="@+id/addpassenger_choosedBirthday_textView"
@@ -322,8 +325,8 @@
 			        android:layout_gravity="center_vertical"
 			        android:gravity="top"
 			        android:text="请选择出生日期"
-			        android:textColor="@color/black"
-			        android:textSize="18sp"
+			        android:textColor="@color/listviewDividerColor"
+			        android:textSize="17sp"
 			        android:typeface="serif" />
 			</LinearLayout>
 		</LinearLayout>

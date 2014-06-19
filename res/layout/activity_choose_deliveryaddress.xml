@@ -38,14 +38,16 @@
 			    android:layout_height="match_parent"
 			    android:layout_gravity="center_horizontal"
 			    android:orientation="horizontal">
+
 		        <TextView
 		            android:layout_width="wrap_content"
 		            android:layout_height="wrap_content"
 		            android:layout_gravity="center_vertical"
 		            android:text="选择配送地址"
 		            android:textColor="@color/textOrange"
-		            android:textSize="20dp"
+		            android:textSize="20sp"
 		            android:typeface="serif" />
+
 	        </LinearLayout>
 		</LinearLayout>
 		<LinearLayout
@@ -67,7 +69,7 @@
 		            android:layout_gravity="right"
 		            android:text="完成"
 		            android:textColor="@color/textOrange"
-		            android:textSize="20dp"
+		            android:textSize="19sp"
 		            android:typeface="serif" />
 		    </LinearLayout>
 	    </LinearLayout>
@@ -109,8 +111,8 @@
 			    android:layout_marginLeft="15dp"
 			    android:gravity="top"
 			    android:text="新增地址"
-			    android:textColor="@color/black"
-			    android:textSize="18sp"
+			    android:textColor="@color/priceGray"
+			    android:textSize="20sp"
 			    android:typeface="serif" />
 
 		    <LinearLayout

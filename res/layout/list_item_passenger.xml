@@ -35,7 +35,7 @@
 			    android:layout_height="wrap_content"
 			    android:text="李大嘴 "
 			    android:textColor="@color/black"
-			    android:textSize="16sp"
+			    android:textSize="20sp"
 			    android:typeface="serif" />
 
 		</LinearLayout>
@@ -49,8 +49,8 @@
 			    android:layout_width="wrap_content"
 			    android:layout_height="wrap_content"
 			    android:text="身份证 "
-			    android:textColor="@color/lightgray"
-			    android:textSize="16sp"
+			    android:textColor="@color/priceGray"
+			    android:textSize="18sp"
 			    android:typeface="serif" />
 
 		    <TextView
@@ -59,8 +59,8 @@
 		        android:layout_height="wrap_content"
 		        android:layout_marginLeft="15dp"
 		        android:text="365245896574123520 "
-		        android:textColor="@color/lightgray"
-		        android:textSize="16sp"
+		        android:textColor="@color/black"
+		        android:textSize="18sp"
 		        android:typeface="serif" />
 
 	    </LinearLayout>

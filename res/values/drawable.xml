@@ -16,6 +16,9 @@
     <color name="listviewDividerColor">#CECECE</color>
     <color name="panelDividerGray">#E5E5E5</color>
     <color name="tabDivider">#DBDBDB</color>
+    <color name="dividerGray">#DEDEDE</color>
+    <color name="dividerGray1">#e9e9e9</color>
+    <color name="dividerGray2">#eaeaea</color>
     <color name="calendarWeekTextColor">#2C4860</color>
     <color name="calendarCurrentMonthTextColor">#2B485F</color>
     <color name="calendarCurrentMonthFlightDayColor">#F68A1E</color>
@@ -29,4 +32,9 @@
     <color name="voicesearchTitleColor">#ececec</color>
     <color name="classInfoPanelBgColor">#f4f4f4</color>
     <color name="textBlue">#4e8dbd</color>
+    <color name="panelBlue">#71a4ca</color>
+    <color name="paymentMethodColor">#686868</color>
+    <color name="lisViewDividerGray">#eeeeee</color>
+    <color name="listViewDividerGray1">#ebebeb</color>
+    <color name="searchDialogPanelBg">#f8f8f8</color>
 </resources>

@@ -47,7 +47,7 @@
 		            android:text="出发城市"
 		            android:textColor="@color/textOrange"
 		            android:textColorHint="@color/white"
-		            android:textSize="20dp"
+		            android:textSize="20sp"
 		            android:typeface="serif" />
 	        </LinearLayout>
 		</LinearLayout>

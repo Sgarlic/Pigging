@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -20,7 +21,9 @@ public class OrderPaymentActivity extends Activity {
 	private TextView fromToTextView;
 	private TextView singleorRoundWayTextView;
 	private TextView orderTotalTextView;
-	private TextView bodingDeductionTextView;;
+	private LinearLayout bodingDeductionLinearLayout;
+	private TextView bodingDeductionTextView;
+	private CheckBox useBodingDeductionCheckBox;
 	private LinearLayout paybyCreditCardLinearLayout;
 	private LinearLayout paybySavingCardLinearLayout;
 	private LinearLayout paybyAlipayLinearLayout;
@@ -51,7 +54,9 @@ public class OrderPaymentActivity extends Activity {
 		fromToTextView = (TextView) findViewById(R.id.orderpayment_fromto_textView);
 		singleorRoundWayTextView = (TextView) findViewById(R.id.orderpayment_singleorroundway_textView);
 		orderTotalTextView = (TextView) findViewById(R.id.orderpayment_orderTotal_textView);
+		bodingDeductionLinearLayout = (LinearLayout) findViewById(R.id.orderpayment_bodingDeduction_linearLayout);
 		bodingDeductionTextView = (TextView) findViewById(R.id.orderpayment_bodingDeduction_textView);
+		useBodingDeductionCheckBox = (CheckBox) findViewById(R.id.orderpayment_usePodingDeduction__checkBox);
 		paybyCreditCardLinearLayout = (LinearLayout) findViewById(R.id.orderpayment_paybyCreditCard_linearLayout);
 		paybySavingCardLinearLayout = (LinearLayout) findViewById(R.id.orderpayment_paybySavingCard_linearLayout);
 		paybyAlipayLinearLayout = (LinearLayout) findViewById(R.id.orderpayment_paybyAlipay_linearLayout);
@@ -70,6 +75,15 @@ public class OrderPaymentActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				openBankcardSelectionActivity(false);
+			}
+		});
+		bodingDeductionLinearLayout.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if(useBodingDeductionCheckBox.isChecked())
+					useBodingDeductionCheckBox.setChecked(false);
+				else
+					useBodingDeductionCheckBox.setChecked(true);
 			}
 		});
 	}

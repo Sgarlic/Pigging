@@ -59,7 +59,7 @@
 
 	<LinearLayout
 	    android:layout_width="match_parent"
-	    android:layout_height="40dp"
+	    android:layout_height="45dp"
 	    android:background="@color/panelOrange"
 	    android:orientation="vertical" >
 		
@@ -77,7 +77,7 @@
 			    android:layout_marginRight="5dp"
 			    android:text="东京 "
 			    android:textColor="@color/white"
-			    android:textSize="20sp"
+			    android:textSize="22sp"
 			    android:typeface="serif" />
 			
 			<TextView
@@ -88,7 +88,7 @@
 			    android:layout_marginRight="10dp"
 			    android:text="TYO"
 			    android:textColor="@color/white"
-			    android:textSize="12sp"
+			    android:textSize="14sp"
 			    android:typeface="serif" />
 			
 			<ImageView
@@ -105,7 +105,7 @@
 			    android:layout_marginLeft="10dp"
 			    android:text="上海"
 			    android:textColor="@color/white"
-			    android:textSize="20sp"
+			    android:textSize="22sp"
 			    android:typeface="serif" />
 			
 			<TextView
@@ -116,7 +116,7 @@
 			    android:layout_marginLeft="5dp"
 			    android:text="SHA"
 			    android:textColor="@color/white"
-			    android:textSize="12sp"
+			    android:textSize="14sp"
 			    android:typeface="serif" />
 
 		</LinearLayout>
@@ -158,8 +158,8 @@
 		            android:layout_gravity="center_vertical"
 		            android:layout_marginLeft="5dp"
 		            android:text="前一天"
-		            android:textColor="@color/darkgray"
-		            android:textSize="13sp"
+		            android:textColor="@color/dayIndicatorGray"
+		            android:textSize="14sp"
 		            android:typeface="serif" />
 
 			</LinearLayout>
@@ -175,8 +175,8 @@
 		            android:layout_height="wrap_content"
 		            android:layout_gravity="center_horizontal"
 		            android:text="￥500"
-		            android:textColor="@color/darkgray"
-		            android:textSize="12dp"
+		            android:textColor="@color/priceGray"
+		            android:textSize="12sp"
 		            android:typeface="serif" />
 			</LinearLayout>
 			</LinearLayout>
@@ -207,7 +207,7 @@
 		            android:layout_marginRight="5dp"
 		            android:text="2014-01-07"
 		            android:textColor="@color/textOrange"
-		            android:textSize="13sp"
+		            android:textSize="14sp"
 		            android:typeface="serif" />
 		        <ImageView
 		            android:layout_width="wrap_content"
@@ -229,7 +229,7 @@
 		            android:layout_gravity="center_horizontal"
 		            android:text="￥670"
 		            android:textColor="@color/panelOrange"
-		            android:textSize="12dp"
+		            android:textSize="12sp"
 		            android:typeface="serif" />
 			</LinearLayout>
 			</LinearLayout>
@@ -262,8 +262,8 @@
 		            android:layout_gravity="center_vertical"
 		            android:layout_marginRight="5dp"
 		            android:text="后一天"
-		            android:textColor="@color/darkgray"
-		            android:textSize="13sp"
+		            android:textColor="@color/dayIndicatorGray"
+		            android:textSize="14sp"
 		            android:typeface="serif" />
 		        <ImageView
 		            android:layout_width="wrap_content"
@@ -284,8 +284,8 @@
 		            android:layout_height="wrap_content"
 		            android:layout_gravity="center_horizontal"
 		            android:text="￥580"
-		            android:textColor="@color/darkgray"
-		            android:textSize="12dp"
+		            android:textColor="@color/priceGray"
+		            android:textSize="12sp"
 		            android:typeface="serif" />
 
 			</LinearLayout>
@@ -295,10 +295,9 @@
 
 	<LinearLayout
 	    android:layout_width="match_parent"
-	    android:layout_height="2dp"
-	    android:background="@color/panelDividerGray"
+	    android:layout_height="1dp"
+	    android:background="@color/dividerGray2"
 	    android:orientation="vertical" >
-
 	</LinearLayout>
 	
 
@@ -309,13 +308,14 @@
         android:layout_weight="11"  >
 
         <ListView
-        android:id="@+id/international_ticket_search_result_listView"
-        android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:background="@color/white"
-		android:cacheColorHint="@android:color/white"
-		android:divider="@color/white"
-		android:scrollbars="none">
+	        android:id="@+id/international_ticket_search_result_listView"
+	        android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:background="@color/white"
+			android:cacheColorHint="@android:color/white"
+			android:divider="@color/listviewDividerColor"
+	        android:dividerHeight="2px"
+			android:scrollbars="none">
     </ListView>
 
     </LinearLayout>
@@ -347,13 +347,13 @@
 			    android:orientation="horizontal" >
 
 				<TextView
-		            android:layout_width="wrap_content"
-		            android:layout_height="wrap_content"
-		            android:layout_gravity="center_vertical"
-		            android:text="筛选"
-		            android:textColor="@color/filterPriceFromtimeColor"
-		            android:textSize="15dp"
-		            android:typeface="serif" />
+				    android:layout_width="wrap_content"
+				    android:layout_height="wrap_content"
+				    android:layout_gravity="center_vertical"
+				    android:text="筛选"
+				    android:textColor="@color/filterPriceFromtimeColor"
+				    android:textSize="17sp"
+				    android:typeface="serif" />
 
 		        <ImageView
 		            android:layout_width="wrap_content"
@@ -375,13 +375,14 @@
 			    android:layout_height="match_parent"
 			    android:layout_gravity="center_horizontal"
 			    android:orientation="horizontal" >
+
 		        <TextView
 		            android:layout_width="wrap_content"
 		            android:layout_height="wrap_content"
 		            android:layout_gravity="center_vertical"
 		            android:text="起飞"
 		            android:textColor="@color/textOrange"
-		            android:textSize="15dp"
+		            android:textSize="17sp"
 		            android:typeface="serif" />
 
 		        <ImageView
@@ -405,13 +406,14 @@
 			    android:layout_height="match_parent"
 			    android:layout_gravity="center_horizontal"
 			    android:orientation="horizontal" >
+
 		        <TextView
 		            android:layout_width="wrap_content"
 		            android:layout_height="wrap_content"
 		            android:layout_gravity="center_vertical"
 		            android:text="价格"
 		            android:textColor="@color/filterPriceFromtimeColor"
-		            android:textSize="15dp"
+		            android:textSize="17sp"
 		            android:typeface="serif" />
 
 		        <ImageView

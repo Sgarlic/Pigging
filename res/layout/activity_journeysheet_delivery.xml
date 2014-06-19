@@ -47,7 +47,7 @@
 		            android:layout_gravity="center_vertical"
 		            android:text="行程单配送"
 		            android:textColor="@color/textOrange"
-		            android:textSize="20dp"
+		            android:textSize="20sp"
 		            android:typeface="serif" />
 	        </LinearLayout>
 		</LinearLayout>
@@ -72,7 +72,7 @@
 		            android:layout_gravity="right"
 		            android:text="完成"
 		            android:textColor="@color/textOrange"
-		            android:textSize="20dp"
+		            android:textSize="19sp"
 		            android:typeface="serif" />
 		    </LinearLayout>
 	    </LinearLayout>
@@ -106,8 +106,8 @@
 			    android:layout_gravity="center_vertical"
 			    android:gravity="top"
 			    android:text="是否需要行程单 "
-			    android:textColor="@color/black"
-			    android:textSize="18sp"
+			    android:textColor="@color/priceGray"
+			    android:textSize="17sp"
 			    android:typeface="serif" />
 
 		    <LinearLayout
@@ -152,9 +152,9 @@
 			        android:layout_gravity="center_vertical"
 			        android:gravity="top"
 			        android:text="配送方式 "
-			        android:textColor="@color/black"
-			        android:textSize="18sp"
-			        android:typeface="serif" />
+			        android:textColor="@color/priceGray"
+				    android:textSize="17sp"
+				    android:typeface="serif" />
 	
 			    <LinearLayout
 			        android:id="@+id/journeysheet_selectDeliveryMethods_linearLayout"
@@ -177,9 +177,9 @@
 						    android:layout_height="wrap_content"
 						    android:layout_gravity="center_vertical"
 						    android:text="江浙沪（￥10） "
-						    android:textColor="@color/black"
-						    android:textSize="18sp"
-						    android:typeface="serif" />
+						    android:textColor="@color/listviewDividerColor"
+					        android:textSize="17sp"
+					        android:typeface="serif" />
 	
 						<ImageView
 						    android:layout_width="wrap_content"
@@ -203,9 +203,9 @@
 			        android:layout_gravity="center_vertical"
 			        android:gravity="top"
 			        android:text="配送地址"
-			        android:textColor="@color/black"
-			        android:textSize="18sp"
-			        android:typeface="serif" />
+			        android:textColor="@color/priceGray"
+				    android:textSize="17sp"
+				    android:typeface="serif" />
 	
 			    <LinearLayout
 			        android:layout_width="wrap_content"
