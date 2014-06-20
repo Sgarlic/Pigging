@@ -50,7 +50,7 @@ public class AddPassengerInfoActivity extends Activity {
 	private TextView choosedBirthdayTextView;
 	
 	private IdentityType selectedIDType = null;
-	private boolean isChooseingBirthday = false;
+	private boolean isChoosingBirthday = false;
 	
 	List<String> idTypeList;
 	
@@ -106,7 +106,7 @@ public class AddPassengerInfoActivity extends Activity {
 		@Override
 		public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
 			String choosedDate = Util.getFormatedDate(year, monthOfYear, dayOfMonth);
-			if(isChooseingBirthday)
+			if(isChoosingBirthday)
 				choosedBirthdayTextView.setText(choosedDate);
 			else
 				choosedValidDateTextView.setText(choosedDate);
@@ -117,7 +117,7 @@ public class AddPassengerInfoActivity extends Activity {
 		Calendar calendar = Calendar.getInstance();
 		DatePickerDialog datepickerDialog = new DatePickerDialog(AddPassengerInfoActivity.this,dateSetListener,
 				calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH));
-		if(isChooseingBirthday){
+		if(isChoosingBirthday){
 			datepickerDialog.setTitle("选择出生日期");
 			datepickerDialog.getDatePicker().setMaxDate(calendar.getTimeInMillis());
 		}
@@ -148,7 +148,7 @@ public class AddPassengerInfoActivity extends Activity {
 		chooseValidDateLinearLayout.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				isChooseingBirthday = false;
+				isChoosingBirthday = false;
 				showDatePickerDialog();
 			}
 		});
@@ -156,7 +156,7 @@ public class AddPassengerInfoActivity extends Activity {
 		chooseBirthdayLinearLayout.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				isChooseingBirthday = true;
+				isChoosingBirthday = true;
 				showDatePickerDialog();
 			}
 		});

@@ -14,5 +14,6 @@
     <string name="thisYear">今\n年</string>
     <string name="nextYear">明\n年</string>
     <string name="title_activity_launcher">LauncherActivity</string>
-
+	<string name="freeRegisteration"><u>免费注册</u></string>
+	<string name="alreadyGetAccount"><u>已有账号登录</u></string>
 </resources>

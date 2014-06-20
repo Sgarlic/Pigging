@@ -1,0 +1,205 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:ignore="MergeRootFrame" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp" >
+
+		<LinearLayout
+		    android:id="@+id/return_logo_linearLayout"
+		    android:layout_width="wrap_content"
+		    android:layout_height="match_parent"
+		    android:layout_weight="1"
+		    android:orientation="horizontal" >
+
+	        <ImageView
+	            android:id="@+id/return_logo_imageView"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_gravity="center_vertical"
+	            android:src="@drawable/return_1x" />
+        </LinearLayout>
+
+	    <LinearLayout
+	        android:layout_width="wrap_content"
+	        android:layout_height="match_parent"
+	        android:layout_weight="1"
+	        android:orientation="vertical" >
+
+	        <LinearLayout
+	            android:layout_width="wrap_content"
+	            android:layout_height="match_parent"
+	            android:layout_gravity="center_horizontal"
+	            android:orientation="horizontal" >
+
+		        <TextView
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_gravity="center_vertical"
+		            android:text="登录"
+		            android:textColor="@color/textOrange"
+		            android:textSize="20sp"
+		            android:typeface="serif" />
+	        </LinearLayout>
+		</LinearLayout>
+
+		<LinearLayout
+		    android:id="@+id/login_forgetpassword_linearLayout"
+		    android:layout_width="wrap_content"
+		    android:layout_height="match_parent"
+		    android:layout_weight="1"
+		    android:orientation="horizontal" >
+
+	        <LinearLayout
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:layout_gravity="center_vertical"
+		        android:layout_weight="1"
+		        android:orientation="vertical" >
+	
+		        <TextView
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_gravity="right"
+		            android:text="忘记密码"
+		            android:textColor="@color/textOrange"
+		            android:textSize="19sp"
+		            android:typeface="serif" />
+		    </LinearLayout>
+	    </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/panelOrange"
+        android:orientation="horizontal" >
+	</LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingTop="20dp" >
+
+		<LinearLayout
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:layout_marginBottom="20dp"
+		    android:orientation="horizontal" >
+
+			<TextView
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:layout_gravity="center_vertical"
+			    android:gravity="top"
+			    android:text="波丁账户 "
+			    android:textColor="@color/priceGray"
+			    android:textSize="17sp"
+			    android:typeface="serif" />
+
+		    <EditText
+		        android:id="@+id/login_input_userName_editText"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_marginLeft="10dp"
+		        android:background="@color/white"
+		        android:ems="8"
+		        android:hint="邮箱\\手机号"
+		        android:maxLines="1"
+		        android:textColor="@color/black"
+		        android:textColorHint="@color/listviewDividerColor"
+		        android:textSize="17sp"
+		        android:typeface="serif" >
+
+				<requestFocus />
+			</EditText>
+	    </LinearLayout>
+
+	    <LinearLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_marginBottom="20dp"
+	        android:orientation="horizontal" >
+
+		    <TextView
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_gravity="center_vertical"
+		        android:gravity="top"
+		        android:text="波丁密码 "
+		        android:textColor="@color/priceGray"
+			    android:textSize="17sp"
+			    android:typeface="serif" />
+
+		    <EditText
+		        android:id="@+id/login_input_password_editText"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_marginLeft="10dp"
+		        android:background="@color/white"
+		        android:ems="8"
+		        android:hint="请输入密码"
+		        android:inputType="textPassword"
+		        android:maxLines="1"
+		        android:textColor="@color/black"
+		        android:textColorHint="@color/listviewDividerColor"
+		        android:textSize="17sp"
+		        android:typeface="serif" >
+			</EditText>
+		</LinearLayout>
+
+		<LinearLayout
+		    android:id="@+id/login_login_linearLayout"
+		    android:layout_width="match_parent"
+		    android:layout_height="40dp"
+		    android:layout_marginBottom="10dp"
+		    android:background="@color/panelOrange"
+		    android:orientation="horizontal" >
+
+			<LinearLayout
+			    android:layout_width="match_parent"
+			    android:layout_height="wrap_content"
+			    android:layout_gravity="center_vertical"
+			    android:background="@color/panelOrange"
+			    android:orientation="vertical" >
+				<TextView
+				    android:layout_width="wrap_content"
+				    android:layout_height="wrap_content"
+				    android:layout_gravity="center_horizontal"
+				    android:text="登录"
+				    android:textColor="@color/white"
+				    android:textSize="22sp"
+				    android:textStyle="bold"
+				    android:typeface="serif" />
+			</LinearLayout>
+		</LinearLayout>
+		<LinearLayout
+		    android:id="@+id/login_register_linearLayout"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:orientation="vertical" >
+
+			<TextView
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:layout_gravity="center_horizontal"
+			    android:text="@string/freeRegisteration"
+			    android:textColor="@color/priceGray"
+			    android:textSize="17sp"
+			    android:typeface="serif" />
+		</LinearLayout>
+    </LinearLayout>
+</LinearLayout>
+

@@ -100,8 +100,6 @@ public class DateSelectCalendarView extends View implements View.OnTouchListener
 
 	@Override
 	protected void onDraw(Canvas canvas) {
-		// 画框
-		canvas.drawPath(surface.boxPath, surface.borderPaint);
 		float weekTextY = surface.monthHeight + surface.weekHeight * 3 / 4f;
 		// 星期背景
 		for (int i = 0; i < surface.weekText.length; i++) {
@@ -117,6 +115,9 @@ public class DateSelectCalendarView extends View implements View.OnTouchListener
 		calculateDate();
 		// 按下状态，选择状态背景色
 		drawDownOrSelectedBg(canvas);
+		
+		// 画框
+		canvas.drawPath(surface.boxPath, surface.borderPaint);
 		/**
 		 * 获得今天的索引
 		 */

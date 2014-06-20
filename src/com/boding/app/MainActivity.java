@@ -88,6 +88,18 @@ public class MainActivity extends FragmentActivity {
 	private PassengerAmountAdapter leftpagePassengerAmountSelectChildAdapter; 
 	
 	
+	/**
+	 * down page view
+	 */
+//	private TextView downpageTestLoginTextView;
+	private LinearLayout downpageMyBodingLienarLayout;
+	private LinearLayout downpageLowPriceSubscriptionLienarLayout;
+	private LinearLayout downpageCommonInfoLayout;
+	private LinearLayout downpageRentCarOnlineLienarLayout;
+	private LinearLayout downpageContactBodingLienarLayout;
+	private LinearLayout downpageAboutBodingLienarLayout;
+	
+	
 	private View leftPageView;
 	private View rightPageView;
 	private View middlePageView;
@@ -107,10 +119,8 @@ public class MainActivity extends FragmentActivity {
 		initVerticalViewPager();
 		
 		initCityList();
-		System.out.println("*********************");
 		initLeftPageView();
-		
-		System.out.print(GlobalVariables.domesticCitiesList);
+		initDownPageView();
 	}
 	
 	private void initCityList(){
@@ -242,6 +252,24 @@ public class MainActivity extends FragmentActivity {
 			}
 		});
 		
+	}
+	
+	private void initDownPageView(){
+		downpageMyBodingLienarLayout = (LinearLayout) downPageView.findViewById(R.id.downpage_myboding_linearlayout);
+		downpageLowPriceSubscriptionLienarLayout = (LinearLayout) downPageView.findViewById(R.id.downpage_lowpricesubscription_linearlayout);
+		downpageCommonInfoLayout = (LinearLayout) downPageView.findViewById(R.id.downpage_commoninfo_linearlayout);
+		downpageRentCarOnlineLienarLayout = (LinearLayout) downPageView.findViewById(R.id.downpage_rentcaronline_linearlayout);
+		downpageContactBodingLienarLayout = (LinearLayout) downPageView.findViewById(R.id.downpage_contactboding_linearlayout);
+		downpageAboutBodingLienarLayout = (LinearLayout) downPageView.findViewById(R.id.downpage_aboutboding_linearlayout);
+		
+		downpageMyBodingLienarLayout.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent();
+				intent.setClass(MainActivity.this, MyBodingActivity.class);
+				startActivityForResult(intent, IntentRequestCode.START_MYBODING.getRequestCode());
+			}
+		});
 	}
 	
 	private void initPopupWindow(boolean isAdult, int parentWidth){
