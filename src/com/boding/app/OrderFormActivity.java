@@ -188,8 +188,8 @@ public class OrderFormActivity extends Activity {
 			@Override
 			public void onClick(View arg0) {
 				Intent intent = new Intent();
-				intent.setClass(OrderFormActivity.this, OrderPaymentActivity.class);
-				startActivityForResult(intent,IntentRequestCode.ORDER_PAYEMNT.getRequestCode());
+				intent.setClass(OrderFormActivity.this, OrderDetailActivity.class);
+				startActivityForResult(intent,IntentRequestCode.ORDER_DETAIL.getRequestCode());
 			}
 		});
 		

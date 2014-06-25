@@ -37,4 +37,6 @@
     <color name="lisViewDividerGray">#eeeeee</color>
     <color name="listViewDividerGray1">#ebebeb</color>
     <color name="searchDialogPanelBg">#f8f8f8</color>
+    <color name="orangeBorder">#ff991f</color>
+    <color name="orangePanel">#fffbea</color>
 </resources>

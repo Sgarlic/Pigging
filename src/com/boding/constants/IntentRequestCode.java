@@ -23,7 +23,8 @@ public enum IntentRequestCode {
 	CHANGE_PHONENUM(19),
 	VERIFY_PHONENUM(20),
 	ORDERS_LIST(21),
-	INSURANCE_SELECTION(22);
+	INSURANCE_SELECTION(22),
+	ORDER_DETAIL(23);
 
 	private int requestCode;
 
