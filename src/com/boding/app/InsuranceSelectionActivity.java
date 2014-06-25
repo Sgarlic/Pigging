@@ -22,22 +22,19 @@ import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class LoginActivity extends Activity {
-	private LinearLayout forgetPasswordLinearLayout;
-	private EditText userNameEditText;
-	private EditText passwordEditText;
-	private LinearLayout loginLinearLayout;
-	private LinearLayout registerLinearLayout;
+public class InsuranceSelectionActivity extends Activity {
+	private LinearLayout completeLinearLayout;
+	private LinearLayout needInsuranceInfoLinearLayout;
+	private CheckBox needInsuranceInfoCheckBox;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_login);
+		setContentView(R.layout.activity_insurance_selection);
 //		Bundle arguments = getIntent().getExtras();
 //        if(arguments != null)
 //        	isReturnDateSelection = arguments.getBoolean(Constants.IS_RETURN_DATE_SELECTION);
@@ -50,28 +47,28 @@ public class LoginActivity extends Activity {
 		returnLinearLayout.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View arg0) {
-				Util.returnToPreviousPage(LoginActivity.this, IntentRequestCode.CHOOSE_PASSENGER);
+				Util.returnToPreviousPage(InsuranceSelectionActivity.this, IntentRequestCode.INSURANCE_SELECTION);
 			}
 			
 		});
 		
-		forgetPasswordLinearLayout = (LinearLayout) findViewById(R.id.login_forgetpassword_linearLayout);
-		userNameEditText = (EditText) findViewById(R.id.login_input_userName_editText);
-		passwordEditText = (EditText) findViewById(R.id.login_input_password_editText);
-		loginLinearLayout = (LinearLayout) findViewById(R.id.login_login_linearLayout);
-		registerLinearLayout = (LinearLayout) findViewById(R.id.login_register_linearLayout);
-		
+		completeLinearLayout = (LinearLayout) findViewById(R.id.insuranceselection_complete_linearLayout);
+		needInsuranceInfoLinearLayout = (LinearLayout) findViewById(R.id.insuranceselection_needInsuranceInfo_linearLayout);
+		needInsuranceInfoCheckBox = (CheckBox) findViewById(R.id.insuranceselection_needInsuranceInfo_checkBox);
 		addListeners();
 	}
 	
 	private void addListeners(){
-		registerLinearLayout.setOnClickListener(new View.OnClickListener() {
+		
+		needInsuranceInfoLinearLayout.setOnClickListener(new View.OnClickListener() {
 			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent();
-				intent.setClass(LoginActivity.this, RegisterActivity.class);
-				startActivityForResult(intent, IntentRequestCode.REGISTER.getRequestCode());
+			public void onClick(View arg0) {
+				if(needInsuranceInfoCheckBox.isChecked())
+					needInsuranceInfoCheckBox.setChecked(false);
+				else
+					needInsuranceInfoCheckBox.setChecked(true);
 			}
 		});
+		
 	}
 }

@@ -91,7 +91,7 @@ public class TicketSearchResultIActivity extends FragmentActivity {
         returnLinearLayout.setOnClickListener(new OnClickListener(){
               @Override
               public void onClick(View arg0) {
-                    Util.returnToPreviousPage(TicketSearchResultIActivity.this, IntentRequestCode.START_DATE_SELECTION);
+                    Util.returnToPreviousPage(TicketSearchResultIActivity.this, IntentRequestCode.DATE_SELECTION);
               }
               
         });
@@ -200,7 +200,7 @@ public class TicketSearchResultIActivity extends FragmentActivity {
 //				}
 				Intent intent = new Intent();
 				intent.setClass(TicketSearchResultIActivity.this, OrderFormActivity.class);
-				startActivityForResult(intent,IntentRequestCode.START_ORDER_FORM.getRequestCode());
+				startActivityForResult(intent,IntentRequestCode.ORDER_FORM.getRequestCode());
 			}
         	
         });

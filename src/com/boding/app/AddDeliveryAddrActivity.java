@@ -37,7 +37,7 @@ public class AddDeliveryAddrActivity extends Activity {
 		returnLinearLayout.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View arg0) {
-				Util.returnToPreviousPage(AddDeliveryAddrActivity.this, IntentRequestCode.START_ADD_DELIVERYADDR);
+				Util.returnToPreviousPage(AddDeliveryAddrActivity.this, IntentRequestCode.ADD_DELIVERYADDR);
 			}
 			
 		});

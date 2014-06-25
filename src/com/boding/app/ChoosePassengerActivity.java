@@ -45,7 +45,7 @@ public class ChoosePassengerActivity extends Activity {
 		returnLinearLayout.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View arg0) {
-				Util.returnToPreviousPage(ChoosePassengerActivity.this, IntentRequestCode.START_CHOOSE_PASSENGER);
+				Util.returnToPreviousPage(ChoosePassengerActivity.this, IntentRequestCode.CHOOSE_PASSENGER);
 			}
 			
 		});
@@ -70,7 +70,7 @@ public class ChoosePassengerActivity extends Activity {
 			public void onClick(View arg0) {
 				Intent intent = new Intent();
 				intent.setClass(ChoosePassengerActivity.this, AddPassengerInfoActivity.class);
-				startActivityForResult(intent, IntentRequestCode.START_ADD_PASSENGERINFO.getRequestCode());
+				startActivityForResult(intent, IntentRequestCode.ADD_PASSENGERINFO.getRequestCode());
 			}
 		});
 	}

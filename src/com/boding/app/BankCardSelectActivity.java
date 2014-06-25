@@ -53,7 +53,7 @@ public class BankCardSelectActivity extends FragmentActivity {
         returnLogoLinearLayout.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View arg0) {
-				Util.returnToPreviousPage(BankCardSelectActivity.this, IntentRequestCode.START_BANKCARD_SELECTION);
+				Util.returnToPreviousPage(BankCardSelectActivity.this, IntentRequestCode.BANKCARD_SELECTION);
 			}
         });
         

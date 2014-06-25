@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingBottom="10dp"
+    android:paddingTop="10dp" >
+    <LinearLayout
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:orientation="horizontal" >
+		<LinearLayout
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:orientation="vertical" >
+			
+		    <LinearLayout
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_gravity="center_vertical"
+		        android:orientation="horizontal" >
+
+			    <TextView
+			        android:id="@+id/listitemorder_flyFromCity_textView"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:text="北京 "
+			        android:textColor="@color/black"
+			        android:textSize="18sp"
+			        android:textStyle="bold"
+			        android:typeface="serif" />
+			    
+			    <LinearLayout
+			        android:layout_width="80dp"
+			        android:layout_height="wrap_content"
+			        android:layout_gravity="top"
+			        android:orientation="vertical" >
+		
+				    <LinearLayout
+				        android:id="@+id/listitemorder_airlineType_linearLayout"
+				        android:layout_width="wrap_content"
+				        android:layout_height="wrap_content"
+				        android:layout_gravity="center_horizontal"
+				        android:background="@drawable/returnwithtransit_480"
+				        android:orientation="vertical" >
+		
+					    <TextView
+					        android:id="@+id/listitemorder_transitCity_textView"
+					        android:layout_width="wrap_content"
+					        android:layout_height="wrap_content"
+					        android:layout_gravity="center_horizontal"
+					        android:text="香港 "
+					        android:textColor="@color/black"
+					        android:textSize="10sp"
+					        android:textStyle="bold"
+					        android:typeface="serif" />
+				    </LinearLayout>
+				</LinearLayout>
+			</LinearLayout>
+		    <TextView
+		        android:id="@+id/listitemorder_flyFromTerminal_textView"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_marginTop="5dp"
+		        android:text="首都机场T2 "
+		        android:textColor="@color/priceGray"
+		        android:textSize="13sp"
+		        android:typeface="serif" />
+		    
+		    <TextView
+		        android:id="@+id/listitemorder_flyFromDate_textView"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_marginTop="5dp"
+		        android:text="2013-12-17 "
+		        android:textColor="@color/priceGray"
+		        android:textSize="13sp"
+		        android:typeface="serif" />
+		    
+		    <TextView
+		        android:id="@+id/listitemorder_flyFromTime_textView"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_marginTop="5dp"
+		        android:text="07:25 "
+		        android:textColor="@color/priceGray"
+		        android:textSize="13sp"
+		        android:typeface="serif" />
+
+		</LinearLayout>
+		
+		<LinearLayout
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:orientation="vertical" >
+
+		    <TextView
+		        android:id="@+id/listitemorder_flyToCity_textView"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="上海 "
+		        android:textColor="@color/black"
+		        android:textSize="18sp"
+		        android:textStyle="bold"
+		        android:typeface="serif" />
+		    
+		    <TextView
+		        android:id="@+id/listitemorder_flyToTerminal_textView"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_marginTop="5dp"
+		        android:text="浦东机场T1 "
+		        android:textColor="@color/priceGray"
+		        android:textSize="13sp"
+		        android:typeface="serif" />
+		    
+		    <TextView
+		        android:id="@+id/listitemorder_flyToDate_textView"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_marginTop="5dp"
+		        android:text="2013-2-17 "
+		        android:textColor="@color/priceGray"
+		        android:textSize="13sp"
+		        android:typeface="serif" />
+		    
+		    <TextView
+		        android:id="@+id/listitemorder_flyToTime_textView"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_marginTop="5dp"
+		        android:text="07:25 "
+		        android:textColor="@color/priceGray"
+		        android:textSize="13sp"
+		        android:typeface="serif" />
+		</LinearLayout>
+	</LinearLayout>
+
+	<LinearLayout
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    android:orientation="vertical" >
+		<LinearLayout
+		    android:layout_width="wrap_content"
+		    android:layout_height="match_parent"
+		    android:layout_marginLeft="3dp"
+		    android:layout_gravity="right"
+		    android:orientation="horizontal" >
+		    <LinearLayout
+			    android:layout_width="wrap_content"
+			    android:layout_height="match_parent"
+			    android:minWidth="50dp"
+			    android:orientation="vertical" >
+	
+			    <TextView
+			        android:id="@+id/listitemorder_flyType_textView"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:text="往返/中转"
+			        android:textColor="@color/black"
+			        android:textSize="18sp"
+			        android:textStyle="bold"
+			        android:typeface="serif" />
+	
+			    <LinearLayout
+			        android:layout_width="match_parent"
+			        android:layout_height="wrap_content"
+			        android:orientation="vertical" >
+	
+				    <TextView
+				        android:id="@+id/listitemorder_flyPassenger_textView"
+				        android:layout_width="wrap_content"
+				        android:layout_height="wrap_content"
+				        android:layout_gravity="right"
+				        android:layout_marginTop="5dp"
+				        android:text="李辉 "
+				        android:textColor="@color/priceGray"
+				        android:textSize="13sp"
+				        android:typeface="serif" />
+	
+			    </LinearLayout>
+	
+			    <LinearLayout
+			        android:layout_width="match_parent"
+			        android:layout_height="match_parent"
+			        android:orientation="horizontal" >
+					<LinearLayout
+				        android:layout_width="match_parent"
+				        android:layout_height="wrap_content"
+				        android:layout_gravity="bottom"
+				        android:orientation="vertical" >
+	
+					    <TextView
+					        android:id="@+id/listitemorder_orderStatus_textView"
+					        android:layout_width="50dp"
+					        android:layout_height="wrap_content"
+					        android:layout_gravity="right"
+					        android:background="@color/lightgray"
+					        android:text="已取消 "
+					        android:textColor="@color/priceGray"
+					        android:textSize="15sp"
+					        android:typeface="serif" />
+	
+					</LinearLayout>
+			    </LinearLayout>
+			</LinearLayout>
+
+			<ImageView
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:layout_gravity="center_vertical"
+			    android:layout_marginLeft="5dp"
+			    android:src="@drawable/check2_480_800" />
+		</LinearLayout>
+	</LinearLayout>
+</LinearLayout>

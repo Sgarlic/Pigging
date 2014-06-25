@@ -93,7 +93,7 @@ public class CitySelectActivity extends FragmentActivity {
         returnLogoLinearLayout.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View arg0) {
-				Util.returnToPreviousPage(CitySelectActivity.this, IntentRequestCode.START_CITY_SELECTION);
+				Util.returnToPreviousPage(CitySelectActivity.this, IntentRequestCode.CITY_SELECTION);
 			}
         });
         

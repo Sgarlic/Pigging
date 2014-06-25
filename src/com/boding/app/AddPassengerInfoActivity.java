@@ -72,7 +72,7 @@ public class AddPassengerInfoActivity extends Activity {
 		returnLinearLayout.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View arg0) {
-				Util.returnToPreviousPage(AddPassengerInfoActivity.this, IntentRequestCode.START_ADD_PASSENGERINFO);
+				Util.returnToPreviousPage(AddPassengerInfoActivity.this, IntentRequestCode.ADD_PASSENGERINFO);
 			}
 			
 		});
@@ -179,7 +179,7 @@ public class AddPassengerInfoActivity extends Activity {
 			public void onClick(View arg0) {
 				Intent intent = new Intent();
 				intent.setClass(AddPassengerInfoActivity.this, NationalitySelectActivity.class);
-				startActivityForResult(intent, IntentRequestCode.START_NATIONALITY_SELECTION.getRequestCode());
+				startActivityForResult(intent, IntentRequestCode.NATIONALITY_SELECTION.getRequestCode());
 			}
 		});
 	}

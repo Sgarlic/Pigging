@@ -46,7 +46,7 @@ public class ChooseDeliveryAddressActivity extends Activity {
 		returnLinearLayout.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View arg0) {
-				Util.returnToPreviousPage(ChooseDeliveryAddressActivity.this, IntentRequestCode.START_CHOOSE_DELIVERYADDR);
+				Util.returnToPreviousPage(ChooseDeliveryAddressActivity.this, IntentRequestCode.CHOOSE_DELIVERYADDR);
 			}
 			
 		});
@@ -72,7 +72,7 @@ public class ChooseDeliveryAddressActivity extends Activity {
 			public void onClick(View arg0) {
 				Intent intent = new Intent();
 				intent.setClass(ChooseDeliveryAddressActivity.this, AddDeliveryAddrActivity.class);
-				startActivityForResult(intent,IntentRequestCode.START_ADD_DELIVERYADDR.getRequestCode());
+				startActivityForResult(intent,IntentRequestCode.ADD_DELIVERYADDR.getRequestCode());
 			}
 		});
 	}

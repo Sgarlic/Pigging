@@ -41,7 +41,7 @@ public class DateSelectActivity extends Activity {
 		returnLinearLayout.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View arg0) {
-				Util.returnToPreviousPage(DateSelectActivity.this, IntentRequestCode.START_DATE_SELECTION);
+				Util.returnToPreviousPage(DateSelectActivity.this, IntentRequestCode.DATE_SELECTION);
 			}
 			
 		});
@@ -69,7 +69,7 @@ public class DateSelectActivity extends Activity {
 				else{
 					GlobalVariables.Fly_From_Date = selectedDate;
 				}
-				Util.returnToPreviousPage(DateSelectActivity.this, IntentRequestCode.START_DATE_SELECTION);
+				Util.returnToPreviousPage(DateSelectActivity.this, IntentRequestCode.DATE_SELECTION);
 			}
 		});
 		

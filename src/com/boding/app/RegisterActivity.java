@@ -35,7 +35,7 @@ public class RegisterActivity extends Activity {
 		returnLinearLayout.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View arg0) {
-				Util.returnToPreviousPage(RegisterActivity.this, IntentRequestCode.START_REGISTER);
+				Util.returnToPreviousPage(RegisterActivity.this, IntentRequestCode.REGISTER);
 			}
 			
 		});
@@ -53,7 +53,7 @@ public class RegisterActivity extends Activity {
 		loginLinearLayout.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Util.returnToPreviousPage(RegisterActivity.this, IntentRequestCode.START_REGISTER);
+				Util.returnToPreviousPage(RegisterActivity.this, IntentRequestCode.REGISTER);
 			}
 		});
 	}

@@ -97,6 +97,15 @@ public class Util {
 		}
 	}
 	
+	@SuppressLint("NewApi")
+	public static void setViewBackground(View view, Drawable drawable){
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+		 	view.setBackground(drawable);
+		} else {
+		   	view.setBackgroundDrawable(drawable);
+		}
+	}
+	
 	public static void setFullScreen(Activity activity){
 		// 使屏幕不显示标题栏(必须要在setContentView方法执行前执行)
 		activity.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -356,7 +365,7 @@ public class Util {
 		}else{
 			if(dialog!=null)
 				dialog.dismiss();
-			returnToPreviousPage((Activity)context, IntentRequestCode.START_CITY_SELECTION);
+			returnToPreviousPage((Activity)context, IntentRequestCode.CITY_SELECTION);
 		}
 //		Log.d("poding");
 	}

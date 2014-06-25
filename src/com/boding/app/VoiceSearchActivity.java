@@ -28,7 +28,7 @@ public class VoiceSearchActivity extends Activity {
 		returnLinearLayout.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View arg0) {
-				Util.returnToPreviousPage(VoiceSearchActivity.this, IntentRequestCode.START_VOICE_SEARCH);
+				Util.returnToPreviousPage(VoiceSearchActivity.this, IntentRequestCode.VOICE_SEARCH);
 			}
 			
 		});

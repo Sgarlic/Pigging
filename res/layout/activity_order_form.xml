@@ -431,6 +431,11 @@
 							    android:textColor="@color/textOrange"
 							    android:textSize="20sp"
 							    android:typeface="serif" />
+							<ImageView
+							    android:layout_width="wrap_content"
+							    android:layout_height="wrap_content"
+							    android:layout_gravity="center_vertical"
+							    android:src="@drawable/check2_480_800" />
 						</LinearLayout>
 				    </LinearLayout>
 				</LinearLayout>

@@ -119,7 +119,7 @@ public class TicketSearchResultListIAdapter extends BaseAdapter {
 			public void onClick(View v) {
 				Intent intent = new Intent();
 				intent.setClass(context, OrderFormActivity.class);
-				((TicketSearchResultIActivity)context).startActivityForResult(intent,IntentRequestCode.START_VOICE_SEARCH.getRequestCode());
+				((TicketSearchResultIActivity)context).startActivityForResult(intent,IntentRequestCode.VOICE_SEARCH.getRequestCode());
 			}
 		});
 //        ContentValues cv = airlineViewList.get(position);  

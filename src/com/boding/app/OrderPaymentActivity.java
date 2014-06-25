@@ -45,7 +45,7 @@ public class OrderPaymentActivity extends Activity {
 		returnLinearLayout.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View arg0) {
-				Util.returnToPreviousPage(OrderPaymentActivity.this, IntentRequestCode.START_ORDER_PAYEMNT);
+				Util.returnToPreviousPage(OrderPaymentActivity.this, IntentRequestCode.ORDER_PAYEMNT);
 			}
 			
 		});
@@ -95,6 +95,6 @@ public class OrderPaymentActivity extends Activity {
 		intent.setClass(OrderPaymentActivity.this, BankCardSelectActivity.class);
 //		GlobalVariables.isFlyToCitySelection = isFlyToCitySelection;
 		intent.putExtras(bundle);
-		startActivityForResult(intent,IntentRequestCode.START_BANKCARD_SELECTION.getRequestCode());
+		startActivityForResult(intent,IntentRequestCode.BANKCARD_SELECTION.getRequestCode());
 	}
 }

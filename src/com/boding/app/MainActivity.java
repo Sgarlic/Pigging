@@ -169,7 +169,7 @@ public class MainActivity extends FragmentActivity {
 			public void onClick(View arg0) {
 				Intent intent = new Intent();
 				intent.setClass(MainActivity.this, TicketSearchResultIActivity.class);
-				startActivityForResult(intent,IntentRequestCode.START_TICKET_SEARCH.getRequestCode());
+				startActivityForResult(intent,IntentRequestCode.TICKET_SEARCH.getRequestCode());
 			}
 		});
 		
@@ -192,7 +192,7 @@ public class MainActivity extends FragmentActivity {
 			public void onClick(View arg0) {
 				Intent intent = new Intent();
 				intent.setClass(MainActivity.this, VoiceSearchActivity.class);
-				startActivityForResult(intent,IntentRequestCode.START_VOICE_SEARCH.getRequestCode());
+				startActivityForResult(intent,IntentRequestCode.VOICE_SEARCH.getRequestCode());
 			}
 			
 		});
@@ -267,7 +267,7 @@ public class MainActivity extends FragmentActivity {
 			public void onClick(View v) {
 				Intent intent = new Intent();
 				intent.setClass(MainActivity.this, MyBodingActivity.class);
-				startActivityForResult(intent, IntentRequestCode.START_MYBODING.getRequestCode());
+				startActivityForResult(intent, IntentRequestCode.MYBODING.getRequestCode());
 			}
 		});
 	}
@@ -384,7 +384,7 @@ public class MainActivity extends FragmentActivity {
 			intent.setClass(MainActivity.this, CitySelectActivity.class);
 //			GlobalVariables.isFlyToCitySelection = isFlyToCitySelection;
 			intent.putExtras(bundle);
-			startActivityForResult(intent,IntentRequestCode.START_CITY_SELECTION.getRequestCode());
+			startActivityForResult(intent,IntentRequestCode.CITY_SELECTION.getRequestCode());
 		}
 		
 	};
@@ -404,7 +404,7 @@ public class MainActivity extends FragmentActivity {
 			intent.setClass(MainActivity.this, DateSelectActivity.class);
 //			GlobalVariables.isFlyToCitySelection = isFlyToCitySelection;
 			intent.putExtras(bundle);
-			startActivityForResult(intent,IntentRequestCode.START_DATE_SELECTION.getRequestCode());
+			startActivityForResult(intent,IntentRequestCode.DATE_SELECTION.getRequestCode());
 		}
 		
 	};
@@ -476,10 +476,10 @@ public class MainActivity extends FragmentActivity {
 		  super.onActivityResult(requestCode, resultCode, data);
 		  if(data == null)
 			  return;
-		  if(requestCode==IntentRequestCode.START_DATE_SELECTION.getRequestCode()){
+		  if(requestCode==IntentRequestCode.DATE_SELECTION.getRequestCode()){
 			  setFlyFromReturnDate();
 		  }
-		  if(requestCode == IntentRequestCode.START_CITY_SELECTION.getRequestCode())
+		  if(requestCode == IntentRequestCode.CITY_SELECTION.getRequestCode())
 			  setFlyFromToCity();
 	 }
 	

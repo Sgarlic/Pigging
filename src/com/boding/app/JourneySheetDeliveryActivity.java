@@ -52,7 +52,7 @@ public class JourneySheetDeliveryActivity extends Activity {
 		returnLinearLayout.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View arg0) {
-				Util.returnToPreviousPage(JourneySheetDeliveryActivity.this, IntentRequestCode.START_CHOOSE_PASSENGER);
+				Util.returnToPreviousPage(JourneySheetDeliveryActivity.this, IntentRequestCode.CHOOSE_PASSENGER);
 			}
 			
 		});
@@ -107,7 +107,7 @@ public class JourneySheetDeliveryActivity extends Activity {
 			public void onClick(View arg0) {
 				Intent intent = new Intent();
 				intent.setClass(JourneySheetDeliveryActivity.this, ChooseDeliveryAddressActivity.class);
-				startActivityForResult(intent,IntentRequestCode.START_CHOOSE_DELIVERYADDR.getRequestCode());
+				startActivityForResult(intent,IntentRequestCode.CHOOSE_DELIVERYADDR.getRequestCode());
 			}
 		});
 	}

@@ -34,7 +34,7 @@ public class MyBodingActivity extends Activity {
 	private LinearLayout myFavoriteLinearLayout;
 	private LinearLayout settingLinearLayout;
 	
-	private boolean hasLogin = false;
+	private boolean hasLogin = true;
 	
 	private String userName = "Àî´ó×ì";
 	
@@ -54,7 +54,7 @@ public class MyBodingActivity extends Activity {
 		returnLinearLayout.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View arg0) {
-				Util.returnToPreviousPage(MyBodingActivity.this, IntentRequestCode.START_MYBODING);
+				Util.returnToPreviousPage(MyBodingActivity.this, IntentRequestCode.MYBODING);
 			}
 			
 		});
@@ -77,16 +77,25 @@ public class MyBodingActivity extends Activity {
 				openMyAccount();
 			}
 		});
+		
+		travelOrderListLinearLayout.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent();
+				intent.setClass(MyBodingActivity.this, OrderListActivity.class);
+				startActivityForResult(intent, IntentRequestCode.ORDERS_LIST.getRequestCode());
+			}
+		});
 	}
 	
 	private void openMyAccount(){
 		Intent intent = new Intent();
 		if(hasLogin){
-			intent.setClass(MyBodingActivity.this, LoginActivity.class);
-			startActivityForResult(intent, IntentRequestCode.START_LOGIN.getRequestCode());
+			intent.setClass(MyBodingActivity.this, MyPersonalInfoActivity.class);
+			startActivityForResult(intent, IntentRequestCode.MYPERSONALINFO.getRequestCode());
 		}else{
 			intent.setClass(MyBodingActivity.this, LoginActivity.class);
-			startActivityForResult(intent, IntentRequestCode.START_LOGIN.getRequestCode());
+			startActivityForResult(intent, IntentRequestCode.LOGIN.getRequestCode());
 		}
 	}
 	

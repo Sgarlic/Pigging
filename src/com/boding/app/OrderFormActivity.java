@@ -98,7 +98,7 @@ public class OrderFormActivity extends Activity {
 		returnLinearLayout.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View arg0) {
-				Util.returnToPreviousPage(OrderFormActivity.this, IntentRequestCode.START_DATE_SELECTION);
+				Util.returnToPreviousPage(OrderFormActivity.this, IntentRequestCode.DATE_SELECTION);
 			}
 			
 		});
@@ -170,7 +170,7 @@ public class OrderFormActivity extends Activity {
 				
 				Intent intent = new Intent();
 				intent.setClass(OrderFormActivity.this, ChoosePassengerActivity.class);
-				startActivityForResult(intent,IntentRequestCode.START_CHOOSE_PASSENGER.getRequestCode());
+				startActivityForResult(intent,IntentRequestCode.CHOOSE_PASSENGER.getRequestCode());
 			}
 		});
 		
@@ -180,7 +180,7 @@ public class OrderFormActivity extends Activity {
 			public void onClick(View arg0) {
 				Intent intent = new Intent();
 				intent.setClass(OrderFormActivity.this, JourneySheetDeliveryActivity.class);
-				startActivityForResult(intent,IntentRequestCode.START_JOURNEYSHEET_DELIVERY.getRequestCode());
+				startActivityForResult(intent,IntentRequestCode.JOURNEYSHEET_DELIVERY.getRequestCode());
 			}
 		});
 		
@@ -189,7 +189,16 @@ public class OrderFormActivity extends Activity {
 			public void onClick(View arg0) {
 				Intent intent = new Intent();
 				intent.setClass(OrderFormActivity.this, OrderPaymentActivity.class);
-				startActivityForResult(intent,IntentRequestCode.START_ORDER_PAYEMNT.getRequestCode());
+				startActivityForResult(intent,IntentRequestCode.ORDER_PAYEMNT.getRequestCode());
+			}
+		});
+		
+		insuranceLinearLayout.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				Intent intent = new Intent();
+				intent.setClass(OrderFormActivity.this, InsuranceSelectionActivity.class);
+				startActivityForResult(intent,IntentRequestCode.INSURANCE_SELECTION.getRequestCode());
 			}
 		});
 	}

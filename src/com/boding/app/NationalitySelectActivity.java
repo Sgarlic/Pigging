@@ -50,7 +50,7 @@ public class NationalitySelectActivity extends FragmentActivity {
         returnLogoLinearLayout.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View arg0) {
-				Util.returnToPreviousPage(NationalitySelectActivity.this, IntentRequestCode.START_CITY_SELECTION);
+				Util.returnToPreviousPage(NationalitySelectActivity.this, IntentRequestCode.CITY_SELECTION);
 			}
         });
         
