@@ -72,7 +72,7 @@
 		            android:layout_gravity="right"
 		            android:text="忘记密码"
 		            android:textColor="@color/textOrange"
-		            android:textSize="19sp"
+		            android:textSize="18sp"
 		            android:typeface="serif" />
 		    </LinearLayout>
 	    </LinearLayout>
@@ -197,7 +197,7 @@
 			    android:layout_gravity="center_horizontal"
 			    android:text="@string/freeRegisteration"
 			    android:textColor="@color/priceGray"
-			    android:textSize="17sp"
+			    android:textSize="14sp"
 			    android:typeface="serif" />
 		</LinearLayout>
     </LinearLayout>

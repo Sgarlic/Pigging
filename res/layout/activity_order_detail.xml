@@ -242,7 +242,7 @@
 			                android:layout_gravity="top"
 			                android:layout_marginLeft="15dp"
 			                android:gravity="top"
-			                android:text="Y20"
+			                android:text="￥20"
 			                android:textColor="@color/black"
 			                android:textSize="18sp"
 			                android:typeface="serif" />
@@ -267,8 +267,8 @@
 				    android:layout_marginLeft="5dp"
 				    android:gravity="top"
 				    android:text="订单尚未支付，请您尽快完成支付，否则订单会被取消。"
-				    android:textColor="@color/black"
-				    android:textSize="15sp"
+				    android:textColor="@color/warningTextGray"
+				    android:textSize="14sp"
 				    android:typeface="serif" />
 
 		    </LinearLayout>
@@ -291,8 +291,7 @@
 		            android:layout_width="match_parent"
 		            android:layout_height="wrap_content"
 		            android:layout_marginLeft="5dp"
-		            android:orientation="vertical"
-		            android:visibility="visible" >
+		            android:orientation="vertical" >
 
 					<TextView
 					    android:layout_width="wrap_content"
@@ -312,14 +311,14 @@
 
 			            <TextView
 			                android:id="@+id/orderdetail_flyFromDate_textView"
-						    android:layout_width="wrap_content"
-						    android:layout_height="wrap_content"
-						    android:layout_gravity="top"
-						    android:gravity="top"
-						    android:text="2013-12-17 "
-						    android:textColor="@color/priceGray"
-						    android:textSize="18sp"
-						    android:typeface="serif" />
+			                android:layout_width="wrap_content"
+			                android:layout_height="wrap_content"
+			                android:layout_gravity="top"
+			                android:gravity="top"
+			                android:text="2013-12-17 "
+			                android:textColor="@color/black"
+			                android:textSize="17sp"
+			                android:typeface="serif" />
 
 			            <TextView
 			                android:id="@+id/orderdetail_flyFromToCity_textView"
@@ -359,7 +358,7 @@
 			                android:layout_marginLeft="10dp"
 			                android:gravity="top"
 			                android:text="MU563 "
-			                android:textColor="@color/black"
+			                android:textColor="@color/priceGray"
 			                android:textSize="13sp"
 			                android:typeface="serif" />
 
@@ -371,7 +370,7 @@
 			                android:layout_marginLeft="10dp"
 			                android:gravity="top"
 			                android:text="经济舱 "
-			                android:textColor="@color/black"
+			                android:textColor="@color/priceGray"
 			                android:textSize="13sp"
 			                android:typeface="serif" />
 
@@ -383,7 +382,7 @@
 			                android:layout_marginLeft="10dp"
 			                android:gravity="top"
 			                android:text="中机型 "
-			                android:textColor="@color/black"
+			                android:textColor="@color/priceGray"
 			                android:textSize="13sp"
 			                android:typeface="serif" />
 
@@ -395,7 +394,7 @@
 			                android:layout_marginLeft="10dp"
 			                android:gravity="top"
 			                android:text="321 "
-			                android:textColor="@color/black"
+			                android:textColor="@color/priceGray"
 			                android:textSize="13sp"
 			                android:typeface="serif" />
 
@@ -407,14 +406,14 @@
 					    android:orientation="horizontal" >
 
 			            <TextView
-						    android:layout_width="wrap_content"
-						    android:layout_height="wrap_content"
-						    android:layout_gravity="top"
-						    android:gravity="top"
-						    android:text="选择座位 "
-						    android:textColor="@color/priceGray"
-						    android:textSize="18sp"
-						    android:typeface="serif" />
+			                android:layout_width="wrap_content"
+			                android:layout_height="wrap_content"
+			                android:layout_gravity="top"
+			                android:gravity="top"
+			                android:text="选择座位 "
+			                android:textColor="@color/black"
+			                android:textSize="18sp"
+			                android:typeface="serif" />
 
 			            <TextView
 			                android:layout_width="wrap_content"
@@ -423,8 +422,8 @@
 			                android:layout_marginLeft="15dp"
 			                android:gravity="top"
 			                android:text="机票状态不支持选座 "
-			                android:textColor="@color/black"
-			                android:textSize="14sp"
+			                android:textColor="@color/priceGray"
+			                android:textSize="15sp"
 			                android:typeface="serif" />
 
 			            <ImageView
@@ -443,14 +442,14 @@
 
 			            <TextView
 			                android:id="@+id/orderdetail_flyFromTime_textView"
-						    android:layout_width="wrap_content"
-						    android:layout_height="wrap_content"
-						    android:layout_gravity="top"
-						    android:gravity="top"
-						    android:text="07:25 "
-						    android:textColor="@color/priceGray"
-						    android:textSize="18sp"
-						    android:typeface="serif" />
+			                android:layout_width="wrap_content"
+			                android:layout_height="wrap_content"
+			                android:layout_gravity="top"
+			                android:gravity="top"
+			                android:text="07:25 "
+			                android:textColor="@color/black"
+			                android:textSize="20sp"
+			                android:typeface="serif" />
 
 			            <TextView
 			                android:id="@+id/orderdetail_flyFromTerminal_textView"
@@ -460,8 +459,8 @@
 			                android:layout_marginLeft="5dp"
 			                android:gravity="top"
 			                android:text="北京首都机场二号航站楼 "
-			                android:textColor="@color/black"
-			                android:textSize="18sp"
+			                android:textColor="@color/priceGray"
+			                android:textSize="17sp"
 			                android:typeface="serif" />
 
 		            </LinearLayout>
@@ -478,8 +477,8 @@
 						    android:layout_gravity="top"
 						    android:gravity="top"
 						    android:text="09:55 "
-						    android:textColor="@color/priceGray"
-						    android:textSize="18sp"
+						    android:textColor="@color/black"
+						    android:textSize="20sp"
 						    android:typeface="serif" />
 
 			            <TextView
@@ -490,8 +489,8 @@
 			                android:layout_marginLeft="5dp"
 			                android:gravity="top"
 			                android:text="上海浦东机场一号航站楼"
-			                android:textColor="@color/black"
-			                android:textSize="18sp"
+			                android:textColor="@color/priceGray"
+			                android:textSize="17sp"
 			                android:typeface="serif" />
 
 		            </LinearLayout>
@@ -508,7 +507,7 @@
 			                android:gravity="top"
 			                android:text="机票价 "
 			                android:textColor="@color/priceGray"
-			                android:textSize="15sp"
+			                android:textSize="16sp"
 			                android:typeface="serif" />
 
 			            <TextView
@@ -516,9 +515,9 @@
 			                android:layout_width="wrap_content"
 			                android:layout_height="wrap_content"
 			                android:layout_gravity="top"
-			                android:gravity="top"
-			                android:text="￥580"
-			                android:textColor="@color/black"
+			                android:gravity="left"
+			                android:text="￥5800"
+			                android:textColor="@color/panelOrange"
 			                android:textSize="16sp"
 			                android:typeface="serif" />
 
@@ -530,7 +529,7 @@
 			                android:gravity="top"
 			                android:text="机建 "
 			                android:textColor="@color/priceGray"
-			                android:textSize="15sp"
+			                android:textSize="16sp"
 			                android:typeface="serif" />
 
 			            <TextView
@@ -540,7 +539,7 @@
 			                android:layout_gravity="top"
 			                android:gravity="top"
 			                android:text="￥50"
-			                android:textColor="@color/black"
+			                android:textColor="@color/panelOrange"
 			                android:textSize="16sp"
 			                android:typeface="serif" />
 
@@ -552,7 +551,7 @@
 			                android:gravity="top"
 			                android:text="燃油 "
 			                android:textColor="@color/priceGray"
-			                android:textSize="15sp"
+			                android:textSize="16sp"
 			                android:typeface="serif" />
 
 			            <TextView
@@ -562,7 +561,7 @@
 			                android:layout_gravity="top"
 			                android:gravity="top"
 			                android:text="￥120"
-			                android:textColor="@color/black"
+			                android:textColor="@color/panelOrange"
 			                android:textSize="16sp"
 			                android:typeface="serif" />
 		            </LinearLayout>
@@ -628,14 +627,15 @@
 					    android:orientation="horizontal" >
 
 			            <TextView
-						    android:layout_width="wrap_content"
-						    android:layout_height="wrap_content"
-						    android:layout_gravity="top"
-						    android:gravity="top"
-						    android:text="登机人 "
-						    android:textColor="@color/priceGray"
-						    android:textSize="18sp"
-						    android:typeface="serif" />
+			                android:layout_width="80dp"
+			                android:layout_height="wrap_content"
+			                android:layout_gravity="top"
+			                android:gravity="top"
+			                android:text="登机人 "
+			                android:textColor="@color/priceGray"
+			                android:textSize="18sp"
+			                android:typeface="serif" />
+
 						<LinearLayout
 				            android:layout_width="match_parent"
 				            android:layout_height="wrap_content"
@@ -657,25 +657,24 @@
 					    android:orientation="horizontal" >
 
 			            <TextView
-						    android:layout_width="wrap_content"
-						    android:layout_height="wrap_content"
-						    android:layout_gravity="top"
-						    android:gravity="top"
-						    android:text="联系手机 "
-						    android:textColor="@color/priceGray"
-						    android:textSize="18sp"
-						    android:typeface="serif" />
+			                android:layout_width="80dp"
+			                android:layout_height="wrap_content"
+			                android:layout_gravity="top"
+			                android:gravity="top"
+			                android:text="联系手机 "
+			                android:textColor="@color/priceGray"
+			                android:textSize="18sp"
+			                android:typeface="serif" />
 
 			            <TextView
 			                android:id="@+id/orderdetail_contactPhoneNum_textView"
 			                android:layout_width="wrap_content"
 			                android:layout_height="wrap_content"
 			                android:layout_gravity="top"
-			                android:layout_marginLeft="15dp"
 			                android:gravity="top"
 			                android:text="12345678907 "
-			                android:textColor="@color/black"
-			                android:textSize="14sp"
+			                android:textColor="@color/textDarkGray"
+			                android:textSize="18sp"
 			                android:typeface="serif" />
 
 		            </LinearLayout>
@@ -686,26 +685,25 @@
 					    android:orientation="horizontal" >
 
 			            <TextView
-						    android:layout_width="wrap_content"
-						    android:layout_height="wrap_content"
-						    android:layout_gravity="top"
-						    android:gravity="top"
-						    android:text="保险 "
-						    android:textColor="@color/priceGray"
-						    android:textSize="18sp"
-						    android:typeface="serif" />
-
+			                android:layout_width="80dp"
+			                android:layout_height="wrap_content"
+			                android:layout_gravity="top"
+			                android:gravity="top"
+			                android:text="保险 "
+			                android:textColor="@color/priceGray"
+			                android:textSize="18sp"
+			                android:typeface="serif" />
 			            
 			            <TextView
 			                android:layout_width="wrap_content"
 			                android:layout_height="wrap_content"
 			                android:layout_gravity="top"
-			                android:layout_marginLeft="5dp"
 			                android:gravity="top"
 			                android:text="航空意外险"
-			                android:textColor="@color/black"
-			                android:textSize="18sp"
+			                android:textColor="@color/textDarkGray"
+			                android:textSize="16sp"
 			                android:typeface="serif" />
+
 			            <TextView
 			                android:id="@+id/orderdetail_insuranceAmount_textView"
 			                android:layout_width="wrap_content"
@@ -714,22 +712,21 @@
 			                android:layout_marginLeft="5dp"
 			                android:gravity="top"
 			                android:text="1份"
-			                android:textColor="@color/black"
-			                android:textSize="18sp"
+			                android:textColor="@color/textDarkGray"
+			                android:textSize="16sp"
 			                android:typeface="serif" />
 			            
 			             <TextView
 			                 android:id="@+id/orderdetail_insuranceTotal_textView"
-			                android:layout_width="wrap_content"
-			                android:layout_height="wrap_content"
-			                android:layout_gravity="top"
-			                android:layout_marginLeft="5dp"
-			                android:gravity="top"
-			                android:text="共30元"
-			                android:textColor="@color/black"
-			                android:textSize="18sp"
-			                android:typeface="serif" />
-			             
+			                 android:layout_width="wrap_content"
+			                 android:layout_height="wrap_content"
+			                 android:layout_gravity="top"
+			                 android:layout_marginLeft="5dp"
+			                 android:gravity="top"
+			                 android:text="共300元"
+			                 android:textColor="@color/textDarkGray"
+			                 android:textSize="16sp"
+			                 android:typeface="serif" />
 
 		            </LinearLayout>
 		            <LinearLayout
@@ -739,13 +736,13 @@
 					    android:orientation="horizontal" >
 
 			            <TextView
-			                android:layout_width="wrap_content"
+			                android:layout_width="80dp"
 			                android:layout_height="wrap_content"
 			                android:layout_gravity="top"
 			                android:gravity="top"
 			                android:text="配送 "
 			                android:textColor="@color/priceGray"
-			                android:textSize="15sp"
+			                android:textSize="18sp"
 			                android:typeface="serif" />
 
 			            <TextView
@@ -755,8 +752,8 @@
 			                android:layout_gravity="top"
 			                android:gravity="top"
 			                android:text="不需要报销凭证"
-			                android:textColor="@color/black"
-			                android:textSize="16sp"
+			                android:textColor="@color/textDarkGray"
+			                android:textSize="18sp"
 			                android:typeface="serif" />
 		            </LinearLayout>
 			    </LinearLayout>
@@ -777,7 +774,7 @@
 		            android:layout_gravity="top"
 		            android:gravity="top"
 		            android:text="如对订单有任何疑问，请"
-		            android:textColor="@color/black"
+		            android:textColor="@color/callCustomServiceGray"
 		            android:textSize="14sp"
 		            android:typeface="serif" />
 
@@ -786,11 +783,12 @@
 		            android:layout_width="wrap_content"
 		            android:layout_height="wrap_content"
 		            android:layout_gravity="top"
-		            android:background="@color/darkgray"
+		            android:background="@color/callCustomServiceBgGray"
 		            android:gravity="top"
 		            android:text="拨打波丁客服咨询"
 		            android:textColor="@color/white"
 		            android:textSize="15sp"
+		            android:textStyle="bold"
 		            android:typeface="serif" />
 
 		    </LinearLayout>

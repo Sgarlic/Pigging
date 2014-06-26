@@ -2,23 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:paddingLeft="15dp" >
-
-	<LinearLayout
-	    android:id="@+id/passenger_delete_linearLayout"
-	    android:layout_width="wrap_content"
-	    android:layout_height="match_parent"
-	    android:orientation="horizontal"
-	    android:paddingRight="10dp" >
-
-	    <ImageView
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_gravity="center_vertical"
-	        android:src="@drawable/add_480_800" />
-
-	</LinearLayout>
+    android:orientation="horizontal">
 
 	<LinearLayout
 	    android:layout_width="wrap_content"
@@ -30,12 +14,28 @@
 		    android:orientation="horizontal">
 
 			<TextView
-			    android:id="@+id/passenger_name_textView"
+			    android:id="@+id/orderdetailpassenger_name_textView"
 			    android:layout_width="wrap_content"
 			    android:layout_height="wrap_content"
 			    android:text="李大嘴 "
-			    android:textColor="@color/black"
-			    android:textSize="19sp"
+			    android:textColor="@color/textDarkGray"
+			    android:textSize="18sp"
+			    android:typeface="serif" />
+			<TextView
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:text="，"
+			    android:textColor="@color/textDarkGray"
+			    android:textSize="20sp"
+			    android:typeface="serif" />
+
+			<TextView
+			    android:id="@+id/orderdetailpassenger_idType_textView"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:text="身份证 "
+			    android:textColor="@color/textDarkGray"
+			    android:textSize="18sp"
 			    android:typeface="serif" />
 
 		</LinearLayout>
@@ -44,22 +44,12 @@
 		    android:layout_height="match_parent"
 		    android:orientation="horizontal">
 
-			<TextView
-			    android:id="@+id/passenger_idtype_textView"
-			    android:layout_width="wrap_content"
-			    android:layout_height="wrap_content"
-			    android:text="身份证 "
-			    android:textColor="@color/priceGray"
-			    android:textSize="17sp"
-			    android:typeface="serif" />
-
 		    <TextView
-		        android:id="@+id/passenger_idnumber_textView"
+		        android:id="@+id/orderdetailpassenger_idnumber_textView"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
-		        android:layout_marginLeft="10dp"
 		        android:text="365245896574123520 "
-		        android:textColor="@color/black"
+		        android:textColor="@color/callCustomServiceGray"
 		        android:textSize="17sp"
 		        android:typeface="serif" />
 

@@ -160,8 +160,8 @@
 					    android:gravity="right"
 					    android:maxLines="1"
 					    android:text="发送验证码"
-					    android:textColor="@color/textOrange"
-					    android:textSize="15sp"
+					    android:textColor="@color/panelOrange"
+					    android:textSize="17sp"
 					    android:typeface="serif" />
 
 				</LinearLayout>
@@ -206,7 +206,7 @@
 		    android:id="@+id/changephonenum_confirm_linearLayout"
 		    android:layout_width="match_parent"
 		    android:layout_height="40dp"
-		    android:background="@color/panelOrange"
+		    android:background="@color/textOrange"
 		    android:orientation="horizontal" >
 
 			<LinearLayout

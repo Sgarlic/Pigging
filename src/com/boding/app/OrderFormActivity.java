@@ -7,6 +7,7 @@ import java.util.List;
 import com.boding.R;
 import com.boding.constants.Constants;
 import com.boding.constants.GlobalVariables;
+import com.boding.constants.IdentityType;
 import com.boding.constants.IntentRequestCode;
 import com.boding.model.Passenger;
 import com.boding.util.Util;
@@ -27,11 +28,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.View.OnLayoutChangeListener;
 import android.widget.FrameLayout.LayoutParams;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -146,18 +149,23 @@ public class OrderFormActivity extends Activity {
 		
 		peopleAdapter = new PassengerAdapter(this, peopleList);
 		passengerListView.setAdapter(peopleAdapter);
-		addListeners();
+		setPassengerView();
 		
 //		insurancePopupParentWidth = insuranceLinearLayout.getWidth();
+		addListeners();
     }
 	
 	private static int count = 0;
 	
+	private void setPassengerView(){
+		Util.setListViewHeightBasedOnChildren(passengerListView);
+        passengerAmountTextView.setText(String.valueOf(peopleList.size()));
+	}
+	
 	private void addListeners(){
 		DataSetObserver observer=new DataSetObserver(){  
 	        public void onChanged() {  
-	            Util.setListViewHeightBasedOnChildren(passengerListView);
-	            passengerAmountTextView.setText(String.valueOf(peopleList.size()));
+	        	setPassengerView();
 	        }  
 	    };
 	    peopleAdapter.registerDataSetObserver(observer);
@@ -165,7 +173,7 @@ public class OrderFormActivity extends Activity {
 		addPassengerLinearLayout.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Passenger people = new Passenger("李大嘴"+(count++), "356258745985653241"+(count++)); 
+				Passenger people = new Passenger("李大嘴"+(count++), "35247412569853265"+(count++),IdentityType.GA); 
 				peopleAdapter.addPassenger(people);
 				
 				Intent intent = new Intent();

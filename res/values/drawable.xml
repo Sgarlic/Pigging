@@ -39,4 +39,11 @@
     <color name="searchDialogPanelBg">#f8f8f8</color>
     <color name="orangeBorder">#ff991f</color>
     <color name="orangePanel">#fffbea</color>
+    <color name="hintColorGray">#939393</color>
+    <color name="myAccountGray">#6a6865</color>
+    <color name="warningTextGray">#3c3c3c</color>
+    <color name="callCustomServiceGray">#7b7b7b</color>
+    <color name="callCustomServiceBgGray">#9d9d9d</color>
+    <color name="textDarkGray">#313131</color>
+    <color name="orderListTextGray">#979797</color>
 </resources>

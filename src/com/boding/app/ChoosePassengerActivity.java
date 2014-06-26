@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.boding.R;
+import com.boding.constants.IdentityType;
 import com.boding.constants.IntentRequestCode;
 import com.boding.model.Passenger;
 import com.boding.util.Util;
@@ -55,9 +56,9 @@ public class ChoosePassengerActivity extends Activity {
 		passengerListView = (ListView) findViewById(R.id.choose_passenger_passenger_listView);
 		
 		List<Passenger> peopleList = new ArrayList<Passenger>();
-		peopleList.add(new Passenger("李大嘴", "325478569852314569"));
-		peopleList.add(new Passenger("李大232嘴", "256542d14589631452"));
-		peopleList.add(new Passenger("李大嘴wew", "1225478965325468774"));
+		peopleList.add(new Passenger("李大嘴", "325478569852314569",IdentityType.GA));
+		peopleList.add(new Passenger("李大232嘴", "256542d14589631452",IdentityType.HX));
+		peopleList.add(new Passenger("李大嘴wew", "1225478965325468774",IdentityType.NT));
 		peopleAdapter = new PassengerAdapter(this, peopleList);
 		passengerListView.setAdapter(peopleAdapter);
 		

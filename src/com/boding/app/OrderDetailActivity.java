@@ -1,15 +1,26 @@
 package com.boding.app;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.boding.R;
+import com.boding.constants.IdentityType;
 import com.boding.constants.IntentRequestCode;
+import com.boding.model.Passenger;
 import com.boding.util.Util;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.database.DataSetObserver;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -46,6 +57,7 @@ public class OrderDetailActivity extends Activity {
 	private TextView totalPriceTextView;
 	private LinearLayout confirmPayLinearLayout;
 	
+	private PassengerAdapter passengerAdapter;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -98,10 +110,28 @@ public class OrderDetailActivity extends Activity {
 		totalPriceTextView = (TextView)findViewById(R.id.orderdetail_totalPrice_textView);
 		confirmPayLinearLayout = (LinearLayout)findViewById(R.id.orderdetail_confirmPay_linearLayout);
 		
+		List<Passenger> passengers = new ArrayList<Passenger>();
+		passengers.add(new Passenger("李大嘴","253658798965214563",IdentityType.HX));
+		passengers.add(new Passenger("李大嘴","253658798965214563",IdentityType.NT));
+		passengers.add(new Passenger("李大嘴","253658798965214563",IdentityType.PP));
+		passengers.add(new Passenger("李大嘴","253658798965214563",IdentityType.QT));
+		passengers.add(new Passenger("李大嘴","253658798965214563",IdentityType.TB));
+		
+		passengerAdapter = new PassengerAdapter(this, passengers);
+		passengerListView.setAdapter(passengerAdapter);
+		Util.setListViewHeightBasedOnChildren(passengerListView);
+		
 		addListeners();
 	}
 	
 	private void addListeners(){
+		DataSetObserver observer=new DataSetObserver(){  
+	        public void onChanged() {  
+	            Util.setListViewHeightBasedOnChildren(passengerListView);
+	        }  
+	    };
+	    passengerAdapter.registerDataSetObserver(observer);
+		
 		confirmPayLinearLayout.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -110,5 +140,62 @@ public class OrderDetailActivity extends Activity {
 				startActivityForResult(intent, IntentRequestCode.ORDER_PAYEMNT.getRequestCode());
 			}
 		});
+	}
+	
+	private class PassengerAdapter extends BaseAdapter {
+		private List<Passenger> passengerList;
+		private Context context;
+		public PassengerAdapter(Context context, List<Passenger> passengerList) {
+			this.context = context;
+			this.passengerList = passengerList;
+		}
+		@Override
+		public int getCount() {
+			return passengerList.size();
+		}
+
+		@Override
+		public Passenger getItem(int position) {
+			return passengerList.get(position);
+		}
+
+		@Override
+		public long getItemId(int position) {
+			return position;
+		}
+		
+		public void addPassenger(Passenger passenger){
+			passengerList.add(passenger);
+			notifyDataSetChanged();
+		}
+
+		@Override
+		public View getView(final int position, View convertView, ViewGroup parent) {
+			ViewHolder holder;
+			if (convertView == null) {  
+	            convertView = LayoutInflater.from(context).inflate(R.layout.list_item_orderdetail_passenger, null);
+	            holder = new ViewHolder();  
+	            
+	            holder.nameTextView = (TextView) convertView.findViewById(R.id.orderdetailpassenger_name_textView);
+	            holder.idNumberTextView = (TextView) convertView.findViewById(R.id.orderdetailpassenger_idnumber_textView);
+	            holder.idTypeTextView = (TextView) convertView.findViewById(R.id.orderdetailpassenger_idType_textView);
+	            
+	            convertView.setTag(holder);  
+	        } else {  
+	            holder = (ViewHolder) convertView.getTag();  
+	        }  
+			
+			Passenger people = getItem(position);
+            holder.nameTextView.setText(people.getName());
+            holder.idNumberTextView.setText(people.getCardNumber());
+            holder.idTypeTextView.setText(people.getIdentityType().getIdentityName());
+	        return convertView;  
+		}
+		
+		private class ViewHolder {
+			TextView nameTextView;
+			TextView idNumberTextView;
+			TextView idTypeTextView;
+		}
 	}
 }

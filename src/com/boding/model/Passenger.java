@@ -41,8 +41,15 @@ public class Passenger {
 			return "M";
 	}
 	
-	public Passenger(String name, String cardNumber){
+	public Passenger(String name, String cardNumber, IdentityType identityType){
 		this.name = name;
 		this.cardNumber = cardNumber;
+		this.IdentityType = identityType;
+	}
+	public IdentityType getIdentityType() {
+		return IdentityType;
+	}
+	public void setIdentityType(IdentityType identityType) {
+		IdentityType = identityType;
 	}
 }

@@ -214,7 +214,7 @@
 			    android:layout_gravity="center_horizontal"
 			    android:text="@string/alreadyGetAccount"
 			    android:textColor="@color/priceGray"
-			    android:textSize="17sp"
+			    android:textSize="14sp"
 			    android:typeface="serif" />
 		</LinearLayout>
     </LinearLayout>

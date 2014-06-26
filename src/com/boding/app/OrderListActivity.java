@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.boding.R;
 import com.boding.constants.AirlineType;
+import com.boding.constants.IdentityType;
 import com.boding.constants.IntentRequestCode;
 import com.boding.constants.OrderStatus;
 import com.boding.model.DeliveryAddress;
@@ -73,7 +74,7 @@ public class OrderListActivity extends Activity {
 		order.setArriveAirport("浦东机场");
 		order.setArriveTimeDate(Calendar.getInstance().getTime());
 		List<Passenger> passengers = new ArrayList<Passenger>();
-		Passenger passenger = new Passenger("李大嘴", "35778993321145");
+		Passenger passenger = new Passenger("李大嘴", "35778993321145",IdentityType.HX);
 		passengers.add(passenger);
 		order.setPassengers(passengers);
 		order.setOrderStatus(0);

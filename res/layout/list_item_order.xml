@@ -51,20 +51,21 @@
 					        android:layout_gravity="center_horizontal"
 					        android:text="香港 "
 					        android:textColor="@color/black"
-					        android:textSize="10sp"
+					        android:textSize="9sp"
 					        android:textStyle="bold"
 					        android:typeface="serif" />
 				    </LinearLayout>
 				</LinearLayout>
 			</LinearLayout>
-		    <TextView
+
+		    <TextView
 		        android:id="@+id/listitemorder_flyFromTerminal_textView"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
 		        android:layout_marginTop="5dp"
 		        android:text="首都机场T2 "
-		        android:textColor="@color/priceGray"
-		        android:textSize="13sp"
+		        android:textColor="@color/orderListTextGray"
+		        android:textSize="14sp"
 		        android:typeface="serif" />
 		    
 		    <TextView
@@ -73,8 +74,8 @@
 		        android:layout_height="wrap_content"
 		        android:layout_marginTop="5dp"
 		        android:text="2013-12-17 "
-		        android:textColor="@color/priceGray"
-		        android:textSize="13sp"
+		        android:textColor="@color/orderListTextGray"
+		        android:textSize="14sp"
 		        android:typeface="serif" />
 		    
 		    <TextView
@@ -83,8 +84,8 @@
 		        android:layout_height="wrap_content"
 		        android:layout_marginTop="5dp"
 		        android:text="07:25 "
-		        android:textColor="@color/priceGray"
-		        android:textSize="13sp"
+		        android:textColor="@color/orderListTextGray"
+		        android:textSize="14sp"
 		        android:typeface="serif" />
 
 		</LinearLayout>
@@ -110,8 +111,8 @@
 		        android:layout_height="wrap_content"
 		        android:layout_marginTop="5dp"
 		        android:text="浦东机场T1 "
-		        android:textColor="@color/priceGray"
-		        android:textSize="13sp"
+		        android:textColor="@color/orderListTextGray"
+		        android:textSize="14sp"
 		        android:typeface="serif" />
 		    
 		    <TextView
@@ -120,8 +121,8 @@
 		        android:layout_height="wrap_content"
 		        android:layout_marginTop="5dp"
 		        android:text="2013-2-17 "
-		        android:textColor="@color/priceGray"
-		        android:textSize="13sp"
+		        android:textColor="@color/orderListTextGray"
+		        android:textSize="14sp"
 		        android:typeface="serif" />
 		    
 		    <TextView
@@ -130,8 +131,8 @@
 		        android:layout_height="wrap_content"
 		        android:layout_marginTop="5dp"
 		        android:text="07:25 "
-		        android:textColor="@color/priceGray"
-		        android:textSize="13sp"
+		        android:textColor="@color/orderListTextGray"
+		        android:textSize="14sp"
 		        android:typeface="serif" />
 		</LinearLayout>
 	</LinearLayout>
@@ -174,8 +175,8 @@
 				        android:layout_gravity="right"
 				        android:layout_marginTop="5dp"
 				        android:text="李辉 "
-				        android:textColor="@color/priceGray"
-				        android:textSize="13sp"
+				        android:textColor="@color/orderListTextGray"
+				        android:textSize="14sp"
 				        android:typeface="serif" />
 	
 			    </LinearLayout>
@@ -195,7 +196,7 @@
 					        android:layout_width="50dp"
 					        android:layout_height="wrap_content"
 					        android:layout_gravity="right"
-					        android:background="@color/lightgray"
+					        android:background="@color/classInfoPanelBgColor"
 					        android:text="已取消 "
 					        android:textColor="@color/priceGray"
 					        android:textSize="15sp"
