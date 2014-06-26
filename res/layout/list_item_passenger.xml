@@ -16,7 +16,7 @@
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:layout_gravity="center_vertical"
-	        android:src="@drawable/add_480_800" />
+	        android:src="@drawable/delete_button" />
 
 	</LinearLayout>
 

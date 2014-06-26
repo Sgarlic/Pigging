@@ -416,15 +416,17 @@
                         android:textColor="@color/textOrange"
                         android:textSize="15sp"
                         android:typeface="serif" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="15sp"
+                        android:layout_marginLeft="5dp"
                         android:text="停留：约"
                         android:textColor="@color/black"
                         android:textSize="15sp"
                         android:typeface="serif" />
+
                     <TextView
                         android:id="@+id/flightinfo_i_tansitEstimateStayTime_textView"
                         android:layout_width="wrap_content"

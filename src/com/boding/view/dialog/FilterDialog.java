@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.boding.R;
 import com.boding.app.CitySelectFragment;
-import com.boding.app.TicketSearchResultIActivity;
+import com.boding.app.TicketSearchResultActivity;
 import com.boding.constants.GlobalVariables;
 import com.boding.model.AirlineView;
 import com.boding.model.FlightLine;
@@ -167,7 +167,7 @@ public class FilterDialog extends Dialog{
 				List<String> classConstraint = classAdapter.getConstraints();
 				List<String> companyConstraint = companyAdapter.getConstraints();
 				System.out.println(timeConstraint);
-				((TicketSearchResultIActivity)context).doFilter(timeConstraint,classConstraint, companyConstraint);
+				((TicketSearchResultActivity)context).doFilter(timeConstraint,classConstraint, companyConstraint);
 				FilterDialog.this.dismiss();	
 			}
 		 });

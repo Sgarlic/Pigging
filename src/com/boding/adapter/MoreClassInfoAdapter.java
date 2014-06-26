@@ -57,9 +57,9 @@ public class MoreClassInfoAdapter extends BaseExpandableListAdapter{
         ImageView imageView = (ImageView) groupView.findViewById(R.id.group_more_class_imageView); 
         // 判断分组是否展开，分别传入不同的图片资源
         if (isExpanded) { 
-        	imageView.setImageResource(R.drawable.datechoice2_2x); 
+        	imageView.setImageResource(R.drawable.arrow_up_orange_small); 
         } else { 
-        	imageView.setImageResource(R.drawable.datechoice_2x); 
+        	imageView.setImageResource(R.drawable.arrow_down_orange_small); 
         } 
         return groupView; 
     }

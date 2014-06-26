@@ -44,7 +44,7 @@
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
-            android:name="com.boding.app.TicketSearchResultIActivity"
+            android:name="com.boding.app.TicketSearchResultActivity"
             android:label="@string/title_activity_international_ticket_search_result"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar" >

@@ -40,7 +40,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.os.Build;
 
-public class TicketSearchResultIActivity extends FragmentActivity {
+public class TicketSearchResultActivity extends FragmentActivity {
 	private TicketSearchResultListIAdapter adapter;
 	private ListView searchResultListView;
 	
@@ -75,7 +75,7 @@ public class TicketSearchResultIActivity extends FragmentActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_ticket_search_result_i);
+		setContentView(R.layout.activity_ticket_search_result);
 		
 		initView();
 		
@@ -91,7 +91,7 @@ public class TicketSearchResultIActivity extends FragmentActivity {
         returnLinearLayout.setOnClickListener(new OnClickListener(){
               @Override
               public void onClick(View arg0) {
-                    Util.returnToPreviousPage(TicketSearchResultIActivity.this, IntentRequestCode.DATE_SELECTION);
+                    Util.returnToPreviousPage(TicketSearchResultActivity.this, IntentRequestCode.DATE_SELECTION);
               }
               
         });
@@ -129,7 +129,7 @@ public class TicketSearchResultIActivity extends FragmentActivity {
 		todayLinearLayout.setOnClickListener(new OnClickListener(){
             @Override
             public void onClick(View arg0) {
-            	CalendarDialog calendarDialog = new CalendarDialog(TicketSearchResultIActivity.this,R.style.Custom_Dialog_Theme);
+            	CalendarDialog calendarDialog = new CalendarDialog(TicketSearchResultActivity.this,R.style.Custom_Dialog_Theme);
             	calendarDialog.show();
             }
             
@@ -175,7 +175,7 @@ public class TicketSearchResultIActivity extends FragmentActivity {
 					isLeatimeAsc = true;
 				}else{
 					todayAirline.orderLinesByLeatime(false);
-					leatimeOrderImageview.setImageResource(R.drawable.datechoice);
+					leatimeOrderImageview.setImageResource(R.drawable.arrow_down_orange_small);
 					adapter.notifyDataSetChanged();
 					isLeatimeAsc = false;
 				}
@@ -199,7 +199,7 @@ public class TicketSearchResultIActivity extends FragmentActivity {
 //					isPriceAsc = false;
 //				}
 				Intent intent = new Intent();
-				intent.setClass(TicketSearchResultIActivity.this, OrderFormActivity.class);
+				intent.setClass(TicketSearchResultActivity.this, OrderFormActivity.class);
 				startActivityForResult(intent,IntentRequestCode.ORDER_FORM.getRequestCode());
 			}
         	
@@ -214,7 +214,7 @@ public class TicketSearchResultIActivity extends FragmentActivity {
 //				
 //				fd.show(getSupportFragmentManager(), "filterDialog");
 				
-				FilterDialog filterDialog = new FilterDialog(TicketSearchResultIActivity.this,R.style.Custom_Dialog_Theme);
+				FilterDialog filterDialog = new FilterDialog(TicketSearchResultActivity.this,R.style.Custom_Dialog_Theme);
 				filterDialog.show();
 			}
         });

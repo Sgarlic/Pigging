@@ -239,7 +239,7 @@
 		            android:layout_width="match_parent"
 		            android:layout_height="wrap_content"
 		            android:layout_gravity="center_horizontal"
-		            android:src="@drawable/line1_2x" />
+		            android:src="@drawable/line_notransit" />
 		    </LinearLayout>
 	
 		    <LinearLayout
@@ -326,7 +326,7 @@
 			    android:layout_height="wrap_content"
 			    android:layout_gravity="center_vertical"
 			    android:layout_marginLeft="5dp"
-			    android:src="@drawable/todetailpage_2x" />
+			    android:src="@drawable/arrow_right_orange_small" />
 	
 		</LinearLayout>
 		

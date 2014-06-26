@@ -14,16 +14,16 @@ import org.apache.http.impl.client.DefaultHttpClient;
 
 import com.boding.model.AirlineView;
 import com.boding.util.AvXmlParser;
-import com.boding.app.TicketSearchResultIActivity;
+import com.boding.app.TicketSearchResultActivity;
 
 import android.os.AsyncTask;
 import android.util.Log;
 
 public class XMLTask extends AsyncTask<Object,Void,Object>{
-	private TicketSearchResultIActivity tsri;
+	private TicketSearchResultActivity tsri;
 	private int whichday;
 	
-	public XMLTask(TicketSearchResultIActivity tsri, int whichday){
+	public XMLTask(TicketSearchResultActivity tsri, int whichday){
 		this.tsri = tsri;
 		this.whichday = whichday;
 	}

@@ -26,7 +26,7 @@
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
 	            android:layout_gravity="center_vertical"
-	            android:src="@drawable/return_1x" />
+	            android:src="@drawable/arrow_left_returntoprepage" />
         </LinearLayout>
 	    <LinearLayout
 	        android:layout_width="wrap_content"
@@ -149,7 +149,7 @@
 		            android:layout_width="wrap_content"
 		            android:layout_height="wrap_content"
 		            android:layout_gravity="center_vertical"
-		            android:src="@drawable/daychange" />
+		            android:src="@drawable/arrow_left_gray_small" />
 
 		        <TextView
 		            android:id="@+id/search_result_lastday_textView"
@@ -213,7 +213,7 @@
 		            android:layout_width="wrap_content"
 		            android:layout_height="wrap_content"
 		            android:layout_gravity="center_vertical"
-		            android:src="@drawable/datechoice" />
+		            android:src="@drawable/arrow_down_orange_small" />
 
 			</LinearLayout>
 			<LinearLayout
@@ -269,7 +269,7 @@
 		            android:layout_width="wrap_content"
 		            android:layout_height="wrap_content"
 		            android:layout_gravity="center_vertical"
-		            android:src="@drawable/daychange2" />
+		            android:src="@drawable/arrow_right_gray_small" />
 
 			</LinearLayout>
 			<LinearLayout
@@ -359,8 +359,7 @@
 		            android:layout_width="wrap_content"
 		            android:layout_height="wrap_content"
 		            android:layout_gravity="center_vertical"
-		            android:layout_marginLeft="3dp"
-		            android:src="@drawable/filter_2x" />
+		            android:src="@drawable/filter_button_gray" />
 
 			</LinearLayout>
 		</LinearLayout>
@@ -391,7 +390,7 @@
 		            android:layout_height="wrap_content"
 		            android:layout_gravity="center_vertical"
 		            android:layout_marginLeft="3dp"
-		            android:src="@drawable/datechoice2_2x" />
+		            android:src="@drawable/triangle_up_orange" />
 
 			</LinearLayout>
 		</LinearLayout>
@@ -422,7 +421,7 @@
 		            android:layout_height="wrap_content"
 		            android:layout_gravity="center_vertical"
 		            android:layout_marginLeft="3dp"
-		            android:src="@drawable/datechoicegrey_2x" />
+		            android:src="@drawable/triangle_up_gray" />
 
 			</LinearLayout>
 		</LinearLayout>

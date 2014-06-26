@@ -345,7 +345,7 @@ public class DateSelectCalendarView extends View implements View.OnTouchListener
 		float iconY = surface.monthHeight  * 2 / 5f;
 		float iconX = monthXRight + 15;
 		surface.monthSelectorEnd = iconX + 20;
-		Bitmap  bitmap = BitmapFactory.decodeResource(this.getContext().getResources(), R.drawable.datechoice_2x);
+		Bitmap  bitmap = BitmapFactory.decodeResource(this.getContext().getResources(), R.drawable.arrow_down_orange_small);
 		canvas.drawBitmap(bitmap, iconX, iconY, surface.datePaint);
 		
 	}

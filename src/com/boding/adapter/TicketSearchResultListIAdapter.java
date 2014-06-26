@@ -21,7 +21,7 @@ import android.widget.TextView;
 import com.boding.R;
 import com.boding.app.MainActivity;
 import com.boding.app.OrderFormActivity;
-import com.boding.app.TicketSearchResultIActivity;
+import com.boding.app.TicketSearchResultActivity;
 import com.boding.app.VoiceSearchActivity;
 import com.boding.constants.IntentRequestCode;
 import com.boding.model.AirlineView;
@@ -102,9 +102,9 @@ public class TicketSearchResultListIAdapter extends BaseAdapter {
 		//image view
 		if(currentFlightLine.getSegmentSize() > 1){
 			//гажазЊ
-			holder.needTransitImageView.setImageResource(R.drawable.line2_2x);
+			holder.needTransitImageView.setImageResource(R.drawable.line_transit);
 		}else{
-			holder.needTransitImageView.setImageResource(R.drawable.line1_2x);
+			holder.needTransitImageView.setImageResource(R.drawable.line_notransit);
 		}
 		
 		if(currentFlightLine.getFlightClassNum() == 1){
@@ -119,7 +119,7 @@ public class TicketSearchResultListIAdapter extends BaseAdapter {
 			public void onClick(View v) {
 				Intent intent = new Intent();
 				intent.setClass(context, OrderFormActivity.class);
-				((TicketSearchResultIActivity)context).startActivityForResult(intent,IntentRequestCode.ORDER_FORM.getRequestCode());
+				((TicketSearchResultActivity)context).startActivityForResult(intent,IntentRequestCode.ORDER_FORM.getRequestCode());
 			}
 		});
 //        ContentValues cv = airlineViewList.get(position);  

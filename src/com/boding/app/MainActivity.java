@@ -168,7 +168,7 @@ public class MainActivity extends FragmentActivity {
 			@Override
 			public void onClick(View arg0) {
 				Intent intent = new Intent();
-				intent.setClass(MainActivity.this, TicketSearchResultIActivity.class);
+				intent.setClass(MainActivity.this, TicketSearchResultActivity.class);
 				startActivityForResult(intent,IntentRequestCode.TICKET_SEARCH.getRequestCode());
 			}
 		});
