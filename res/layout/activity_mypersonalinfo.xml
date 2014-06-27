@@ -83,7 +83,7 @@
 		            android:layout_width="wrap_content"
 		            android:layout_height="wrap_content"
 		            android:layout_gravity="center_vertical"
-		            android:src="@drawable/account_480" />
+		            android:src="@drawable/account_gray" />
 			</LinearLayout>
 
 		    <TextView
@@ -138,7 +138,7 @@
 		            android:layout_width="wrap_content"
 		            android:layout_height="wrap_content"
 		            android:layout_gravity="center_vertical"
-		            android:src="@drawable/personinfo_480" />
+		            android:src="@drawable/personinfo_gray" />
 			</LinearLayout>
 
 			<TextView
@@ -333,7 +333,7 @@
 		            android:layout_width="wrap_content"
 		            android:layout_height="wrap_content"
 		            android:layout_gravity="center_vertical"
-		            android:src="@drawable/changepassword_480" />
+		            android:src="@drawable/changepassword_gray" />
 			</LinearLayout>
 			<TextView
 		        android:layout_width="wrap_content"
@@ -360,7 +360,7 @@
 					    android:layout_width="wrap_content"
 					    android:layout_height="wrap_content"
 					    android:layout_gravity="center_vertical"
-					    android:src="@drawable/arrow_right_orange_small" />
+					    android:src="@drawable/arrow_right_orange_medium" />
 				</LinearLayout>
 		    </LinearLayout>
 		</LinearLayout>
@@ -380,7 +380,7 @@
 		            android:layout_width="wrap_content"
 		            android:layout_height="wrap_content"
 		            android:layout_gravity="center_vertical"
-		            android:src="@drawable/changephonenum_480" />
+		            android:src="@drawable/changephonenum_gray" />
 			</LinearLayout>
 			<TextView
 		        android:layout_width="wrap_content"
@@ -407,7 +407,7 @@
 					    android:layout_width="wrap_content"
 					    android:layout_height="wrap_content"
 					    android:layout_gravity="center_vertical"
-					    android:src="@drawable/arrow_right_orange_small" />
+					    android:src="@drawable/arrow_right_orange_medium" />
 				</LinearLayout>
 		    </LinearLayout>
 		</LinearLayout>

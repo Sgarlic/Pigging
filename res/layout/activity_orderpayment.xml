@@ -209,7 +209,7 @@
 		    android:layout_height="wrap_content"
 		    android:layout_gravity="top"
 		    android:layout_marginTop="2dp"
-		    android:src="@drawable/yanglogo_480_800" />
+		    android:src="@drawable/yanglogo" />
 
 		<LinearLayout
 		    android:layout_width="match_parent"
@@ -264,7 +264,7 @@
 				            android:layout_width="wrap_content"
 				            android:layout_height="wrap_content"
 				            android:layout_gravity="center_vertical"
-				            android:src="@drawable/arrow_right_orange_small" />
+				            android:src="@drawable/arrow_right_orange_medium" />
 				    </LinearLayout>
 			    </LinearLayout>
 			</LinearLayout>
@@ -299,7 +299,7 @@
 				            android:layout_width="wrap_content"
 				            android:layout_height="wrap_content"
 				            android:layout_gravity="center_vertical"
-				            android:src="@drawable/arrow_right_orange_small" />
+				            android:src="@drawable/arrow_right_orange_medium" />
 				    </LinearLayout>
 			    </LinearLayout>
 			</LinearLayout>
@@ -334,7 +334,7 @@
 				            android:layout_width="wrap_content"
 				            android:layout_height="wrap_content"
 				            android:layout_gravity="center_vertical"
-				            android:src="@drawable/arrow_right_orange_small" />
+				            android:src="@drawable/arrow_right_orange_medium" />
 				    </LinearLayout>
 			    </LinearLayout>
 			</LinearLayout>
@@ -369,7 +369,7 @@
 				            android:layout_width="wrap_content"
 				            android:layout_height="wrap_content"
 				            android:layout_gravity="center_vertical"
-				            android:src="@drawable/arrow_right_orange_small" />
+				            android:src="@drawable/arrow_right_orange_medium" />
 				    </LinearLayout>
 			    </LinearLayout>
 			</LinearLayout>

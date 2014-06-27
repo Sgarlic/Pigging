@@ -707,7 +707,7 @@
 			    android:layout_height="wrap_content"
 			    android:layout_gravity="center_vertical"
 			    android:layout_marginLeft=" 5dp"
-			    android:src="@drawable/downarrow_blue" />
+			    android:src="@drawable/arrow_down_blue" />
 
 		</LinearLayout>
 	</LinearLayout>

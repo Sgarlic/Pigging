@@ -3,10 +3,10 @@ package com.boding.constants;
 import com.boding.R;
 
 public enum AirlineType {
-	ONE_WAY_NOTRANSI(1,"单程",R.drawable.oneway_480),
-	ROUND_WAY_NOTRANSIT(2,"往返",R.drawable.return_480_800),
-	ONE_WAY_TRANSIT(3,"单程/中转",R.drawable.onewaywithtransit_480),
-	ROUND_WAY_TRANSIT(4,"往返/中转",R.drawable.returnwithtransit_480);
+	ONE_WAY_NOTRANSI(1,"单程",R.drawable.oneway_blue),
+	ROUND_WAY_NOTRANSIT(2,"往返",R.drawable.roundway_blue),
+	ONE_WAY_TRANSIT(3,"单程/中转",R.drawable.onewaywithtransit_blue),
+	ROUND_WAY_TRANSIT(4,"往返/中转",R.drawable.roundwaywithtransit_blue);
 	
 	private int airlineTypeCode;
 	private String airlineTypeName;

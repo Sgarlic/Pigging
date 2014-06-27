@@ -65,7 +65,7 @@ public class MainActivity extends FragmentActivity {
 	private TextView leftPageFlyFromCodeTextView;
 	private TextView leftpageFlyToTextView;
 	private TextView leftpageFlyToCodeTextView;
-	private ImageView switchCityImageView;
+	private ImageView leftpageSwitchCityImageView;
 	private LinearLayout leftpageFlyFromLinearLayout;
 	private LinearLayout leftpageFlyToLinearLayout;
 	private ImageView leftpageFlightWayChooseImageView;
@@ -74,7 +74,7 @@ public class MainActivity extends FragmentActivity {
 	private LinearLayout leftpageReturnwayDateLinearLayout;
 	private TextView leftpageFlyFromDateTextView;
 	private TextView leftpageFlyToDateTextView;
-	private ImageView leftpageVoiceSearchImageView;
+	private LinearLayout leftpageVoiceSearchLinearLayout;
 	private LinearLayout leftpageClassSelectionLinearLayout;
 	private LinearLayout leftpagePassengerAdultLinearLayout;
 	private LinearLayout leftpagePassengerChildLinearLayout;
@@ -163,8 +163,8 @@ public class MainActivity extends FragmentActivity {
 		leftpageFlyToLinearLayout.setOnClickListener(openCitySelectOnClickListener);
 		
 		
-		ImageView leftpageFlightSearchTicketImageView = (ImageView)leftPageView.findViewById(R.id.leftpage_flight_search_ticket_imageView);
-		leftpageFlightSearchTicketImageView.setOnClickListener(new OnClickListener(){
+		LinearLayout leftpageFlightSearchTicketLinearLayout = (LinearLayout)leftPageView.findViewById(R.id.leftpage_flight_search_ticket_linearLayout);
+		leftpageFlightSearchTicketLinearLayout.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View arg0) {
 				Intent intent = new Intent();
@@ -175,8 +175,8 @@ public class MainActivity extends FragmentActivity {
 		
 		setFlyFromToCity();
 		
-		switchCityImageView = (ImageView)leftPageView.findViewById(R.id.leftpage_swithcity_imageView);
-		switchCityImageView.setOnClickListener(new OnClickListener(){
+		leftpageSwitchCityImageView = (ImageView)leftPageView.findViewById(R.id.leftpage_swithcity_imageView);
+		leftpageSwitchCityImageView.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View arg0) {
 				City tempCity = GlobalVariables.Fly_From_City;
@@ -186,8 +186,8 @@ public class MainActivity extends FragmentActivity {
 			}
 		});
 		
-		leftpageVoiceSearchImageView = (ImageView)leftPageView.findViewById(R.id.leftpage_voice_search_imageView);
-		leftpageVoiceSearchImageView.setOnClickListener(new OnClickListener(){
+		leftpageVoiceSearchLinearLayout = (LinearLayout)leftPageView.findViewById(R.id.leftpage_voice_search_linearLayout);
+		leftpageVoiceSearchLinearLayout.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View arg0) {
 				Intent intent = new Intent();
@@ -317,14 +317,14 @@ public class MainActivity extends FragmentActivity {
 	}
 	
 	private void switchToSingleWay(){
-		leftpageFlightWayChooseImageView.setImageResource(R.drawable.leftpage_singleway_line_480_800);
+		leftpageFlightWayChooseImageView.setImageResource(R.drawable.leftpage_singleway_line);
 		leftpageDateDividerLinearLayout.setVisibility(View.INVISIBLE);
 		leftpageReturnwayDateLinearLayout.setVisibility(View.INVISIBLE);
 		isSingleWay = true;
 	}
 	
 	private void swithToReturnWay(){
-		leftpageFlightWayChooseImageView.setImageResource(R.drawable.leftpage_returnway_line_480_800);
+		leftpageFlightWayChooseImageView.setImageResource(R.drawable.leftpage_returnway_line);
 		leftpageDateDividerLinearLayout.setVisibility(View.VISIBLE);
 		leftpageReturnwayDateLinearLayout.setVisibility(View.VISIBLE);
 		isSingleWay = false;
@@ -420,7 +420,7 @@ public class MainActivity extends FragmentActivity {
 	
 	private void initHorizontalViewPager(){
 		leftPageView = mInflater.inflate(R.layout.layout_left, null);
-		middlePageView = mInflater.inflate(R.layout.layout_middle, null);
+		middlePageView = mInflater.inflate(R.layout.layout_middle_withwidget, null);
 		rightPageView = mInflater.inflate(R.layout.layout_right, null);
 		hList = new ArrayList<View>();
 		hList.add(leftPageView);

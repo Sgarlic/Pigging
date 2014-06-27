@@ -170,12 +170,12 @@ public class TicketSearchResultActivity extends FragmentActivity {
 			public void onClick(View v) {
 				if(!isLeatimeAsc){
 					todayAirline.orderLinesByLeatime(true);
-					leatimeOrderImageview.setImageResource(R.drawable.datechoice2);
+					leatimeOrderImageview.setImageResource(R.drawable.triangle_up_orange);
 					adapter.notifyDataSetChanged();
 					isLeatimeAsc = true;
 				}else{
 					todayAirline.orderLinesByLeatime(false);
-					leatimeOrderImageview.setImageResource(R.drawable.arrow_down_orange_small);
+					leatimeOrderImageview.setImageResource(R.drawable.triangle_down_orange);
 					adapter.notifyDataSetChanged();
 					isLeatimeAsc = false;
 				}

@@ -82,7 +82,7 @@
 				    android:layout_width="wrap_content"
 				    android:layout_height="wrap_content"
 				    android:layout_gravity="center_vertical"
-				    android:src="@drawable/userinfo_480_800" />
+				    android:src="@drawable/userinfo_orange" />
 
 			    <TextView
 			        android:layout_width="wrap_content"
@@ -125,7 +125,7 @@
 					    android:layout_width="wrap_content"
 					    android:layout_height="wrap_content"
 					    android:layout_gravity="center_vertical"
-					    android:src="@drawable/arrow_right_orange_small" />
+					    android:src="@drawable/arrow_right_orange_medium" />
 				</LinearLayout>
 		    </LinearLayout>
 		</LinearLayout>
@@ -145,7 +145,7 @@
 				    android:layout_width="wrap_content"
 				    android:layout_height="wrap_content"
 				    android:layout_gravity="center_vertical"
-				    android:src="@drawable/travellist_480_800" />
+				    android:src="@drawable/travellist_orange" />
 
 			    <TextView
 			        android:layout_width="wrap_content"
@@ -175,7 +175,7 @@
 					    android:layout_width="wrap_content"
 					    android:layout_height="wrap_content"
 					    android:layout_gravity="center_vertical"
-					    android:src="@drawable/arrow_right_orange_small" />
+					    android:src="@drawable/arrow_right_orange_medium" />
 				</LinearLayout>
 		    </LinearLayout>
 		</LinearLayout>
@@ -195,7 +195,7 @@
 				    android:layout_width="wrap_content"
 				    android:layout_height="wrap_content"
 				    android:layout_gravity="center_vertical"
-				    android:src="@drawable/myfavourite_480_800" />
+				    android:src="@drawable/myfavourite_orange" />
 
 			    <TextView
 			        android:layout_width="wrap_content"
@@ -225,7 +225,7 @@
 					    android:layout_width="wrap_content"
 					    android:layout_height="wrap_content"
 					    android:layout_gravity="center_vertical"
-					    android:src="@drawable/arrow_right_orange_small" />
+					    android:src="@drawable/arrow_right_orange_medium" />
 				</LinearLayout>
 		    </LinearLayout>
 		</LinearLayout>
@@ -245,7 +245,7 @@
 				    android:layout_width="wrap_content"
 				    android:layout_height="wrap_content"
 				    android:layout_gravity="center_vertical"
-				    android:src="@drawable/setting_480_800" />
+				    android:src="@drawable/settings_orange" />
 
 			    <TextView
 			        android:layout_width="wrap_content"
@@ -275,7 +275,7 @@
 					    android:layout_width="wrap_content"
 					    android:layout_height="wrap_content"
 					    android:layout_gravity="center_vertical"
-					    android:src="@drawable/arrow_right_orange_small" />
+					    android:src="@drawable/arrow_right_orange_medium" />
 				</LinearLayout>
 		    </LinearLayout>
 		</LinearLayout>

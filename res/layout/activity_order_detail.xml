@@ -85,7 +85,7 @@
 				    android:layout_width="wrap_content"
 				    android:layout_height="wrap_content"
 				    android:layout_gravity="top"
-				    android:src="@drawable/myfavourite_480_800" />
+				    android:src="@drawable/orderdetailinfo_orange" />
 
 		        <LinearLayout
 		            android:layout_width="match_parent"
@@ -285,7 +285,7 @@
 				    android:layout_width="wrap_content"
 				    android:layout_height="wrap_content"
 				    android:layout_gravity="top"
-				    android:src="@drawable/myfavourite_480_800" />
+				    android:src="@drawable/flightinfo_orange" />
 
 		        <LinearLayout
 		            android:layout_width="match_parent"
@@ -585,7 +585,7 @@
 						    android:layout_height="wrap_content"
 						    android:layout_gravity="center_vertical"
 						    android:layout_marginLeft=" 5dp"
-						    android:src="@drawable/downarrow_blue" />
+						    android:src="@drawable/arrow_down_blue" />
 			        </LinearLayout>
 			    </LinearLayout>
 		    </LinearLayout>
@@ -602,7 +602,7 @@
 				    android:layout_width="wrap_content"
 				    android:layout_height="wrap_content"
 				    android:layout_gravity="top"
-				    android:src="@drawable/myfavourite_480_800" />
+				    android:src="@drawable/passengerinfo_orange" />
 
 		        <LinearLayout
 		            android:layout_width="match_parent"

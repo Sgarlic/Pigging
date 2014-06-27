@@ -47,56 +47,56 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 
 public class Util {
-	/**
-	 * PageNumber refers to left, middle, and right page. Use 0,1,2 to represent
-	 * @param activity
-	 * @param pageNumber
-	 * @return
-	 */
-	@SuppressLint("NewApi")
-	public static void setActivityBackground(Activity activity,int pageNumber,View view){
-		Resources resources = activity.getResources();
-		Bitmap bitmap=BitmapFactory.decodeResource(resources,R.drawable.main_background_2x);
-		
-		int newWidth = bitmap.getWidth()/3;
-		int newHeight = bitmap.getHeight();
-		
-		Bitmap newBitmap = Bitmap.createBitmap(bitmap, newWidth*pageNumber, 0, newWidth, newHeight);
-		
-		float scaleWidth = ((float) GlobalVariables.Screen_Width ) / newWidth; 
-	    float scaleHeight = ((float) GlobalVariables.Screen_Height) / newHeight;
-	    
-		
-	    Matrix matrix = new Matrix();
-	    matrix.postScale(scaleWidth, scaleHeight); 
-	    
-	    Bitmap backgroudBitmap = Bitmap.createBitmap(newBitmap, 0, 0,newWidth, newHeight, matrix, true);
-	    
-//	    FileOutputStream out = null;
-//		try {
-//		       out = new FileOutputStream("/mnt/sdcard2/backgroudBitmap.png");
-//		       backgroudBitmap.compress(Bitmap.CompressFormat.PNG, 90, out);
-//		       out.flush();
-//		} catch (Exception e) {
-//		    e.printStackTrace();
-//		} finally {
-//		       try{
-//		           out.close();
-//		       } catch(Throwable ignore) {}
-//		}
+//	/**
+//	 * PageNumber refers to left, middle, and right page. Use 0,1,2 to represent
+//	 * @param activity
+//	 * @param pageNumber
+//	 * @return
+//	 */
+//	@SuppressLint("NewApi")
+//	public static void setActivityBackground(Activity activity,int pageNumber,View view){
+//		Resources resources = activity.getResources();
+//		Bitmap bitmap=BitmapFactory.decodeResource(resources,R.drawable.main_background_2x);
 //		
-//		Log.d("Poding", "success");
-	    
-	    Drawable imagebakground = new BitmapDrawable(activity.getResources(), backgroudBitmap);
-		
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-//		 	Log.i("Poding", "Background");
-		 	view.setBackground(imagebakground);
-		} else {
-//		   	Log.i("Poding", "Drawable");
-		   	view.setBackgroundDrawable(imagebakground);
-		}
-	}
+//		int newWidth = bitmap.getWidth()/3;
+//		int newHeight = bitmap.getHeight();
+//		
+//		Bitmap newBitmap = Bitmap.createBitmap(bitmap, newWidth*pageNumber, 0, newWidth, newHeight);
+//		
+//		float scaleWidth = ((float) GlobalVariables.Screen_Width ) / newWidth; 
+//	    float scaleHeight = ((float) GlobalVariables.Screen_Height) / newHeight;
+//	    
+//		
+//	    Matrix matrix = new Matrix();
+//	    matrix.postScale(scaleWidth, scaleHeight); 
+//	    
+//	    Bitmap backgroudBitmap = Bitmap.createBitmap(newBitmap, 0, 0,newWidth, newHeight, matrix, true);
+//	    
+////	    FileOutputStream out = null;
+////		try {
+////		       out = new FileOutputStream("/mnt/sdcard2/backgroudBitmap.png");
+////		       backgroudBitmap.compress(Bitmap.CompressFormat.PNG, 90, out);
+////		       out.flush();
+////		} catch (Exception e) {
+////		    e.printStackTrace();
+////		} finally {
+////		       try{
+////		           out.close();
+////		       } catch(Throwable ignore) {}
+////		}
+////		
+////		Log.d("Poding", "success");
+//	    
+//	    Drawable imagebakground = new BitmapDrawable(activity.getResources(), backgroudBitmap);
+//		
+//		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+////		 	Log.i("Poding", "Background");
+//		 	view.setBackground(imagebakground);
+//		} else {
+////		   	Log.i("Poding", "Drawable");
+//		   	view.setBackgroundDrawable(imagebakground);
+//		}
+//	}
 	
 	@SuppressLint("NewApi")
 	public static void setViewBackground(View view, Drawable drawable){

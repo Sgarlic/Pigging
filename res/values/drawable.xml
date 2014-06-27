@@ -46,4 +46,7 @@
     <color name="callCustomServiceBgGray">#9d9d9d</color>
     <color name="textDarkGray">#313131</color>
     <color name="orderListTextGray">#979797</color>
+    <color name="backgroundDarkGray">#23282f</color>
+    <color name="voicesearchBgGray">#575757</color>
+    <color name="flightSearchText">#b3b3b3</color>
 </resources>

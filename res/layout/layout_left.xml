@@ -10,8 +10,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="3"
+        android:layout_height="80dp"
         android:orientation="vertical" >
 
 	    <LinearLayout  
@@ -32,7 +31,7 @@
 	        android:layout_height="wrap_content"
 	        android:layout_gravity="bottom"
 	        android:layout_marginBottom="10dp"
-	        android:src="@drawable/leftpage_singleway_line_480_800" />
+	        android:src="@drawable/leftpage_singleway_line" />
 
 		</LinearLayout>
 		</LinearLayout>
@@ -40,9 +39,10 @@
 
 	<LinearLayout
 	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content"
-	    android:layout_weight="13"
-	    android:orientation="vertical" >
+	    android:layout_height="220dp"
+	    android:orientation="vertical"
+	    android:paddingLeft="15dp"
+	    android:paddingRight="15dp" >
 
 	    <LinearLayout
 	        android:layout_width="wrap_content"
@@ -77,7 +77,7 @@
 				    		android:layout_height="wrap_content"
 				    		android:layout_gravity="center_vertical"
 				    		android:layout_weight="1"
-				    		android:src="@drawable/fly_from_logo_480_800" />
+				    		android:src="@drawable/fly_from_logo" />
 					</LinearLayout>
 
 					<LinearLayout
@@ -140,7 +140,7 @@
 				    		    android:layout_height="wrap_content"
 				    		    android:layout_gravity="center_vertical"
 				    		    android:layout_weight="1"
-				    		    android:src="@drawable/leftpage_refresh_480_800" />
+				    		    android:src="@drawable/leftpage_refresh" />
 					</LinearLayout>
 					<LinearLayout
 						android:layout_width="wrap_content"
@@ -156,7 +156,7 @@
 						    android:layout_marginLeft="3dp"
 						    android:layout_marginRight="3dp"
 						    android:layout_weight="1"
-						    android:src="@drawable/fly_to_logo_480_800" />
+						    android:src="@drawable/fly_to_logo" />
 
 					</LinearLayout>
 
@@ -214,7 +214,7 @@
 		    	    android:layout_width="wrap_content"
 		    	    android:layout_height="wrap_content"
 		    	    android:layout_gravity="center_horizontal"
-		    	    android:src="@drawable/leftpage_line_480_800" />
+		    	    android:src="@drawable/leftpage_line" />
 
 				<LinearLayout
 				    android:layout_width="match_parent"
@@ -234,7 +234,7 @@
 				    	    android:layout_width="wrap_content"
 				    	    android:layout_height="wrap_content"
 				    	    android:layout_gravity="center_vertical"
-				    	    android:src="@drawable/calendar_logo_480_800"
+				    	    android:src="@drawable/calendar_logo_gray"
 				    	    android:layout_weight="1" />
 		
 						<TextView
@@ -246,7 +246,7 @@
 						    android:layout_weight="4"
 						    android:text="2013-12-04"
 						    android:textColor="@color/white"
-						    android:textSize="17dp"
+						    android:textSize="15sp"
 						    android:typeface="serif" />
 
 					</LinearLayout>
@@ -275,7 +275,7 @@
 				    	    android:layout_width="wrap_content"
 				    	    android:layout_height="wrap_content"
 				    	    android:layout_gravity="center_vertical"
-				    	    android:src="@drawable/calendar_logo_480_800"
+				    	    android:src="@drawable/calendar_logo_gray"
 				    	    android:layout_weight="1" />
 		
 						<TextView
@@ -287,7 +287,7 @@
 						    android:layout_weight="4"
 						    android:text="2013-12-04"
 						    android:textColor="@color/white"
-						    android:textSize="17dp"
+						    android:textSize="15sp"
 						    android:typeface="serif" />
 
 					</LinearLayout>
@@ -297,7 +297,7 @@
 		    	    android:layout_width="wrap_content"
 		    	    android:layout_height="wrap_content"
 		    	    android:layout_gravity="center_horizontal"
-		    	    android:src="@drawable/leftpage_line_480_800" />
+		    	    android:src="@drawable/leftpage_line" />
 				<LinearLayout
 		    	    android:layout_width="match_parent"
 		    	    android:layout_height="wrap_content"
@@ -333,7 +333,7 @@
 				    		    android:layout_marginLeft="9dp"
 				    		    android:layout_marginTop="0dp"
 				    		    android:layout_weight="1"
-				    		    android:src="@drawable/fly_class_logo_480_800" />
+				    		    android:src="@drawable/fly_class_logo" />
 	
 	
 							<TextView
@@ -383,7 +383,7 @@
 					    		    android:layout_gravity="center_horizontal"
 					    		    android:layout_marginLeft="9dp"
 					    		    android:layout_weight="1"
-					    		    android:src="@drawable/fly_passengar_logo_480_800" />
+					    		    android:src="@drawable/fly_passengar_logo" />
 								<TextView
 								    android:id="@+id/flight_passengar_adult_textView"
 								    android:layout_width="wrap_content"
@@ -416,7 +416,7 @@
 								    android:layout_gravity="center_horizontal"
 								    android:layout_marginLeft="9dp"
 								    android:layout_weight="1"
-								    android:src="@drawable/fly_child_logo_480_800" />
+								    android:src="@drawable/fly_child_logo" />
 		
 								<TextView
 								    android:id="@+id/flight_passengar_child_textView"
@@ -451,30 +451,73 @@
 	    </LinearLayout>
 	     -->
 	</LinearLayout>
+
 	<LinearLayout
-	    android:orientation="horizontal"
+	    android:layout_width="match_parent"
+	    android:layout_height="80dp"
+	    android:orientation="vertical" >
+	    <LinearLayout
+		    android:layout_width="wrap_content"
+		    android:layout_height="match_parent"
+		    android:layout_gravity="right"
+		    android:orientation="horizontal" >
+	    	<ImageView
+	    	    android:layout_width="wrap_content"
+	    	    android:layout_height="wrap_content"
+	    	    android:layout_gravity="top"
+	    	    android:src="@drawable/leftpage_gotomainpage"
+	    	    android:layout_weight="1" />
+	    </LinearLayout>
+	</LinearLayout>
+
+	<LinearLayout
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"
-	    android:layout_weight="14">
+	    android:layout_weight="14"
+	    android:orientation="horizontal"
+	    android:paddingLeft="25dp"
+	    android:paddingRight="25dp" >
 
 	    <LinearLayout
-	        android:layout_width="match_parent"
-	        android:layout_height="wrap_content"
-	        android:layout_marginTop="50dp"
+	        android:id="@+id/leftpage_voice_search_linearLayout"
+	        android:layout_width="wrap_content"
+	        android:layout_height="50dp"
+	        android:layout_weight="1"
+	        android:background="@color/priceGray"
 	        android:gravity="center_horizontal"
 	        android:orientation="horizontal" >
 
 	        <ImageView
-	            android:id="@+id/leftpage_voice_search_imageView"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
-	            android:src="@drawable/leftpage_voice_speak_480_800" />
+	            android:layout_gravity="center_vertical"
+	            android:src="@drawable/leftpage_voice_speak" />
 
-	        <ImageView
-	            android:id="@+id/leftpage_flight_search_ticket_imageView"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:src="@drawable/leftpage_flight_search_480_800" />
+	    </LinearLayout>
+
+	    <LinearLayout
+	        android:id="@+id/leftpage_flight_search_ticket_linearLayout"
+	        android:layout_width="wrap_content"
+	        android:layout_height="50dp"
+	        android:layout_weight="4"
+	        android:background="@color/voicesearchBgGray"
+	        android:gravity="center_horizontal"
+	        android:orientation="horizontal" >
+
+	    	<ImageView
+	    	    android:layout_width="wrap_content"
+	    	    android:layout_height="wrap_content"
+	    	    android:layout_gravity="center_vertical"
+	    	    android:src="@drawable/leftpage_flight_search" />
+
+			<TextView
+			    android:layout_width="90dp"
+			    android:layout_height="wrap_content"
+			    android:layout_gravity="center_vertical"
+			    android:layout_marginLeft="10dp"
+			    android:text="航班查询"
+			    android:textColor="@color/flightSearchText"
+			    android:textSize="21sp" />
 
 	    </LinearLayout>
 	</LinearLayout>

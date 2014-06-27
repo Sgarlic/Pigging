@@ -41,7 +41,7 @@
 				        android:layout_width="wrap_content"
 				        android:layout_height="wrap_content"
 				        android:layout_gravity="center_horizontal"
-				        android:background="@drawable/returnwithtransit_480"
+				        android:background="@drawable/roundwaywithtransit_blue"
 				        android:orientation="vertical" >
 		
 					    <TextView
@@ -211,7 +211,7 @@
 			    android:layout_height="wrap_content"
 			    android:layout_gravity="center_vertical"
 			    android:layout_marginLeft="5dp"
-			    android:src="@drawable/arrow_right_orange_small" />
+			    android:src="@drawable/arrow_right_orange_medium" />
 		</LinearLayout>
 	</LinearLayout>
 </LinearLayout>
