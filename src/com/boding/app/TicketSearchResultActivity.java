@@ -13,6 +13,7 @@ import com.boding.constants.GlobalVariables;
 import com.boding.constants.IntentRequestCode;
 import com.boding.model.AirlineView;
 import com.boding.model.FlightLine;
+import com.boding.model.FlightQuery;
 import com.boding.task.XMLTask;
 import com.boding.util.Util;
 import com.boding.view.dialog.CalendarDialog;
@@ -69,6 +70,8 @@ public class TicketSearchResultActivity extends FragmentActivity {
     private boolean isLeatimeAsc = true;
     private boolean isPriceAsc = true;
     
+    private FlightQuery flightQuery;
+    
     //测试用
     private String tempurl = "http://192.168.0.22:8104/FakeBodingServer/XMLServlet?day=today";
 
@@ -78,6 +81,9 @@ public class TicketSearchResultActivity extends FragmentActivity {
 		setContentView(R.layout.activity_ticket_search_result);
 		
 		initView();
+		
+		flightQuery = (FlightQuery)getIntent().getExtras().getParcelable("query");
+		System.out.println("$$$$$$$$$$" + flightQuery.getFromcity());
 		
 		//此处先使用同一个xml测试
 		String urlstr = "http://192.168.0.22:8104/FakeBodingServer/XMLServlet?day=today";

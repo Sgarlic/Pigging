@@ -77,4 +77,10 @@ public class City implements Serializable{
 		}
 		
 	}
+	
+	@Override
+	public boolean equals(Object o) {
+		City c = (City) o;
+        return this.cityName.equals(c.cityName);
+    }
 }
