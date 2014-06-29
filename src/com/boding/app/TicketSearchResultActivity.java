@@ -24,6 +24,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.app.Activity;
+import android.app.ExpandableListActivity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -35,6 +36,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ExpandableListView;
+import android.widget.ExpandableListView.OnGroupClickListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -43,7 +46,7 @@ import android.os.Build;
 
 public class TicketSearchResultActivity extends FragmentActivity {
 	private TicketSearchResultListIAdapter adapter;
-	private ListView searchResultListView;
+	private ExpandableListView searchResultListView;
 	
 	private AirlineView lastDayAriline;
     private AirlineView todayAirline;
@@ -73,7 +76,7 @@ public class TicketSearchResultActivity extends FragmentActivity {
     private FlightQuery flightQuery;
     
     //测试用
-    private String tempurl = "http://192.168.0.22:8104/FakeBodingServer/XMLServlet?day=today";
+    private String tempurl = "http://192.168.0.22:9404/FakeBodingServer/XMLServlet?day=today";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +89,7 @@ public class TicketSearchResultActivity extends FragmentActivity {
 		System.out.println("$$$$$$$$$$" + flightQuery.getFromcity());
 		
 		//此处先使用同一个xml测试
-		String urlstr = "http://192.168.0.22:8104/FakeBodingServer/XMLServlet?day=today";
+		String urlstr = "http://192.168.0.22:9404/FakeBodingServer/XMLServlet?day=today";
 		invokeXmlTask(urlstr, 2);
 		invokeXmlTask(urlstr, 1);
 		invokeXmlTask(urlstr, 3);
@@ -101,7 +104,7 @@ public class TicketSearchResultActivity extends FragmentActivity {
               }
               
         });
-        searchResultListView = (ListView)findViewById(R.id.international_ticket_search_result_listView);
+        searchResultListView = (ExpandableListView)findViewById(R.id.international_ticket_search_result_expandableListView);
         
         fromCityTextView= (TextView)findViewById(R.id.search_result_title_from_textView);
         fromCityCodeTextView= (TextView)findViewById(R.id.search_result_title_from_code_textView);
@@ -128,10 +131,10 @@ public class TicketSearchResultActivity extends FragmentActivity {
         
         setTextViewInfo();
         
-        setListeners();
+        addListeners();
   }
 
-	private void setListeners(){
+	private void addListeners(){
 		todayLinearLayout.setOnClickListener(new OnClickListener(){
             @Override
             public void onClick(View arg0) {
@@ -272,6 +275,15 @@ public class TicketSearchResultActivity extends FragmentActivity {
 	        adapter = new TicketSearchResultListIAdapter(this, todayAirline);
 	        searchResultListView.setAdapter(adapter);
 	        setTextViewInfo();
+			searchResultListView.setOnGroupClickListener(new OnGroupClickListener() { 
+			@Override 
+			public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+				if(adapter.isGgroupExpandable(groupPosition)){
+					return false;
+				}
+				return true; 
+			} 
+		});
 	  }
 	  
 	  private void invokeXmlTask(String url, int whichday){

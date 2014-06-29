@@ -307,16 +307,17 @@
 	    android:orientation="vertical"
         android:layout_weight="11"  >
 
-        <ListView
-	        android:id="@+id/international_ticket_search_result_listView"
-	        android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:background="@color/white"
-			android:cacheColorHint="@android:color/white"
-			android:divider="@color/listviewDividerColor"
-	        android:dividerHeight="2px"
-			android:scrollbars="none">
-    </ListView>
+        <ExpandableListView
+            android:id="@+id/international_ticket_search_result_expandableListView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:cacheColorHint="@android:color/white"
+            android:childDivider="@color/classInfoPanelBgColor"
+            android:divider="@color/listviewDividerColor"
+            android:dividerHeight="2px"
+            android:groupIndicator="@null"
+            android:scrollbars="none" />
 
     </LinearLayout>
 

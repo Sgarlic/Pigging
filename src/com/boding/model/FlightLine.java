@@ -85,6 +85,10 @@ public class FlightLine {
 		return departure.getSegments().get(0).getFclasslist().size();
 	}
 	
+	public FlightClass getFlightClassByPos(int position){
+		return departure.getSegments().get(0).getFclasslist().get(position);
+	}
+	
 	public int getLeaveTimeInt(){
 		return Integer.parseInt(departure.getSegments().get(0).getLeatime());
 	}

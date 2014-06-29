@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.Filter;
 import android.widget.ImageView;
@@ -25,10 +26,11 @@ import com.boding.app.TicketSearchResultActivity;
 import com.boding.app.VoiceSearchActivity;
 import com.boding.constants.IntentRequestCode;
 import com.boding.model.AirlineView;
+import com.boding.model.FlightClass;
 import com.boding.model.FlightLine;
 import com.boding.util.Util;
 
-public class TicketSearchResultListIAdapter extends BaseAdapter {
+public class TicketSearchResultListIAdapter extends BaseExpandableListAdapter {
 	private LayoutInflater inflater;  
 	private AirlineView airlineView;
     private List<FlightLine> flightLineList;
@@ -44,77 +46,94 @@ public class TicketSearchResultListIAdapter extends BaseAdapter {
 //		int sectionPointer = 0;
 	}
 	
-	@Override
-	public int getCount() {
-		return flightLineList.size();
-	}
-
-	@Override
-	public FlightLine getItem(int position) {
-		return flightLineList.get(position);
-	}
-
-	@Override
-	public long getItemId(int position) {
-		return position;
+	public boolean isGgroupExpandable(int groupPosition){
+		if(getChildrenCount(groupPosition) == 1)
+			return false;
+		return true;
 	}
 	
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
-		ViewHolder holder;
-		if (convertView == null) {  
-            convertView = inflater.inflate(R.layout.list_item_ticket_search_result_i, null);
-            holder = new ViewHolder();  
-            holder.flightStartTimeTextView = (TextView) convertView.findViewById(R.id.ticket_search_i_flightstarttime_textView);
-            holder.flightEndTimeTextView = (TextView) convertView.findViewById(R.id.ticket_search_i_flightendtime_textView);
-            holder.flightPriceTextView = (TextView) convertView.findViewById(R.id.ticket_search_i_flightprice_textView);
-            holder.flyingTimeTextView = (TextView) convertView.findViewById(R.id.ticket_search_i_flightflyingtime_textView);
-            holder.ticketLeftTextView = (TextView) convertView.findViewById(R.id.ticket_search_i_flightticketleft_textView);
-            holder.airlineCompanyTextView = (TextView) convertView.findViewById(R.id.ticket_search_i_airlinecompany_textView);
-            holder.airlineCodeTextView = (TextView) convertView.findViewById(R.id.ticket_search_i_airlinecode_textView);
-            holder.flightClassTextView = (TextView) convertView.findViewById(R.id.ticket_search_i_flightclass_textView);
-            holder.startAirportTextView = (TextView) convertView.findViewById(R.id.ticket_search_i_flightstartairport_textView);
-            holder.endAirportTextView = (TextView) convertView.findViewById(R.id.ticket_search_i_flightstopairport_textView);
-            holder.needTransitImageView = (ImageView) convertView.findViewById(R.id.ticket_search_i_need_transit_imageView);
-            holder.moreClassInfoLinearLayout = (LinearLayout) convertView.findViewById(R.id.ticket_search_i_moreflightclassinfo_linearLayout);
-            holder.moreClassListView = (ExpandableListView) convertView.findViewById(R.id.ticket_search_i_moreflightclassinfo_expandListView);
-            holder.toOrderLinearLayout = (LinearLayout) convertView.findViewById(R.id.ticket_search_i_toOrder_linearLayout);
-            convertView.setTag(holder);  
-        } else {  
-            holder = (ViewHolder) convertView.getTag();  
-        }  
+	public FlightClass getChild(int groupPosition, int childPosition) {
+		return getGroup(groupPosition).getFlightClassByPos(childPosition); 
+	}
+
+	@Override
+    public int getGroupCount() { 
+        return flightLineList.size(); 
+    } 
+ 
+    @Override
+    public int getChildrenCount(int groupPosition) { 
+            return getGroup(groupPosition).getFlightClassNum(); 
+    } 
+ 
+    @Override
+    public FlightLine getGroup(int groupPosition) { 
+            return flightLineList.get(groupPosition); 
+    } 
+ 
+    @Override
+    public long getGroupId(int groupPosition) { 
+            return groupPosition; 
+    } 
+    @Override
+    public boolean hasStableIds() { 
+            return true; 
+    } 
+	
+    @Override
+    public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) { 
+    	// 实例化布局文件
+    	convertView = (View) LayoutInflater.from(context).inflate(R.layout.list_item_ticket_search_result_i, null); 
+        TextView flightStartTimeTextView = (TextView) convertView.findViewById(R.id.ticket_search_i_flightstarttime_textView);
+        TextView flightEndTimeTextView = (TextView) convertView.findViewById(R.id.ticket_search_i_flightendtime_textView);
+        TextView flightPriceTextView = (TextView) convertView.findViewById(R.id.ticket_search_i_flightprice_textView);
+        TextView flyingTimeTextView = (TextView) convertView.findViewById(R.id.ticket_search_i_flightflyingtime_textView);
+        TextView ticketLeftTextView = (TextView) convertView.findViewById(R.id.ticket_search_i_flightticketleft_textView);
+        TextView airlineCompanyTextView = (TextView) convertView.findViewById(R.id.ticket_search_i_airlinecompany_textView);
+        TextView airlineCodeTextView = (TextView) convertView.findViewById(R.id.ticket_search_i_airlinecode_textView);
+        TextView flightClassTextView = (TextView) convertView.findViewById(R.id.ticket_search_i_flightclass_textView);
+        TextView startAirportTextView = (TextView) convertView.findViewById(R.id.ticket_search_i_flightstartairport_textView);
+        TextView endAirportTextView = (TextView) convertView.findViewById(R.id.ticket_search_i_flightstopairport_textView);
+        ImageView needTransitImageView = (ImageView) convertView.findViewById(R.id.ticket_search_i_need_transit_imageView);
+        LinearLayout moreClassInfoLinearLayout = (LinearLayout) convertView.findViewById(R.id.ticket_search_i_moreflightclassinfo_linearLayout);
+        ImageView moreClassInfoImageView = (ImageView)convertView.findViewById(R.id.group_more_class_imageView);
+        LinearLayout toOrderLinearLayout = (LinearLayout) convertView.findViewById(R.id.ticket_search_i_toOrder_linearLayout);
 		
-		FlightLine currentFlightLine = flightLineList.get(position);
+		FlightLine currentFlightLine = getGroup(groupPosition);
 		String leavetime = currentFlightLine.getLeaveTime();
 		String arrivetime = currentFlightLine.getArriveTime();
 		String flyingtime = Util.calculateFlyingtime(currentFlightLine.getLeaveDate(), currentFlightLine.getArriveDate(), leavetime, arrivetime);
 		
-		holder.flightStartTimeTextView.setText(Util.formatTime(leavetime)+" -");
-		holder.flightEndTimeTextView.setText(Util.formatTime(arrivetime));
-		holder.flightPriceTextView.setText(currentFlightLine.getFlightPrice());
-		holder.flyingTimeTextView.setText(flyingtime);	
-		holder.ticketLeftTextView.setText(currentFlightLine.getSeat()); //To edit by class type passed by invoker.
-		holder.airlineCompanyTextView.setText(currentFlightLine.getAirCompany());
-		holder.airlineCodeTextView.setText(currentFlightLine.getCarrier()+currentFlightLine.getNum());
+		flightStartTimeTextView.setText(Util.formatTime(leavetime)+" -");
+		flightEndTimeTextView.setText(Util.formatTime(arrivetime));
+		flightPriceTextView.setText(currentFlightLine.getFlightPrice());
+		flyingTimeTextView.setText(flyingtime);	
+		ticketLeftTextView.setText(currentFlightLine.getSeat()); //To edit by class type passed by invoker.
+		airlineCompanyTextView.setText(currentFlightLine.getAirCompany());
+		airlineCodeTextView.setText(currentFlightLine.getCarrier()+currentFlightLine.getNum());
 		//此处设置舱位信息，要根据传入的参数决定。
-		holder.startAirportTextView.setText(currentFlightLine.getLeaveAirport());
-		holder.endAirportTextView.setText(currentFlightLine.getArriveAirport());
+		startAirportTextView.setText(currentFlightLine.getLeaveAirport());
+		endAirportTextView.setText(currentFlightLine.getArriveAirport());
 		//image view
 		if(currentFlightLine.getSegmentSize() > 1){
 			//有中转
-			holder.needTransitImageView.setImageResource(R.drawable.line_transit);
+			needTransitImageView.setImageResource(R.drawable.line_transit);
 		}else{
-			holder.needTransitImageView.setImageResource(R.drawable.line_notransit);
+			needTransitImageView.setImageResource(R.drawable.line_notransit);
 		}
 		
-		if(currentFlightLine.getFlightClassNum() == 1){
-			holder.moreClassInfoLinearLayout.setVisibility(View.GONE);		
+		if(isExpanded){
+			moreClassInfoImageView.setImageResource(R.drawable.arrow_up_orange_small);
+		}else{
+			moreClassInfoImageView.setImageResource(R.drawable.arrow_down_orange_small);
 		}
 		
-		holder.moreClassListView.setGroupIndicator(null); 
-		holder.moreClassListView.setAdapter(new MoreClassInfoAdapter(context));
+		if(!isGgroupExpandable(groupPosition)){
+			moreClassInfoLinearLayout.setVisibility(View.GONE);		
+		}
 		
-		holder.toOrderLinearLayout.setOnClickListener(new OnClickListener(){
+		toOrderLinearLayout.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent();
@@ -122,36 +141,41 @@ public class TicketSearchResultListIAdapter extends BaseAdapter {
 				((TicketSearchResultActivity)context).startActivityForResult(intent,IntentRequestCode.ORDER_FORM.getRequestCode());
 			}
 		});
-//        ContentValues cv = airlineViewList.get(position);  
-//        holder.name.setText(cv.getAsString(CITY_NAME));
-//        String currentStr = getContentValuesTitle(cv);
-//        String previewStr = (position - 1) >= 0 ? getContentValuesTitle(list.get(position-1)) : " ";
-//        if (!previewStr.equals(currentStr)) {  
-//            holder.alpha.setVisibility(View.VISIBLE);
-//            holder.alpha.setText(currentStr);
-//        } else {  
-//            holder.alpha.setVisibility(View.GONE);
-//        }  
+		
+		
+		
         return convertView;  
 	}
-	
-	private class ViewHolder {
-		TextView flightStartTimeTextView;
-		TextView flightEndTimeTextView;
-		TextView flightPriceTextView;
-		TextView flyingTimeTextView;
-		TextView ticketLeftTextView;
-		TextView airlineCompanyTextView;
-		TextView airlineCodeTextView;
-		TextView flightClassTextView;
-		TextView startAirportTextView;
-		TextView endAirportTextView;
-		ImageView needTransitImageView;
-		LinearLayout moreClassInfoLinearLayout; 
-		ExpandableListView moreClassListView;
-		LinearLayout toOrderLinearLayout;
+    @Override
+    public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) { 
+            // 实例化布局文件
+		View childView = (View) LayoutInflater.from(context).inflate(R.layout.elist_item_class_info, null); 
+        TextView leftTicketTextView = (TextView)childView.findViewById(R.id.child_class_left_ticket_textView); 
+        TextView returnMoneyTextView = (TextView)childView.findViewById(R.id.child_class_return_money_textView); 
+        TextView discountTextView = (TextView)childView.findViewById(R.id.child_class_discount_textView); 
+        TextView priceTextView = (TextView)childView.findViewById(R.id.child_class_price_textView); 
+        ImageView buyImageView  = (ImageView)childView.findViewById(R.id.child_class_buy_imageView);
+        
+        FlightClass flightClass = getChild(groupPosition, childPosition);
+        
+        leftTicketTextView.setText(">9");
+        returnMoneyTextView.setText("5");
+//        discountTextView.setTextij");
+//        priceTextView.setText(flightClass.getPrice()+"");
+        
+        return childView; 
+    }
+    
+    @Override
+	public boolean isChildSelectable(int arg0, int arg1) {
+		return false;
 	}
-	
+
+	@Override
+    public long getChildId(int groupPosition, int childPosition) { 
+            return childPosition; 
+    }
+    
 	public Filter getFilter(){
 		if(flightlineFilter != null)
 			return flightlineFilter;
