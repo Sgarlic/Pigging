@@ -28,21 +28,24 @@ import com.boding.constants.IntentRequestCode;
 import com.boding.model.AirlineView;
 import com.boding.model.FlightClass;
 import com.boding.model.FlightLine;
+import com.boding.model.domestic.Airlines;
+import com.boding.model.domestic.Cabin;
+import com.boding.model.domestic.Flight;
 import com.boding.util.Util;
 
 public class TicketSearchResultListAdapter extends BaseExpandableListAdapter {
 	private LayoutInflater inflater;  
-	private AirlineView airlineView;
-    private List<FlightLine> flightLineList;
+	private Airlines airlineView;
+    private List<Flight> flightLineList;
     private Context context;
     private FlightLineFilter flightlineFilter;
 	
-	public TicketSearchResultListAdapter(Context context, AirlineView airlineView) {
+	public TicketSearchResultListAdapter(Context context, Airlines airlineView) {
 		this.context = context;
 		this.inflater = LayoutInflater.from(context);
 //		this.airlineViewList = new ArrayList<AirlineView>();
 		this.airlineView = airlineView;
-		this.flightLineList = airlineView.getLines();
+		this.flightLineList = airlineView.getFlights();
 //		int sectionPointer = 0;
 	}
 	
@@ -53,7 +56,7 @@ public class TicketSearchResultListAdapter extends BaseExpandableListAdapter {
 	}
 	
 	@Override
-	public FlightClass getChild(int groupPosition, int childPosition) {
+	public Cabin getChild(int groupPosition, int childPosition) {
 		return getGroup(groupPosition).getFlightClassByPos(childPosition); 
 	}
 
@@ -68,7 +71,7 @@ public class TicketSearchResultListAdapter extends BaseExpandableListAdapter {
     } 
  
     @Override
-    public FlightLine getGroup(int groupPosition) { 
+    public Flight getGroup(int groupPosition) { 
             return flightLineList.get(groupPosition); 
     } 
  
@@ -108,20 +111,20 @@ public class TicketSearchResultListAdapter extends BaseExpandableListAdapter {
             holder = (GroupViewHolder) convertView.getTag(); 
             
         }  
-		FlightLine currentFlightLine = getGroup(groupPosition);
-		String leavetime = currentFlightLine.getLeaveTime();
-		String arrivetime = currentFlightLine.getArriveTime();
-		String flyingtime = Util.calculateFlyingtime(currentFlightLine.getLeaveDate(), currentFlightLine.getArriveDate(), leavetime, arrivetime);
+		Flight currentFlightLine = getGroup(groupPosition);
+		String leavetime = currentFlightLine.getDptTime();
+		String arrivetime = currentFlightLine.getArrTime();
+		String flyingtime = Util.calculateFlyingtime(currentFlightLine.getDptDate(), currentFlightLine.getArrDate(), leavetime, arrivetime);
 		
 		holder.flightStartTimeTextView.setText(Util.formatTime(leavetime)+" -");
 		holder.flightEndTimeTextView.setText(Util.formatTime(arrivetime));
 		holder.flightPriceTextView.setText(currentFlightLine.getFlightPrice());
 		holder.ticketLeftTextView.setText(currentFlightLine.getSeat()); //To edit by class type passed by invoker.
-		holder.airlineCompanyTextView.setText(currentFlightLine.getAirCompany());
-		holder.airlineCodeTextView.setText(currentFlightLine.getCarrier()+currentFlightLine.getNum());
+		holder.airlineCompanyTextView.setText(currentFlightLine.getCarrierName());
+		holder.airlineCodeTextView.setText(currentFlightLine.getCarrier()+currentFlightLine.getFlightNum());
 		//此处设置舱位信息，要根据传入的参数决定。
-		holder.startAirportTextView.setText(currentFlightLine.getLeaveAirport());
-		holder.endAirportTextView.setText(currentFlightLine.getArriveAirport());
+		holder.startAirportTextView.setText(currentFlightLine.getDptAirportName());
+		holder.endAirportTextView.setText(currentFlightLine.getArrAirportName());
 		
 		if(isExpanded){
 			holder.moreClassInfoImageView.setImageResource(R.drawable.arrow_up_orange_small);
@@ -192,7 +195,7 @@ public class TicketSearchResultListAdapter extends BaseExpandableListAdapter {
             
         }  
        
-        FlightClass flightClass = getChild(groupPosition, childPosition);
+        Cabin flightClass = getChild(groupPosition, childPosition);
         
         holder.leftTicketTextView.setText(">9");
         holder.returnMoneyTextView.setText("5");
@@ -233,17 +236,17 @@ public class TicketSearchResultListAdapter extends BaseExpandableListAdapter {
 		@Override
 		protected FilterResults performFiltering(CharSequence constraint) {
 			FilterResults filterResults = new FilterResults();
-			List<FlightLine> lines = new ArrayList<FlightLine>();
-			FlightLine flightline = null;
+			List<Flight> lines = new ArrayList<Flight>();
+			Flight flightline = null;
 			boolean tag = false;
-			for (Iterator<FlightLine> iterator = flightLineList.iterator(); iterator.hasNext();) {
+			for (Iterator<Flight> iterator = flightLineList.iterator(); iterator.hasNext();) {
 		        flightline = iterator.next();
 		        tag = false;
 		        //System.out.println("---> name=" + name);
 		        if(timeConstraint.size() >0)
 		        	for(String timeSeg : timeConstraint){
 		        	//System.out.println(flightline.getLeaveTime() +"   " +timeSeg);
-		        		if (Util.IsInTimeSegment(flightline.getLeaveTime(), (String)timeSeg)) {
+		        		if (Util.IsInTimeSegment(flightline.getDptTime(), (String)timeSeg)) {
 				          //lines.add(flightline);
 				          tag = true;
 				          break;
@@ -269,8 +272,8 @@ public class TicketSearchResultListAdapter extends BaseExpandableListAdapter {
 		        	break;
 		        if(compConstraint.size() > 0)
 		        	for(String company : compConstraint){
-		        		System.out.println(flightline.getAirCompany());
-		        		if (flightline.getAirCompany().equals(company)) {
+		        		System.out.println(flightline.getCarrierName());
+		        		if (flightline.getCarrierName().equals(company)) {
 				          //lines.add(flightline);
 				          tag = true;
 				          break;
@@ -288,7 +291,7 @@ public class TicketSearchResultListAdapter extends BaseExpandableListAdapter {
 		@Override
 		protected void publishResults(CharSequence constraint,
 				FilterResults results) {
-			flightLineList = (List<FlightLine>)results.values;
+			flightLineList = (List<Flight>)results.values;
 		    if (results.count > 0) {
 		        notifyDataSetChanged();
 		    } else {

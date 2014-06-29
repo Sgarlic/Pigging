@@ -8,13 +8,18 @@ import com.boding.R;
 import com.boding.R.id;
 import com.boding.R.layout;
 import com.boding.R.menu;
+import com.boding.adapter.TicketSearchResultListAdapter;
 import com.boding.adapter.TicketSearchResultListIAdapter;
 import com.boding.constants.GlobalVariables;
 import com.boding.constants.IntentRequestCode;
 import com.boding.model.AirlineView;
+import com.boding.model.City;
 import com.boding.model.FlightLine;
 import com.boding.model.FlightQuery;
+import com.boding.model.domestic.Airlines;
+import com.boding.task.DomeFlightQueryTask;
 import com.boding.task.XMLTask;
+import com.boding.util.CityUtil;
 import com.boding.util.Util;
 import com.boding.view.dialog.CalendarDialog;
 import com.boding.view.dialog.FilterDialog;
@@ -48,7 +53,7 @@ import android.os.Build;
 public class TicketSearchResultActivity extends FragmentActivity {
 	private TicketSearchResultListIAdapter adapter;
 	private ExpandableListView searchResultListView;
-	
+
 	private AirlineView lastDayAriline;
     private AirlineView todayAirline;
     private AirlineView nextDayAirline;
@@ -80,27 +85,46 @@ public class TicketSearchResultActivity extends FragmentActivity {
     
     //测试用
     private String tempurl = "http://192.168.0.22:9404/FakeBodingServer/XMLServlet?day=today";
+    
+    private TicketSearchResultListAdapter domeAdapter; 
+	private Airlines todayAl;
+	private Airlines lastdayAl;
+	private Airlines nextdayAl; 
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_ticket_search_result);
-		
+
 		initView();
-		
+
 		flightQuery = (FlightQuery)getIntent().getExtras().getParcelable("query");
 		System.out.println("$$$$$$$$$$" + flightQuery.getFromcity());
+
+		DomeFlightQueryTask dfqt = new DomeFlightQueryTask(this);
+		dfqt.execute(flightQuery.getStartdate(), flightQuery.getFromcity(), flightQuery.getTocity());
+		String fromcity = flightQuery.getFromcity();
+		String tocity = flightQuery.getTocity();
+		String date = flightQuery.getStartdate();
+		City from = CityUtil.getCityByName(fromcity);
+		City to = CityUtil.getCityByName(tocity);
+		if(from.isInternationalCity() || to.isInternationalCity()){//国际
+			//此处先使用同一个xml测试
+			String urlstr = "http://192.168.0.22:9404/FakeBodingServer/XMLServlet?day=today";
+			invokeXmlTask(urlstr, 2);
+			invokeXmlTask(urlstr, 1);
+			invokeXmlTask(urlstr, 3);
+		}else{//国内
+			//setDomesticAdapter();
+			queryDomesticFlight(date, fromcity, tocity, 2);
+			queryDomesticFlight(date, fromcity, tocity, 1);
+			queryDomesticFlight(date, fromcity, tocity, 3);
+		}
 		
-		//此处先使用同一个xml测试
-		// before invokeing ,add progress bar
-		String urlstr = "http://192.168.0.22:9404/FakeBodingServer/XMLServlet?day=today";
-		invokeXmlTask(urlstr, 2);
-		invokeXmlTask(urlstr, 1);
-		invokeXmlTask(urlstr, 3);
 		progressDialog = new ProgressBarDialog(TicketSearchResultActivity.this,R.style.Custom_Dialog_Theme);
 		progressDialog.show();
 	}
-	
+
 	private void initView(){
         LinearLayout returnLinearLayout = (LinearLayout)findViewById(R.id.return_logo_linearLayout);
         returnLinearLayout.setOnClickListener(new OnClickListener(){
@@ -141,6 +165,16 @@ public class TicketSearchResultActivity extends FragmentActivity {
   }
 
 	private void addListeners(){
+		searchResultListView.setOnGroupClickListener(new OnGroupClickListener() { 
+			@Override 
+			public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+				if(adapter.isGgroupExpandable(groupPosition)){
+					return false;
+				}
+				return true; 
+			} 
+		});
+		
 		todayLinearLayout.setOnClickListener(new OnClickListener(){
             @Override
             public void onClick(View arg0) {
@@ -223,11 +257,11 @@ public class TicketSearchResultActivity extends FragmentActivity {
 
 			@Override
 			public void onClick(View v) {
-				
+
 //				FilterDialog fd = new FilterDialog();
 //				
 //				fd.show(getSupportFragmentManager(), "filterDialog");
-				
+
 				FilterDialog filterDialog = new FilterDialog(TicketSearchResultActivity.this,R.style.Custom_Dialog_Theme);
 				filterDialog.show();
 			}
@@ -252,9 +286,29 @@ public class TicketSearchResultActivity extends FragmentActivity {
               nextDayPriceTextView.setText(nextDayAirline.getlowestPrice());
 		  else
               nextDayPriceTextView.setText("");
-	        
+
 	  }
 	  
+	  private void setTextViewInfoDome(){
+		  if(lastdayAl!=null)
+              lastDayPriceTextView.setText(lastdayAl.getlowestPrice());
+		  else
+              lastDayPriceTextView.setText("");
+        
+		  if(todayAl!=null){
+              todayDateTextView.setText(todayAl.getDate());
+              todayPriceTextView.setText(todayAl.getlowestPrice());
+		  }else{
+              todayDateTextView.setText(GlobalVariables.Fly_From_Date);
+              todayPriceTextView.setText("");
+		  }
+        
+		  if(nextdayAl!=null)
+              nextDayPriceTextView.setText(nextdayAl.getlowestPrice());
+		  else
+              nextDayPriceTextView.setText("");
+	  }
+
 	  public void setTodayAirlineView(AirlineView todayAV){
 		  if(todayAV==null)
 			  return;
@@ -262,14 +316,14 @@ public class TicketSearchResultActivity extends FragmentActivity {
 	       setAdapter();
 	       progressDialog.dismiss();
 	  }
-	  
+
 	  public void setLastdayAirlineView(AirlineView lastdayAV){
 		  if(lastdayAV==null)
 			  return;
 	        this.lastDayAriline = lastdayAV;
 	        setTextViewInfo();
 	  }
-	  
+
 	  public void setNextdayAirlineView(AirlineView nextdayAV){
 		  if(nextdayAV==null)
 			  return;
@@ -277,6 +331,28 @@ public class TicketSearchResultActivity extends FragmentActivity {
 	        setTextViewInfo();
 	  }
 	  
+	  public void setTodayAirlineView(Airlines _todayAl){
+		  if(_todayAl==null)
+			  return;
+	       this.todayAl = _todayAl;
+	       System.out.println("IN set" + todayAl.getDate() + "   " +todayAl.getFlights().size());
+	       setDomesticAdapter();
+	  }
+	  
+	  public void setLastdayAirlineView(Airlines _lastdayAl){
+		  if(_lastdayAl==null)
+			  return;
+	        this.lastdayAl = _lastdayAl;
+	        setTextViewInfo();
+	  }
+	  
+	  public void setNextdayAirlineView(Airlines _nextdayAl){
+		  if(_nextdayAl==null)
+			  return;
+	        this.nextdayAl = _nextdayAl;
+	        setTextViewInfo();
+	  }
+
 	  private void setAdapter(){
 	        adapter = new TicketSearchResultListIAdapter(this, todayAirline);
 	        searchResultListView.setAdapter(adapter);
@@ -291,15 +367,26 @@ public class TicketSearchResultActivity extends FragmentActivity {
 			} 
 		});
 	  }
-	  
+
 	  private void invokeXmlTask(String url, int whichday){
 		  	XMLTask xmltask = new XMLTask(this, whichday);
 			xmltask.execute(url);
 	  }
-	  
+
 	  public void doFilter(List<String> timeConstraints, List<String> classConstraints, List<String> compConstrains){
 		  TicketSearchResultListIAdapter.FlightLineFilter filter = (TicketSearchResultListIAdapter.FlightLineFilter)adapter.getFilter();
 		  filter.setConstraint(timeConstraints, classConstraints, compConstrains);
 		  filter.filter("");
+	  }
+	  
+	  private void queryDomesticFlight(String date, String fromcity, String tocity, int whichday){
+		  DomeFlightQueryTask dfq = new DomeFlightQueryTask(this, whichday);
+		  dfq.execute(date, fromcity, tocity);
+	  }
+	  
+	  private void setDomesticAdapter(){
+		  domeAdapter = new TicketSearchResultListAdapter(this, todayAl);
+		  searchResultListView.setAdapter(domeAdapter);
+	      setTextViewInfo();
 	  }
 }

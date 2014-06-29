@@ -1,6 +1,8 @@
 package com.boding.app;
 
 
+import java.util.Date;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -192,7 +194,7 @@ public class VoiceSearchActivity extends Activity {
 				if(mTextUnderstander.isUnderstanding()){
 					mTextUnderstander.cancel();
 				}else {
-					int ret = mTextUnderstander.understandText(text, textListener);
+					int ret = mTextUnderstander.understandText(text+"∫Ω∞‡", textListener);
 					if(ret != 0)
 					{
 						System.out.println("”Ô“Â¿ÌΩ‚ ß∞‹,¥ÌŒÛ¬Î:"+ ret);
@@ -220,7 +222,7 @@ public class VoiceSearchActivity extends Activity {
 							if (!TextUtils.isEmpty(text)) {
 								System.out.println("Œƒ◊÷£°£∫   " +text);
 								try {
-									flightQuery = parseJson("∫Ω∞‡"+ text);
+									flightQuery = parseJson(text);
 									if(flightQuery.getRc() == 0)
 										goToSearch();
 									else
@@ -253,12 +255,14 @@ public class VoiceSearchActivity extends Activity {
     	if(rc == 0){
     		JSONObject semantic = result.getJSONObject("semantic");
     		JSONObject slots = semantic.getJSONObject("slots");
-    		JSONObject startDate = slots.getJSONObject("startDate");
+    		JSONObject startDate = slots.optJSONObject("startDate");
     		JSONObject startLoc = slots.getJSONObject("startLoc");
     		JSONObject endLoc = slots.getJSONObject("endLoc");
     		
     		if(startDate != null)
     			fq.setStartdate(startDate.getString("date"));
+    		else
+    			fq.setStartdate(String.format("%tF", new Date()));
     		if(startLoc != null)
     			fq.setFromcity(startLoc.getString("cityAddr"));
     		if(endLoc != null)
