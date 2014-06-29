@@ -33,7 +33,7 @@ import com.boding.model.domestic.Cabin;
 import com.boding.model.domestic.Flight;
 import com.boding.util.Util;
 
-public class TicketSearchResultListAdapter extends BaseExpandableListAdapter {
+public class TicketSearchResultListAdapter extends TicketSearchResultAdapter {
 	private LayoutInflater inflater;  
 	private Airlines airlineView;
     private List<Flight> flightLineList;

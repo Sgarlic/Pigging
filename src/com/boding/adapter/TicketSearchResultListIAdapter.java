@@ -30,7 +30,7 @@ import com.boding.model.FlightClass;
 import com.boding.model.FlightLine;
 import com.boding.util.Util;
 
-public class TicketSearchResultListIAdapter extends BaseExpandableListAdapter {
+public class TicketSearchResultListIAdapter extends TicketSearchResultAdapter {
 	private LayoutInflater inflater;  
 	private AirlineView airlineView;
     private List<FlightLine> flightLineList;

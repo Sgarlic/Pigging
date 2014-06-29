@@ -8,6 +8,7 @@ import com.boding.R;
 import com.boding.R.id;
 import com.boding.R.layout;
 import com.boding.R.menu;
+import com.boding.adapter.TicketSearchResultAdapter;
 import com.boding.adapter.TicketSearchResultListAdapter;
 import com.boding.adapter.TicketSearchResultListIAdapter;
 import com.boding.constants.GlobalVariables;
@@ -51,7 +52,7 @@ import android.widget.TextView;
 import android.os.Build;
 
 public class TicketSearchResultActivity extends FragmentActivity {
-	private TicketSearchResultListIAdapter adapter;
+	private TicketSearchResultAdapter adapter;
 	private ExpandableListView searchResultListView;
 
 	private AirlineView lastDayAriline;
@@ -86,7 +87,6 @@ public class TicketSearchResultActivity extends FragmentActivity {
     //≤‚ ‘”√
     private String tempurl = "http://192.168.0.22:9404/FakeBodingServer/XMLServlet?day=today";
     
-    private TicketSearchResultListAdapter domeAdapter; 
 	private Airlines todayAl;
 	private Airlines lastdayAl;
 	private Airlines nextdayAl; 
@@ -386,8 +386,8 @@ public class TicketSearchResultActivity extends FragmentActivity {
 	  }
 	  
 	  private void setDomesticAdapter(){
-		  domeAdapter = new TicketSearchResultListAdapter(this, todayAl);
-		  searchResultListView.setAdapter(domeAdapter);
+		  adapter = new TicketSearchResultListAdapter(this, todayAl);
+		  searchResultListView.setAdapter(adapter);
 	      setTextViewInfo();
 	  }
 }
