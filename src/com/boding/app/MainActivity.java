@@ -118,16 +118,10 @@ public class MainActivity extends FragmentActivity {
 		initHorizontalViewPager();
 		initVerticalViewPager();
 		
-		initCityList();
 		initLeftPageView();
 		initDownPageView();
 	}
 	
-	private void initCityList(){
-		String testUrl = "http://api.iboding.com/API/Base/QueryAirportCity.ashx?userid=boding&sign=14AD779B4209D8DDC95BD2336D36C015";
-		
-		new InitCityTask(this).execute(testUrl);
-	}
 	
 	private void initLeftPageView(){
 		leftpageFlightWayChooseImageView = (ImageView)leftPageView.findViewById(R.id.left_page_flight_way_choose);

@@ -306,7 +306,6 @@
 	    android:layout_height="wrap_content"
 	    android:orientation="vertical"
         android:layout_weight="11"  >
-
         <ExpandableListView
             android:id="@+id/international_ticket_search_result_expandableListView"
             android:layout_width="match_parent"

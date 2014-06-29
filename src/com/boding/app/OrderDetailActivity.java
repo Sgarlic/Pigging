@@ -111,11 +111,6 @@ public class OrderDetailActivity extends Activity {
 		confirmPayLinearLayout = (LinearLayout)findViewById(R.id.orderdetail_confirmPay_linearLayout);
 		
 		List<Passenger> passengers = new ArrayList<Passenger>();
-		passengers.add(new Passenger("李大嘴","253658798965214563",IdentityType.HX));
-		passengers.add(new Passenger("李大嘴","253658798965214563",IdentityType.NT));
-		passengers.add(new Passenger("李大嘴","253658798965214563",IdentityType.PP));
-		passengers.add(new Passenger("李大嘴","253658798965214563",IdentityType.QT));
-		passengers.add(new Passenger("李大嘴","253658798965214563",IdentityType.TB));
 		
 		passengerAdapter = new PassengerAdapter(this, passengers);
 		passengerListView.setAdapter(passengerAdapter);

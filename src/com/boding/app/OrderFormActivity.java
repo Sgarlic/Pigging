@@ -173,8 +173,8 @@ public class OrderFormActivity extends Activity {
 		addPassengerLinearLayout.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Passenger people = new Passenger("李大嘴"+(count++), "35247412569853265"+(count++),IdentityType.GA); 
-				peopleAdapter.addPassenger(people);
+//				Passenger people = new Passenger("李大嘴"+(count++), "35247412569853265"+(count++),IdentityType.GA); 
+//				peopleAdapter.addPassenger(people);
 				
 				Intent intent = new Intent();
 				intent.setClass(OrderFormActivity.this, ChoosePassengerActivity.class);

@@ -18,6 +18,7 @@ import com.boding.task.XMLTask;
 import com.boding.util.Util;
 import com.boding.view.dialog.CalendarDialog;
 import com.boding.view.dialog.FilterDialog;
+import com.boding.view.dialog.ProgressBarDialog;
 import com.boding.view.dialog.SearchCityDialog;
 
 import android.support.v4.app.Fragment;
@@ -75,6 +76,8 @@ public class TicketSearchResultActivity extends FragmentActivity {
     
     private FlightQuery flightQuery;
     
+    private ProgressBarDialog progressDialog;
+    
     //测试用
     private String tempurl = "http://192.168.0.22:9404/FakeBodingServer/XMLServlet?day=today";
 
@@ -89,10 +92,13 @@ public class TicketSearchResultActivity extends FragmentActivity {
 		System.out.println("$$$$$$$$$$" + flightQuery.getFromcity());
 		
 		//此处先使用同一个xml测试
+		// before invokeing ,add progress bar
 		String urlstr = "http://192.168.0.22:9404/FakeBodingServer/XMLServlet?day=today";
 		invokeXmlTask(urlstr, 2);
 		invokeXmlTask(urlstr, 1);
 		invokeXmlTask(urlstr, 3);
+		progressDialog = new ProgressBarDialog(TicketSearchResultActivity.this,R.style.Custom_Dialog_Theme);
+		progressDialog.show();
 	}
 	
 	private void initView(){
@@ -193,20 +199,19 @@ public class TicketSearchResultActivity extends FragmentActivity {
         });
         
         priceLinearLayout.setOnClickListener(new OnClickListener(){
-
 			@Override
 			public void onClick(View v) {
-//				if(!isPriceAsc){
-//					todayAirline.orderLinesByPrice(true);
-//					priceOrderImageview.setImageResource(R.drawable.datechoice);
-//					adapter.notifyDataSetChanged();
-//					isPriceAsc = true;
-//				}else{
-//					todayAirline.orderLinesByPrice(false);
-//					priceOrderImageview.setImageResource(R.drawable.datechoicegrey);
-//					adapter.notifyDataSetChanged();
-//					isPriceAsc = false;
-//				}
+				if(!isPriceAsc){
+					todayAirline.orderLinesByPrice(true);
+					priceOrderImageview.setImageResource(R.drawable.triangle_up_orange);
+					adapter.notifyDataSetChanged();
+					isPriceAsc = true;
+				}else{
+					todayAirline.orderLinesByPrice(false);
+					priceOrderImageview.setImageResource(R.drawable.triangle_down_orange);
+					adapter.notifyDataSetChanged();
+					isPriceAsc = false;
+				}
 				Intent intent = new Intent();
 				intent.setClass(TicketSearchResultActivity.this, OrderFormActivity.class);
 				startActivityForResult(intent,IntentRequestCode.ORDER_FORM.getRequestCode());
@@ -255,6 +260,7 @@ public class TicketSearchResultActivity extends FragmentActivity {
 			  return;
 	       this.todayAirline = todayAV;
 	       setAdapter();
+	       progressDialog.dismiss();
 	  }
 	  
 	  public void setLastdayAirlineView(AirlineView lastdayAV){

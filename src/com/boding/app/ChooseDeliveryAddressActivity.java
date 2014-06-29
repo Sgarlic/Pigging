@@ -56,9 +56,9 @@ public class ChooseDeliveryAddressActivity extends Activity {
 		deliveryAddrListView = (ListView) findViewById(R.id.choose_deliveryaddress_deliveryAddresses_listView);
 		
 		List<DeliveryAddress> addressList = new ArrayList<DeliveryAddress>();
-		addressList.add(new DeliveryAddress("李大嘴","上海市","宝山区七宝","200000"));
-		addressList.add(new DeliveryAddress("李大嘴1","上海市1","宝山区七宝1","202110"));
-		addressList.add(new DeliveryAddress("李大嘴2","上海市2","宝山区七宝2","203300"));
+//		addressList.add(new DeliveryAddress("李大嘴","上海市","宝山区七宝","200000"));
+//		addressList.add(new DeliveryAddress("李大嘴1","上海市1","宝山区七宝1","202110"));
+//		addressList.add(new DeliveryAddress("李大嘴2","上海市2","宝山区七宝2","203300"));
 		addressAdapter = new DeliveryAddressAdapter(this, addressList);
 		deliveryAddrListView.setAdapter(addressAdapter);
 		
