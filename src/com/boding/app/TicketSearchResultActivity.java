@@ -337,6 +337,7 @@ public class TicketSearchResultActivity extends FragmentActivity {
 	       this.todayAl = _todayAl;
 	       System.out.println("IN set" + todayAl.getDate() + "   " +todayAl.getFlights().size());
 	       setDomesticAdapter();
+	       progressDialog.dismiss();
 	  }
 	  
 	  public void setLastdayAirlineView(Airlines _lastdayAl){
