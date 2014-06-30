@@ -34,7 +34,7 @@ public class MyBodingActivity extends Activity {
 	private LinearLayout myFavoriteLinearLayout;
 	private LinearLayout settingLinearLayout;
 	
-	private boolean hasLogin = true;
+	private boolean hasLogin = false;
 	
 	private String userName = "Àî´ó×ì";
 	
@@ -104,5 +104,10 @@ public class MyBodingActivity extends Activity {
 			loginTextView.setText(userName);
 		else
 			loginTextView.setText("µÇÂ¼");
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
 	}
 }

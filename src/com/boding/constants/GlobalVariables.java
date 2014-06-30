@@ -2,7 +2,10 @@ package com.boding.constants;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import android.content.ContentValues;
+
+import com.boding.model.BodingUser;
 import com.boding.model.City;
 
 public class GlobalVariables {
@@ -28,6 +31,8 @@ public class GlobalVariables {
 	public static String domHotCityFile ="domHotCities";
 	public static String interCityFile ="interCities";
 	public static String interHotCityFile ="interHotCities";
+	
+	public static BodingUser bodingUser = null;
 //	public static boolean isFlyToCitySelection = false;
 //	public static boolean isInternationCitySelection = false;
 }
