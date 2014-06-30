@@ -90,13 +90,15 @@ public class TicketSearchResultActivity extends FragmentActivity {
 	private Airlines todayAl;
 	private Airlines lastdayAl;
 	private Airlines nextdayAl; 
+	
+	private City from;
+	private City to;
+	private String startdate;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_ticket_search_result);
-
-		initView();
 
 		flightQuery = (FlightQuery)getIntent().getExtras().getParcelable("query");
 		System.out.println("$$$$$$$$$$" + flightQuery.getFromcity());
@@ -105,9 +107,10 @@ public class TicketSearchResultActivity extends FragmentActivity {
 		dfqt.execute(flightQuery.getStartdate(), flightQuery.getFromcity(), flightQuery.getTocity());
 		String fromcity = flightQuery.getFromcity();
 		String tocity = flightQuery.getTocity();
-		String date = flightQuery.getStartdate();
-		City from = CityUtil.getCityByName(fromcity);
-		City to = CityUtil.getCityByName(tocity);
+		startdate = flightQuery.getStartdate();
+		from = CityUtil.getCityByName(fromcity);
+		to = CityUtil.getCityByName(tocity);
+		
 		if(from.isInternationalCity() || to.isInternationalCity()){//国际
 			//此处先使用同一个xml测试
 			String urlstr = "http://192.168.0.22:9404/FakeBodingServer/XMLServlet?day=today";
@@ -116,10 +119,14 @@ public class TicketSearchResultActivity extends FragmentActivity {
 			invokeXmlTask(urlstr, 3);
 		}else{//国内
 			//setDomesticAdapter();
-			queryDomesticFlight(date, fromcity, tocity, 2);
-			queryDomesticFlight(date, fromcity, tocity, 1);
-			queryDomesticFlight(date, fromcity, tocity, 3);
+			String fromcode = from.getCityCode();
+			String tocode = to.getCityCode();
+			queryDomesticFlight(startdate, fromcode, tocode, 2);
+			queryDomesticFlight(startdate, fromcode, tocode, 1);
+			queryDomesticFlight(startdate, fromcode, tocode, 3);
 		}
+		
+		initView();
 		
 		progressDialog = new ProgressBarDialog(TicketSearchResultActivity.this,R.style.Custom_Dialog_Theme);
 		progressDialog.show();
@@ -154,10 +161,10 @@ public class TicketSearchResultActivity extends FragmentActivity {
         leatimeOrderImageview = (ImageView)findViewById(R.id.leatime_order_imageview);
         priceOrderImageview = (ImageView)findViewById(R.id.price_order_imageview);
         
-        fromCityTextView.setText(GlobalVariables.Fly_From_City.getCityName());
-        fromCityCodeTextView.setText(GlobalVariables.Fly_From_City.getCityCode());
-        toCityTextView.setText(GlobalVariables.Fly_To_City.getCityName());
-        toCityCodeTextView.setText(GlobalVariables.Fly_To_City.getCityCode());
+        fromCityTextView.setText(from.getCityName());
+        fromCityCodeTextView.setText(from.getCityCode());
+        toCityTextView.setText(to.getCityName());
+        toCityCodeTextView.setText(to.getCityCode());
         
         setTextViewInfo();
         
@@ -278,7 +285,7 @@ public class TicketSearchResultActivity extends FragmentActivity {
               todayDateTextView.setText(todayAirline.getGoDate());
               todayPriceTextView.setText(todayAirline.getlowestPrice());
 		  }else{
-              todayDateTextView.setText(GlobalVariables.Fly_From_Date);
+              todayDateTextView.setText(startdate);
               todayPriceTextView.setText("");
 		  }
         
@@ -299,7 +306,7 @@ public class TicketSearchResultActivity extends FragmentActivity {
               todayDateTextView.setText(todayAl.getDate());
               todayPriceTextView.setText(todayAl.getlowestPrice());
 		  }else{
-              todayDateTextView.setText(GlobalVariables.Fly_From_Date);
+              todayDateTextView.setText(startdate);
               todayPriceTextView.setText("");
 		  }
         

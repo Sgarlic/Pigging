@@ -42,14 +42,13 @@ public class DomeFlightQueryTask extends AsyncTask<Object,Void,Object> {
 	@Override
 	protected Object doInBackground(Object... params) {
 		String date = (String) params[0];
-		String fromcity = "SHA";
-		String tocity = "PEK";
+		String fromcity = (String)params[1];
+		String tocity = (String)params[2];
 		
 		StringBuilder sb = new StringBuilder();
-		sb.append("boding");
-		
-		sb.append("SHA");
-		sb.append("PEK");
+		sb.append("boding");	
+		sb.append(fromcity);
+		sb.append(tocity);
 		sb.append(date);
 		//sb.append("android");
 		String sign=null;
@@ -63,9 +62,9 @@ public class DomeFlightQueryTask extends AsyncTask<Object,Void,Object> {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		//String urlStr = "http://user.iboarding.cn/API/DataInterface/BBCData.ashx?userid=boding&date="+date+"&dpt="+fromcity+
-				//"&arr="+tocity+"&sign="+sign;
-		String urlStr = "http://user.iboarding.cn/API/DataInterface/BBCData.ashx?userid=boding&dpt=SHA&arr=PEK&date=2014-06-29&sign="+sign;
+		String urlStr = "http://user.iboarding.cn/API/DataInterface/BBCData.ashx?userid=boding&dpt="+fromcity+
+				"&arr="+tocity+"&date="+date+"&sign="+sign;
+		//String urlStr = "http://user.iboarding.cn/API/DataInterface/BBCData.ashx?userid=boding&dpt=SHA&arr=PEK&date=2014-06-29&sign="+sign;
 		System.out.println(urlStr);
 		URL url;
 		try {

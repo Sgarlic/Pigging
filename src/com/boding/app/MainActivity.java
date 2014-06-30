@@ -19,6 +19,7 @@ import com.boding.view.layout.OrderFlightInfoLayout;
 import com.boding.view.layout.CalendarLayout.OnItemClickListener;
 import com.boding.R;
 import com.boding.model.City;
+import com.boding.model.FlightQuery;
 
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
@@ -163,6 +164,13 @@ public class MainActivity extends FragmentActivity {
 			public void onClick(View arg0) {
 				Intent intent = new Intent();
 				intent.setClass(MainActivity.this, TicketSearchResultActivity.class);
+				FlightQuery fq = new FlightQuery();
+				fq.setFromcity((String)leftpageFlyFromTextView.getText());
+				fq.setTocity((String)leftpageFlyToTextView.getText());
+				fq.setStartdate((String)leftpageFlyFromDateTextView.getText());
+				Bundle bundle = new Bundle();
+				bundle.putParcelable("query", fq);
+				intent.putExtras(bundle);
 				startActivityForResult(intent,IntentRequestCode.TICKET_SEARCH.getRequestCode());
 			}
 		});
