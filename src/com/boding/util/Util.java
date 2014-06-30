@@ -422,4 +422,19 @@ public class Util {
 			return true;
 		return false;
 	}
+	
+	public static String formatDateString(String orgin){
+		String[] parts = orgin.split("-");
+		if(parts.length != 3) return "1991-03-22"; 
+		StringBuilder sb = new StringBuilder();
+		sb.append(parts[0]);
+		sb.append("-");
+		if(parts[1].length() < 2)
+			sb.append("0");
+		sb.append(parts[1]).append("-");
+		if(parts[2].length() < 2)
+			sb.append("0");
+		sb.append(parts[2]);
+		return sb.toString();
+	}
 }

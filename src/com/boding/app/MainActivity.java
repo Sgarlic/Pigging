@@ -167,7 +167,7 @@ public class MainActivity extends FragmentActivity {
 				FlightQuery fq = new FlightQuery();
 				fq.setFromcity((String)leftpageFlyFromTextView.getText());
 				fq.setTocity((String)leftpageFlyToTextView.getText());
-				fq.setStartdate((String)leftpageFlyFromDateTextView.getText());
+				fq.setStartdate(Util.formatDateString((String)leftpageFlyFromDateTextView.getText()));
 				Bundle bundle = new Bundle();
 				bundle.putParcelable("query", fq);
 				intent.putExtras(bundle);
