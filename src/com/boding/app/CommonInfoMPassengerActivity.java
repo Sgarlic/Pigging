@@ -4,10 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.boding.R;
+import com.boding.constants.Constants;
+import com.boding.constants.HTTPAction;
 import com.boding.constants.IdentityType;
 import com.boding.constants.IntentRequestCode;
+import com.boding.http.HttpConnector;
 import com.boding.model.Passenger;
 import com.boding.util.Util;
+import com.boding.view.dialog.ProgressBarDialog;
 
 import android.app.Activity;
 import android.content.Context;
@@ -27,6 +31,8 @@ public class CommonInfoMPassengerActivity extends Activity {
 	private LinearLayout addPassengerLinearLayout;
 	private TextView noPassengerTextView;
 	private ListView passengerListView;
+	
+	private ProgressBarDialog progressBarDialog;
 	
 	
 	private PassengerAdapter peopleAdapter;
@@ -56,21 +62,32 @@ public class CommonInfoMPassengerActivity extends Activity {
 		noPassengerTextView = (TextView) findViewById(R.id.commoninfomanagement_passenger_noPassenger_textView);
 		passengerListView = (ListView) findViewById(R.id.commoninfomanagement_passenger_passenger_listView);
 		
-		List<Passenger> peopleList = new ArrayList<Passenger>();
-		peopleList.add(new Passenger("李大嘴", "325478569852314569",IdentityType.GA));
-		peopleList.add(new Passenger("李大232嘴", "256542d14589631452",IdentityType.HX));
-		peopleList.add(new Passenger("李大嘴wew", "1225478965325468774",IdentityType.NT));
-		peopleAdapter = new PassengerAdapter(this, peopleList);
-		passengerListView.setAdapter(peopleAdapter);
-		
-		addListeenrs();
+		addListeners();
 	}
 	
 	private void viewContentSetting(){
+		progressBarDialog = new ProgressBarDialog(this, Constants.DIALOG_STYLE);
+		progressBarDialog.show();
 		
+		HttpConnector httpConnector = new HttpConnector(this, HTTPAction.GET_PASSENGERLIST_MANAGEMENT);
+		httpConnector.execute();
 	}
 	
-	private void addListeenrs(){
+	private void refreshView(){
+		if(peopleAdapter.getCount() > 0)
+			noPassengerTextView.setVisibility(View.GONE);
+		else
+			noPassengerTextView.setVisibility(View.VISIBLE);
+	}
+	
+	public void setPassengerList(List<Passenger> passengerList){
+		peopleAdapter = new PassengerAdapter(this, passengerList);
+		passengerListView.setAdapter(peopleAdapter);
+		refreshView();
+		progressBarDialog.dismiss();
+	}
+	
+	private void addListeners(){
 		addPassengerLinearLayout.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
@@ -116,8 +133,8 @@ public class CommonInfoMPassengerActivity extends Activity {
 	            holder = new ViewHolder();  
 	            
 	            holder.nameTextView = (TextView) convertView.findViewById(R.id.commoninfom_passenger_name_textView);
-	            holder.idNumberTextView = (TextView) convertView.findViewById(R.id.commoninfom_passenger_idType_textView);
-	            holder.idTypeTextView = (TextView) convertView.findViewById(R.id.commoninfom_passenger_idnumber_textView);
+	            holder.idNumberTextView = (TextView) convertView.findViewById(R.id.commoninfom_passenger_idnumber_textView);
+	            holder.idTypeTextView = (TextView) convertView.findViewById(R.id.commoninfom_passenger_idType_textView);
 	            holder.editLinearLayout = (LinearLayout) convertView.findViewById(R.id.commoninfom_passenger_edit_linearLayout);
 	            
 	            convertView.setTag(holder);  
@@ -127,6 +144,7 @@ public class CommonInfoMPassengerActivity extends Activity {
 			
 			Passenger people = getItem(position);
             holder.nameTextView.setText(people.getName());
+            holder.idTypeTextView.setText(people.getIdentityType().getIdentityName());
             holder.idNumberTextView.setText(people.getCardNumber());
 	        return convertView;  
 		}

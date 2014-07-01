@@ -9,6 +9,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -16,12 +17,14 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.boding.app.CommonInfoMPassengerActivity;
 import com.boding.app.LoginActivity;
 import com.boding.app.TicketSearchResultActivity;
 import com.boding.constants.Constants;
 import com.boding.constants.GlobalVariables;
 import com.boding.constants.HTTPAction;
 import com.boding.model.BodingUser;
+import com.boding.model.Country;
 import com.boding.model.Passenger;
 import com.boding.model.domestic.Airlines;
 import com.boding.util.Encryption;
@@ -53,18 +56,19 @@ public class HttpConnector extends AsyncTask<Object,Void,Object>{
 		}
 		
 		String urlFormat = "http://api.iboding.com/API/User/Passenger/QueryPassengerInfo.ashx?userid=%s&cardno=%s&sign=%s";
-		String urlStr =  String.format(urlFormat,Constants.BODINGACCOUNT,GlobalVariables.bodingUser.getCardno());
+		String urlStr =  String.format(urlFormat,Constants.BODINGACCOUNT,GlobalVariables.bodingUser.getCardno(),sign);
 		String result = connectingServer(urlStr);
 		try {
 			JSONObject resultJson = new JSONObject(result);
-			String resultCode = resultJson.getString("result");
-			if(resultCode.equals("0")){
-//				bodingUser = new BodingUser(Boolean.parseBoolean(resultJson.getString("activated_state")), resultJson.getString("mobile"),
-//						resultJson.getString("cardno"),	resultJson.getString("cardid"), resultJson.getString("name"), 
-//						resultJson.getString("nickname"),resultJson.getString("pictureimages"), resultJson.getString("login_type"));
+			JSONArray jsonArray = resultJson.getJSONArray("data");
+			for(int i = 0;i<jsonArray.length();i++){
+				JSONObject passengerJSON = jsonArray.getJSONObject(i);
+				passengers.add(new Passenger(passengerJSON.getString("auto_id"),
+						passengerJSON.getString("cardno"),passengerJSON.getString("name"),
+						passengerJSON.getString("E_name"),passengerJSON.getString("birthday"),
+						passengerJSON.getString("nationality"),passengerJSON.getString("PassPaper")));
 			}
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -135,6 +139,9 @@ public class HttpConnector extends AsyncTask<Object,Void,Object>{
 				password = (String) params[1];
 				result = login(userName, password);
 				break;
+			case GET_PASSENGERLIST_MANAGEMENT:
+				result = getPassengerList();
+				break;
 			default:
 				break;
 		}
@@ -157,6 +164,10 @@ public class HttpConnector extends AsyncTask<Object,Void,Object>{
 				if (result!=null){
 					Util.successLogin(context, (BodingUser)result, userName, password);
 				}
+				break;
+			case GET_PASSENGERLIST_MANAGEMENT:
+				CommonInfoMPassengerActivity passengerActivity = (CommonInfoMPassengerActivity)context;
+				passengerActivity.setPassengerList((List<Passenger>) result);
 				break;
 			default:
 				break;

@@ -16,6 +16,7 @@ import java.util.regex.Pattern;
 import com.boding.R;
 import com.boding.constants.Constants;
 import com.boding.constants.GlobalVariables;
+import com.boding.constants.IdentityType;
 import com.boding.constants.IntentRequestCode;
 import com.boding.constants.SharedPreferencesAttributes;
 import com.boding.model.BodingUser;
@@ -471,5 +472,21 @@ public class Util {
 		// set username and password
 		setStringSharedPreferences(context, SharedPreferencesAttributes.LOGIN_USERNAME, userName);
 		setStringSharedPreferences(context, SharedPreferencesAttributes.LOGIN_PASSWORD, password);
+	}
+	
+	public static IdentityType getIdentityTypeFromIDCode(String idCode){
+		if(idCode.equals("NT")){
+			return IdentityType.NT;
+		}else if(idCode.equals("PP")){
+			return IdentityType.PP;
+		}else if(idCode.equals("GA")){
+			return IdentityType.GA;
+		}else if(idCode.equals("TB")){
+			return IdentityType.TB;
+		}else if(idCode.equals("HX")){
+			return IdentityType.HX;
+		}
+
+		return IdentityType.QT;
 	}
 }

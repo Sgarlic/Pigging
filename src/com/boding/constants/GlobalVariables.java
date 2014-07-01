@@ -7,6 +7,7 @@ import android.content.ContentValues;
 
 import com.boding.model.BodingUser;
 import com.boding.model.City;
+import com.boding.model.Country;
 
 public class GlobalVariables {
 	public static City Fly_From_City = null;
@@ -25,12 +26,14 @@ public class GlobalVariables {
 	public static List<City> interHotCitiesList = new ArrayList<City>();
 	public static List<City> domHistoryCitiesList = new ArrayList<City>();
 	public static List<City> interHistoryCitiesList = new ArrayList<City>();
+	public static List<Country> allCountriesList = new ArrayList<Country>();
 	
 	public static String filepath ="/data/data/com.boding/files/";
 	public static String domeCityFile ="domeCities";
 	public static String domHotCityFile ="domHotCities";
 	public static String interCityFile ="interCities";
 	public static String interHotCityFile ="interHotCities";
+	public static String allCountriesFile = "allCountries";
 	
 	public static BodingUser bodingUser = null;
 //	public static boolean isFlyToCitySelection = false;

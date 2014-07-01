@@ -8,6 +8,7 @@ import com.boding.constants.HTTPAction;
 import com.boding.constants.SharedPreferencesAttributes;
 import com.boding.http.HttpConnector;
 import com.boding.task.InitCityTask;
+import com.boding.task.InitCountryTask;
 import com.boding.util.Util;
 
 import android.app.Activity;
@@ -53,8 +54,6 @@ public class LauncherActivity extends Activity {
 	    {  
 	        Log.d("debug", "第一次运行");  
 	        Util.setBooleanSharedPreferences(this, SharedPreferencesAttributes.IS_FIRSTRUN, false);
-	        
-	        initCityList();
 	    } else  
 	    {  
 	        Log.d("debug", "不是第一次运行");
@@ -70,5 +69,7 @@ public class LauncherActivity extends Activity {
 	        	}
 	        }
 	    }  
+	    initCityList();
+	    new InitCountryTask(this).execute();
 	}
 }
