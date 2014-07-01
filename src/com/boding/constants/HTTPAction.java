@@ -1,11 +1,8 @@
 package com.boding.constants;
 
 public enum HTTPAction {
-	LOGIN(0);
-	
-	private int actionCode;
-	
-	private HTTPAction(int actionCode){
-		this.actionCode =actionCode;
-	}
+	LOGIN,
+	LAUNCHER_LOGIN,
+	GET_PASSENGERLIST,
+	GET_PASSENGERLIST_MANAGEMENT;
 }

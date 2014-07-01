@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.boding.R;
+import com.boding.constants.GlobalVariables;
 import com.boding.constants.IntentRequestCode;
+import com.boding.constants.SharedPreferencesAttributes;
 import com.boding.model.Passenger;
 import com.boding.util.Util;
 import com.boding.view.dialog.SelectionDialog;
@@ -72,7 +74,16 @@ public class MyPersonalInfoActivity extends Activity {
 		changePhoneNumLinearLayout = (LinearLayout)findViewById(R.id.mypersonalinfo_changePhoneNum_linearLayout);
 		exitLinearLayout = (LinearLayout)findViewById(R.id.mypersonalinfo_exit_linearLayout);
 		
+		setBodingUserInfo();
+		
 		addListeners();
+	}
+	
+	private void setBodingUserInfo(){
+		userNameTextView.setText(GlobalVariables.bodingUser.getWelcomeName());
+		nameInfoTextView.setText(GlobalVariables.bodingUser.getName());
+		genderInfoTextView.setText(GlobalVariables.bodingUser.getGender());
+		birthdayInfoTextView.setText(GlobalVariables.bodingUser.getBirthdayInfo());
 	}
 	
 	private void addListeners(){
@@ -100,6 +111,16 @@ public class MyPersonalInfoActivity extends Activity {
 				Intent intent = new Intent();
 				intent.setClass(MyPersonalInfoActivity.this, ChangePhonenumActivity.class);
 				startActivityForResult(intent, IntentRequestCode.CHANGE_PHONENUM.getRequestCode());
+			}
+		});
+		exitLinearLayout.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				GlobalVariables.bodingUser = null;
+				Util.setStringSharedPreferences(MyPersonalInfoActivity.this, SharedPreferencesAttributes.LOGIN_EXPIREDATE, "1991-01-01");
+				Util.setBooleanSharedPreferences(MyPersonalInfoActivity.this, SharedPreferencesAttributes.IS_AUTOLOGIN, false);
+				
+				Util.returnToPreviousPage(MyPersonalInfoActivity.this, IntentRequestCode.MYPERSONALINFO);
 			}
 		});
 	}

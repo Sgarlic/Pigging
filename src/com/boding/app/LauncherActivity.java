@@ -1,8 +1,14 @@
 package com.boding.app;
 
+import java.util.Calendar;
+
 import com.boding.R;
 import com.boding.R.layout;
+import com.boding.constants.HTTPAction;
+import com.boding.constants.SharedPreferencesAttributes;
+import com.boding.http.HttpConnector;
 import com.boding.task.InitCityTask;
+import com.boding.util.Util;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -40,20 +46,29 @@ public class LauncherActivity extends Activity {
 	}
 	
 	private void something(){
-		SharedPreferences sharedPreferences = this.getSharedPreferences("share", MODE_PRIVATE);  
+		SharedPreferences sharedPreferences = Util.getSharedPreferences(this);  
         
-	    boolean isFirstRun = sharedPreferences.getBoolean("isFirstRun", true);  
-	    Editor editor = sharedPreferences.edit();  	      
+	    boolean isFirstRun = sharedPreferences.getBoolean(SharedPreferencesAttributes.IS_FIRSTRUN, true);  
 	    if (isFirstRun)  
 	    {  
 	        Log.d("debug", "第一次运行");  
-	        editor.putBoolean("isFirstRun", false);  
-	        editor.commit();  
+	        Util.setBooleanSharedPreferences(this, SharedPreferencesAttributes.IS_FIRSTRUN, false);
+	        
+	        initCityList();
 	    } else  
 	    {  
-	        Log.d("debug", "不是第一次运行");  
+	        Log.d("debug", "不是第一次运行");
+	        boolean isAutoLogin = sharedPreferences.getBoolean(SharedPreferencesAttributes.IS_AUTOLOGIN, true);
+	        if(isAutoLogin){
+	        	String expireDate = sharedPreferences.getString(SharedPreferencesAttributes.LOGIN_EXPIREDATE,"1991-01-01");
+	        	String nowDate = Util.getFormatedDate(Calendar.getInstance());
+	        	if(expireDate.compareTo(nowDate) > -1 ){
+	        		String userName = sharedPreferences.getString(SharedPreferencesAttributes.LOGIN_USERNAME,"");
+	        		String password = sharedPreferences.getString(SharedPreferencesAttributes.LOGIN_PASSWORD,"");
+	        		HttpConnector httpConnector = new HttpConnector(this,HTTPAction.LAUNCHER_LOGIN);
+	        		httpConnector.execute(userName,password);
+	        	}
+	        }
 	    }  
-	    
-	    initCityList();
 	}
 }

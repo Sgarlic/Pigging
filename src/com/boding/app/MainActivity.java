@@ -272,6 +272,15 @@ public class MainActivity extends FragmentActivity {
 				startActivityForResult(intent, IntentRequestCode.MYBODING.getRequestCode());
 			}
 		});
+		
+		downpageCommonInfoLayout.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				Intent intent = new Intent();
+				intent.setClass(MainActivity.this, CommonInfoActivity.class);
+				startActivityForResult(intent, IntentRequestCode.COMMON_INFO.getRequestCode());				
+			}
+		});
 	}
 	
 	private void initPopupWindow(boolean isAdult, int parentWidth){

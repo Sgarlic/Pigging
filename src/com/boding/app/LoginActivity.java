@@ -128,9 +128,15 @@ public class LoginActivity extends Activity {
 		});
 	}
 	
-	public void loginSuccess(BodingUser bodingUser){
+	public void loginSuccess(){
 		progressDialog.dismiss();
-		GlobalVariables.bodingUser = bodingUser;
 		Util.returnToPreviousPage(LoginActivity.this, IntentRequestCode.LOGIN);
+	}
+	
+	public void loginFailed(){
+		progressDialog.dismiss();
+		WarningDialog warningDialog = new WarningDialog(this, Constants.DIALOG_STYLE);
+		warningDialog.setContent("错误的用户名/密码");
+		warningDialog.show();
 	}
 }

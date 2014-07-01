@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.boding.R;
+import com.boding.constants.GlobalVariables;
 import com.boding.constants.IntentRequestCode;
+import com.boding.model.BodingUser;
 import com.boding.model.Passenger;
 import com.boding.util.Util;
 import com.boding.view.dialog.SelectionDialog;
@@ -14,6 +16,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,8 +48,8 @@ public class MyBodingActivity extends Activity {
 //		Bundle arguments = getIntent().getExtras();
 //        if(arguments != null)
 //        	isReturnDateSelection = arguments.getBoolean(Constants.IS_RETURN_DATE_SELECTION);
-        
 		initView();
+		viewContentSetting();
 	}
 	
 	private void initView(){
@@ -65,9 +68,12 @@ public class MyBodingActivity extends Activity {
 		myFavoriteLinearLayout = (LinearLayout)findViewById(R.id.myboding_myFavorite_linearLayout);
 		settingLinearLayout = (LinearLayout)findViewById(R.id.myboding_setting_linearLayout);
 		
-		loginTextViewSetting();
-		
 		addListeners();
+	}
+	
+	private void viewContentSetting(){
+		judgeLogin();
+		loginTextViewSetting();
 	}
 	
 	private void addListeners(){
@@ -109,5 +115,15 @@ public class MyBodingActivity extends Activity {
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
+		viewContentSetting();
+	}
+	
+	private void judgeLogin(){
+		if(GlobalVariables.bodingUser == null)
+			hasLogin = false;
+		else{
+			hasLogin = true;
+			userName = GlobalVariables.bodingUser.getWelcomeName();
+		}
 	}
 }

@@ -1,5 +1,7 @@
 package com.boding.model;
 
+import com.boding.constants.Gender;
+
 public class BodingUser {
 	private boolean activated_state;//0、未激活(需激活) 1、已激活(激活后才算登录成功)
 	private String mobile;//手机号为空表示未绑定手机号码
@@ -10,16 +12,33 @@ public class BodingUser {
 	private String portrait;//头像
 	private String login_type;//登录方式 :cardno 用户代码/卡号、email 邮箱 、mobile 手机 、kuaijie 快捷登录
 	
+	private Gender gender = Gender.Male;
+	private String birthdayInfo = "1979-01-01";
+	
 	public BodingUser(boolean activated_state, String mobile, String cardno, String cardid, String name, String nickname, String portrait,
 			String login_type){
-		this.activated_state = activated_state;
-		this.mobile = mobile;
-		this.cardno = cardno;
-		this.cardid = cardid;
-		this.name = name;
-		this.nickname = nickname;
-		this.portrait = portrait;
-		this.login_type = login_type;
+		setActivated_state(activated_state);
+		setMobile(mobile);
+		setCardno(cardno);
+		setCardid(cardid);
+		setName(nickname);
+		setNickname(nickname);
+		setPortrait(portrait);
+		setLogin_type(login_type);
+	}
+	
+	public BodingUser(boolean activated_state, String mobile, String cardno, String cardid, String name, String nickname, String portrait,
+			String login_type, String genderCode, String birthdayInfo){
+		setActivated_state(activated_state);
+		setMobile(mobile);
+		setCardno(cardno);
+		setCardid(cardid);
+		setName(nickname);
+		setNickname(nickname);
+		setPortrait(portrait);
+		setLogin_type(login_type);
+		setGender(genderCode);
+		setBirthdayInfo(birthdayInfo);
 	}
 	
 	public String getWelcomeName(){
@@ -79,5 +98,24 @@ public class BodingUser {
 	}
 	public void setLogin_type(String login_type) {
 		this.login_type = login_type;
+	}
+
+	public String getGender() {
+		return gender.toString();
+	}
+
+	public void setGender(String genderCode) {
+		if(genderCode.equals("M"))
+			this.gender = Gender.Male;
+		else
+			this.gender = Gender.Female;
+	}
+
+	public String getBirthdayInfo() {
+		return birthdayInfo;
+	}
+
+	public void setBirthdayInfo(String birthdayInfo) {
+		this.birthdayInfo = birthdayInfo;
 	}
 }

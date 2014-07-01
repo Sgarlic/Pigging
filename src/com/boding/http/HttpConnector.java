@@ -6,6 +6,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -17,18 +19,56 @@ import android.util.Log;
 import com.boding.app.LoginActivity;
 import com.boding.app.TicketSearchResultActivity;
 import com.boding.constants.Constants;
+import com.boding.constants.GlobalVariables;
 import com.boding.constants.HTTPAction;
 import com.boding.model.BodingUser;
+import com.boding.model.Passenger;
 import com.boding.model.domestic.Airlines;
 import com.boding.util.Encryption;
+import com.boding.util.Util;
 
 public class HttpConnector extends AsyncTask<Object,Void,Object>{
 	private Context context;
 	private HTTPAction action;
+
+	private String userName;
+	private String password;
 	
 	public HttpConnector(Context context, HTTPAction action){
 		this.context = context;
 		this.action = action;
+	}
+	
+	public static List<Passenger> getPassengerList(){
+		List<Passenger> passengers = new ArrayList<Passenger>();
+		StringBuilder sb = new StringBuilder();
+		sb.append(Constants.BODINGACCOUNT);
+		sb.append(GlobalVariables.bodingUser.getCardno());
+		String sign = "";
+		try {
+			sb.append(Encryption.getMD5(Constants.BODINGKEY).toUpperCase());
+			sign = Encryption.getMD5(sb.toString()).toUpperCase();
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
+		
+		String urlFormat = "http://api.iboding.com/API/User/Passenger/QueryPassengerInfo.ashx?userid=%s&cardno=%s&sign=%s";
+		String urlStr =  String.format(urlFormat,Constants.BODINGACCOUNT,GlobalVariables.bodingUser.getCardno());
+		String result = connectingServer(urlStr);
+		try {
+			JSONObject resultJson = new JSONObject(result);
+			String resultCode = resultJson.getString("result");
+			if(resultCode.equals("0")){
+//				bodingUser = new BodingUser(Boolean.parseBoolean(resultJson.getString("activated_state")), resultJson.getString("mobile"),
+//						resultJson.getString("cardno"),	resultJson.getString("cardid"), resultJson.getString("name"), 
+//						resultJson.getString("nickname"),resultJson.getString("pictureimages"), resultJson.getString("login_type"));
+			}
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return passengers;
 	}
 	
 	public static BodingUser login(String userName,String password){
@@ -48,7 +88,6 @@ public class HttpConnector extends AsyncTask<Object,Void,Object>{
 		String urlFormat = "http://api.iboding.com/API/User/UserLogin.ashx?userid=%s&username=%s&password=%s&sign=%s";
 		String urlStr =  String.format(urlFormat,Constants.BODINGACCOUNT,userName,password,sign);
 		String result = connectingServer(urlStr);
-		
 		try {
 			JSONObject resultJson = new JSONObject(result);
 			String resultCode = resultJson.getString("result");
@@ -73,6 +112,7 @@ public class HttpConnector extends AsyncTask<Object,Void,Object>{
 			url = new URL(urlStr);
 			HttpURLConnection httpc = (HttpURLConnection)url.openConnection();
 			httpc.connect();
+			
 			InputStream is = httpc.getInputStream();
 			BufferedReader reader = new BufferedReader(new InputStreamReader(is));
 			String lines;
@@ -90,9 +130,11 @@ public class HttpConnector extends AsyncTask<Object,Void,Object>{
 		Object result = new Object();
 		switch (action) {
 			case LOGIN:
-				result = login((String) params[0], (String) params[1]);
+			case LAUNCHER_LOGIN:
+				userName = (String) params[0];
+				password = (String) params[1];
+				result = login(userName, password);
 				break;
-	
 			default:
 				break;
 		}
@@ -101,7 +143,23 @@ public class HttpConnector extends AsyncTask<Object,Void,Object>{
 	
 	@Override  
 	 protected void onPostExecute(Object result) {
-		LoginActivity loginActivity = (LoginActivity) context;
-		loginActivity.loginSuccess((BodingUser)result);
+		switch (action) {
+			case LOGIN:
+				LoginActivity loginActivity = (LoginActivity) context;
+				if(result == null)
+					loginActivity.loginFailed();
+				else{
+					Util.successLogin(context, (BodingUser)result, userName, password);
+					loginActivity.loginSuccess();
+				}
+				break;
+			case LAUNCHER_LOGIN:
+				if (result!=null){
+					Util.successLogin(context, (BodingUser)result, userName, password);
+				}
+				break;
+			default:
+				break;
+		}
 	}
 }

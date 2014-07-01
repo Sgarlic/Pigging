@@ -17,6 +17,8 @@ import com.boding.R;
 import com.boding.constants.Constants;
 import com.boding.constants.GlobalVariables;
 import com.boding.constants.IntentRequestCode;
+import com.boding.constants.SharedPreferencesAttributes;
+import com.boding.model.BodingUser;
 import com.boding.model.City;
 import com.boding.view.dialog.WarningDialog;
 
@@ -32,6 +34,8 @@ import android.app.Dialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -436,5 +440,36 @@ public class Util {
 			sb.append("0");
 		sb.append(parts[2]);
 		return sb.toString();
+	}
+	
+	public static SharedPreferences getSharedPreferences(Context context){
+		return context.getSharedPreferences("share", context.MODE_PRIVATE);  
+	}
+	
+	public static void setBooleanSharedPreferences(Context context, String key, boolean value){
+		Editor editor = getSharedPreferences(context).edit();
+		editor.putBoolean(key, value);
+		editor.commit();
+	}
+	
+	public static void setStringSharedPreferences(Context context, String key, String value){
+		Editor editor = getSharedPreferences(context).edit();
+		editor.putString(key, value);
+		editor.commit();
+	}
+	
+	public static void successLogin(Context context, BodingUser bodingUser, String userName, String password){
+		GlobalVariables.bodingUser = bodingUser;
+		// set autologin
+		setBooleanSharedPreferences(context, SharedPreferencesAttributes.IS_AUTOLOGIN, true);
+		
+		// set expire date
+		Calendar calendar = Calendar.getInstance();
+		calendar.add(Calendar.MONTH, 1);
+		setStringSharedPreferences(context, SharedPreferencesAttributes.LOGIN_EXPIREDATE, Util.getFormatedDate(calendar));
+		
+		// set username and password
+		setStringSharedPreferences(context, SharedPreferencesAttributes.LOGIN_USERNAME, userName);
+		setStringSharedPreferences(context, SharedPreferencesAttributes.LOGIN_PASSWORD, password);
 	}
 }
