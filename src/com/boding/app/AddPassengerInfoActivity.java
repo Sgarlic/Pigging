@@ -172,11 +172,22 @@ public class AddPassengerInfoActivity extends Activity {
 	}
 	
 	public void setAddPassengerResult(boolean result){
-		System.out.println("add passenger       " + result);
+		handleResult(result, IntentExtraAttribute.ADD_PASSENGER_EXTRA);
+	}
+	
+	public void setEditPassengerResult(boolean result){
+		handleResult(result, IntentExtraAttribute.EDIT_PASSENGER_EXTRA);
+	}
+	
+	public void setDeletePassengerResult(boolean result){
+		handleResult(result, IntentExtraAttribute.DELETE_PASSENGER_EXTRA);
+	}
+	
+	private void handleResult(boolean result, String extraKey){
 		progressBarDialog.dismiss();
 		if(result){
 			Intent intent=new Intent();
-			intent.putExtra(IntentExtraAttribute.ADD_PASSENGER_EXTRA, passenger);
+			intent.putExtra(extraKey, passenger);
 			setResult(IntentRequestCode.ADD_PASSENGERINFO.getRequestCode(), intent);
 			finish();
 		}else{
@@ -255,6 +266,15 @@ public class AddPassengerInfoActivity extends Activity {
 					(new PassengerTask(AddPassengerInfoActivity.this, HTTPAction.EDIT_PASSENGER)).execute(passenger);
 				else
 					(new PassengerTask(AddPassengerInfoActivity.this, HTTPAction.ADD_PASSENGER)).execute(passenger);
+			}
+		});
+		
+		completeLinearLayout.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				progressBarDialog.show();
+				(new PassengerTask(AddPassengerInfoActivity.this, HTTPAction.DELETE_PASSENGER))
+				.execute(passenger.getAuto_id());
 			}
 		});
 		

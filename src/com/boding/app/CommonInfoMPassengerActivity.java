@@ -143,6 +143,11 @@ public class CommonInfoMPassengerActivity extends Activity {
 			passengerList.add(passenger);
 			notifyDataSetChanged();
 		}
+		
+		public void removePassenger(Passenger passenger){
+			passengerList.remove(passenger);
+			notifyDataSetChanged();
+		}
 
 		@Override
 		public View getView(final int position, View convertView, ViewGroup parent) {
@@ -197,10 +202,15 @@ public class CommonInfoMPassengerActivity extends Activity {
 				return;
 			if(data.getExtras().containsKey(IntentExtraAttribute.ADD_PASSENGER_EXTRA)){
 				Passenger passenger = (Passenger) data.getExtras().get(IntentExtraAttribute.ADD_PASSENGER_EXTRA);
-				if(passenger.getAuto_id() == null)
-					peopleAdapter.addPassenger(passenger);
-				else
-					peopleAdapter.resetPassenger(passenger);
+				peopleAdapter.addPassenger(passenger);
+			}
+			if(data.getExtras().containsKey(IntentExtraAttribute.EDIT_PASSENGER_EXTRA)){
+				Passenger passenger = (Passenger) data.getExtras().get(IntentExtraAttribute.EDIT_PASSENGER_EXTRA);
+				peopleAdapter.resetPassenger(passenger);
+			}
+			if(data.getExtras().containsKey(IntentExtraAttribute.DELETE_PASSENGER_EXTRA)){
+				Passenger passenger = (Passenger) data.getExtras().get(IntentExtraAttribute.DELETE_PASSENGER_EXTRA);
+				peopleAdapter.removePassenger(passenger);
 			}
 		}
 	}
