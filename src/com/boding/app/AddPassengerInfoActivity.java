@@ -5,17 +5,26 @@ import java.util.Calendar;
 import java.util.List;
 
 import com.boding.R;
+import com.boding.constants.Constants;
+import com.boding.constants.HTTPAction;
 import com.boding.constants.IdentityType;
+import com.boding.constants.IntentExtraAttribute;
 import com.boding.constants.IntentRequestCode;
+import com.boding.http.HttpConnector;
+import com.boding.model.BodingUser;
 import com.boding.model.Passenger;
+import com.boding.task.PassengerTask;
 import com.boding.util.Util;
+import com.boding.view.dialog.ProgressBarDialog;
 import com.boding.view.dialog.SelectionDialog;
+import com.boding.view.dialog.WarningDialog;
 import com.boding.view.layout.OrderFlightInfoLayout;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -33,6 +42,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 public class AddPassengerInfoActivity extends Activity {
+	private TextView titleTextView;
 	private LinearLayout completeLinearLayout;
 	private TextView passengerNameTextView;
 	private EditText passengerNameEditText;
@@ -48,22 +58,36 @@ public class AddPassengerInfoActivity extends Activity {
 	private TextView choosedGenderTextView;
 	private LinearLayout chooseBirthdayLinearLayout;
 	private TextView choosedBirthdayTextView;
+	private LinearLayout deletePassengerLinearLayout;
 	
-	private IdentityType selectedIDType = null;
 	private boolean isChoosingBirthday = false;
+	private boolean isEditing = false;
+	private boolean isMangingPassenger = false;
+	
+	private Passenger passenger;
+	
+	private ProgressBarDialog progressBarDialog;
+	private WarningDialog warningDialog;
 	
 	List<String> idTypeList;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_add_passengerinfo);
 		
-//		selectedIDType = IdentityType.values()[0];
-//		Bundle arguments = getIntent().getExtras();
-//        if(arguments != null)
-//        	isReturnDateSelection = arguments.getBoolean(Constants.IS_RETURN_DATE_SELECTION);
-        
+		Bundle arguments = getIntent().getExtras();
+        if(arguments != null){
+        	isMangingPassenger = arguments.getBoolean(IntentExtraAttribute.IS_MANAGE_PASSENGER);
+        	isEditing = arguments.getBoolean(IntentExtraAttribute.IS_EDIT_PASSENGER);
+        	if(isEditing){
+        		passenger = (Passenger) arguments.getSerializable(IntentExtraAttribute.IS_EDIT_PASSENGER_PASSENGERINFO);
+        	}else
+        		passenger = new Passenger();
+        }
+		progressBarDialog = new ProgressBarDialog(this, Constants.DIALOG_STYLE);
+		warningDialog = new WarningDialog(this, Constants.DIALOG_STYLE);
+		
 		initView();
 	}
 	
@@ -76,6 +100,8 @@ public class AddPassengerInfoActivity extends Activity {
 			}
 			
 		});
+		
+		titleTextView = (TextView) findViewById(R.id.addpassenger_title_textView);
 		completeLinearLayout = (LinearLayout) findViewById(R.id.addpassenger_complete_linearLayout);
 
 		passengerNameTextView = (TextView) findViewById(R.id.addpassenger_passengerName_textView);
@@ -92,8 +118,9 @@ public class AddPassengerInfoActivity extends Activity {
 		choosedGenderTextView = (TextView) findViewById(R.id.addpassenger_choosedGender_textView);
 		chooseBirthdayLinearLayout = (LinearLayout) findViewById(R.id.addpassenger_chooseBirthday_linearLayout);
 		choosedBirthdayTextView = (TextView) findViewById(R.id.addpassenger_choosedBirthday_textView);
-
-		setViewAccordingtoIDType();
+		deletePassengerLinearLayout = (LinearLayout) findViewById(R.id.addpassenger_deletePassenger_linearLayout);
+		
+		setViewFromPassengerInfo();
 		addListeners();
 		
 		idTypeList = new ArrayList<String>();
@@ -106,29 +133,131 @@ public class AddPassengerInfoActivity extends Activity {
 		@Override
 		public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
 			String choosedDate = Util.getFormatedDate(year, monthOfYear, dayOfMonth);
-			if(isChoosingBirthday)
+			if(isChoosingBirthday){
 				choosedBirthdayTextView.setText(choosedDate);
-			else
+				passenger.setBirthday(choosedDate);
+			}
+			else{
 				choosedValidDateTextView.setText(choosedDate);
+				passenger.setValidDate(choosedDate);
+			}
+			setViewFromPassengerInfo();
 		}
 	};
 	
 	private void showDatePickerDialog(){
 		Calendar calendar = Calendar.getInstance();
 		DatePickerDialog datepickerDialog = new DatePickerDialog(AddPassengerInfoActivity.this,dateSetListener,
-				calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH));
+				calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH));;
 		if(isChoosingBirthday){
+			if(passenger.getBirthday() != null){
+				String[] dateArray = passenger.getBirthday().split("-");
+				
+				datepickerDialog = new DatePickerDialog(AddPassengerInfoActivity.this,dateSetListener,
+						Integer.parseInt(dateArray[0]),Integer.parseInt(dateArray[1]) -1 ,Integer.parseInt(dateArray[2]));
+			}
 			datepickerDialog.setTitle("选择出生日期");
 			datepickerDialog.getDatePicker().setMaxDate(calendar.getTimeInMillis());
 		}
 		else{
+			if(passenger.getValidDate() != null){
+				String[] dateArray = passenger.getValidDate().split("-");
+				datepickerDialog = new DatePickerDialog(AddPassengerInfoActivity.this,dateSetListener,
+						Integer.parseInt(dateArray[0]),Integer.parseInt(dateArray[1]) -1 ,Integer.parseInt(dateArray[2]));
+			}
 			datepickerDialog.setTitle("选择有效日期");
 			datepickerDialog.getDatePicker().setMinDate(calendar.getTimeInMillis());
 		}
 		datepickerDialog.show();
 	}
 	
+	public void setAddPassengerResult(boolean result){
+		System.out.println("add passenger       " + result);
+		progressBarDialog.dismiss();
+		if(result){
+			Intent intent=new Intent();
+			intent.putExtra(IntentExtraAttribute.ADD_PASSENGER_EXTRA, passenger);
+			setResult(IntentRequestCode.ADD_PASSENGERINFO.getRequestCode(), intent);
+			finish();
+		}else{
+			warningDialog.setContent("请填写正确的信息");
+			warningDialog.show();
+		}
+	}
+	
 	private void addListeners(){
+		completeLinearLayout.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				String passengerName = passengerNameEditText.getText().toString();
+				String passengerIDNumber = IDNumberEditText.getText().toString();
+				// required name and paper number
+				if(passenger.getIdentityType() == null){
+					warningDialog.setContent("请选择证件类型");
+					warningDialog.show();
+					return;
+				}
+				if(passengerIDNumber.length() == 0){
+					warningDialog.setContent("证件号不能为空");
+					warningDialog.show();
+					return;
+				}
+				
+				
+				if(passenger.getIdentityType() == IdentityType.NI){
+					if(passengerName.length() < 2 || !Util.checkIfChinese(passengerName)){
+						warningDialog.setContent("请填写正确的名字");
+						warningDialog.show();
+						return;
+					}
+				}
+				else{
+					if(passengerName.length() < 2 || Util.checkIfChinese(passengerName) || !passengerName.contains("/")){
+						warningDialog.setContent("请填写正确的名字");
+						warningDialog.show();
+						return;
+					}
+					if(passenger.getNationality().equals("")){
+						warningDialog.setContent("请选择国籍");
+						warningDialog.show();
+						return;
+					}
+					if(passenger.getGender() == null){
+						warningDialog.setContent("请选择性别");
+						warningDialog.show();
+						return;
+					}
+					if(passenger.getBirthday().equals("")){
+						warningDialog.setContent("请选择出生日期");
+						warningDialog.show();
+						return;
+					}
+					if(passenger.getValidDate().equals("")){
+						warningDialog.setContent("请选择有效日期");
+						warningDialog.show();
+						return;
+					}
+//					passenger.setNationality("美国-US");
+//					passenger.setBirthday("1991-03-22");
+//					passenger.setValidDate("2017-03-22");
+				}
+				
+				
+				passenger.setName(passengerName);
+				passenger.seteName(passengerName);
+				passenger.setCardNumber(passengerIDNumber);
+				
+//				passenger.setName("饶礼仁");
+//				passenger.seteName("lili/Li");
+//				passenger.setCardNumber("35079011156570");
+				progressBarDialog.show();
+				if(isEditing)
+					(new PassengerTask(AddPassengerInfoActivity.this, HTTPAction.EDIT_PASSENGER)).execute(passenger);
+				else
+					(new PassengerTask(AddPassengerInfoActivity.this, HTTPAction.ADD_PASSENGER)).execute(passenger);
+			}
+		});
+		
 		chooseIDTypeLinearLayout.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
@@ -137,8 +266,8 @@ public class AddPassengerInfoActivity extends Activity {
 				chooseIDTypeDialog.setOnItemSelectedListener(new SelectionDialog.OnItemSelectedListener() {
 					@Override
 					public void OnItemSelected(int position) {
-						selectedIDType = IdentityType.values()[position];
-						setViewAccordingtoIDType();
+						passenger.setIdentityType(IdentityType.values()[position]);
+						setViewFromPassengerInfo();
 					}
 				});
 				chooseIDTypeDialog.show();
@@ -164,12 +293,19 @@ public class AddPassengerInfoActivity extends Activity {
 		chooseGenderLinearLayout.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				List<String> genderList = new ArrayList<String>();
+				final List<String> genderList = new ArrayList<String>();
 				genderList.add("男");
 				genderList.add("女");
 				
 				SelectionDialog chooseGenderDialog = new SelectionDialog(AddPassengerInfoActivity.this,
 						R.style.Custom_Dialog_Theme, "选择性别",genderList);
+				chooseGenderDialog.setOnItemSelectedListener(new SelectionDialog.OnItemSelectedListener() {
+					@Override
+					public void OnItemSelected(int position) {
+						passenger.setGenderFromGName(genderList.get(position));
+						setViewFromPassengerInfo();
+					}
+				});
 				chooseGenderDialog.show();
 			}
 		});
@@ -184,18 +320,90 @@ public class AddPassengerInfoActivity extends Activity {
 		});
 	}
 	
-	private void setViewAccordingtoIDType(){
-		if(selectedIDType == null)
+	private void setViewFromPassengerInfo(){
+		if(isEditing){
+			if(isMangingPassenger)
+				titleTextView.setText("编辑常用旅客");
+			else
+				titleTextView.setText("编辑登机人");
+		}else{
+			if(isMangingPassenger)
+				titleTextView.setText("新增常用旅客");
+			else
+				titleTextView.setText("新增登机人");
+			deletePassengerLinearLayout.setVisibility(View.GONE);
+		}
+		
+		if(passenger.getIdentityType() == null){
+			otherIDTypeLinearLayout.setVisibility(View.INVISIBLE);
+			choosedIDTypeTextView.setSelected(false);
 			return;
-		if(selectedIDType.isDomestic()){
+		}
+		if(passenger.getIdentityType().isDomestic()){
 			passengerNameTextView.setText("姓名");
 			passengerNameEditText.setHint("所选证件姓名");
 			otherIDTypeLinearLayout.setVisibility(View.INVISIBLE);
+			if(passenger.getName() != null)
+				passengerNameEditText.setText(passenger.getName());;
 		}else{
 			passengerNameTextView.setText("英文姓名");
 			passengerNameEditText.setHint("Last(姓)/First(名)");
 			otherIDTypeLinearLayout.setVisibility(View.VISIBLE);
+			if(passenger.geteName() != null)
+				passengerNameEditText.setText(passenger.geteName());;
 		}
-		choosedIDTypeTextView.setText(selectedIDType.getIdentityName());
+		
+		if(passenger.getCardNumber() != null)
+			IDNumberEditText.setText(passenger.getCardNumber());
+		
+		choosedIDTypeTextView.setText(passenger.getIdentityType().getIdentityName());
+		choosedIDTypeTextView.setSelected(true);
+		
+		if(passenger.getNationality() == null){
+			choosedNationalityTextView.setSelected(false);
+		}else{
+			choosedNationalityTextView.setSelected(true);
+			choosedNationalityTextView.setText(getNationalityName());
+		}
+	
+		if(passenger.getGender() == null){
+			choosedGenderTextView.setSelected(false);
+		}else{
+			choosedGenderTextView.setSelected(true);
+			choosedGenderTextView.setText(passenger.getGender().toString());
+		}
+		
+		if(passenger.getBirthday() == null){
+			choosedBirthdayTextView.setSelected(false);
+		}else{
+			choosedBirthdayTextView.setSelected(true);
+			choosedBirthdayTextView.setText(passenger.getBirthday());
+		}
+		
+		if(passenger.getValidDate() == null){
+			choosedValidDateTextView.setSelected(false);
+		}else{
+			choosedValidDateTextView.setSelected(true);
+			choosedValidDateTextView.setText(passenger.getValidDate());
+		}
+	}
+	
+	private String getNationalityName(){
+		return passenger.getNationality().split("-")[0];
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if(data == null)
+			return;
+		if(requestCode==IntentRequestCode.NATIONALITY_SELECTION.getRequestCode()){
+			if(data.getExtras() == null)
+				return;
+			if(data.getExtras().containsKey(IntentExtraAttribute.SELECTED_NATIONAL)){
+				passenger.setNationality((String) data.getExtras().get(IntentExtraAttribute.SELECTED_NATIONAL));
+				setViewFromPassengerInfo();
+			}
+		}
 	}
 }

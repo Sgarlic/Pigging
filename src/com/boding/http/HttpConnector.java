@@ -3,8 +3,10 @@ package com.boding.http;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,12 +19,14 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.boding.app.AddPassengerInfoActivity;
 import com.boding.app.CommonInfoMPassengerActivity;
 import com.boding.app.LoginActivity;
 import com.boding.app.TicketSearchResultActivity;
 import com.boding.constants.Constants;
 import com.boding.constants.GlobalVariables;
 import com.boding.constants.HTTPAction;
+import com.boding.constants.IdentityType;
 import com.boding.model.BodingUser;
 import com.boding.model.Country;
 import com.boding.model.Passenger;
@@ -40,39 +44,6 @@ public class HttpConnector extends AsyncTask<Object,Void,Object>{
 	public HttpConnector(Context context, HTTPAction action){
 		this.context = context;
 		this.action = action;
-	}
-	
-	public static List<Passenger> getPassengerList(){
-		List<Passenger> passengers = new ArrayList<Passenger>();
-		StringBuilder sb = new StringBuilder();
-		sb.append(Constants.BODINGACCOUNT);
-		sb.append(GlobalVariables.bodingUser.getCardno());
-		String sign = "";
-		try {
-			sb.append(Encryption.getMD5(Constants.BODINGKEY).toUpperCase());
-			sign = Encryption.getMD5(sb.toString()).toUpperCase();
-		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
-		}
-		
-		String urlFormat = "http://api.iboding.com/API/User/Passenger/QueryPassengerInfo.ashx?userid=%s&cardno=%s&sign=%s";
-		String urlStr =  String.format(urlFormat,Constants.BODINGACCOUNT,GlobalVariables.bodingUser.getCardno(),sign);
-		String result = connectingServer(urlStr);
-		try {
-			JSONObject resultJson = new JSONObject(result);
-			JSONArray jsonArray = resultJson.getJSONArray("data");
-			for(int i = 0;i<jsonArray.length();i++){
-				JSONObject passengerJSON = jsonArray.getJSONObject(i);
-				passengers.add(new Passenger(passengerJSON.getString("auto_id"),
-						passengerJSON.getString("cardno"),passengerJSON.getString("name"),
-						passengerJSON.getString("E_name"),passengerJSON.getString("birthday"),
-						passengerJSON.getString("nationality"),passengerJSON.getString("PassPaper")));
-			}
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		
-		return passengers;
 	}
 	
 	public static BodingUser login(String userName,String password){
@@ -139,9 +110,6 @@ public class HttpConnector extends AsyncTask<Object,Void,Object>{
 				password = (String) params[1];
 				result = login(userName, password);
 				break;
-			case GET_PASSENGERLIST_MANAGEMENT:
-				result = getPassengerList();
-				break;
 			default:
 				break;
 		}
@@ -164,10 +132,6 @@ public class HttpConnector extends AsyncTask<Object,Void,Object>{
 				if (result!=null){
 					Util.successLogin(context, (BodingUser)result, userName, password);
 				}
-				break;
-			case GET_PASSENGERLIST_MANAGEMENT:
-				CommonInfoMPassengerActivity passengerActivity = (CommonInfoMPassengerActivity)context;
-				passengerActivity.setPassengerList((List<Passenger>) result);
 				break;
 			default:
 				break;

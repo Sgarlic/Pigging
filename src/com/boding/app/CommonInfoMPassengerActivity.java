@@ -7,9 +7,11 @@ import com.boding.R;
 import com.boding.constants.Constants;
 import com.boding.constants.HTTPAction;
 import com.boding.constants.IdentityType;
+import com.boding.constants.IntentExtraAttribute;
 import com.boding.constants.IntentRequestCode;
 import com.boding.http.HttpConnector;
 import com.boding.model.Passenger;
+import com.boding.task.PassengerTask;
 import com.boding.util.Util;
 import com.boding.view.dialog.ProgressBarDialog;
 
@@ -36,6 +38,8 @@ public class CommonInfoMPassengerActivity extends Activity {
 	
 	
 	private PassengerAdapter peopleAdapter;
+	
+	private Bundle bundle;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -49,6 +53,9 @@ public class CommonInfoMPassengerActivity extends Activity {
 	}
 	
 	private void initView(){
+		bundle = new Bundle();
+		bundle.putBoolean(IntentExtraAttribute.IS_MANAGE_PASSENGER, true);
+		
 		LinearLayout returnLinearLayout = (LinearLayout)findViewById(R.id.return_logo_linearLayout);
 		returnLinearLayout.setOnClickListener(new OnClickListener(){
 			@Override
@@ -69,8 +76,8 @@ public class CommonInfoMPassengerActivity extends Activity {
 		progressBarDialog = new ProgressBarDialog(this, Constants.DIALOG_STYLE);
 		progressBarDialog.show();
 		
-		HttpConnector httpConnector = new HttpConnector(this, HTTPAction.GET_PASSENGERLIST_MANAGEMENT);
-		httpConnector.execute();
+		PassengerTask passengerTask = new PassengerTask(this, HTTPAction.GET_PASSENGERLIST_MANAGEMENT);
+		passengerTask.execute();
 	}
 	
 	private void refreshView(){
@@ -92,6 +99,8 @@ public class CommonInfoMPassengerActivity extends Activity {
 			@Override
 			public void onClick(View arg0) {
 				Intent intent = new Intent();
+				bundle.putBoolean(IntentExtraAttribute.IS_EDIT_PASSENGER, false);
+				intent.putExtras(bundle);
 				intent.setClass(CommonInfoMPassengerActivity.this, AddPassengerInfoActivity.class);
 				startActivityForResult(intent, IntentRequestCode.ADD_PASSENGERINFO.getRequestCode());
 			}
@@ -120,6 +129,16 @@ public class CommonInfoMPassengerActivity extends Activity {
 			return position;
 		}
 		
+		public void resetPassenger(Passenger passenger){
+			for(int i = 0 ;i < passengerList.size(); i++){
+				Passenger pass = passengerList.get(i);
+				if (pass.getAuto_id().equals(passenger.getAuto_id())){
+					passengerList.set(i, passenger);
+				}
+			}
+			notifyDataSetChanged();
+		}
+		
 		public void addPassenger(Passenger passenger){
 			passengerList.add(passenger);
 			notifyDataSetChanged();
@@ -142,10 +161,21 @@ public class CommonInfoMPassengerActivity extends Activity {
 	            holder = (ViewHolder) convertView.getTag();  
 	        }  
 			
-			Passenger people = getItem(position);
-            holder.nameTextView.setText(people.getName());
+			final Passenger people = getItem(position);
+            holder.nameTextView.setText(people.getDiaplayName());
             holder.idTypeTextView.setText(people.getIdentityType().getIdentityName());
             holder.idNumberTextView.setText(people.getCardNumber());
+            holder.editLinearLayout.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					Intent intent = new Intent();
+					bundle.putBoolean(IntentExtraAttribute.IS_EDIT_PASSENGER, true);
+					bundle.putSerializable(IntentExtraAttribute.IS_EDIT_PASSENGER_PASSENGERINFO, people);
+					intent.putExtras(bundle);
+					intent.setClass(CommonInfoMPassengerActivity.this, AddPassengerInfoActivity.class);
+					startActivityForResult(intent, IntentRequestCode.ADD_PASSENGERINFO.getRequestCode());
+				}
+			});
 	        return convertView;  
 		}
 		
@@ -154,6 +184,24 @@ public class CommonInfoMPassengerActivity extends Activity {
 			TextView idNumberTextView;
 			TextView idTypeTextView;
 			LinearLayout editLinearLayout;
+		}
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if(data == null)
+			return;
+		if(requestCode==IntentRequestCode.ADD_PASSENGERINFO.getRequestCode()){
+			if(data.getExtras() == null)
+				return;
+			if(data.getExtras().containsKey(IntentExtraAttribute.ADD_PASSENGER_EXTRA)){
+				Passenger passenger = (Passenger) data.getExtras().get(IntentExtraAttribute.ADD_PASSENGER_EXTRA);
+				if(passenger.getAuto_id() == null)
+					peopleAdapter.addPassenger(passenger);
+				else
+					peopleAdapter.resetPassenger(passenger);
+			}
 		}
 	}
 }
