@@ -14,6 +14,7 @@ import com.boding.http.HttpConnector;
 import com.boding.model.BodingUser;
 import com.boding.model.Passenger;
 import com.boding.task.PassengerTask;
+import com.boding.util.DateUtil;
 import com.boding.util.Util;
 import com.boding.view.dialog.ProgressBarDialog;
 import com.boding.view.dialog.SelectionDialog;
@@ -132,7 +133,7 @@ public class AddPassengerInfoActivity extends Activity {
 	DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener(){
 		@Override
 		public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-			String choosedDate = Util.getFormatedDate(year, monthOfYear, dayOfMonth);
+			String choosedDate = DateUtil.getFormatedDate(year, monthOfYear, dayOfMonth);
 			if(isChoosingBirthday){
 				choosedBirthdayTextView.setText(choosedDate);
 				passenger.setBirthday(choosedDate);

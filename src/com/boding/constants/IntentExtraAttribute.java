@@ -9,4 +9,6 @@ public class IntentExtraAttribute {
 	public static final String PREVIOUS_ACTIVITY = "previous_activity";
 	public static final String FLIGHT_QUERY = "flightQuery";
 	public static final String IS_SINGLE_WAY = "isSingleWay";
+	public static final String EDIT_PASSENGER_EXTRA = "editPassenger";
+	public static final String DELETE_PASSENGER_EXTRA = "deletePassenger";
 }
