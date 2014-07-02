@@ -15,10 +15,6 @@ public class BodingUser {
 	private Gender gender = Gender.Male;
 	private String birthdayInfo = "1979-01-01";
 	
-	public BodingUser(){
-		
-	}
-	
 	public BodingUser(boolean activated_state, String mobile, String cardno, String cardid, String name, String nickname, String portrait,
 			String login_type){
 		setActivated_state(activated_state);
@@ -109,7 +105,10 @@ public class BodingUser {
 	}
 
 	public void setGender(String genderCode) {
-		this.gender = Gender.getGenderFromCode(genderCode);
+		if(genderCode.equals("M"))
+			this.gender = Gender.Male;
+		else
+			this.gender = Gender.Female;
 	}
 
 	public String getBirthdayInfo() {

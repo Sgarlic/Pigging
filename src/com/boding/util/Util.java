@@ -11,7 +11,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.boding.R;
@@ -125,19 +124,11 @@ public class Util {
 		activity.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
 	}
 	
-	/**
-	 * 输入年，月，日
-	 * 返回yyyy-mm-dd
-	 * @param year
-	 * @param month
-	 * @param dayOfMonth
-	 * @return
-	 */
 	public static String getFormatedDate(int year,int month,int dayOfMonth){
 		month+=1;
-		String selectedDate = "%s-%02d-%02d";
+		String selectedDate = "%s-%s-%s";
 		return String.format(
-				selectedDate, String.valueOf(year),month,dayOfMonth);
+				selectedDate, String.valueOf(year),String.valueOf(month),String.valueOf(dayOfMonth));
 	}
 	
 	public static String getFormatedDate(Calendar calendar){
@@ -483,15 +474,19 @@ public class Util {
 		setStringSharedPreferences(context, SharedPreferencesAttributes.LOGIN_PASSWORD, password);
 	}
 	
-	public static boolean checkIfChinese(String str) {
-		boolean mark = false;
-		Pattern pattern = Pattern.compile("[\u4E00-\u9FA5]");
-		Matcher matc = pattern.matcher(str);
-		StringBuffer stb = new StringBuffer();
-		while (matc.find()) {
-			mark = true;
-		    stb.append(matc.group());
+	public static IdentityType getIdentityTypeFromIDCode(String idCode){
+		if(idCode.equals("NT")){
+			return IdentityType.NT;
+		}else if(idCode.equals("PP")){
+			return IdentityType.PP;
+		}else if(idCode.equals("GA")){
+			return IdentityType.GA;
+		}else if(idCode.equals("TB")){
+			return IdentityType.TB;
+		}else if(idCode.equals("HX")){
+			return IdentityType.HX;
 		}
-		return mark;
+
+		return IdentityType.QT;
 	}
 }

@@ -40,7 +40,6 @@
 			    android:orientation="horizontal">
 
 		        <TextView
-		            android:id="@+id/addpassenger_title_textView"
 		            android:layout_width="wrap_content"
 		            android:layout_height="wrap_content"
 		            android:layout_gravity="center_vertical"
@@ -151,7 +150,7 @@
 		        android:layout_gravity="center_vertical"
 		        android:gravity="top"
 		        android:text="请选择证件类型"
-		        android:textColor="@layout/selector_textview_of_selectedandunselected"
+		        android:textColor="@color/listviewDividerColor"
 		        android:textSize="17sp"
 		        android:typeface="serif" />
 
@@ -217,7 +216,7 @@
 			        android:layout_gravity="center_vertical"
 			        android:gravity="top"
 			        android:text="请选择有效期"
-			        android:textColor="@layout/selector_textview_of_selectedandunselected"
+			        android:textColor="@color/listviewDividerColor"
 			        android:textSize="17sp"
 			        android:typeface="serif" />
 			</LinearLayout>
@@ -246,7 +245,7 @@
 			        android:layout_gravity="center_vertical"
 			        android:gravity="top"
 			        android:text="请选择国籍"
-			        android:textColor="@layout/selector_textview_of_selectedandunselected"
+			        android:textColor="@color/listviewDividerColor"
 			        android:textSize="17sp"
 			        android:typeface="serif" />
 				
@@ -298,7 +297,7 @@
 			        android:layout_gravity="center_vertical"
 			        android:gravity="top"
 			        android:text="请选择性别"
-			        android:textColor="@layout/selector_textview_of_selectedandunselected"
+			        android:textColor="@color/listviewDividerColor"
 			        android:textSize="17sp"
 			        android:typeface="serif" />
 			</LinearLayout>
@@ -326,56 +325,9 @@
 			        android:layout_gravity="center_vertical"
 			        android:gravity="top"
 			        android:text="请选择出生日期"
-			        android:textColor="@layout/selector_textview_of_selectedandunselected"
+			        android:textColor="@color/listviewDividerColor"
 			        android:textSize="17sp"
 			        android:typeface="serif" />
-			</LinearLayout>
-		</LinearLayout>
-		<LinearLayout
-		    android:layout_width="match_parent"
-		    android:layout_height="wrap_content"
-		    android:orientation="horizontal"
-		    android:paddingTop="5dp">
-			<TextView
-			    android:layout_width="wrap_content"
-			    android:layout_height="wrap_content"
-			    android:layout_gravity="center_horizontal"
-			    android:text="注：为了您能顺序出行，请确保旅行结束日期至少比证件有效期早6个月"
-			    android:textColor="@color/textOrange"
-			    android:textSize="12sp"
-			    android:typeface="serif" />
-		</LinearLayout>
-		<LinearLayout
-		    android:layout_width="match_parent"
-		    android:layout_height="match_parent"
-		    android:orientation="horizontal"
-		    android:paddingBottom="5dp">
-
-			<LinearLayout
-			    android:id="@+id/addpassenger_deletePassenger_linearLayout"
-			    android:layout_width="match_parent"
-			    android:layout_height="40dp"
-			    android:layout_gravity="bottom"
-			    android:layout_marginBottom="10dp"
-			    android:background="@color/panelOrange"
-			    android:orientation="horizontal" >
-	
-				<LinearLayout
-				    android:layout_width="match_parent"
-				    android:layout_height="wrap_content"
-				    android:layout_gravity="center_vertical"
-				    android:background="@color/panelOrange"
-				    android:orientation="vertical" >
-					<TextView
-					    android:layout_width="wrap_content"
-					    android:layout_height="wrap_content"
-					    android:layout_gravity="center_horizontal"
-					    android:text="删除登机人"
-					    android:textColor="@color/white"
-					    android:textSize="22sp"
-					    android:textStyle="bold"
-					    android:typeface="serif" />
-				</LinearLayout>
 			</LinearLayout>
 		</LinearLayout>
     </LinearLayout>

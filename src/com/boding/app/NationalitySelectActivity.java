@@ -1,19 +1,16 @@
 package com.boding.app;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.AdapterView.OnItemClickListener;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -23,8 +20,6 @@ import java.util.List;
 
 import com.boding.R;
 import com.boding.constants.Constants;
-import com.boding.constants.GlobalVariables;
-import com.boding.constants.IntentExtraAttribute;
 import com.boding.constants.IntentRequestCode;
 import com.boding.model.Country;
 import com.boding.util.Util;
@@ -37,12 +32,13 @@ public class NationalitySelectActivity extends FragmentActivity {
 	private CountryListAdapter countryAdapter;
 	private HashMap<String, Integer> alphaIndexer;//存放存在的汉语拼音首字母和与之对应的列表位置
 	private String[] sections;//存放存在的汉语拼音首字母
+	private List<Country> allCountryList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-//        Bundle arguments = getIntent().getExtras();
+        Bundle arguments = getIntent().getExtras();
          
         setContentView(R.layout.activity_nationality_select);
        
@@ -58,12 +54,27 @@ public class NationalitySelectActivity extends FragmentActivity {
 			}
         });
         
+        allCountryList = new ArrayList<Country>();
+        allCountryList.add(new Country("中国大陆"));
+        allCountryList.add(new Country("中国香港"));
+        allCountryList.add(new Country("中国澳门"));
+        allCountryList.add(new Country("中国台湾"));
+        allCountryList.add(new Country("美国"));
+        allCountryList.add(new Country("英国"));
+        allCountryList.add(new Country("日本"));
+        allCountryList.add(new Country("加拿大"));
+        allCountryList.add(new Country("法国"));
+        allCountryList.add(new Country("韩国"));
+        allCountryList.add(new Country("德国"));
+        allCountryList.add(new Country("巴西"));
+        allCountryList.add(new Country("西班牙"));
+        allCountryList.add(new Country("葡萄牙"));
         LinearLayout nationalitySearchLinearLayout = (LinearLayout)findViewById(R.id.nationality_search_linearLayout);
         nationalitySearchLinearLayout.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View arg0) {
 				SearchNationalityDialog searchNationalityDialog = new SearchNationalityDialog(NationalitySelectActivity.this,
-						R.style.Custom_Dialog_Theme,GlobalVariables.allCountriesList);
+						R.style.Custom_Dialog_Theme,allCountryList);
 				searchNationalityDialog.show();
 			}
         });
@@ -73,33 +84,17 @@ public class NationalitySelectActivity extends FragmentActivity {
         letterListView.setOnTouchingLetterChangedListener(new LetterListViewListener());
         
         List<Country> hotCountryList = new ArrayList<Country>();
-        for(Country country : GlobalVariables.allCountriesList){
-        	if (country.isCountryHot())
-        		hotCountryList.add(country);
-        }
-        countryAdapter = new CountryListAdapter(this,hotCountryList,GlobalVariables.allCountriesList);
+        hotCountryList.add(new Country("中国大陆"));
+        hotCountryList.add(new Country("中国香港"));
+        hotCountryList.add(new Country("中国澳门"));
+        hotCountryList.add(new Country("中国台湾"));
+        hotCountryList.add(new Country("美国"));
+        hotCountryList.add(new Country("英国"));
+        hotCountryList.add(new Country("日本"));
+        hotCountryList.add(new Country(""));
+        hotCountryList.add(new Country(""));
+        countryAdapter = new CountryListAdapter(this,hotCountryList,allCountryList);
         nationalityListView.setAdapter(countryAdapter);
-        
-        addListenters();
-    }
-    private void addListenters(){
-    	nationalityListView.setOnItemClickListener(new OnItemClickListener(){
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				//parent	The AdapterView where the selection happened
-				//view	The view within the AdapterView that was clicked
-				//position	The position of the view in the adapter
-				//id	The row id of the item that is selected
-				
-				Country country = countryAdapter.getItem(position);
-				Intent intent=new Intent();
-				intent.putExtra(IntentExtraAttribute.SELECTED_NATIONAL, 
-						country.getCountryName()+"-"+country.getCountryCode());
-				setResult(IntentRequestCode.NATIONALITY_SELECTION.getRequestCode(), intent);
-				finish();
-			}
-    		
-    	});
     }
     
     private class CountryListAdapter extends BaseAdapter {

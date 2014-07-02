@@ -58,7 +58,7 @@ public class ChoosePassengerActivity extends Activity {
 		List<Passenger> peopleList = new ArrayList<Passenger>();
 		peopleList.add(new Passenger("李大嘴", "325478569852314569",IdentityType.GA));
 		peopleList.add(new Passenger("李大232嘴", "256542d14589631452",IdentityType.HX));
-		peopleList.add(new Passenger("李大嘴wew", "1225478965325468774",IdentityType.NI));
+		peopleList.add(new Passenger("李大嘴wew", "1225478965325468774",IdentityType.NT));
 		peopleAdapter = new PassengerAdapter(this, peopleList);
 		passengerListView.setAdapter(peopleAdapter);
 		
