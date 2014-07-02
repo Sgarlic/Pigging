@@ -176,6 +176,40 @@ public class PassengerTask extends AsyncTask<Object,Void,Object>{
 		return resultCode;
 	}
 	
+	public static boolean deletePassenger(String passengerID){
+		boolean resultCode = false;
+		StringBuilder sb = new StringBuilder();
+		sb.append(Constants.BODINGACCOUNT);
+		sb.append(GlobalVariables.bodingUser.getCardno());
+		String sign = "";
+		
+		sb.append(passengerID);
+		
+		try {
+			sb.append(Encryption.getMD5(Constants.BODINGKEY).toUpperCase());
+			sign = Encryption.getMD5(sb.toString()).toUpperCase();
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
+		String urlStr = "";
+		String urlFormat = "http://api.iboding.com/API/User/Passenger/DelPassengerInfo.ashx?userid=%s&cardno=%s&id=%s&sign=%s";
+		urlStr =  String.format(urlFormat,Constants.BODINGACCOUNT,GlobalVariables.bodingUser.getCardno(),
+				passengerID, sign);
+		System.out.println(urlStr);
+		String result = connectingServer(urlStr);
+		System.out.println(result);
+		try {
+			JSONObject resultJson = new JSONObject(result);
+			if (resultJson.getString("result").equals("0"))
+				resultCode = true;
+			
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		
+		return resultCode;
+	}
+	
 	public static List<Passenger> getPassengerList(){
 		List<Passenger> passengers = new ArrayList<Passenger>();
 		StringBuilder sb = new StringBuilder();
@@ -243,6 +277,9 @@ public class PassengerTask extends AsyncTask<Object,Void,Object>{
 			case EDIT_PASSENGER:
 				result = editPassenger((Passenger)params[0]);
 				break;
+			case DELETE_PASSENGER:
+				result = deletePassenger((String)params[0]);
+				break;
 			default:
 				break;
 		}
@@ -262,7 +299,11 @@ public class PassengerTask extends AsyncTask<Object,Void,Object>{
 				break;
 			case EDIT_PASSENGER:
 				addPassengerActivity = (AddPassengerInfoActivity)context;
-				addPassengerActivity.setAddPassengerResult((Boolean)result);
+				addPassengerActivity.setEditPassengerResult((Boolean)result);
+				break;
+			case DELETE_PASSENGER:
+				addPassengerActivity = (AddPassengerInfoActivity)context;
+				addPassengerActivity.setDeletePassengerResult((Boolean)result);
 				break;
 			default:
 				break;
