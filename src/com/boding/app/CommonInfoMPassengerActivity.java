@@ -145,7 +145,15 @@ public class CommonInfoMPassengerActivity extends Activity {
 		}
 		
 		public void removePassenger(Passenger passenger){
-			passengerList.remove(passenger);
+			int passengerPos = -1;
+			for(int i = 0;i<passengerList.size();i++){
+				if(passengerList.get(i).getAuto_id().equals(passenger.getAuto_id())){
+					passengerPos = i;
+					break;
+				}
+			}
+			if(passengerPos != -1)
+				passengerList.remove(passengerPos);
 			notifyDataSetChanged();
 		}
 
@@ -175,7 +183,7 @@ public class CommonInfoMPassengerActivity extends Activity {
 				public void onClick(View v) {
 					Intent intent = new Intent();
 					bundle.putBoolean(IntentExtraAttribute.IS_EDIT_PASSENGER, true);
-					bundle.putSerializable(IntentExtraAttribute.IS_EDIT_PASSENGER_PASSENGERINFO, people);
+					bundle.putParcelable(IntentExtraAttribute.IS_EDIT_PASSENGER_PASSENGERINFO, people);
 					intent.putExtras(bundle);
 					intent.setClass(CommonInfoMPassengerActivity.this, AddPassengerInfoActivity.class);
 					startActivityForResult(intent, IntentRequestCode.ADD_PASSENGERINFO.getRequestCode());
@@ -201,8 +209,9 @@ public class CommonInfoMPassengerActivity extends Activity {
 			if(data.getExtras() == null)
 				return;
 			if(data.getExtras().containsKey(IntentExtraAttribute.ADD_PASSENGER_EXTRA)){
-				Passenger passenger = (Passenger) data.getExtras().get(IntentExtraAttribute.ADD_PASSENGER_EXTRA);
-				peopleAdapter.addPassenger(passenger);
+//				Passenger passenger = (Passenger) data.getExtras().get(IntentExtraAttribute.ADD_PASSENGER_EXTRA);
+//				peopleAdapter.addPassenger(passenger);
+				viewContentSetting();
 			}
 			if(data.getExtras().containsKey(IntentExtraAttribute.EDIT_PASSENGER_EXTRA)){
 				Passenger passenger = (Passenger) data.getExtras().get(IntentExtraAttribute.EDIT_PASSENGER_EXTRA);

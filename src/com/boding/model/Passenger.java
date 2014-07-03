@@ -3,15 +3,18 @@ package com.boding.model;
 import java.io.Serializable;
 import java.util.Date;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.boding.constants.Gender;
 import com.boding.constants.IdentityType;
+import com.boding.constants.IntentRequestCode;
 import com.boding.util.Util;
 
-public class Passenger implements Serializable{
+public class Passenger implements Parcelable{
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 7738960923064852257L;
 	private String auto_id;//乘机人ID
 	private String cardno;//用户代码/卡号
 	private String name;//中文姓名
@@ -157,4 +160,54 @@ public class Passenger implements Serializable{
 	public void setValidDate(String validDate) {
 		this.validDate = validDate;
 	}
+	
+	
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+	
+	public Passenger(Parcel in){
+		auto_id = in.readString();
+		cardno = in.readString();
+		name = in.readString();
+		eName = in.readString();
+		identityType = IdentityType.getIdentityTypeFromIDCode(in.readString());
+		passPaper = in.readString();
+		cardNumber = in.readString();
+		validDate = in.readString();
+		nationality = in.readString();
+		gender = Gender.getGenderFromCode(in.readString());
+		birthday = in.readString();
+	}
+	
+	@Override
+	public void writeToParcel(Parcel dest, int arg1) {
+		dest.writeString(auto_id);
+		dest.writeString(cardno);
+		dest.writeString(name);
+		dest.writeString(eName);
+		dest.writeString(identityType.toString());
+		dest.writeString(passPaper);
+		dest.writeString(cardNumber);
+		dest.writeString(validDate);
+		dest.writeString(nationality);
+		if(gender!=null)
+			dest.writeString(gender.getGenderCode());
+		else
+			dest.writeString("");
+		dest.writeString(birthday);
+	}
+	
+	 public static final Parcelable.Creator<Passenger> CREATOR = new Parcelable.Creator<Passenger>() {   
+		//重写Creator
+		  
+		 public Passenger createFromParcel(Parcel in) {  
+	            return new Passenger(in);  
+	        }  
+	          
+	        public Passenger[] newArray(int size) {  
+	            return new Passenger[size];  
+	        }  
+	 };
 }

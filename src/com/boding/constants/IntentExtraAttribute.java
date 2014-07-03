@@ -11,4 +11,5 @@ public class IntentExtraAttribute {
 	public static final String IS_SINGLE_WAY = "isSingleWay";
 	public static final String EDIT_PASSENGER_EXTRA = "editPassenger";
 	public static final String DELETE_PASSENGER_EXTRA = "deletePassenger";
+	public static final String CHOOSED_PASSENGERS_EXTRA = "choosedPassengers";
 }

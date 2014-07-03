@@ -2,6 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginLeft="15dp"
+    android:layout_marginRight="15dp"
     android:orientation="horizontal"
     android:paddingBottom="10dp"
     android:paddingTop="10dp" >
@@ -53,17 +55,16 @@
 			    android:layout_height="wrap_content"
 			    android:text="身份证 "
 			    android:textColor="@color/black"
-			    android:textSize="17sp"
+			    android:textSize="16sp"
 			    android:typeface="serif" />
 
 		    <TextView
 		        android:id="@+id/choosepassenger_idnumber_textView"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
-		        android:layout_marginLeft="5dp"
-		        android:text="365245896574123520 "
+		        android:text="352412365231203245"
 		        android:textColor="@color/black"
-		        android:textSize="17sp"
+		        android:textSize="16sp"
 		        android:typeface="serif" />
 
 	    </LinearLayout>

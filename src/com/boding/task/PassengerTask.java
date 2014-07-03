@@ -20,6 +20,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.boding.app.AddPassengerInfoActivity;
+import com.boding.app.ChoosePassengerActivity;
 import com.boding.app.CommonInfoMPassengerActivity;
 import com.boding.app.LoginActivity;
 import com.boding.app.TicketSearchResultActivity;
@@ -93,9 +94,7 @@ public class PassengerTask extends AsyncTask<Object,Void,Object>{
 			}
 		}
 		
-		System.out.println(urlStr);
 		String result = connectingServer(urlStr);
-		System.out.println(result);
 		try {
 			JSONObject resultJson = new JSONObject(result);
 			if (resultJson.getString("result").equals("0"))
@@ -161,9 +160,7 @@ public class PassengerTask extends AsyncTask<Object,Void,Object>{
 			}
 		}
 		
-		System.out.println(urlStr);
 		String result = connectingServer(urlStr);
-		System.out.println(result);
 		try {
 			JSONObject resultJson = new JSONObject(result);
 			if (resultJson.getString("result").equals("0"))
@@ -195,9 +192,7 @@ public class PassengerTask extends AsyncTask<Object,Void,Object>{
 		String urlFormat = "http://api.iboding.com/API/User/Passenger/DelPassengerInfo.ashx?userid=%s&cardno=%s&id=%s&sign=%s";
 		urlStr =  String.format(urlFormat,Constants.BODINGACCOUNT,GlobalVariables.bodingUser.getCardno(),
 				passengerID, sign);
-		System.out.println(urlStr);
 		String result = connectingServer(urlStr);
-		System.out.println(result);
 		try {
 			JSONObject resultJson = new JSONObject(result);
 			if (resultJson.getString("result").equals("0"))
@@ -268,6 +263,7 @@ public class PassengerTask extends AsyncTask<Object,Void,Object>{
 	protected Object doInBackground(Object... params) {
 		Object result = new Object();
 		switch (action) {
+			case GET_PASSENGERLIST:
 			case GET_PASSENGERLIST_MANAGEMENT:
 				result = getPassengerList();
 				break;
@@ -289,21 +285,25 @@ public class PassengerTask extends AsyncTask<Object,Void,Object>{
 	@Override  
 	 protected void onPostExecute(Object result) {
 		switch (action) {
-			case GET_PASSENGERLIST_MANAGEMENT:
-				CommonInfoMPassengerActivity passengerActivity = (CommonInfoMPassengerActivity)context;
+			case GET_PASSENGERLIST:
+				ChoosePassengerActivity passengerActivity = (ChoosePassengerActivity)context;
 				passengerActivity.setPassengerList((List<Passenger>) result);
+				break;
+			case GET_PASSENGERLIST_MANAGEMENT:
+				CommonInfoMPassengerActivity passengerMActivity = (CommonInfoMPassengerActivity)context;
+				passengerMActivity.setPassengerList((List<Passenger>) result);
 				break;
 			case ADD_PASSENGER:
 				AddPassengerInfoActivity addPassengerActivity = (AddPassengerInfoActivity)context;
 				addPassengerActivity.setAddPassengerResult((Boolean)result);
 				break;
 			case EDIT_PASSENGER:
-				addPassengerActivity = (AddPassengerInfoActivity)context;
-				addPassengerActivity.setEditPassengerResult((Boolean)result);
+				AddPassengerInfoActivity editPassengerActivity = (AddPassengerInfoActivity)context;
+				editPassengerActivity.setEditPassengerResult((Boolean)result);
 				break;
 			case DELETE_PASSENGER:
-				addPassengerActivity = (AddPassengerInfoActivity)context;
-				addPassengerActivity.setDeletePassengerResult((Boolean)result);
+				AddPassengerInfoActivity deletePassengerActivity = (AddPassengerInfoActivity)context;
+				deletePassengerActivity.setDeletePassengerResult((Boolean)result);
 				break;
 			default:
 				break;

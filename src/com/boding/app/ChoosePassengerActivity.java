@@ -1,13 +1,21 @@
 package com.boding.app;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.boding.R;
+import com.boding.constants.Constants;
+import com.boding.constants.HTTPAction;
 import com.boding.constants.IdentityType;
+import com.boding.constants.IntentExtraAttribute;
 import com.boding.constants.IntentRequestCode;
 import com.boding.model.Passenger;
+import com.boding.task.PassengerTask;
 import com.boding.util.Util;
+import com.boding.view.dialog.ProgressBarDialog;
+import com.boding.view.dialog.WarningDialog;
 
 import android.app.Activity;
 import android.content.Context;
@@ -19,6 +27,8 @@ import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -28,20 +38,34 @@ public class ChoosePassengerActivity extends Activity {
 	private LinearLayout addPassengerLinearLayout;
 	private ListView passengerListView;
 	
+	private Set<String> selectedPassengerIds;
+	
+	private ProgressBarDialog progressBarDialog;
 	
 	private PassengerAdapter peopleAdapter;
+	
+	private Bundle bundle;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_choose_passenger);
-//		Bundle arguments = getIntent().getExtras();
-//        if(arguments != null)
-//        	isReturnDateSelection = arguments.getBoolean(Constants.IS_RETURN_DATE_SELECTION);
-        
+		selectedPassengerIds = new HashSet<String>();
+		Bundle arguments = getIntent().getExtras();
+        if(arguments != null){
+        	if(arguments.containsKey(IntentExtraAttribute.CHOOSED_PASSENGERS_EXTRA)){
+	        	ArrayList<Passenger> selectedPassengers = arguments.getParcelableArrayList(IntentExtraAttribute.CHOOSED_PASSENGERS_EXTRA);
+	        	for(Passenger passenger : selectedPassengers)
+	        		selectedPassengerIds.add(passenger.getAuto_id());
+        	}
+        }
 		initView();
+		viewContentSetting();
 	}
 	
 	private void initView(){
+		bundle = new Bundle();
+		bundle.putBoolean(IntentExtraAttribute.IS_MANAGE_PASSENGER, false);
+		
 		LinearLayout returnLinearLayout = (LinearLayout)findViewById(R.id.return_logo_linearLayout);
 		returnLinearLayout.setOnClickListener(new OnClickListener(){
 			@Override
@@ -55,14 +79,22 @@ public class ChoosePassengerActivity extends Activity {
 		addPassengerLinearLayout = (LinearLayout) findViewById(R.id.choose_passenger_addPassenger_linearLayout);
 		passengerListView = (ListView) findViewById(R.id.choose_passenger_passenger_listView);
 		
-		List<Passenger> peopleList = new ArrayList<Passenger>();
-		peopleList.add(new Passenger("李大嘴", "325478569852314569",IdentityType.GA));
-		peopleList.add(new Passenger("李大232嘴", "256542d14589631452",IdentityType.HX));
-		peopleList.add(new Passenger("李大嘴wew", "1225478965325468774",IdentityType.NI));
-		peopleAdapter = new PassengerAdapter(this, peopleList);
-		passengerListView.setAdapter(peopleAdapter);
-		
 		addListeenrs();
+	}
+	
+	
+	private void viewContentSetting(){
+		progressBarDialog = new ProgressBarDialog(this, Constants.DIALOG_STYLE);
+		progressBarDialog.show();
+		
+		PassengerTask passengerTask = new PassengerTask(this, HTTPAction.GET_PASSENGERLIST);
+		passengerTask.execute();
+	}
+	
+	public void setPassengerList(List<Passenger> passengerList){
+		peopleAdapter = new PassengerAdapter(this, passengerList);
+		passengerListView.setAdapter(peopleAdapter);
+		progressBarDialog.dismiss();
 	}
 	
 	private void addListeenrs(){
@@ -70,8 +102,27 @@ public class ChoosePassengerActivity extends Activity {
 			@Override
 			public void onClick(View arg0) {
 				Intent intent = new Intent();
+				bundle.putBoolean(IntentExtraAttribute.IS_EDIT_PASSENGER, false);
+				intent.putExtras(bundle);
 				intent.setClass(ChoosePassengerActivity.this, AddPassengerInfoActivity.class);
 				startActivityForResult(intent, IntentRequestCode.ADD_PASSENGERINFO.getRequestCode());
+			}
+		});
+		
+		completeLinearLayout.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				Intent intent=new Intent();
+				ArrayList<Passenger> selectedPassengerList = new ArrayList<Passenger>();
+				for(int i=0;i<peopleAdapter.getCount();i++){
+					Passenger passenger = peopleAdapter.getItem(i);
+					if(selectedPassengerIds.contains(passenger.getAuto_id())){
+						selectedPassengerList.add(passenger);
+					}
+				}
+				intent.putParcelableArrayListExtra(IntentExtraAttribute.CHOOSED_PASSENGERS_EXTRA, selectedPassengerList);
+				setResult(IntentRequestCode.CHOOSE_PASSENGER.getRequestCode(), intent);
+				finish();
 			}
 		});
 	}
@@ -98,8 +149,33 @@ public class ChoosePassengerActivity extends Activity {
 			return position;
 		}
 		
+		public void resetPassenger(Passenger passenger){
+			for(int i = 0 ;i < passengerList.size(); i++){
+				Passenger pass = passengerList.get(i);
+				if (pass.getAuto_id().equals(passenger.getAuto_id())){
+					passengerList.set(i, passenger);
+				}
+			}
+			notifyDataSetChanged();
+		}
+		
 		public void addPassenger(Passenger passenger){
 			passengerList.add(passenger);
+			notifyDataSetChanged();
+		}
+		
+		public void removePassenger(Passenger passenger){
+			int passengerPos = -1;
+			for(int i = 0;i<passengerList.size();i++){
+				if(passengerList.get(i).getAuto_id().equals(passenger.getAuto_id())){
+					passengerPos = i;
+					break;
+				}
+			}
+			if(passengerPos != -1)
+				passengerList.remove(passengerPos);
+			
+			selectedPassengerIds.remove(passenger.getAuto_id());
 			notifyDataSetChanged();
 		}
 
@@ -122,8 +198,17 @@ public class ChoosePassengerActivity extends Activity {
 	            holder = (ViewHolder) convertView.getTag();  
 	        }  
 			
-			Passenger people = getItem(position);
-            holder.nameTextView.setText(people.getName());
+			final Passenger people = getItem(position);
+			holder.passengerId = people.getAuto_id();
+			
+			if(selectedPassengerIds.contains(holder.passengerId))
+				holder.choosePassengerCheckBox.setChecked(true);
+			else
+				holder.choosePassengerCheckBox.setChecked(false);
+			
+			
+			holder.nameTextView.setText(people.getDiaplayName());
+            holder.idTypeTextView.setText(people.getIdentityType().getIdentityName());
             holder.idNumberTextView.setText(people.getCardNumber());
             holder.choosePassengerLinearLayout.setOnClickListener(new View.OnClickListener() {
 				@Override
@@ -132,11 +217,50 @@ public class ChoosePassengerActivity extends Activity {
 						holder.choosePassengerCheckBox.setChecked(false);
 					else
 						holder.choosePassengerCheckBox.setChecked(true);
-					
 				}
 			});
+            holder.editLinearLayout.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					Intent intent = new Intent();
+					bundle.putBoolean(IntentExtraAttribute.IS_EDIT_PASSENGER, true);
+					bundle.putParcelable(IntentExtraAttribute.IS_EDIT_PASSENGER_PASSENGERINFO, people);
+					intent.putExtras(bundle);
+					intent.setClass(ChoosePassengerActivity.this, AddPassengerInfoActivity.class);
+					startActivityForResult(intent, IntentRequestCode.ADD_PASSENGERINFO.getRequestCode());
+				}
+			});
+            holder.choosePassengerCheckBox.setOnCheckedChangeListener(new OncheckchangeListner(holder));
 	        return convertView;  
 		}
+		
+		class OncheckchangeListner implements OnCheckedChangeListener{
+
+            ViewHolder viewHolder = null; 
+            public OncheckchangeListner(ViewHolder viHolder)
+            {
+                viewHolder =  viHolder;  
+            }
+            @Override 
+            public void onCheckedChanged(CompoundButton buttonView,
+                    boolean isChecked) {
+
+                if(viewHolder.choosePassengerCheckBox.equals(buttonView))
+                {       
+	                if(!isChecked)
+	                {
+	                	selectedPassengerIds.remove(viewHolder.passengerId);
+	                }
+	                else{
+	                	if(selectedPassengerIds.size() == 9){
+	                		return;
+	                	}
+	                	selectedPassengerIds.add(viewHolder.passengerId);
+	                }
+            	}
+            }
+
+        }
 		
 		private class ViewHolder {
 			LinearLayout choosePassengerLinearLayout;
@@ -145,6 +269,31 @@ public class ChoosePassengerActivity extends Activity {
 			TextView idNumberTextView;
 			TextView idTypeTextView;
 			LinearLayout editLinearLayout;
+			String passengerId;
+		}
+	}
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if(data == null)
+			return;
+		if(requestCode==IntentRequestCode.ADD_PASSENGERINFO.getRequestCode()){
+			if(data.getExtras() == null)
+				return;
+//			selectedPassengerIds = new HashSet<String>();
+			if(data.getExtras().containsKey(IntentExtraAttribute.ADD_PASSENGER_EXTRA)){
+//				Passenger passenger = (Passenger) data.getExtras().get(IntentExtraAttribute.ADD_PASSENGER_EXTRA);
+//				peopleAdapter.addPassenger(passenger);
+				viewContentSetting();
+			}
+			if(data.getExtras().containsKey(IntentExtraAttribute.EDIT_PASSENGER_EXTRA)){
+				Passenger passenger = (Passenger) data.getExtras().get(IntentExtraAttribute.EDIT_PASSENGER_EXTRA);
+				peopleAdapter.resetPassenger(passenger);
+			}
+			if(data.getExtras().containsKey(IntentExtraAttribute.DELETE_PASSENGER_EXTRA)){
+				Passenger passenger = (Passenger) data.getExtras().get(IntentExtraAttribute.DELETE_PASSENGER_EXTRA);
+				peopleAdapter.removePassenger(passenger);
+			}
 		}
 	}
 }

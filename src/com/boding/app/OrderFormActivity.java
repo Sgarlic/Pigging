@@ -1,47 +1,31 @@
 package com.boding.app;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import com.boding.R;
-import com.boding.constants.Constants;
 import com.boding.constants.GlobalVariables;
-import com.boding.constants.IdentityType;
+import com.boding.constants.IntentExtraAttribute;
 import com.boding.constants.IntentRequestCode;
 import com.boding.model.Passenger;
 import com.boding.util.Util;
-import com.boding.view.calendar.DateSelectCalendarView;
-import com.boding.view.calendar.DateSelectCalendarView.OnItemClickListener;
-import com.boding.view.layout.CalendarLayout;
-import com.boding.view.layout.OrderFlightInfoILayout;
 import com.boding.view.layout.OrderFlightInfoLayout;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.DataSetObserver;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
-import android.view.View.OnLayoutChangeListener;
-import android.widget.FrameLayout.LayoutParams;
 import android.widget.BaseAdapter;
-import android.widget.CheckBox;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 
 public class OrderFormActivity extends Activity {
-	private boolean isReturnDateSelection = false;
-	
 	private boolean isInternalJourney = false;
 	private boolean isRoundTrip = false;
 	
@@ -66,8 +50,9 @@ public class OrderFormActivity extends Activity {
 	private TextView totalPriceTextView;
 	private LinearLayout nextStepLinearLayout; 
 	
-	private List<Passenger> peopleList;
 	private PassengerAdapter peopleAdapter;
+	
+	private ArrayList<Passenger> passengerList;
 	
 //	private PopupWindow insuranceAmountSelector;
 //	private ListView insuranceSelectorListView;
@@ -96,7 +81,6 @@ public class OrderFormActivity extends Activity {
 	}
 	
 	private void initView(){
-		peopleList = new ArrayList<Passenger>();
 		LinearLayout returnLinearLayout = (LinearLayout)findViewById(R.id.return_logo_linearLayout);
 		returnLinearLayout.setOnClickListener(new OnClickListener(){
 			@Override
@@ -147,36 +131,31 @@ public class OrderFormActivity extends Activity {
 		if(isRoundTrip)
 			ticketPriceTextView.setText("往返总价");
 		
-		peopleAdapter = new PassengerAdapter(this, peopleList);
-		passengerListView.setAdapter(peopleAdapter);
-		setPassengerView();
-		
 //		insurancePopupParentWidth = insuranceLinearLayout.getWidth();
 		addListeners();
     }
 	
-	private static int count = 0;
-	
 	private void setPassengerView(){
 		Util.setListViewHeightBasedOnChildren(passengerListView);
-        passengerAmountTextView.setText(String.valueOf(peopleList.size()));
+        passengerAmountTextView.setText(String.valueOf(peopleAdapter.getCount()));
 	}
 	
 	private void addListeners(){
-		DataSetObserver observer=new DataSetObserver(){  
-	        public void onChanged() {  
-	        	setPassengerView();
-	        }  
-	    };
-	    peopleAdapter.registerDataSetObserver(observer);
-		
 		addPassengerLinearLayout.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 //				Passenger people = new Passenger("李大嘴"+(count++), "35247412569853265"+(count++),IdentityType.GA); 
 //				peopleAdapter.addPassenger(people);
-				
+				if(GlobalVariables.bodingUser == null){
+					openLoginActivity();
+					return;
+				}
 				Intent intent = new Intent();
+				if(passengerList!=null){
+					Bundle bundle = new Bundle();
+					bundle.putParcelableArrayList(IntentExtraAttribute.CHOOSED_PASSENGERS_EXTRA, passengerList);
+					intent.putExtras(bundle);
+				}
 				intent.setClass(OrderFormActivity.this, ChoosePassengerActivity.class);
 				startActivityForResult(intent,IntentRequestCode.CHOOSE_PASSENGER.getRequestCode());
 			}
@@ -256,13 +235,13 @@ public class OrderFormActivity extends Activity {
 	        }  
 			
 			Passenger people = getItem(position);
-            holder.nameTextView.setText(people.getName());
+            holder.nameTextView.setText(people.getDiaplayName());
+            holder.idTypeTextView.setText(people.getIdentityType().getIdentityName());
             holder.idNumberTextView.setText(people.getCardNumber());
 			holder.deleteLinearLayout.setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View v) {
 						passengerList.remove(position); 
-						Log.d("poding",position+"");
 						notifyDataSetChanged();
 					}
 				});
@@ -275,6 +254,12 @@ public class OrderFormActivity extends Activity {
 			TextView idTypeTextView;
 			LinearLayout deleteLinearLayout;
 		}
+	}
+	
+	private void openLoginActivity(){
+		Intent intent = new Intent();
+		intent.setClass(OrderFormActivity.this, LoginActivity.class);
+		startActivityForResult(intent, IntentRequestCode.LOGIN.getRequestCode());
 	}
 //	
 //	private void initPopupWindow(){
@@ -292,4 +277,29 @@ public class OrderFormActivity extends Activity {
 //	private void popupWindowDismiss(){
 //		insuranceAmountSelector.dismiss();
 //	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if(data == null)
+			return;
+		if(requestCode==IntentRequestCode.CHOOSE_PASSENGER.getRequestCode()){
+			if(data.getExtras() == null)
+				return;
+			if(data.getExtras().containsKey(IntentExtraAttribute.CHOOSED_PASSENGERS_EXTRA)){
+//				Passenger passenger = (Passenger) data.getExtras().get(IntentExtraAttribute.ADD_PASSENGER_EXTRA);
+//				peopleAdapter.addPassenger(passenger);
+				ArrayList<Passenger> passengers = data.getParcelableArrayListExtra(IntentExtraAttribute.CHOOSED_PASSENGERS_EXTRA);
+				passengerList = passengers;
+				peopleAdapter = new PassengerAdapter(this, passengers);
+				peopleAdapter.registerDataSetObserver(new DataSetObserver(){  
+			        public void onChanged() {  
+			        	setPassengerView();
+			        }  
+			    });
+				passengerListView.setAdapter(peopleAdapter);
+				setPassengerView();
+			}
+		}
+	}
 }

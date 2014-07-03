@@ -286,7 +286,7 @@
 							    android:layout_height="wrap_content"
 							    android:layout_gravity="top"
 							    android:gravity="top"
-							    android:text="1 "
+							    android:text="0 "
 							    android:textColor="@color/listviewDividerColor"
 							    android:textSize="17sp"
 							    android:typeface="serif" />

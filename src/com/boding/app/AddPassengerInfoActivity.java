@@ -27,6 +27,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -82,7 +84,7 @@ public class AddPassengerInfoActivity extends Activity {
         	isMangingPassenger = arguments.getBoolean(IntentExtraAttribute.IS_MANAGE_PASSENGER);
         	isEditing = arguments.getBoolean(IntentExtraAttribute.IS_EDIT_PASSENGER);
         	if(isEditing){
-        		passenger = (Passenger) arguments.getSerializable(IntentExtraAttribute.IS_EDIT_PASSENGER_PASSENGERINFO);
+        		passenger = (Passenger) arguments.getParcelable(IntentExtraAttribute.IS_EDIT_PASSENGER_PASSENGERINFO);
         	}else
         		passenger = new Passenger();
         }
@@ -201,15 +203,13 @@ public class AddPassengerInfoActivity extends Activity {
 		completeLinearLayout.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				String passengerName = passengerNameEditText.getText().toString();
-				String passengerIDNumber = IDNumberEditText.getText().toString();
 				// required name and paper number
 				if(passenger.getIdentityType() == null){
 					warningDialog.setContent("请选择证件类型");
 					warningDialog.show();
 					return;
 				}
-				if(passengerIDNumber.length() == 0){
+				if(passenger.getCardNumber().length() == 0){
 					warningDialog.setContent("证件号不能为空");
 					warningDialog.show();
 					return;
@@ -217,14 +217,15 @@ public class AddPassengerInfoActivity extends Activity {
 				
 				
 				if(passenger.getIdentityType() == IdentityType.NI){
-					if(passengerName.length() < 2 || !Util.checkIfChinese(passengerName)){
+					if(passenger.getName().length() < 2 || !Util.checkIfChinese(passenger.getName())){
 						warningDialog.setContent("请填写正确的名字");
 						warningDialog.show();
 						return;
 					}
 				}
 				else{
-					if(passengerName.length() < 2 || Util.checkIfChinese(passengerName) || !passengerName.contains("/")){
+					if(passenger.geteName().length() < 2 || Util.checkIfChinese(passenger.geteName()) 
+							|| !passenger.geteName().contains("/")){
 						warningDialog.setContent("请填写正确的名字");
 						warningDialog.show();
 						return;
@@ -254,11 +255,6 @@ public class AddPassengerInfoActivity extends Activity {
 //					passenger.setValidDate("2017-03-22");
 				}
 				
-				
-				passenger.setName(passengerName);
-				passenger.seteName(passengerName);
-				passenger.setCardNumber(passengerIDNumber);
-				
 //				passenger.setName("饶礼仁");
 //				passenger.seteName("lili/Li");
 //				passenger.setCardNumber("35079011156570");
@@ -270,7 +266,7 @@ public class AddPassengerInfoActivity extends Activity {
 			}
 		});
 		
-		completeLinearLayout.setOnClickListener(new View.OnClickListener() {
+		deletePassengerLinearLayout.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
 				progressBarDialog.show();
@@ -337,6 +333,39 @@ public class AddPassengerInfoActivity extends Activity {
 				Intent intent = new Intent();
 				intent.setClass(AddPassengerInfoActivity.this, NationalitySelectActivity.class);
 				startActivityForResult(intent, IntentRequestCode.NATIONALITY_SELECTION.getRequestCode());
+			}
+		});
+		
+		passengerNameEditText.addTextChangedListener(new TextWatcher() {
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+			}
+			
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
+			}
+			
+			@Override
+			public void afterTextChanged(Editable s) {
+				passenger.setName(s.toString());
+				passenger.seteName(s.toString());
+			}
+		});
+		
+		IDNumberEditText.addTextChangedListener(new TextWatcher() {
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+			}
+			
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
+			}
+			
+			@Override
+			public void afterTextChanged(Editable s) {
+				passenger.setCardNumber(s.toString());
 			}
 		});
 	}

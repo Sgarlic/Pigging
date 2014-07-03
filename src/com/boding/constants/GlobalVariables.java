@@ -9,6 +9,7 @@ import android.content.ContentValues;
 import com.boding.model.BodingUser;
 import com.boding.model.City;
 import com.boding.model.Country;
+import com.boding.model.Province;
 import com.boding.util.DateUtil;
 
 public class GlobalVariables {
@@ -29,6 +30,7 @@ public class GlobalVariables {
 	public static List<City> domHistoryCitiesList = new ArrayList<City>();
 	public static List<City> interHistoryCitiesList = new ArrayList<City>();
 	public static List<Country> allCountriesList = new ArrayList<Country>();
+	public static List<Province> allProvincesList = new ArrayList<Province>();
 	
 	public static String filepath ="/data/data/com.boding/files/";
 	public static String domeCityFile ="domeCities";

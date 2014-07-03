@@ -1,26 +1,30 @@
 package com.boding.app;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import com.boding.R;
-import com.boding.R.layout;
+import com.boding.constants.GlobalVariables;
 import com.boding.constants.HTTPAction;
 import com.boding.constants.SharedPreferencesAttributes;
 import com.boding.http.HttpConnector;
+import com.boding.model.Province;
 import com.boding.task.InitCityTask;
 import com.boding.task.InitCountryTask;
+import com.boding.util.AreaXmlParser;
 import com.boding.util.DateUtil;
 import com.boding.util.Util;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
+import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 
 public class LauncherActivity extends Activity {
 	private final int SPLASH_DISPLAY_LENGHT = 3000; //—”≥Ÿ»˝√Î   
@@ -72,5 +76,18 @@ public class LauncherActivity extends Activity {
 	    }  
 	    initCityList();
 	    new InitCountryTask(this).execute();
+	    initAreaList();
+	}
+	
+	private void initAreaList(){
+		AssetManager assetManager = getAssets();
+	    try {
+			InputStream ims = assetManager.open("files/area.xml");
+			AreaXmlParser.parse(ims);
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
