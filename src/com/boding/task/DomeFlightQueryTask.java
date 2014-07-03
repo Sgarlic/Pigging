@@ -19,6 +19,7 @@ import com.boding.model.AirlineView;
 import com.boding.model.domestic.Airlines;
 import com.boding.model.domestic.Cabin;
 import com.boding.model.domestic.Flight;
+import com.boding.util.DateUtil;
 import com.boding.util.Encryption;
 
 import android.content.Context;
@@ -45,6 +46,15 @@ public class DomeFlightQueryTask extends AsyncTask<Object,Void,Object> {
 		String fromcity = (String)params[1];
 		String tocity = (String)params[2];
 		
+		if(whichday == 1){
+			date = DateUtil.getLastDay(date);
+			if(DateUtil.isDayGone(date)){
+				return new Airlines();
+			}
+		}else if(whichday == 3){
+			date = DateUtil.getNextDay(date);
+		}
+		
 		StringBuilder sb = new StringBuilder();
 		sb.append("boding");	
 		sb.append(fromcity);
@@ -62,8 +72,10 @@ public class DomeFlightQueryTask extends AsyncTask<Object,Void,Object> {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		String urlStr = "http://user.iboarding.cn/API/DataInterface/BBCData.ashx?userid=boding&dpt="+fromcity+
-				"&arr="+tocity+"&date="+date+"&sign="+sign;
+		String urlFormat = "http://user.iboarding.cn/API/DataInterface/BBCData.ashx?userid=boding&dpt=%s&arr=%s&date=%s&sign=%s";
+		String urlStr = String.format(urlFormat, fromcity, tocity, date, sign);
+		//String urlStr = "http://user.iboarding.cn/API/DataInterface/BBCData.ashx?userid=boding&dpt="+fromcity+
+				//"&arr="+tocity+"&date="+date+"&sign="+sign;
 		//String urlStr = "http://user.iboarding.cn/API/DataInterface/BBCData.ashx?userid=boding&dpt=SHA&arr=PEK&date=2014-06-29&sign="+sign;
 		System.out.println(urlStr);
 		URL url;
@@ -107,7 +119,7 @@ public class DomeFlightQueryTask extends AsyncTask<Object,Void,Object> {
 		JSONObject result = new JSONObject(jsonStr);
 		airlines.setDpt(result.getString("Dpt"));
 		airlines.setArr(result.getString("Arr"));
-		airlines.setDate(result.getString("Date"));
+		airlines.setGoDate(result.getString("Date"));
 		
 		JSONArray flights = result.optJSONArray("Flights");
 		List<Flight> flightlist = new ArrayList<Flight>();

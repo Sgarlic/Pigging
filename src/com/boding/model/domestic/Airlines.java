@@ -3,7 +3,9 @@ package com.boding.model.domestic;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Airlines {
+import com.boding.model.AirlineInterface;
+
+public class Airlines implements AirlineInterface{
 	private String dpt;
 	private String arr;
 	private String date;
@@ -20,10 +22,10 @@ public class Airlines {
 	public void setArr(String arr) {
 		this.arr = arr;
 	}
-	public String getDate() {
+	public String getGoDate() {
 		return date;
 	}
-	public void setDate(String date) {
+	public void setGoDate(String date) {
 		this.date = date;
 	}
 	public List<Flight> getFlights() {
@@ -33,13 +35,39 @@ public class Airlines {
 		this.flights = flights;
 	}
 	
-	public String getlowestPrice(){
+//	public String getlowestPriceStr(){
+//		if(flights.size() == 0)
+//			return "";
+//		double lowest = Double.MAX_VALUE;
+//		double temp;
+//		for(Flight flight : flights){
+//			temp = flight.getLowestPrice();
+//			lowest = lowest <= temp ? lowest : temp;
+//		}
+//		return "гд"+(int)lowest;
+//	}
+	
+	@Override
+	public void orderLinesByLeatime(boolean isAsc) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public void orderLinesByPrice(boolean isAsc) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public String getlowestPrice() {
+		if(flights.size() == 0)
+			return "";
 		double lowest = Double.MAX_VALUE;
 		double temp;
 		for(Flight flight : flights){
 			temp = flight.getLowestPrice();
 			lowest = lowest <= temp ? lowest : temp;
 		}
-		return String.valueOf(lowest);
+		return "гд"+(int)lowest;
 	}
 }

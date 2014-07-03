@@ -3,7 +3,7 @@ package com.boding.model;
 import java.util.Collections;
 import java.util.List;
 
-public class AirlineView {
+public class AirlineView implements AirlineInterface{
 	private String fromCity;
 	private String toCity;
 	private String goDate;

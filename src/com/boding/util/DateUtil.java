@@ -135,4 +135,36 @@ public class DateUtil {
 	public static String getNextDateString(){
 		return getFormatedDate(getNextDate());
 	}
+	
+	/**
+	 * 
+	 * @param day  yyyy-mm-dd
+	 * @return lastday yyyy-mm-dd
+	 */
+	public static String getLastDay(String day){
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(getDateFromString(day));
+		calendar.add(Calendar.DATE, -1);
+		return getFormatedDate(calendar);
+	}
+	
+	/**
+	 * 
+	 * @param day yyyy-mm-dd
+	 * @return nextday yyyy-mm-dd
+	 */
+	public static String getNextDay(String day){
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(getDateFromString(day));
+		calendar.add(Calendar.DATE, 1);
+		return getFormatedDate(calendar);
+	}
+	
+	public static boolean isDayGone(String day){
+		Calendar cday = Calendar.getInstance();
+		Calendar ctoday = Calendar.getInstance();
+		cday.setTime(getDateFromString(day));
+		ctoday.setTime(new Date());
+		return cday.before(ctoday);
+	}
 }

@@ -16,6 +16,7 @@ import com.boding.constants.Constants;
 import com.boding.constants.GlobalVariables;
 import com.boding.constants.IntentExtraAttribute;
 import com.boding.constants.IntentRequestCode;
+import com.boding.model.AirlineInterface;
 import com.boding.model.AirlineView;
 import com.boding.model.City;
 import com.boding.model.FlightLine;
@@ -24,6 +25,7 @@ import com.boding.model.domestic.Airlines;
 import com.boding.task.DomeFlightQueryTask;
 import com.boding.task.XMLTask;
 import com.boding.util.CityUtil;
+import com.boding.util.DateUtil;
 import com.boding.util.Util;
 import com.boding.view.dialog.CalendarDialog;
 import com.boding.view.dialog.FilterDialog;
@@ -57,10 +59,14 @@ import android.os.Build;
 public class TicketSearchResultActivity extends FragmentActivity {
 	private TicketSearchResultAdapter adapter;
 	private ExpandableListView searchResultListView;
+	
+	private AirlineInterface lastDayAirline;
+	private AirlineInterface todayAirline;
+	private AirlineInterface nextDayAirline;
 
-	private AirlineView lastDayAriline;
-    private AirlineView todayAirline;
-    private AirlineView nextDayAirline;
+	//private AirlineView lastDayAriline;
+    //private AirlineView todayAirline;
+    //private AirlineView nextDayAirline;
     
     private TextView fromCityTextView;
     private TextView fromCityCodeTextView;
@@ -100,6 +106,7 @@ public class TicketSearchResultActivity extends FragmentActivity {
 	
 	private boolean isSingleWay = true;
 	private boolean goToOrder = true;
+	private boolean isInternational = true;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -117,6 +124,7 @@ public class TicketSearchResultActivity extends FragmentActivity {
 		from = CityUtil.getCityByName(fromcity);
 		to = CityUtil.getCityByName(tocity);
 		
+		isInternational = from.isInternationalCity() || to.isInternationalCity();
 		if(pre_activity_num == ActivityNumber.MAIN.getActivityNum()){//从主界面进入
 			isSingleWay = bundle.getBoolean(Constants.IS_SINGLE_WAY);
 			if(isSingleWay) goToOrder = true;
@@ -129,7 +137,9 @@ public class TicketSearchResultActivity extends FragmentActivity {
 			startdate = flightQuery.getReturndate();
 		}	
 		
-		loadData(from.isInternationalCity() || to.isInternationalCity());
+		
+		
+		loadData(isInternational);
 		
 		initView();
 		
@@ -199,29 +209,34 @@ public class TicketSearchResultActivity extends FragmentActivity {
         lastDayLinearLayout.setOnClickListener(new OnClickListener(){
               @Override
               public void onClick(View arg0) {
-                  if(lastDayAriline == null)
+                  if(lastDayAirline == null)
                 	  return;
                   nextDayAirline = todayAirline;
-                  todayAirline = lastDayAriline;
-                  lastDayAriline = null;
+                  todayAirline = lastDayAirline;
+                  lastDayAirline = null;
                   setAdapter();
-
+                  startdate = DateUtil.getLastDay(startdate);
+                  loadDataOfDay(1);
+                  
                   //获取lastday的xml,填充av
-                  invokeXmlTask(tempurl, 1);
+                  //invokeXmlTask(tempurl, 1);
               }
               
         });
         nextDayLinearLayout.setOnClickListener(new OnClickListener(){
               @Override
               public void onClick(View arg0) {
+            	  System.out.println("NEEEEEEEXXXXXXXTTTTTTT DDDDDDDAAAAAAYYYYYY");
                    if(nextDayAirline == null)
                 	   return;
-                   lastDayAriline = todayAirline;
+                   lastDayAirline = todayAirline;
                    todayAirline = nextDayAirline;
                    nextDayAirline = null;
                    setAdapter();
+                   startdate = DateUtil.getNextDay(startdate);
+                   loadDataOfDay(3);
                    
-                   invokeXmlTask(tempurl, 3);
+                   //invokeXmlTask(tempurl, 3);
               }
               
         });
@@ -282,8 +297,8 @@ public class TicketSearchResultActivity extends FragmentActivity {
 	}
   
 	  private void setTextViewInfo(){
-		  if(lastDayAriline!=null)
-              lastDayPriceTextView.setText(lastDayAriline.getlowestPrice());
+		  if(lastDayAirline!=null)
+              lastDayPriceTextView.setText(lastDayAirline.getlowestPrice());
 		  else
               lastDayPriceTextView.setText("");
         
@@ -301,28 +316,8 @@ public class TicketSearchResultActivity extends FragmentActivity {
               nextDayPriceTextView.setText("");
 
 	  }
-	  
-	  private void setTextViewInfoDome(){
-		  if(lastdayAl!=null)
-              lastDayPriceTextView.setText(lastdayAl.getlowestPrice());
-		  else
-              lastDayPriceTextView.setText("");
-        
-		  if(todayAl!=null){
-              todayDateTextView.setText(todayAl.getDate());
-              todayPriceTextView.setText(todayAl.getlowestPrice());
-		  }else{
-              todayDateTextView.setText(startdate);
-              todayPriceTextView.setText("");
-		  }
-        
-		  if(nextdayAl!=null)
-              nextDayPriceTextView.setText(nextdayAl.getlowestPrice());
-		  else
-              nextDayPriceTextView.setText("");
-	  }
 
-	  public void setTodayAirlineView(AirlineView todayAV){
+	  public void setTodayAirlineView(AirlineInterface todayAV){
 		  if(todayAV==null)
 			  return;
 	       this.todayAirline = todayAV;
@@ -330,56 +325,27 @@ public class TicketSearchResultActivity extends FragmentActivity {
 	       progressDialog.dismiss();
 	  }
 
-	  public void setLastdayAirlineView(AirlineView lastdayAV){
+	  public void setLastdayAirlineView(AirlineInterface lastdayAV){
 		  if(lastdayAV==null)
 			  return;
-	        this.lastDayAriline = lastdayAV;
+	        this.lastDayAirline = lastdayAV;
 	        setTextViewInfo();
 	  }
 
-	  public void setNextdayAirlineView(AirlineView nextdayAV){
+	  public void setNextdayAirlineView(AirlineInterface nextdayAV){
 		  if(nextdayAV==null)
 			  return;
 	        this.nextDayAirline = nextdayAV;
 	        setTextViewInfo();
 	  }
-	  
-	  public void setTodayAirlineView(Airlines _todayAl){
-		  if(_todayAl==null)
-			  return;
-	       this.todayAl = _todayAl;
-	       System.out.println("IN set" + todayAl.getDate() + "   " +todayAl.getFlights().size());
-	       setDomesticAdapter();
-	       progressDialog.dismiss();
-	  }
-	  
-	  public void setLastdayAirlineView(Airlines _lastdayAl){
-		  if(_lastdayAl==null)
-			  return;
-	        this.lastdayAl = _lastdayAl;
-	        setTextViewInfoDome();
-	  }
-	  
-	  public void setNextdayAirlineView(Airlines _nextdayAl){
-		  if(_nextdayAl==null)
-			  return;
-	        this.nextdayAl = _nextdayAl;
-	        setTextViewInfoDome();
-	  }
 
 	  private void setAdapter(){
-	        adapter = new TicketSearchResultListIAdapter(this, todayAirline);
-	        searchResultListView.setAdapter(adapter);
-	        setTextViewInfo();
-			searchResultListView.setOnGroupClickListener(new OnGroupClickListener() { 
-			@Override 
-			public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-				if(adapter.isGgroupExpandable(groupPosition)){
-					return false;
-				}
-				return true; 
-			} 
-		});
+		  if(isInternational)
+			  adapter = new TicketSearchResultListIAdapter(this, (AirlineView)todayAirline);
+		  else
+			  adapter = new TicketSearchResultListAdapter(this, (Airlines)todayAirline);
+	      searchResultListView.setAdapter(adapter);
+	      setTextViewInfo();
 	  }
 
 	  private void invokeXmlTask(String url, int whichday){
@@ -398,12 +364,6 @@ public class TicketSearchResultActivity extends FragmentActivity {
 		  dfq.execute(date, fromcity, tocity);
 	  }
 	  
-	  private void setDomesticAdapter(){
-		  adapter = new TicketSearchResultListAdapter(this, todayAl);
-		  searchResultListView.setAdapter(adapter);
-		  setTextViewInfoDome();
-	  }
-	  
 	  private void loadData(boolean isInternational){
 		  if(isInternational){//国际
 				//此处先使用同一个xml测试
@@ -419,6 +379,15 @@ public class TicketSearchResultActivity extends FragmentActivity {
 				queryDomesticFlight(startdate, fromcode, tocode, 1);
 				queryDomesticFlight(startdate, fromcode, tocode, 3);
 			}
+	  }
+	  
+	  private void loadDataOfDay(int whichday){
+		  if(isInternational){
+			  String urlstr = "http://192.168.0.22:9404/FakeBodingServer/XMLServlet?day=today";
+			  invokeXmlTask(urlstr, whichday);
+		  }else{
+			  queryDomesticFlight(startdate, from.getCityCode(), to.getCityCode(), whichday);
+		  }
 	  }
 	  
 	  public void goToNextActivity(){
