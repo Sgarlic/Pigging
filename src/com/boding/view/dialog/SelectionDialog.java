@@ -1,9 +1,9 @@
 package com.boding.view.dialog;
 
-import java.util.Date;
 import java.util.List;
 
 import com.boding.R;
+import com.boding.constants.GlobalVariables;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 
 public class SelectionDialog extends Dialog{
 	private ListView selectorListView;
@@ -30,12 +31,22 @@ public class SelectionDialog extends Dialog{
 		this.context = context;
 		this.selectionList = selectionList;
 		setContentView(R.layout.dialog_selection);
+		setWidthHeight();
 		initView();
 		setTitle(title);
 	}
 	
 	private void setTitle(String title){
 		titleTextView.setText(title);
+	}
+	
+	private void setWidthHeight(){
+		if(selectionList.size()>6){
+			//set dialog width
+			WindowManager.LayoutParams lp = this.getWindow().getAttributes();
+			lp.height = GlobalVariables.Screen_Height*2/3;
+			this.getWindow().setAttributes(lp);
+		}
 	}
 	
 	private void initView(){

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Map.Entry;
 
 public class Province {
 	private String provinceName;
@@ -15,8 +14,12 @@ public class Province {
 		cityList = new HashMap<String, ArrayList<String>>();
 	}
 	
-	public Iterator<Entry<String, ArrayList<String>>> getCityListIterator(){
-		return cityList.entrySet().iterator();
+	public ArrayList<String> getDistrictList(String cityName){
+		return cityList.get(cityName);
+	}
+	
+	public Iterator<String> getCityIterator(){
+		return cityList.keySet().iterator();
 	}
 	
 	public void addCity(String cityName, ArrayList<String> districtList){

@@ -4,38 +4,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.boding.R;
-import com.boding.app.CitySelectFragment;
 import com.boding.app.TicketSearchResultActivity;
 import com.boding.constants.GlobalVariables;
-import com.boding.model.AirlineView;
-import com.boding.model.FlightLine;
-import com.boding.util.Util;
 
-import android.animation.TimeAnimator;
-import android.annotation.SuppressLint;
-import android.app.ActionBar.LayoutParams;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.graphics.Point;
-import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
-import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RadioGroup;
 import android.widget.TabHost;
 import android.widget.TextView;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 
 public class FilterDialog extends Dialog{
 	private Context context;
@@ -200,9 +187,10 @@ public class FilterDialog extends Dialog{
 		private List<CheckBox> checkedBoxs;
 		private CheckBox nolimit = null;
 		
-		public FilterItemListAdapter(Context context, List itemList, boolean showCompanyLogo) {
+		public FilterItemListAdapter(Context context, List<String> itemList, boolean showCompanyLogo) {
 			this.context = context;
 			this.itemList = itemList;
+			System.out.println(itemList.size());
 			this.showCompanyLogo = showCompanyLogo;
 			this.constraints = new ArrayList<String>();
 			this.checkedBoxs = new ArrayList<CheckBox>();
@@ -213,10 +201,10 @@ public class FilterDialog extends Dialog{
 		}
 		
 		public void clearConstraints(){
-			for(CheckBox cb : checkedBoxs){
-				cb.setChecked(false);
+			for(int i = 1; i < checkedBoxs.size();i++){
+				checkedBoxs.get(i).setChecked(false);
 			}
-			checkedBoxs.clear();
+//			checkedBoxs.clear();
 			constraints.clear();
 		}
 		
@@ -241,89 +229,135 @@ public class FilterDialog extends Dialog{
 			if (convertView == null) {  
 	            convertView = LayoutInflater.from(context).inflate(R.layout.list_item_filter, null);
 	            holder = new ViewHolder();  
-	            
 	            holder.filterItemLinearLayout = (LinearLayout) convertView.findViewById(R.id.filter_item_linearLayout);
 	            holder.filterItemCompanyImageView = (ImageView) convertView.findViewById(R.id.filter_companyicon_imageView);
 	            holder.filterItemTextView = (TextView) convertView.findViewById(R.id.filter_item_textView);
 	            holder.filterItemCheckBox = (CheckBox) convertView.findViewById(R.id.filter_item_checkBox);
-	            
-	            holder.filterItemLinearLayout.setOnClickListener(new View.OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						String constraint = "";
-						int pos =((Integer)holder.filterItemCheckBox.getTag()).intValue();
-						System.out.println("*****" + pos);
-						if(holder.filterItemCheckBox.isChecked()){
-							holder.filterItemCheckBox.setChecked(false);
-							if(pos != 0){
-								checkedBoxs.remove(holder.filterItemCheckBox);
-								constraints.remove((String)holder.filterItemTextView.getText());
-							}
-						}else{
-							holder.filterItemCheckBox.setChecked(true);
-							if(pos == 0){
-								nolimit = holder.filterItemCheckBox;
-								clearConstraints();
-							}else{
-								if(nolimit != null)
-									nolimit.setChecked(false);
-								checkedBoxs.add(holder.filterItemCheckBox);
-								constraints.add((String)holder.filterItemTextView.getText());
-							}
-						}
-					}
-				});
-	            
-	            holder.filterItemCheckBox.setOnClickListener(new View.OnClickListener() {
-					
-					@Override
-					public void onClick(View v) {
-						CheckBox cb = (CheckBox) v;
-						int pos = (Integer)cb.getTag();
-						if(cb.isChecked()){
-							if(pos == 0){
-								nolimit = holder.filterItemCheckBox;
-								clearConstraints();
-							}else{
-								if(nolimit != null)
-									nolimit.setChecked(false);
-								checkedBoxs.add(cb);
-								constraints.add((String)holder.filterItemTextView.getText());
-							}						
-						}else{
-							if(pos != 0){
-								checkedBoxs.remove(cb);
-								constraints.remove((String)holder.filterItemTextView.getText());
-							}
-						}
-					}
-				});
-	           
-	            
-	            if(showCompanyLogo){
-	            	// show corresponding company logo
-	            }else{
-	            	holder.filterItemCompanyImageView.setVisibility(View.INVISIBLE);
-	            }
+	            String currentItem = getItem(position);
+	            checkedBoxs.add(holder.filterItemCheckBox);
 	            
 	            convertView.setTag(holder);  
 	        } else {  
 	            holder = (ViewHolder) convertView.getTag();  
 	        }  
 			
+			holder.position = position;
 			holder.filterItemTextView.setText(getItem(position));
-			holder.filterItemCheckBox.setTag(position);		
-          
+			holder.constraint = getItem(position);
+			holder.filterItemCheckBox.setTag(position);
+			
+			if(constraints.contains(holder.constraint))
+				holder.filterItemCheckBox.setChecked(true);
+			else
+				holder.filterItemCheckBox.setChecked(false);
+			
+			holder.filterItemLinearLayout.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					if (holder.filterItemCheckBox.isChecked())
+						holder.filterItemCheckBox.setChecked(false);
+					else
+						holder.filterItemCheckBox.setChecked(true);
+//					String constraint = "";
+//					int pos =((Integer)holder.filterItemCheckBox.getTag()).intValue();
+//					System.out.println("*****" + pos);
+//					if(holder.filterItemCheckBox.isChecked()){
+//						holder.filterItemCheckBox.setChecked(false);
+//						if(pos != 0){
+//							checkedBoxs.remove(holder.filterItemCheckBox);
+//							constraints.remove((String)holder.filterItemTextView.getText());
+//						}
+//					}else{
+//						holder.filterItemCheckBox.setChecked(true);
+//						if(pos == 0){
+//							nolimit = holder.filterItemCheckBox;
+//							clearConstraints();
+//						}else{
+//							if(nolimit != null)
+//								nolimit.setChecked(false);
+//							checkedBoxs.add(holder.filterItemCheckBox);
+//							constraints.add((String)holder.filterItemTextView.getText());
+//						}
+//					}
+				}
+			});
+            
+            holder.filterItemCheckBox.setOnCheckedChangeListener(new OncheckchangeListner(holder));
+            
+//            holder.filterItemCheckBox.setOnClickListener(new View.OnClickListener() {
+//				
+//				@Override
+//				public void onClick(View v) {
+//					CheckBox cb = (CheckBox) v;
+//					int pos = (Integer)cb.getTag();
+//					if(cb.isChecked()){
+//						if(pos == 0){
+//							nolimit = holder.filterItemCheckBox;
+//							clearConstraints();
+//						}else{
+//							if(nolimit != null)
+//								nolimit.setChecked(false);
+//							checkedBoxs.add(cb);
+//							constraints.add((String)holder.filterItemTextView.getText());
+//						}						
+//					}else{
+//						if(pos != 0){
+//							checkedBoxs.remove(cb);
+//							constraints.remove((String)holder.filterItemTextView.getText());
+//						}
+//					}
+//				}
+//			});
+           
+            
+            if(showCompanyLogo){
+            	// show corresponding company logo
+            }else{
+            	holder.filterItemCompanyImageView.setVisibility(View.INVISIBLE);
+            }          
             
 			
 	        return convertView;  
 		}
+		
+		class OncheckchangeListner implements OnCheckedChangeListener{
+
+            ViewHolder viewHolder = null; 
+            public OncheckchangeListner(ViewHolder viHolder)
+            {
+                viewHolder =  viHolder;  
+            }
+            @Override 
+            public void onCheckedChanged(CompoundButton buttonView,
+                    boolean isChecked) {
+
+                if(viewHolder.filterItemCheckBox.equals(buttonView))
+                {       
+	                if(!isChecked)
+	                {
+	                	constraints.remove(viewHolder.filterItemTextView.getText().toString());
+//	                	selectedPassengerIds.remove(viewHolder.passengerId);
+	                }
+	                else{
+//	                	if(viewHolder.position == 0){
+//	                		clearConstraints();
+//	                	}else{
+//	                		checkedBoxs.get(0).setChecked(false);
+//	                	}
+	                	constraints.add(viewHolder.filterItemTextView.getText().toString());
+	                }
+            	}
+            }
+
+        }
 		
 		private class ViewHolder {
 			LinearLayout filterItemLinearLayout;
 			ImageView filterItemCompanyImageView;
 			TextView filterItemTextView;
 			CheckBox filterItemCheckBox;
+			int position;
+			String constraint;
 		}
 	}
 }

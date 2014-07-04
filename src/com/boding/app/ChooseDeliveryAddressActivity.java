@@ -126,7 +126,7 @@ public class ChooseDeliveryAddressActivity extends Activity {
 			
 			DeliveryAddress addr = getItem(position);
             holder.recipientNameTextView.setText(addr.getRecipientName());
-            holder.addrTextView.setText(addr.getArea()+addr.getDetailedAddr());
+            holder.addrTextView.setText(addr.getDisplayAddr());
             holder.zipcodeTextView.setText(addr.getZipcode());
             holder.chooseAddrLinearLayout.setOnClickListener(new View.OnClickListener() {
 				@Override

@@ -4,6 +4,7 @@
     android:layout_height="wrap_content"
     android:background="@drawable/shape_radius"
     android:minWidth="280dip"
+    android:maxHeight = "200dip"
     android:orientation="vertical"
     tools:ignore="MergeRootFrame" >
     

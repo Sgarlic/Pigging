@@ -1,15 +1,11 @@
 package com.boding.model;
 
-import java.io.Serializable;
-import java.util.Date;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.boding.constants.Gender;
 import com.boding.constants.IdentityType;
-import com.boding.constants.IntentRequestCode;
-import com.boding.util.Util;
 
 public class Passenger implements Parcelable{
 	/**
