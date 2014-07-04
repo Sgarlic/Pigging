@@ -1,9 +1,11 @@
 package com.boding.model.domestic;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import com.boding.model.AirlineInterface;
+import com.boding.model.FlightLine;
 
 public class Airlines implements AirlineInterface{
 	private String dpt;
@@ -49,15 +51,15 @@ public class Airlines implements AirlineInterface{
 	
 	@Override
 	public void orderLinesByLeatime(boolean isAsc) {
-		// TODO Auto-generated method stub
-		
+		Collections.sort(flights, new Flight.LeatimeComp(isAsc));
 	}
 	
 	@Override
 	public void orderLinesByPrice(boolean isAsc) {
 		// TODO Auto-generated method stub
-		
+		Collections.sort(flights, new Flight.PriceComp(isAsc));
 	}
+	
 	@Override
 	public String getlowestPrice() {
 		if(flights.size() == 0)

@@ -1,9 +1,8 @@
 package com.boding.model.domestic;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
-
-import com.boding.model.FlightClass;
 
 public class Flight {
 	private String carrier;
@@ -173,6 +172,10 @@ public class Flight {
 		return String.valueOf(this.cabins.get(0).getAdultPrice());
 	}
 	
+	public int getFlightPriceInt(){
+		return (int)this.cabins.get(0).getAdultPrice();
+	}
+	
 	public String getSeat(){
 		return this.cabins.get(0).getStatus();
 	}
@@ -185,5 +188,60 @@ public class Flight {
 			lowest = lowest <= temp ? lowest : temp;
 		}
 		return lowest;
+	}
+	
+	private int getLeaveTimeInt(){
+		return Integer.parseInt(dptTime);
+	}
+	
+	public static class LeatimeComp implements Comparator<Flight>{
+		private boolean isAsc = true;
+		
+		public LeatimeComp(){}
+		
+		public LeatimeComp(boolean isAsc){
+			this.isAsc = isAsc;
+		}
+		
+		@Override
+		public int compare(Flight lhs, Flight rhs) {
+			int lhsLeatime = lhs.getLeaveTimeInt();
+			int rhsLeatime = rhs.getLeaveTimeInt();
+			int result = 0;
+			if( lhsLeatime < rhsLeatime)
+				result = -1;
+			else if(lhsLeatime > rhsLeatime)
+				result = 1;
+			else
+				result = 0;
+			
+			return isAsc ? result : (-result);
+		}
+		
+	}
+	
+	public static class PriceComp implements Comparator<Flight>{
+		private boolean isAsc = true;
+		
+		public PriceComp(){}
+		
+		public PriceComp(boolean isAsc){
+			this.isAsc = isAsc;
+		}
+		
+		@Override
+		public int compare(Flight lhs, Flight rhs) {
+			int lhsprice = lhs.getFlightPriceInt();
+			int rhsprice = rhs.getFlightPriceInt();
+			int result = 0;
+			if( lhsprice < rhsprice)
+				result = -1;
+			else if(lhsprice > rhsprice)
+				result = 1;
+			else
+				result = 0;
+			
+			return isAsc ? result : (-result);
+		}
 	}
 }

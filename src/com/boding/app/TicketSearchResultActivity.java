@@ -94,11 +94,7 @@ public class TicketSearchResultActivity extends FragmentActivity {
     private ProgressBarDialog progressDialog;
     
     //≤‚ ‘”√
-    private String tempurl = "http://192.168.0.22:9404/FakeBodingServer/XMLServlet?day=today";
-    
-	private Airlines todayAl;
-	private Airlines lastdayAl;
-	private Airlines nextdayAl; 
+    private String tempurl = "http://192.168.0.22:9404/FakeBodingServer/XMLServlet?day=today"; 
 	
 	private City from;
 	private City to;
@@ -348,7 +344,7 @@ public class TicketSearchResultActivity extends FragmentActivity {
 
 	  private void invokeXmlTask(String url, int whichday){
 		  	XMLTask xmltask = new XMLTask(this, whichday);
-			xmltask.execute(url);
+			xmltask.execute(whichday);//To Change
 	  }
 
 	  public void doFilter(List<String> timeConstraints, List<String> classConstraints, List<String> compConstrains){

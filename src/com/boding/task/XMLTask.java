@@ -16,6 +16,7 @@ import com.boding.model.AirlineView;
 import com.boding.util.AvXmlParser;
 import com.boding.app.TicketSearchResultActivity;
 
+import android.content.res.AssetManager;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -30,7 +31,8 @@ public class XMLTask extends AsyncTask<Object,Void,Object>{
 	
 	@Override
 	protected Object doInBackground(Object... params) {
-		InputStream is = requestXML((String)params[0]);
+		//InputStream is = requestXML((String)params[0]);
+		InputStream is = requestFakeData((Integer)params[0]);
 		AirlineView av = null;
 		try {
 			av = AvXmlParser.parse(is);
@@ -99,4 +101,26 @@ public class XMLTask extends AsyncTask<Object,Void,Object>{
         }
 		return inputStream;
 	}	
+	
+	private InputStream requestFakeData(int day){
+		AssetManager assetManager = tsri.getAssets();
+		InputStream ims = null;
+	    try {
+	    	switch(day){
+	    	case 1: 
+	    		ims = assetManager.open("fakeData/lastday.xml");
+	    		break;
+	    	case 2:
+	    		ims = assetManager.open("fakeData/today.xml");
+	    		break;
+	    	case 3:
+	    		ims = assetManager.open("fakeData/nextday.xml");
+	    	}
+	    }catch (IOException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	    return ims;
+	}
 }
