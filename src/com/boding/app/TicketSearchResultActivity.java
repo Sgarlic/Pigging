@@ -137,8 +137,6 @@ public class TicketSearchResultActivity extends FragmentActivity {
 			startdate = flightQuery.getReturndate();
 		}	
 		
-		
-		
 		loadData(isInternational);
 		
 		initView();
@@ -297,16 +295,16 @@ public class TicketSearchResultActivity extends FragmentActivity {
 	}
   
 	  private void setTextViewInfo(){
+		  todayDateTextView.setText(startdate);
 		  if(lastDayAirline!=null)
               lastDayPriceTextView.setText(lastDayAirline.getlowestPrice());
 		  else
               lastDayPriceTextView.setText("");
         
 		  if(todayAirline!=null){
-              todayDateTextView.setText(todayAirline.getGoDate());
               todayPriceTextView.setText(todayAirline.getlowestPrice());
 		  }else{
-              todayDateTextView.setText(startdate);
+              //todayDateTextView.setText(startdate);
               todayPriceTextView.setText("");
 		  }
         
@@ -376,8 +374,8 @@ public class TicketSearchResultActivity extends FragmentActivity {
 				String fromcode = from.getCityCode();
 				String tocode = to.getCityCode();
 				queryDomesticFlight(startdate, fromcode, tocode, 2);
-				queryDomesticFlight(startdate, fromcode, tocode, 1);
-				queryDomesticFlight(startdate, fromcode, tocode, 3);
+				queryDomesticFlight(DateUtil.getLastDay(startdate), fromcode, tocode, 1);
+				queryDomesticFlight(DateUtil.getNextDay(startdate), fromcode, tocode, 3);
 			}
 	  }
 	  

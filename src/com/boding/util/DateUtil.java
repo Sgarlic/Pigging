@@ -126,8 +126,14 @@ public class DateUtil {
 	}
 	
 	public static Date getNextDate(){
-		Date today = new Date();
 		Calendar calendar = Calendar.getInstance();
+		calendar.add(Calendar.DATE, 1);
+		return calendar.getTime();
+	}
+	
+	public static Date getNextDate(Date date){
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
 		calendar.add(Calendar.DATE, 1);
 		return calendar.getTime();
 	}
@@ -161,10 +167,9 @@ public class DateUtil {
 	}
 	
 	public static boolean isDayGone(String day){
-		Calendar cday = Calendar.getInstance();
-		Calendar ctoday = Calendar.getInstance();
-		cday.setTime(getDateFromString(day));
-		ctoday.setTime(new Date());
-		return cday.before(ctoday);
+		Date date = getDateFromString(day);
+		date = getNextDate(date);
+		Date today = new Date();
+		return date.before(today);
 	}
 }

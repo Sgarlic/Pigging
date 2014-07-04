@@ -46,13 +46,9 @@ public class DomeFlightQueryTask extends AsyncTask<Object,Void,Object> {
 		String fromcity = (String)params[1];
 		String tocity = (String)params[2];
 		
-		if(whichday == 1){
-			date = DateUtil.getLastDay(date);
-			if(DateUtil.isDayGone(date)){
-				return new Airlines();
-			}
-		}else if(whichday == 3){
-			date = DateUtil.getNextDay(date);
+		if(DateUtil.isDayGone(date)){
+			System.out.println("Gone  " + date);
+			return new Airlines();
 		}
 		
 		StringBuilder sb = new StringBuilder();
