@@ -16,5 +16,8 @@ public class Constants {
 	
 	public static final String BODINGACCOUNT = "boding";
 	public static final String BODINGKEY = "f0bddfbf03602fd56991f546b3b81d8c";
+	
+	public static final int ORDERBYTIME = 0;
+	public static final int ORDERBYPRICE = 1;
 //	public static boolean isFlyToLocationSelection = false;
 }

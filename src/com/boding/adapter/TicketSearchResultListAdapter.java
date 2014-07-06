@@ -1,6 +1,7 @@
 package com.boding.adapter;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -298,5 +299,16 @@ public class TicketSearchResultListAdapter extends TicketSearchResultAdapter {
 			
 		}
 		
+	}
+	
+	public void orderLinesByLeatime(boolean isAsc) {
+		Collections.sort(flightLineList, new Flight.LeatimeComp(isAsc));
+		notifyDataSetChanged();
+	}
+	
+	public void orderLinesByPrice(boolean isAsc) {
+		// TODO Auto-generated method stub
+		Collections.sort(flightLineList, new Flight.PriceComp(isAsc));
+		notifyDataSetChanged();
 	}
 }

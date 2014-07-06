@@ -338,7 +338,7 @@ public class Util {
 		String ftime = time.substring(0, 2) + ":" + time.substring(2); 
 		System.out.println("left: " +left);
 		System.out.println("right: " + right +" time: " + ftime);
-		if(ftime.compareTo(left) >= 0 && time.compareTo(right) <=0)
+		if(ftime.compareTo(left) >= 0 && ftime.compareTo(right) <=0)
 			return true;
 		return false;
 	}

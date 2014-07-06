@@ -1,6 +1,7 @@
 package com.boding.adapter;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -20,6 +21,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.boding.R;
+import com.boding.adapter.TicketSearchResultListAdapter.FlightLineFilter;
 import com.boding.app.MainActivity;
 import com.boding.app.OrderFormActivity;
 import com.boding.app.TicketSearchResultActivity;
@@ -34,10 +36,10 @@ import com.boding.util.Util;
 public class TicketSearchResultListIAdapter extends TicketSearchResultAdapter {
 	private LayoutInflater inflater;  
 	private AirlineView airlineView;
-    private List<FlightLine> flightLineList;
+	private List<FlightLine> flightLineList;
     private Context context;
     private FlightLineFilter flightlineFilter;
-	
+    
 	public TicketSearchResultListIAdapter(Context context, AirlineView airlineView) {
 		this.context = context;
 		this.inflater = LayoutInflater.from(context);
@@ -307,5 +309,13 @@ public class TicketSearchResultListIAdapter extends TicketSearchResultAdapter {
 			
 		}
 		
+	}
+	
+	public void orderLinesByLeatime(boolean isAsc){
+		Collections.sort(flightLineList, new FlightLine.LeatimeComp(isAsc));
+	}
+	
+	public void orderLinesByPrice(boolean isAsc){
+		Collections.sort(flightLineList, new FlightLine.PriceComp(isAsc));
 	}
 }
