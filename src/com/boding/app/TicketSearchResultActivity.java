@@ -19,9 +19,12 @@ import com.boding.constants.IntentRequestCode;
 import com.boding.model.AirlineInterface;
 import com.boding.model.AirlineView;
 import com.boding.model.City;
+import com.boding.model.FlightInterface;
 import com.boding.model.FlightLine;
 import com.boding.model.FlightQuery;
 import com.boding.model.domestic.Airlines;
+import com.boding.model.domestic.Cabin;
+import com.boding.model.domestic.Flight;
 import com.boding.task.DomeFlightQueryTask;
 import com.boding.task.XMLTask;
 import com.boding.util.CityUtil;
@@ -49,6 +52,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ExpandableListView;
+import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.ExpandableListView.OnGroupClickListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -104,6 +108,8 @@ public class TicketSearchResultActivity extends FragmentActivity {
 	private boolean goToOrder = true;
 	private boolean isInternational = true;
 
+	
+	private FlightInterface choosedGoFlight;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -111,6 +117,9 @@ public class TicketSearchResultActivity extends FragmentActivity {
 		
 		Bundle bundle = getIntent().getExtras();
 		int pre_activity_num = bundle.getInt(IntentExtraAttribute.PREVIOUS_ACTIVITY);
+		if(bundle.containsKey(IntentExtraAttribute.CHOOSED_ROUNDWAY_GOFLIGHT)){
+			choosedGoFlight = bundle.getParcelable(IntentExtraAttribute.CHOOSED_ROUNDWAY_GOFLIGHT);
+		}
 		flightQuery = (FlightQuery)bundle.getParcelable(IntentExtraAttribute.FLIGHT_QUERY);
 		System.out.println("$$$$$$$$$$" + flightQuery.getFromcity());
 
@@ -127,6 +136,7 @@ public class TicketSearchResultActivity extends FragmentActivity {
 			else goToOrder = false;
 		}
 		else if(pre_activity_num == ActivityNumber.TICKET_SEARCH_RESULT.getActivityNum()){//·µ³Ì½øÈë
+			isSingleWay = false;
 			City temp = from;
 			from = to;
 			to = temp;
@@ -340,6 +350,16 @@ public class TicketSearchResultActivity extends FragmentActivity {
 			  adapter = new TicketSearchResultListAdapter(this, (Airlines)todayAirline);
 	      searchResultListView.setAdapter(adapter);
 	      setTextViewInfo();
+	      searchResultListView.setOnChildClickListener(new OnChildClickListener() {
+			@Override
+			public boolean onChildClick(ExpandableListView parent, View v, 
+					int groupPosition, int childPosition, long id) {
+				FlightInterface flight = (FlightInterface) adapter.getGroup(groupPosition);
+				flight.setSelectedClassPos(childPosition);
+				goToNextActivity(flight);
+				return false;
+			}
+		});
 	  }
 
 	  private void invokeXmlTask(String url, int whichday){
@@ -384,15 +404,34 @@ public class TicketSearchResultActivity extends FragmentActivity {
 		  }
 	  }
 	  
-	  public void goToNextActivity(){
+	  public void goToNextActivity(FlightInterface flightInterface){
 		  Intent intent = new Intent();
 		  if(goToOrder){
+			  Bundle bundle = new Bundle();
+			  bundle.putBoolean(IntentExtraAttribute.IS_DOMESTIC_ORDER, !isInternational);
+			  bundle.putBoolean(IntentExtraAttribute.IS_ROUNDWAY_ORDER, !isSingleWay);
+			  if(!isSingleWay){
+				  if(!isInternational){
+					  bundle.putParcelable(IntentExtraAttribute.FLIGHT_LINE_INFO, 
+							  (Flight)choosedGoFlight);
+					  bundle.putParcelable(IntentExtraAttribute.FLIGHT_LINE_INFO_ROUNDWAY, 
+							  (Flight)flightInterface);
+				  }
+			  }else{
+				  if(!isInternational){
+					  bundle.putParcelable(IntentExtraAttribute.FLIGHT_LINE_INFO, 
+							  (Flight)flightInterface);
+				  }
+			  }
+			  intent.putExtras(bundle);
 			  intent.setClass(this, OrderFormActivity.class);
 		  }else{
 			  intent.setClass(this, TicketSearchResultActivity.class);
 			  Bundle bundle = new Bundle();
 			  bundle.putInt(IntentExtraAttribute.PREVIOUS_ACTIVITY, ActivityNumber.TICKET_SEARCH_RESULT.getActivityNum());
 			  bundle.putParcelable(IntentExtraAttribute.FLIGHT_QUERY, flightQuery);
+			  if(!isInternational)
+				  bundle.putParcelable(IntentExtraAttribute.CHOOSED_ROUNDWAY_GOFLIGHT, (Flight)flightInterface);
 			  intent.putExtras(bundle);
 		  }
 		  startActivityForResult(intent,IntentRequestCode.ORDER_FORM.getRequestCode());

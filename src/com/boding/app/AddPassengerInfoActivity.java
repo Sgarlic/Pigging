@@ -10,11 +10,10 @@ import com.boding.constants.HTTPAction;
 import com.boding.constants.IdentityType;
 import com.boding.constants.IntentExtraAttribute;
 import com.boding.constants.IntentRequestCode;
-import com.boding.http.HttpConnector;
-import com.boding.model.BodingUser;
 import com.boding.model.Passenger;
 import com.boding.task.PassengerTask;
 import com.boding.util.DateUtil;
+import com.boding.util.RegularExpressionsUtil;
 import com.boding.util.Util;
 import com.boding.view.dialog.ProgressBarDialog;
 import com.boding.view.dialog.SelectionDialog;
@@ -153,7 +152,7 @@ public class AddPassengerInfoActivity extends Activity {
 		DatePickerDialog datepickerDialog = new DatePickerDialog(AddPassengerInfoActivity.this,dateSetListener,
 				calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH));;
 		if(isChoosingBirthday){
-			if(passenger.getBirthday() != null){
+			if(passenger.getBirthday().length()!=0){
 				String[] dateArray = passenger.getBirthday().split("-");
 				
 				datepickerDialog = new DatePickerDialog(AddPassengerInfoActivity.this,dateSetListener,
@@ -163,7 +162,7 @@ public class AddPassengerInfoActivity extends Activity {
 			datepickerDialog.getDatePicker().setMaxDate(calendar.getTimeInMillis());
 		}
 		else{
-			if(passenger.getValidDate() != null){
+			if(passenger.getValidDate().length()!=0){
 				String[] dateArray = passenger.getValidDate().split("-");
 				datepickerDialog = new DatePickerDialog(AddPassengerInfoActivity.this,dateSetListener,
 						Integer.parseInt(dateArray[0]),Integer.parseInt(dateArray[1]) -1 ,Integer.parseInt(dateArray[2]));
@@ -217,14 +216,14 @@ public class AddPassengerInfoActivity extends Activity {
 				
 				
 				if(passenger.getIdentityType() == IdentityType.NI){
-					if(passenger.getName().length() < 2 || !Util.checkIfChinese(passenger.getName())){
+					if(passenger.getName().length() < 2 || !RegularExpressionsUtil.checkIfChinese(passenger.getName())){
 						warningDialog.setContent("请填写正确的名字");
 						warningDialog.show();
 						return;
 					}
 				}
 				else{
-					if(passenger.geteName().length() < 2 || Util.checkIfChinese(passenger.geteName()) 
+					if(passenger.geteName().length() < 2 || RegularExpressionsUtil.checkIfChinese(passenger.geteName()) 
 							|| !passenger.geteName().contains("/")){
 						warningDialog.setContent("请填写正确的名字");
 						warningDialog.show();
@@ -393,23 +392,23 @@ public class AddPassengerInfoActivity extends Activity {
 			passengerNameTextView.setText("姓名");
 			passengerNameEditText.setHint("所选证件姓名");
 			otherIDTypeLinearLayout.setVisibility(View.INVISIBLE);
-			if(passenger.getName() != null)
-				passengerNameEditText.setText(passenger.getName());;
+			passengerNameEditText.setText(passenger.getName());;
 		}else{
 			passengerNameTextView.setText("英文姓名");
 			passengerNameEditText.setHint("Last(姓)/First(名)");
 			otherIDTypeLinearLayout.setVisibility(View.VISIBLE);
-			if(passenger.geteName() != null)
-				passengerNameEditText.setText(passenger.geteName());;
+			passengerNameEditText.setText(passenger.geteName());;
 		}
 		
-		if(passenger.getCardNumber() != null)
-			IDNumberEditText.setText(passenger.getCardNumber());
+		IDNumberEditText.setText(passenger.getCardNumber());
 		
-		choosedIDTypeTextView.setText(passenger.getIdentityType().getIdentityName());
-		choosedIDTypeTextView.setSelected(true);
+		if(passenger.getIdentityType()!= null){
+			choosedIDTypeTextView.setText(passenger.getIdentityType().getIdentityName());
+			choosedIDTypeTextView.setSelected(true);
+		}else
+			choosedIDTypeTextView.setSelected(false);
 		
-		if(passenger.getNationality() == null){
+		if(passenger.getNationality().length() == 0){
 			choosedNationalityTextView.setSelected(false);
 		}else{
 			choosedNationalityTextView.setSelected(true);
@@ -423,14 +422,14 @@ public class AddPassengerInfoActivity extends Activity {
 			choosedGenderTextView.setText(passenger.getGender().toString());
 		}
 		
-		if(passenger.getBirthday() == null){
+		if(passenger.getBirthday().length()==0){
 			choosedBirthdayTextView.setSelected(false);
 		}else{
 			choosedBirthdayTextView.setSelected(true);
 			choosedBirthdayTextView.setText(passenger.getBirthday());
 		}
 		
-		if(passenger.getValidDate() == null){
+		if(passenger.getValidDate().length()==0){
 			choosedValidDateTextView.setSelected(false);
 		}else{
 			choosedValidDateTextView.setSelected(true);

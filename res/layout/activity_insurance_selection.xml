@@ -125,12 +125,12 @@
 		            android:layout_weight="1"
 		            android:orientation="vertical" >
 
-					<CheckBox
-					    android:id="@+id/insuranceselection_needInsuranceInfo_checkBox"
+		            <ImageView
+					    android:id="@+id/insuranceselection_needInsuranceInfo_imageView"
 					    android:layout_width="wrap_content"
 					    android:layout_height="wrap_content"
 					    android:layout_gravity="right"
-					    android:button="@layout/selector_switch_bg" />
+					    android:src="@layout/selector_switch_bg" />
 				</LinearLayout>
 		    </LinearLayout>
 	    </LinearLayout>

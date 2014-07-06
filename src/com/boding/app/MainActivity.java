@@ -34,6 +34,7 @@ import android.content.Intent;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.provider.Settings.Global;
 import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -340,6 +341,7 @@ public class MainActivity extends FragmentActivity {
 		leftpageDateDividerLinearLayout.setVisibility(View.INVISIBLE);
 		leftpageReturnwayDateLinearLayout.setVisibility(View.INVISIBLE);
 		isSingleWay = true;
+		GlobalVariables.isRoundWaySelection = false;
 	}
 	
 	private void swithToReturnWay(){
@@ -347,6 +349,7 @@ public class MainActivity extends FragmentActivity {
 		leftpageDateDividerLinearLayout.setVisibility(View.VISIBLE);
 		leftpageReturnwayDateLinearLayout.setVisibility(View.VISIBLE);
 		isSingleWay = false;
+		GlobalVariables.isRoundWaySelection = true;
 	}
 	
 	private void setFlyFromReturnDate(){

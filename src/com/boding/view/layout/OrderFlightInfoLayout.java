@@ -4,22 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.boding.R;
-import com.boding.app.CitySelectActivity;
-import com.boding.constants.Constants;
 import com.boding.constants.GlobalVariables;
+import com.boding.model.domestic.Flight;
+import com.boding.util.DateUtil;
+import com.boding.util.Util;
 import com.boding.view.dialog.SelectionDialog;
-import com.boding.view.dialog.SearchCityDialog;
 import com.boding.view.dialog.SeatChangeBackDialog;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.util.AttributeSet;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.WindowManager;
-import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -46,11 +41,19 @@ public class OrderFlightInfoLayout extends LinearLayout{
 	private TextView changeSeatTextView;
 	private LinearLayout stopOverLinearLayout;
 	
+	private Flight flightLine;
+	
 	// if init complete
 	private boolean flag = false;
 	public OrderFlightInfoLayout(Context context) {
 		super(context);
 		this.context = context;
+	}
+	
+	public OrderFlightInfoLayout(Context context, Flight flightLine) {
+		super(context);
+		this.context = context;
+		this.flightLine = flightLine;
 	}
 	
 	public OrderFlightInfoLayout(Context context, AttributeSet attrs) {
@@ -63,6 +66,7 @@ public class OrderFlightInfoLayout extends LinearLayout{
 		super.onWindowFocusChanged(hasFocus);
 		while(!flag){
 			initView();
+			setViewContent();
 			flag = true;
 		}
 	}
@@ -93,12 +97,29 @@ public class OrderFlightInfoLayout extends LinearLayout{
 		stopOverLinearLayout = (LinearLayout) view.findViewById(R.id.flightinfo_stopover_linearLayout);
 		
 		
-		if(!hasStopover)
-			stopOverLinearLayout.setVisibility(View.INVISIBLE);
-		
 		this.addView(view);
 		
 		addListeners();
+	}
+	
+	private void setViewContent(){
+		flyFromTextView.setText(flightLine.getFlyFromCity());
+		flyToTextView.setText(flightLine.getFlyToCity());
+		dateTextView.setText(flightLine.getDptDate());
+		companyLogoImageView.setImageBitmap(Util.getFlightCompanyLogo(context, 
+				flightLine.getCarrier()));
+		companyTextView.setText(flightLine.getCarrierName());
+		planeCodeTextView.setText(flightLine.getCarrier()+flightLine.getFlightNum());
+		fromDateDayTextView.setText(flightLine.getDptDate());
+		fromDateTimeTextView.setText(DateUtil.getFormatedTime(flightLine.getDptTime()));
+		fromTerminalTextView.setText(flightLine.getDptAirportName()+flightLine.getDptTerminal());
+		estimateTimeTextView.setText(DateUtil.getFormatedDuration(flightLine.getDuration()));
+		toDateDayTextView.setText(flightLine.getArrDate());
+		toDateTimeTextView.setText(DateUtil.getFormatedTime(flightLine.getArrTime()));
+		toTerminalTextView.setText(flightLine.getArrAirportName()+flightLine.getArrTerminal());
+		
+		if(!hasStopover)
+			stopOverLinearLayout.setVisibility(View.INVISIBLE);
 	}
 	
 	

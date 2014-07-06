@@ -111,7 +111,7 @@
 		<LinearLayout
 		    android:layout_width="wrap_content"
 		    android:layout_height="match_parent"
-		    android:layout_marginLeft="10dp"
+		    android:layout_marginLeft="5dp"
 		    android:orientation="vertical"
 		    android:paddingBottom="5dp"
 		    android:paddingTop="5dp" >
@@ -134,7 +134,7 @@
 		<LinearLayout
 		    android:layout_width="match_parent"
 		    android:layout_height="match_parent"
-		    android:layout_marginLeft="10dp"
+		    android:layout_marginLeft="5dp"
 		    android:orientation="vertical"
 		    android:paddingBottom="3dp"
 		    android:paddingTop="3dp" >
@@ -208,6 +208,7 @@
 			    android:layout_height="wrap_content"
 			    android:orientation="horizontal"
 				android:layout_weight = "1">
+
 				<TextView
 				    android:id="@+id/flightinfo_fromDateDay_textView"
 				    android:layout_width="wrap_content"
@@ -215,7 +216,7 @@
 				    android:layout_gravity="top"
 				    android:text="11-11"
 				    android:textColor="@color/black"
-				    android:textSize="18sp"
+				    android:textSize="16sp"
 				    android:typeface="serif" />
 
 				<TextView
@@ -223,10 +224,10 @@
 				    android:layout_width="wrap_content"
 				    android:layout_height="wrap_content"
 				    android:layout_gravity="top"
-				    android:layout_marginLeft="15dp"
+				    android:layout_marginLeft="5dp"
 				    android:text="07:00"
 				    android:textColor="@color/black"
-				    android:textSize="18sp"
+				    android:textSize="16sp"
 				    android:textStyle="bold"
 				    android:typeface="serif" />
 				
@@ -235,11 +236,12 @@
 				    android:layout_width="wrap_content"
 				    android:layout_height="wrap_content"
 				    android:layout_gravity="top"
-				    android:text="首都机场T2"
-				    android:layout_marginLeft="15dp"
+				    android:layout_marginLeft="5dp"
+				    android:text="北京首都机场T2"
 				    android:textColor="@color/black"
-				    android:textSize="16sp"
+				    android:textSize="15sp"
 				    android:typeface="serif" />
+
 			</LinearLayout>
 			<LinearLayout
 			    android:layout_width="match_parent"
@@ -273,6 +275,7 @@
 			    android:layout_height="wrap_content"
 			    android:orientation="horizontal"
 				android:layout_weight = "1">
+
 				<TextView
 				    android:id="@+id/flightinfo_toDateDay_textView"
 				    android:layout_width="wrap_content"
@@ -280,7 +283,7 @@
 				    android:layout_gravity="top"
 				    android:text="11-11"
 				    android:textColor="@color/black"
-				    android:textSize="18sp"
+				    android:textSize="16sp"
 				    android:typeface="serif" />
 
 				<TextView
@@ -288,10 +291,10 @@
 				    android:layout_width="wrap_content"
 				    android:layout_height="wrap_content"
 				    android:layout_gravity="top"
-				    android:layout_marginLeft="15dp"
+				    android:layout_marginLeft="5dp"
 				    android:text="09:10"
 				    android:textColor="@color/black"
-				    android:textSize="18sp"
+				    android:textSize="16sp"
 				    android:textStyle="bold"
 				    android:typeface="serif" />
 				
@@ -300,11 +303,12 @@
 				    android:layout_width="wrap_content"
 				    android:layout_height="wrap_content"
 				    android:layout_gravity="top"
-				    android:text="虹桥机场T2"
-				    android:layout_marginLeft="15dp"
+				    android:layout_marginLeft="5dp"
+				    android:text="上海虹桥机场T2"
 				    android:textColor="@color/black"
-				    android:textSize="16sp"
+				    android:textSize="15sp"
 				    android:typeface="serif" />
+
 			</LinearLayout>
 		</LinearLayout>
     </LinearLayout>

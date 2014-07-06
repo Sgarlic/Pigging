@@ -88,8 +88,13 @@ public class MyBodingActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent();
-				intent.setClass(MyBodingActivity.this, OrderListActivity.class);
-				startActivityForResult(intent, IntentRequestCode.ORDERS_LIST.getRequestCode());
+				if(hasLogin){
+					intent.setClass(MyBodingActivity.this, OrderListActivity.class);
+					startActivityForResult(intent, IntentRequestCode.ORDERS_LIST.getRequestCode());
+				}else{
+					intent.setClass(MyBodingActivity.this, LoginActivity.class);
+					startActivityForResult(intent, IntentRequestCode.LOGIN.getRequestCode());
+				}
 			}
 		});
 	}

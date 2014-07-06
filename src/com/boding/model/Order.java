@@ -1,7 +1,6 @@
 package com.boding.model;
 
-import java.util.Calendar;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.boding.constants.AirlineType;
@@ -11,21 +10,24 @@ public class Order {
 	private String orderCode = "";
 	private boolean internalFlag = false;// 0、国内票 1、国际票
 	private AirlineType airlineType = AirlineType.ONE_WAY_NOTRANSI;// 1、直飞单程 2、直飞往返 3、转机单程 4、转机往返
-	private OrderStatus orderStatus = OrderStatus.DONE;// 0、订票-待审核  1、出票-待出票  3、派送 -待派送 4、收银-待收银 5、已完成 6、退票
-	private int tripType = 1;//行程类型 1、去程 2、回程
-	private List<Passenger> passengers;
-	private Date bookingDate = Calendar.getInstance().getTime();
+	private OrderStatus orderStatus = OrderStatus.COMPLETED;// 0、订票-待审核  1、出票-待出票  3、派送 -待派送 4、收银-待收银 5、已完成 6、退票
+	private List<Passenger> passengers = new ArrayList<Passenger>();
+	private List<OrderFlight> flights = new ArrayList<OrderFlight>();
+	private String displayPassengerName;
+	private String bookingDate = "";
 	private String leaveCity = "";
 	private String arriveCity = "";
 	private String leaveAirport = "";
 	private String arriveAirport = "";
-	private Date leaveTimeDate = Calendar.getInstance().getTime();
-	private Date arriveTimeDate = Calendar.getInstance().getTime();
+	private String leaveDate = "";
+	private String leaveTime = "";
+	private String arriveDate = "";
+	private String arriveTime = "";
 	private String leaveTerminal = "";
 	private String arriveTerminal = "";
 	private String transitCity = "";
-	private String transitStayDate = "";//转机停留时长
-	private String sourceFlag = "android";
+	
+	private String sourceFlag = "";
 	private String linkMan = "";// 联系人
 	private String contactPhone = "";
 	private String payMode = "";
@@ -36,25 +38,57 @@ public class Order {
 	private String insuranceNum = "";
 	private String payAmount = "";//应付金额
 	private String prePayment = "";//波丁支付金额
-	private Date flightDateTime = Calendar.getInstance().getTime();
+	private String flightDateTime = "";
 	
-	private String carrierCode = "";//航空公司两字代码
-	private String carrierName = "";//航空公司名称
+	public Order(){};
 	
-	private String flightNum = "";//航班号
+	/**
+	 * new order from search order list result
+	 */
+	public Order(String orderCode,boolean internalFlag,String airlineTypeCode,String orderStatusCode,
+			String displayPassengerName, String bookingDate, String leaveCity, String arriveCity,
+			String leaveAirport,String arriveAirport, String leaveTimeDate, String arriveTimeDate, 
+			String leaveTerminal,String arriveTerminal, String tranistCity){
+		setOrderCode(orderCode);
+		setInternalFlag(internalFlag);
+		setAirlineType(airlineTypeCode);
+		setOrderStatus(orderStatusCode);
+		setDisplayPassengerName(displayPassengerName);
+		setBookingDate(bookingDate);
+		setLeaveCity(leaveCity);
+		setArriveCity(arriveCity);
+		setLeaveAirport(leaveAirport);
+		setArriveAirport(arriveAirport);
+		setLeaveTimeDate(leaveTimeDate);
+		setArriveTimeDate(arriveTimeDate);
+		setLeaveTerminal(leaveTerminal);
+		setArriveTerminal(arriveTerminal);
+		setTransitCity(tranistCity);
+	}
 	
-	private String discount = "";
-
-	private String rules = "";
+	/**
+	 * 去掉括号和不能超过四个字
+	 * @param cityName
+	 * @return
+	 */
+	private String getFormatedCityName(String cityName){
+		String newName = cityName;
+		int position = cityName.indexOf('(');
+		if(position!=-1){
+			newName = cityName.substring(0,position);
+		}
+		if(newName.length()>4){
+			newName = newName.substring(0,4);
+		}
+		return newName;
+	}
 	
-	private String planeType = "";//机型
-
 	public String getLeaveCity() {
 		return leaveCity;
 	}
-
+	
 	public void setLeaveCity(String leaveCity) {
-		this.leaveCity = leaveCity;
+		this.leaveCity = getFormatedCityName(leaveCity);
 	}
 
 	public String getArriveCity() {
@@ -62,7 +96,7 @@ public class Order {
 	}
 
 	public void setArriveCity(String arriveCity) {
-		this.arriveCity = arriveCity;
+		this.arriveCity = getFormatedCityName(arriveCity);
 	}
 
 	public String getLeaveAirport() {
@@ -105,29 +139,33 @@ public class Order {
 		this.transitCity = transitCity;
 	}
 
-	public Date getLeaveTimeDate() {
-		return leaveTimeDate;
+	public String getLeaveDate() {
+		return leaveDate;
 	}
 
-	public void setLeaveTimeDate(Date leaveTimeDate) {
-		this.leaveTimeDate = leaveTimeDate;
+	public void setLeaveTimeDate(String leaveTimeDate) {
+		String[] temp = leaveTimeDate.split(" ");
+		this.leaveDate = temp[0];
+		this.leaveTime = temp[1];
 	}
 
-	public Date getArriveTimeDate() {
-		return arriveTimeDate;
+	public String getArriveDate() {
+		return arriveDate;
 	}
 
-	public void setArriveTimeDate(Date arriveTimeDate) {
-		this.arriveTimeDate = arriveTimeDate;
+	public void setArriveTimeDate(String arriveTimeDate) {
+		String[] temp = arriveTimeDate.split(" ");
+		this.arriveDate = temp[0];
+		this.arriveTime = temp[1];
 	}
 
 	public AirlineType getAirlineType() {
 		return airlineType;
 	}
 
-	public void setAirlineType(int airlineTypeCode) {
+	public void setAirlineType(String airlineTypeCode) {
 		for(AirlineType airlineType : AirlineType.values()){
-			if(airlineType.getAirlineTypeCode() == airlineTypeCode){
+			if(airlineType.getAirlineTypeCode().equals(airlineTypeCode)){
 				this.airlineType = airlineType;
 			}
 		}
@@ -144,9 +182,9 @@ public class Order {
 		return orderStatus;
 	}
 
-	public void setOrderStatus(int orderStatusCode) {
+	public void setOrderStatus(String orderStatusCode) {
 		for(OrderStatus orderStatus : OrderStatus.values()){
-			if(orderStatus.getOrderStatusCode() == orderStatusCode){
+			if(orderStatus.getOrderStatusCode().equals(orderStatusCode)){
 				this.orderStatus = orderStatus;
 			}
 		}
@@ -156,7 +194,209 @@ public class Order {
 		return passengers;
 	}
 
-	public void setPassengers(List<Passenger> passengers) {
-		this.passengers = passengers;
+	public void addPassenger(Passenger passenger) {
+		this.passengers.add(passenger);
 	}
+	
+	public List<OrderFlight> getOrderFlights(){
+		return flights;
+	}
+	
+	public void addOrderFlight(OrderFlight orderFlight){
+		flights.add(orderFlight);
+	}
+
+	public String getOrderCode() {
+		return orderCode;
+	}
+
+	public void setOrderCode(String orderCode) {
+		this.orderCode = orderCode;
+	}
+
+	public boolean isInternalFlag() {
+		return internalFlag;
+	}
+
+	public void setInternalFlag(boolean internalFlag) {
+		this.internalFlag = internalFlag;
+	}
+
+	public String getBookingDate() {
+		return bookingDate;
+	}
+
+	public void setBookingDate(String bookingDate) {
+		this.bookingDate = bookingDate;
+	}
+
+	public String getDisplayPassengerName() {
+		return displayPassengerName;
+	}
+
+	public void setDisplayPassengerName(String displayPassengerName) {
+		this.displayPassengerName = displayPassengerName;
+	}
+
+	public String getLeaveTime() {
+		return leaveTime;
+	}
+
+	public String getArriveTime() {
+		return arriveTime;
+	}
+	
+//	@Override
+//	public int describeContents() {
+//		return 0;
+//	}
+//	
+//	public Order(Parcel in){
+//		setOrderCode(in.readString());
+//		setInternalFlag(Boolean.parseBoolean(in.readString()));
+//		setAirlineType(in.readString());
+//		setOrderStatus(in.readString());
+//		setDisplayPassengerName(in.readString());
+//		setBookingDate(in.readString());
+//		setLeaveCity(in.readString());
+//		setArriveCity(in.readString());
+//		setLeaveAirport(in.readString());
+//		setArriveAirport(in.readString());
+//		this.leaveDate = in.readString();
+//		this.leaveTime = in.readString();
+//		this.arriveDate = in.readString();
+//		this.arriveTime = in.readString();
+//		setLeaveTerminal(in.readString());
+//		setArriveTerminal(in.readString());
+//		setTransitCity(in.readString());
+//		
+//	}
+//	
+//	@Override
+//	public void writeToParcel(Parcel dest, int arg1) {
+//		dest.writeString(orderCode);
+//		dest.writeString(String.valueOf(internalFlag));
+//		dest.writeString(airlineType.getAirlineTypeCode());
+//		dest.writeString(orderStatus.getOrderStatusCode());
+//		dest.writeString(displayPassengerName);
+//		dest.writeString(bookingDate);
+//		dest.writeString(leaveCity);
+//		dest.writeString(arriveCity);
+//		dest.writeString(leaveAirport);
+//		dest.writeString(arriveAirport);
+//		dest.writeString(leaveDate);
+//		dest.writeString(leaveTime);
+//		dest.writeString(arriveDate);
+//		dest.writeString(arriveTime);
+//		dest.writeString(leaveTerminal);
+//		dest.writeString(arriveTerminal);
+//		dest.writeString(transitCity);
+//	}
+	
+	 public String getSourceFlag() {
+		return sourceFlag;
+	}
+
+	public void setSourceFlag(String sourceFlag) {
+		this.sourceFlag = sourceFlag;
+	}
+
+	public String getLinkMan() {
+		return linkMan;
+	}
+
+	public void setLinkMan(String linkMan) {
+		this.linkMan = linkMan;
+	}
+
+	public String getContactPhone() {
+		return contactPhone;
+	}
+
+	public void setContactPhone(String contactPhone) {
+		this.contactPhone = contactPhone;
+	}
+
+	public String getPayMode() {
+		return payMode;
+	}
+
+	public void setPayMode(String payMode) {
+		this.payMode = payMode;
+	}
+
+	public String getShouldRecvMoney() {
+		return shouldRecvMoney;
+	}
+
+	public void setShouldRecvMoney(String shouldRecvMoney) {
+		this.shouldRecvMoney = shouldRecvMoney;
+	}
+
+	public String getTicketPrice() {
+		return ticketPrice.substring(0,ticketPrice.length()-5);
+	}
+
+	public void setTicketPrice(String ticketPrice) {
+		this.ticketPrice = ticketPrice;
+	}
+
+	public String getTax() {
+		return tax;
+	}
+
+	public void setTax(String tax) {
+		this.tax = tax;
+	}
+
+	public String getInsurance() {
+		return insurance;
+	}
+
+	public void setInsurance(String insurance) {
+		this.insurance = insurance;
+	}
+
+	public String getInsuranceNum() {
+		return insuranceNum;
+	}
+
+	public void setInsuranceNum(String insuranceNum) {
+		this.insuranceNum = insuranceNum;
+	}
+
+	public String getPayAmount() {
+		return payAmount.substring(0,payAmount.length()-5);
+	}
+
+	public void setPayAmount(String payAmount) {
+		this.payAmount = payAmount;
+	}
+
+	public String getPrePayment() {
+		return prePayment;
+	}
+
+	public void setPrePayment(String prePayment) {
+		this.prePayment = prePayment;
+	}
+
+	public String getFlightDateTime() {
+		return flightDateTime;
+	}
+
+	public void setFlightDateTime(String flightDateTime) {
+		this.flightDateTime = flightDateTime;
+	}
+
+//	public static final Parcelable.Creator<Order> CREATOR = new Parcelable.Creator<Order>() {   
+//		//重写Creator
+//		 public Order createFromParcel(Parcel in) {  
+//	            return new Order(in);  
+//	        }  
+//	          
+//	        public Order[] newArray(int size) {  
+//	            return new Order[size];  
+//	        }  
+//	 };
 }

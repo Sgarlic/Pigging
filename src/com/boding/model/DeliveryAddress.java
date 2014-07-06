@@ -8,15 +8,15 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class DeliveryAddress implements Parcelable{
-	private String addrID;
-	private String recipientName;
+	private String addrID = "";
+	private String recipientName = "";
 	private Province province;
-	private String city;
-	private String district;
-	private String detailedAddr;
-	private String zipcode;
-	private String mobile;
-	private String phone;
+	private String city = "";
+	private String district = "";
+	private String detailedAddr = "";
+	private String zipcode = "";
+	private String mobile = "";
+	private String phone = "";
 	
 	public DeliveryAddress(){
 		
@@ -36,7 +36,7 @@ public class DeliveryAddress implements Parcelable{
 		setPhone(phone);
 	}
 	public String getDisplayAddr(){
-		return province+city+district+detailedAddr;
+		return province.getProvinceName()+city+district+detailedAddr;
 	}
 	
 	public String getRecipientName() {
@@ -83,7 +83,7 @@ public class DeliveryAddress implements Parcelable{
 	
 	public void setProvince(String province) {
 		for(Province provinceTemp : GlobalVariables.allProvincesList){
-			if(provinceTemp.getProvinceName().equals(province)){
+			if(provinceTemp.getProvinceName().contains(province)){
 				this.province = provinceTemp;
 				break;
 			}

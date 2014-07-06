@@ -3,6 +3,7 @@ package com.boding.util;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -38,6 +39,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -374,15 +376,16 @@ public class Util {
 		setStringSharedPreferences(context, SharedPreferencesAttributes.LOGIN_PASSWORD, password);
 	}
 	
-	public static boolean checkIfChinese(String str) {
-		boolean mark = false;
-		Pattern pattern = Pattern.compile("[\u4E00-\u9FA5]");
-		Matcher matc = pattern.matcher(str);
-		StringBuffer stb = new StringBuffer();
-		while (matc.find()) {
-			mark = true;
-		    stb.append(matc.group());
+	public static Bitmap getFlightCompanyLogo(Context context, String companyCode){
+		AssetManager assetManager = context.getAssets();
+		Bitmap image = null;
+		try {
+			InputStream ims = assetManager.open("clogos/"+companyCode.toLowerCase()+".png");
+			image = BitmapFactory.decodeStream(ims);  
+			ims.close();  
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-		return mark;
+		return image;
 	}
 }

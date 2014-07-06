@@ -146,7 +146,7 @@ public class DateSelectCalendarView extends View implements View.OnTouchListener
 		 * 获得返程日期的索引
 		 */
 		int returnDateIndex = -1;
-		if(GlobalVariables.Fly_Return_Date!=null){
+		if(GlobalVariables.Fly_Return_Date!=null && GlobalVariables.isRoundWaySelection){
 			Date returnDate = DateUtil.getDateFromString(GlobalVariables.Fly_Return_Date);
 			if(Util.compareYearAndMonth(curDate, returnDate) == 0){
 				Calendar returnDateCalendar = Calendar.getInstance();

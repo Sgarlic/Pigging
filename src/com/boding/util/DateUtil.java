@@ -172,4 +172,30 @@ public class DateUtil {
 		Date today = new Date();
 		return date.before(today);
 	}
+	
+	/**
+	 * 输入mmss	分秒
+	 * 返回mm:ss	分:秒
+	 * eg. 输入2000
+	 * 返回20:00
+	 * @param time
+	 * @return
+	 */
+	public static String getFormatedTime(String time){
+		return time.substring(0,2)+":"+time.substring(2,4);
+	}
+	
+	
+	/**
+	 * 输入mm:ss
+	 * 返回mm小时ss分钟
+	 * eg. 输入2:25
+	 * 返回2小时25分钟
+	 * @param duration
+	 * @return
+	 */
+	public static String getFormatedDuration(String duration){
+		String[] tempArray = duration.split(":");
+		return tempArray[0]+"小时"+tempArray[1]+"分钟";
+	}
 }

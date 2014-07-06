@@ -11,23 +11,32 @@ public class Passenger implements Parcelable{
 	/**
 	 * 
 	 */
-	private String auto_id;//乘机人ID
-	private String cardno;//用户代码/卡号
-	private String name;//中文姓名
-	private String eName;//英文姓名  格式:姓/名
+	private String auto_id = "";//乘机人ID
+	private String cardno = "";//用户代码/卡号
+	private String name = "";//中文姓名
+	private String eName = "";//英文姓名  格式:姓/名
 	private IdentityType identityType = null;
-	private String passPaper;// 证件信息 格式:证件类型^证件号^证件有效期| 
+	private String passPaper = "";// 证件信息 格式:证件类型^证件号^证件有效期| 
 	//多个使用“|”分割
 	//如：NI^350783199011156570^|PP^G542124854544^2015-05-05|
 
-	private String cardNumber;//
-	private String validDate;//
-	private String nationality;//国籍 格式:国家-国家代码
+	private String cardNumber = "";//
+	private String validDate = "";//
+	private String nationality = "";//国籍 格式:国家-国家代码
 	private Gender gender = null;//
-	private String birthday;//生日 格式:YYYY-MM-DD
+	private String birthday = "";//生日 格式:YYYY-MM-DD
 	
 	public Passenger(){
 		
+	}
+	
+	public Passenger(String name, String paper_type, String id_code){
+		setName(name);
+		this.identityType = IdentityType.getIdentityTypeFromIDCode(paper_type);
+		if(identityType == IdentityType.NI)
+			this.cardNumber = id_code;
+		else
+			this.cardNumber = id_code.split("/")[1];
 	}
 	
 	public Passenger(String auto_id, String cardno, String name, String eName, String brithday,

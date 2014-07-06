@@ -1,10 +1,20 @@
 package com.boding.model.domestic;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
-public class Flight {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import com.boding.constants.Gender;
+import com.boding.constants.IdentityType;
+import com.boding.model.FlightInterface;
+import com.boding.model.Passenger;
+import com.boding.util.CityUtil;
+
+public class Flight implements FlightInterface, Parcelable{
 	private String carrier;
 	private String dptAirport;
 	private String arrAirport;
@@ -27,6 +37,19 @@ public class Flight {
 	private String arrAirportName;
 	private String duration;
 	private List<Cabin> cabins = new ArrayList<Cabin>();
+	
+	private int selectedCabinPos = 0;
+	
+	public Flight(){}
+	
+	public String getFlyFromCity(){
+		return CityUtil.getCityNameByCode(dptAirport);
+	}
+	
+	public String getFlyToCity(){
+		return CityUtil.getCityNameByCode(arrAirport);
+	}
+	
 	public String getCarrier() {
 		return carrier;
 	}
@@ -111,6 +134,13 @@ public class Flight {
 	public void setPlantype(String plantype) {
 		this.plantype = plantype;
 	}
+	
+	public String hasStops(){
+		if(stops.equals("0"))
+			return "false";
+		return "true";
+	}
+	
 	public String getStops() {
 		return stops;
 	}
@@ -220,6 +250,13 @@ public class Flight {
 		
 	}
 	
+	public int getSelectedClassLeftTicket(){
+		String status = cabins.get(selectedCabinPos).getStatus();
+		if(status.equals("A"))
+			return 10;
+		return Integer.parseInt(status);
+	}
+	
 	public static class PriceComp implements Comparator<Flight>{
 		private boolean isAsc = true;
 		
@@ -243,5 +280,86 @@ public class Flight {
 			
 			return isAsc ? result : (-result);
 		}
+	}
+	
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+	
+	public Flight(Parcel in){
+		carrier = in.readString();
+		dptAirport = in.readString();
+		arrAirport = in.readString();
+		dptDate = in.readString();
+		arrDate = in.readString();
+		dptTime = in.readString();
+		arrTime = in.readString();
+		flightNum = in.readString();
+		codeShare = in.readString();
+		adultFuelFee = in.readString();
+		adultAirportFee = in.readString();
+		yprice = in.readString();
+		meal = in.readString();
+		plantype = in.readString();
+		stops = in.readString();
+		dptTerminal = in.readString();
+		arrTerminal = in.readString();
+		carrierName = in.readString();
+		dptAirportName = in.readString();
+		arrAirportName = in.readString();
+		duration = in.readString();
+		selectedCabinPos = in.readInt();
+		Parcelable[] cabinArray = in.readParcelableArray(Cabin.class.getClassLoader());
+		cabins = Arrays.asList(Arrays.asList(cabinArray).toArray(new Cabin[cabinArray.length]));
+	}
+	
+	@Override
+	public void writeToParcel(Parcel dest, int arg1) {
+		dest.writeString(carrier);
+		dest.writeString(dptAirport);
+		dest.writeString(arrAirport);
+		dest.writeString(dptDate);
+		dest.writeString(arrDate);
+		dest.writeString(dptTime);
+		dest.writeString(arrTime);
+		dest.writeString(flightNum);
+		dest.writeString(codeShare);
+		dest.writeString(adultFuelFee);
+		dest.writeString(adultAirportFee);
+		dest.writeString(yprice);
+		dest.writeString(meal);
+		dest.writeString(plantype);
+		dest.writeString(stops);
+		dest.writeString(dptTerminal);
+		dest.writeString(arrTerminal);
+		dest.writeString(carrierName);
+		dest.writeString(dptAirportName);
+		dest.writeString(arrAirportName);
+		dest.writeString(duration);
+		dest.writeInt(selectedCabinPos);
+		dest.writeParcelableArray(cabins.toArray(new Cabin[cabins.size()]), 0);
+	}
+
+	public static final Parcelable.Creator<Flight> CREATOR = new Parcelable.Creator<Flight>() {   
+		//÷ÿ–¥Creator
+		  
+		 public Flight createFromParcel(Parcel in) {  
+	            return new Flight(in);  
+	        }  
+	          
+	        public Flight[] newArray(int size) {  
+	            return new Flight[size];  
+	        }  
+	 };
+
+	@Override
+	public void setSelectedClassPos(int position) {
+		this.selectedCabinPos = position;
+	}
+
+	@Override
+	public int getSelectedClassPos() {
+		return this.selectedCabinPos;
 	}
 }

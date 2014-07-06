@@ -47,11 +47,13 @@ public class CalendarLayout extends LinearLayout{
 	private Context context;
 	
 	private OnItemClickListener onItemClickListener;
+	private boolean isReturnwaySelection;
 	// if init complete
 	private boolean flag = false;
-	public CalendarLayout(Context context) {
+	public CalendarLayout(Context context, boolean isReturnwaySelection) {
 		super(context);
 		this.context = context;
+		this.isReturnwaySelection = isReturnwaySelection;
 	}
 	
 	public CalendarLayout(Context context, AttributeSet attrs) {

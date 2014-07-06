@@ -4,6 +4,7 @@
     android:layout_height="wrap_content"
     android:background="@color/classInfoPanelBgColor"
     android:orientation="vertical"
+    android:paddingRight="15dp"
     android:paddingBottom="5dp"
     android:paddingTop="5dp" >
 

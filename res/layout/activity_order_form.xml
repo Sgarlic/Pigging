@@ -326,10 +326,10 @@
 				        android:scrollbars="none" />
 
 				</LinearLayout>
+
 		        <LinearLayout
 		            android:layout_width="match_parent"
 		            android:layout_height="wrap_content"
-		            android:layout_marginBottom="15dp"
 		            android:orientation="horizontal" >
 		
 					<TextView
@@ -346,25 +346,32 @@
 				        android:layout_height="wrap_content"
 				        android:layout_gravity="center_vertical"
 				        android:layout_weight="1"
-				        android:orientation="vertical" >
+				        android:orientation="vertical"
+				        android:paddingBottom="7dp"
+				        android:paddingTop="7dp" >
 
-						<TextView
-						    android:id="@+id/orderform_phoneNumber_textView"
+						<EditText
+						    android:id="@+id/orderform_phoneNumber_editText"
 						    android:layout_width="wrap_content"
-						    android:layout_height="wrap_content"
+						    android:layout_height="match_parent"
 						    android:layout_gravity="right"
-						    android:text="13921616379 "
+						    android:background="@color/white"
+						    android:ems="8"
+						    android:gravity="right"
+						    android:hint="请填写手机号"
+						    android:inputType="number"
+						    android:maxLines="1"
 						    android:textColor="@color/black"
+						    android:textColorHint="@color/listviewDividerColor"
 						    android:textSize="17sp"
-						    android:typeface="serif" />
-
+						    android:typeface="serif" >
+						</EditText>
 				    </LinearLayout>
 				</LinearLayout>
 
 		        <LinearLayout
 		            android:layout_width="match_parent"
 		            android:layout_height="wrap_content"
-		            android:layout_marginBottom="15dp"
 		            android:orientation="horizontal" >
 		
 					<TextView
@@ -377,13 +384,16 @@
 					    android:typeface="serif" />
 			
 				    <LinearLayout
+				        android:id="@+id/orderform_insurance_linearLayout"
 				        android:layout_width="wrap_content"
 				        android:layout_height="wrap_content"
 				        android:layout_gravity="center_vertical"
 				        android:layout_weight="1"
-				        android:orientation="vertical" >
+				        android:orientation="vertical"
+				        android:paddingBottom="7dp"
+				        android:paddingTop="7dp" >
+
 						<LinearLayout
-						    android:id="@+id/orderform_insurance_linearLayout"
 					        android:layout_width="wrap_content"
 					        android:layout_height="wrap_content"
 					        android:layout_gravity="right"
@@ -443,8 +453,7 @@
 		        <LinearLayout
 		            android:layout_width="match_parent"
 		            android:layout_height="wrap_content"
-		            android:layout_marginBottom="30dp"
-		            android:orientation="horizontal" >
+		            android:orientation="horizontal">
 		
 					<TextView
 					    android:layout_width="wrap_content"
@@ -456,18 +465,21 @@
 					    android:typeface="serif" />
 			
 				    <LinearLayout
+				        android:id="@+id/orderform_journeySheet_linearLayout"
 				        android:layout_width="wrap_content"
 				        android:layout_height="wrap_content"
 				        android:layout_gravity="center_vertical"
 				        android:layout_weight="1"
-				        android:orientation="vertical" >
+				        android:orientation="vertical"
+			            android:paddingBottom="7dp"
+			            android:paddingTop="7dp"  >
+
 						<LinearLayout
-						    android:id="@+id/orderform_journeySheet_linearLayout"
-					        android:layout_width="wrap_content"
-					        android:layout_height="wrap_content"
-					        android:layout_gravity="right"
-					        android:layout_weight="1"
-					        android:orientation="horizontal" >
+						    android:layout_width="wrap_content"
+						    android:layout_height="match_parent"
+						    android:layout_gravity="right"
+						    android:layout_weight="1"
+						    android:orientation="horizontal" >
 
 							<TextView
 							    android:id="@+id/orderform_journeySheet_textView"

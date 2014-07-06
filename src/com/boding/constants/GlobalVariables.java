@@ -17,6 +17,7 @@ public class GlobalVariables {
 	public static City Fly_To_City = null;
 	public static String Fly_From_Date = DateUtil.getFormatedDate(new Date());
 	public static String Fly_Return_Date = DateUtil.getNextDateString();
+	public static Boolean isRoundWaySelection = false;
 	
 	public static int Screen_Width = 0;
 	public static int Screen_Height = 0;

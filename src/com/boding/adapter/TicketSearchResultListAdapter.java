@@ -108,19 +108,12 @@ public class TicketSearchResultListAdapter extends TicketSearchResultAdapter {
             holder.moreClassInfoImageView = (ImageView)convertView.findViewById(R.id.group_more_class_imageView);
             holder.toOrderLinearLayout = (LinearLayout) convertView.findViewById(R.id.ticket_search_toOrder_linearLayout);
             
-            holder.toOrderLinearLayout.setOnClickListener(new OnClickListener(){
-    			@Override
-    			public void onClick(View v) {
-    				((TicketSearchResultActivity)context).goToNextActivity();
-    			}
-    		});
-            
             convertView.setTag(holder);  
         } else {  
             holder = (GroupViewHolder) convertView.getTag(); 
             
         }  
-		Flight currentFlightLine = getGroup(groupPosition);
+		final Flight currentFlightLine = getGroup(groupPosition);
 		String leavetime = currentFlightLine.getDptTime();
 		String arrivetime = currentFlightLine.getArrTime();
 		String flyingtime = Util.calculateFlyingtime(currentFlightLine.getDptDate(), currentFlightLine.getArrDate(), leavetime, arrivetime);
@@ -128,9 +121,13 @@ public class TicketSearchResultListAdapter extends TicketSearchResultAdapter {
 		holder.flightStartTimeTextView.setText(DateUtil.formatTime(leavetime)+" -");
 		holder.flightEndTimeTextView.setText(DateUtil.formatTime(arrivetime));
 		holder.flightPriceTextView.setText(currentFlightLine.getFlightPrice());
-		holder.ticketLeftTextView.setText(currentFlightLine.getSeat()); //To edit by class type passed by invoker.
+		if(currentFlightLine.getSeat().equals("A"))
+			holder.ticketLeftTextView.setText(">9"); //To edit by class type passed by invoker.
+		else
+			holder.ticketLeftTextView.setText(currentFlightLine.getSeat());
 		holder.airlineCompanyTextView.setText(currentFlightLine.getCarrierName());
 		holder.airlineCodeTextView.setText(currentFlightLine.getCarrier()+currentFlightLine.getFlightNum());
+		holder.planeTypeSizeTextView.setText("机型"+currentFlightLine.getPlantype());
 		//此处设置舱位信息，要根据传入的参数决定。
 		holder.startAirportTextView.setText(currentFlightLine.getDptAirportName());
 		holder.endAirportTextView.setText(currentFlightLine.getArrAirportName());
@@ -144,6 +141,13 @@ public class TicketSearchResultListAdapter extends TicketSearchResultAdapter {
 		if(!isGgroupExpandable(groupPosition)){
 			holder.moreClassInfoLinearLayout.setVisibility(View.GONE);		
 		}
+		
+		holder.toOrderLinearLayout.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View v) {
+				((TicketSearchResultActivity)context).goToNextActivity(currentFlightLine);
+			}
+		});
 		
         return convertView;  
 	}
@@ -195,7 +199,11 @@ public class TicketSearchResultListAdapter extends TicketSearchResultAdapter {
        
         Cabin flightClass = getChild(groupPosition, childPosition);
         
-        holder.leftTicketTextView.setText(">9");
+        if(flightClass.getStatus().equals("A"))
+        	holder.leftTicketTextView.setText(">9");
+        else{
+        	holder.leftTicketTextView.setText(flightClass.getStatus());
+        }
         holder.returnMoneyTextView.setText("5");
 //        discountTextView.setTextij");
 //        priceTextView.setText(flightClass.getPrice()+"");

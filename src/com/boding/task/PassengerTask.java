@@ -240,6 +240,7 @@ public class PassengerTask extends AsyncTask<Object,Void,Object>{
 	
 
 	public static String connectingServer(String urlStr){
+		System.out.println(urlStr);
 		StringBuilder sbr = new StringBuilder();
 		URL url;
 		try {

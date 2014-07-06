@@ -23,8 +23,8 @@
 			    <TextView
 			        android:id="@+id/listitemorder_flyFromCity_textView"
 			        android:layout_width="wrap_content"
-			        android:layout_height="wrap_content"
-			        android:text="北京 "
+			        android:layout_height="30dp"
+			        android:text="北京（虹桥）"
 			        android:textColor="@color/black"
 			        android:textSize="18sp"
 			        android:textStyle="bold"
@@ -32,7 +32,7 @@
 			    
 			    <LinearLayout
 			        android:layout_width="80dp"
-			        android:layout_height="wrap_content"
+			        android:layout_height="30dp"
 			        android:layout_gravity="top"
 			        android:orientation="vertical" >
 		
@@ -43,17 +43,12 @@
 				        android:layout_gravity="center_horizontal"
 				        android:background="@drawable/roundwaywithtransit_blue"
 				        android:orientation="vertical" >
-		
-					    <TextView
-					        android:id="@+id/listitemorder_transitCity_textView"
+						<LinearLayout
 					        android:layout_width="wrap_content"
-					        android:layout_height="wrap_content"
+					        android:layout_height="match_parent"
 					        android:layout_gravity="center_horizontal"
-					        android:text="香港 "
-					        android:textColor="@color/black"
-					        android:textSize="9sp"
-					        android:textStyle="bold"
-					        android:typeface="serif" />
+					        android:orientation="horizontal" >
+					    </LinearLayout>
 				    </LinearLayout>
 				</LinearLayout>
 			</LinearLayout>
@@ -98,7 +93,7 @@
 		    <TextView
 		        android:id="@+id/listitemorder_flyToCity_textView"
 		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
+		        android:layout_height="30dp"
 		        android:text="上海 "
 		        android:textColor="@color/black"
 		        android:textSize="18sp"

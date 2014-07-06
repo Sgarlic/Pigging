@@ -2,10 +2,23 @@ package com.boding.model;
 
 import java.util.Comparator;
 
-public class FlightLine {
+import com.boding.util.CityUtil;
+
+public class FlightLine implements FlightInterface{
 	private String flightType;
 	private Departure departure;
 	private ReturnList returnlist;
+	
+	private int selectedClassPos;
+	
+	public String getFlyFromCity(){
+		return CityUtil.getCityNameByCode(departure.getSegments().get(0).getLeacode());
+	}
+	
+	public String getFlyToCity(){
+		int segmentSize = getDepature().getSegments().size();
+		return CityUtil.getCityNameByCode(departure.getSegments().get(segmentSize-1).getLeacode());
+	}
 	
 	public String getFlightType() {
 		return flightType;
@@ -97,6 +110,13 @@ public class FlightLine {
 		return Integer.parseInt(departure.getSegments().get(0).getFclasslist().get(0).getPrice().getFile());
 	}
 	
+	public int getSelectedClassLeftTicket(){
+		String seat = this.departure.getSegments().get(0).getFclasslist().get(selectedClassPos).getSeat();
+		if(seat.equals("A"))
+			return 10;
+		return Integer.parseInt(seat);
+	}
+
 	public static class LeatimeComp implements Comparator<FlightLine>{
 		private boolean isAsc = true;
 		
@@ -146,5 +166,15 @@ public class FlightLine {
 			
 			return isAsc ? result : (-result);
 		}
+	}
+
+	@Override
+	public void setSelectedClassPos(int position) {
+		this.selectedClassPos = position;
+	}
+
+	@Override
+	public int getSelectedClassPos() {
+		return this.selectedClassPos;
 	}
 }

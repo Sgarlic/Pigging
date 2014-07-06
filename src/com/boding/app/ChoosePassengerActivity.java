@@ -112,6 +112,13 @@ public class ChoosePassengerActivity extends Activity {
 		completeLinearLayout.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
+				if(selectedPassengerIds.size() > 9){
+            		WarningDialog dialog = new WarningDialog(ChoosePassengerActivity.this,
+            				Constants.DIALOG_STYLE);
+            		dialog.setContent("最多只能选择9位乘客");
+            		dialog.show();
+            		return;
+            	}
 				Intent intent=new Intent();
 				ArrayList<Passenger> selectedPassengerList = new ArrayList<Passenger>();
 				for(int i=0;i<peopleAdapter.getCount();i++){
@@ -252,9 +259,6 @@ public class ChoosePassengerActivity extends Activity {
 	                	selectedPassengerIds.remove(viewHolder.passengerId);
 	                }
 	                else{
-	                	if(selectedPassengerIds.size() == 9){
-	                		return;
-	                	}
 	                	selectedPassengerIds.add(viewHolder.passengerId);
 	                }
             	}

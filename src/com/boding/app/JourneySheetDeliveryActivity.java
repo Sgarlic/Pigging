@@ -4,10 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.boding.R;
+import com.boding.constants.Constants;
+import com.boding.constants.IntentExtraAttribute;
 import com.boding.constants.IntentRequestCode;
+import com.boding.model.DeliveryAddress;
 import com.boding.model.Passenger;
 import com.boding.util.Util;
 import com.boding.view.dialog.SelectionDialog;
+import com.boding.view.dialog.WarningDialog;
 import com.boding.view.layout.OrderFlightInfoLayout;
 
 import android.app.Activity;
@@ -22,6 +26,7 @@ import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -29,22 +34,29 @@ import android.widget.TextView;
 public class JourneySheetDeliveryActivity extends Activity {
 	private LinearLayout completeLinearLayout;
 	private LinearLayout needJourneySheetInfoLinearLayout;
-	private CheckBox needJourneySheetCheckBox;
+	private ImageView needJourneySheetImageView;
 	private LinearLayout selectDeliveryMethodsLinearLayout;
 	private TextView deliveryMethodTextView;
 	private LinearLayout selectDeliveryAddrLinearLayout;
-	
 	private LinearLayout showJourneySheetInfoLinearLayout;
+	private TextView deliveryAddrTextView; 
+	
+	private DeliveryAddress selectedAddr;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_journeysheet_delivery);
-//		Bundle arguments = getIntent().getExtras();
-//        if(arguments != null)
-//        	isReturnDateSelection = arguments.getBoolean(Constants.IS_RETURN_DATE_SELECTION);
+		
+		Bundle arguments = getIntent().getExtras();
+        if(arguments != null){
+        	if(arguments.containsKey(IntentExtraAttribute.CHOOSED_DELIVERADDR_EXTRA)){
+        		selectedAddr = arguments.getParcelable(IntentExtraAttribute.CHOOSED_DELIVERADDR_EXTRA);
+        	}
+        }
         
 		initView();
+		setViewContent();
 	}
 	
 	private void initView(){
@@ -59,26 +71,28 @@ public class JourneySheetDeliveryActivity extends Activity {
 		
 		completeLinearLayout = (LinearLayout) findViewById(R.id.journeysheet_complete_linearLayout);
 		needJourneySheetInfoLinearLayout = (LinearLayout) findViewById(R.id.journeysheet_needJourneySheetInfo_linearLayout);
-		needJourneySheetCheckBox = (CheckBox) findViewById(R.id.journeysheet_needJourneySheetInfo_checkBox);
+		needJourneySheetImageView = (ImageView) findViewById(R.id.journeysheet_needJourneySheetInfo_imageView);
 		selectDeliveryMethodsLinearLayout = (LinearLayout) findViewById(R.id.journeysheet_selectDeliveryMethods_linearLayout);
 		deliveryMethodTextView = (TextView) findViewById(R.id.journeysheet_deliveryMethods_textView);
 		selectDeliveryAddrLinearLayout = (LinearLayout) findViewById(R.id.journeysheet_selectDeliveryAddress_linearLayout);
-		
 		showJourneySheetInfoLinearLayout = (LinearLayout) findViewById(R.id.journeysheet_showJourneySheetInfo_linearLayout);
+		deliveryAddrTextView = (TextView) findViewById(R.id.journeysheet_deliveryAddr_textView);
+		
 		addListeners();
 	}
 	
+	private void setViewContent(){
+		if(selectedAddr == null){
+			deliveryAddrTextView.setText("");
+			showJourneySheetInfoLinearLayout.setVisibility(View.INVISIBLE);
+		}else{
+			deliveryAddrTextView.setText(selectedAddr.getRecipientName());
+			showJourneySheetInfoLinearLayout.setVisibility(View.VISIBLE);
+		}
+	}
+	
+	
 	private void addListeners(){
-		needJourneySheetCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton arg0, boolean checked) {
-				if(checked)
-					showJourneySheetInfoLinearLayout.setVisibility(View.VISIBLE);
-				else
-					showJourneySheetInfoLinearLayout.setVisibility(View.INVISIBLE);
-			}
-		});
-		
 		selectDeliveryMethodsLinearLayout.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
@@ -95,10 +109,13 @@ public class JourneySheetDeliveryActivity extends Activity {
 		needJourneySheetInfoLinearLayout.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				if(needJourneySheetCheckBox.isChecked())
-					needJourneySheetCheckBox.setChecked(false);
-				else
-					needJourneySheetCheckBox.setChecked(true);
+				if(needJourneySheetImageView.isSelected()){
+					needJourneySheetImageView.setSelected(false);
+					showJourneySheetInfoLinearLayout.setVisibility(View.INVISIBLE);
+				}else{
+					needJourneySheetImageView.setSelected(true);
+					showJourneySheetInfoLinearLayout.setVisibility(View.VISIBLE);
+				}
 			}
 		});
 		
@@ -106,9 +123,50 @@ public class JourneySheetDeliveryActivity extends Activity {
 			@Override
 			public void onClick(View arg0) {
 				Intent intent = new Intent();
+				if(selectedAddr!=null){
+					Bundle bundle  = new Bundle();
+					bundle.putParcelable(IntentExtraAttribute.CHOOSED_DELIVERADDR_EXTRA,
+							selectedAddr);
+					intent.putExtras(bundle);
+				}
 				intent.setClass(JourneySheetDeliveryActivity.this, ChooseDeliveryAddressActivity.class);
 				startActivityForResult(intent,IntentRequestCode.CHOOSE_DELIVERYADDR.getRequestCode());
 			}
 		});
+		completeLinearLayout.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				Intent intent=new Intent();
+				if(needJourneySheetImageView.isSelected()){
+					if(selectedAddr == null){
+						WarningDialog warningDialog = new WarningDialog(
+							JourneySheetDeliveryActivity.this, Constants.DIALOG_STYLE);
+						warningDialog.setContent("«Î—°‘Ò≈‰ÀÕµÿ÷∑");
+						warningDialog.show();
+						return;
+	            	}else{
+	            		intent.putExtra(IntentExtraAttribute.CHOOSED_DELIVERADDR_EXTRA, selectedAddr);
+	            	}
+				}
+				setResult(IntentRequestCode.JOURNEYSHEET_DELIVERY.getRequestCode(), intent);
+				finish();
+			}
+		});
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if(data == null)
+			return;
+		if(requestCode==IntentRequestCode.CHOOSE_DELIVERYADDR.getRequestCode()){
+			if(data.getExtras() == null)
+				return;
+			if(data.getExtras().containsKey(IntentExtraAttribute.CHOOSED_DELIVERADDR_EXTRA)){
+				selectedAddr = data.getExtras().getParcelable(IntentExtraAttribute.CHOOSED_DELIVERADDR_EXTRA);
+			}else
+				selectedAddr = null;
+		}
+		setViewContent();
 	}
 }

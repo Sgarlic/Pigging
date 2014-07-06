@@ -7,28 +7,37 @@ import java.util.List;
 
 import com.boding.R;
 import com.boding.constants.AirlineType;
+import com.boding.constants.Constants;
+import com.boding.constants.HTTPAction;
 import com.boding.constants.IdentityType;
+import com.boding.constants.IntentExtraAttribute;
 import com.boding.constants.IntentRequestCode;
 import com.boding.constants.OrderStatus;
 import com.boding.model.DeliveryAddress;
 import com.boding.model.Order;
 import com.boding.model.Passenger;
+import com.boding.task.OrderTask;
 import com.boding.util.DateUtil;
 import com.boding.util.Util;
+import com.boding.view.dialog.ProgressBarDialog;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 public class OrderListActivity extends Activity {
@@ -38,6 +47,8 @@ public class OrderListActivity extends Activity {
 	
 	private OrderListAdapter orderListAdapter;
 	
+	private ProgressBarDialog progressBarDialog;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -45,8 +56,21 @@ public class OrderListActivity extends Activity {
 //		Bundle arguments = getIntent().getExtras();
 //        if(arguments != null)
 //        	isReturnDateSelection = arguments.getBoolean(Constants.IS_RETURN_DATE_SELECTION);
-        
+        progressBarDialog = new ProgressBarDialog(this, Constants.DIALOG_STYLE);
 		initView();
+		setViewContent();
+	}
+	
+	private void setViewContent(){
+		progressBarDialog.show();
+		(new OrderTask(this, HTTPAction.GET_ORDER_LIST)).execute("20","1");
+	}
+	
+	public void setOrderList(List<Order> orderList){
+		orderListAdapter = new OrderListAdapter(this, orderList);
+		ordersListView.setAdapter(orderListAdapter);
+		
+		progressBarDialog.dismiss();
 	}
 	
 	private void initView(){
@@ -63,87 +87,24 @@ public class OrderListActivity extends Activity {
 		orderFilterTypeTextView = (TextView) findViewById(R.id.allorders_orderFilterType_textView);
 		ordersListView = (ListView) findViewById(R.id.allorders_listView);
 		
-		List<Order> orderList = new ArrayList<Order>();
-		
-		Order order = new Order();
-		order.setLeaveCity("上海");
-		order.setArriveCity("北京");
-		order.setAirlineType(4);
-		order.setLeaveAirport("首都机场");
-		order.setLeaveTerminal("T2");
-		order.setLeaveTimeDate(Calendar.getInstance().getTime());
-		order.setArriveAirport("浦东机场");
-		order.setArriveTimeDate(Calendar.getInstance().getTime());
-		List<Passenger> passengers = new ArrayList<Passenger>();
-		Passenger passenger = new Passenger("李大嘴", "35778993321145",IdentityType.HX);
-		passengers.add(passenger);
-		order.setPassengers(passengers);
-		order.setOrderStatus(0);
-		orderList.add(order);
-		
-		order = new Order();
-		order.setLeaveCity("上海");
-		order.setArriveCity("北京");
-		order.setAirlineType(1);
-		order.setLeaveAirport("首都机场");
-		order.setLeaveTerminal("T2");
-		order.setLeaveTimeDate(Calendar.getInstance().getTime());
-		order.setArriveAirport("浦东机场");
-		order.setArriveTimeDate(Calendar.getInstance().getTime());
-		passengers.add(passenger);
-		order.setPassengers(passengers);
-		order.setOrderStatus(1);
-		orderList.add(order);
-
-		order = new Order();
-		order.setLeaveCity("上海");
-		order.setArriveCity("北京");
-		order.setAirlineType(2);
-		order.setLeaveAirport("首都机场");
-		order.setLeaveTerminal("T2");
-		order.setLeaveTimeDate(Calendar.getInstance().getTime());
-		order.setArriveAirport("浦东机场");
-		order.setArriveTimeDate(Calendar.getInstance().getTime());
-		passengers.add(passenger);
-		order.setPassengers(passengers);
-		order.setOrderStatus(3);
-		orderList.add(order);
-		
-		order = new Order();
-		order.setLeaveCity("上海");
-		order.setArriveCity("北京");
-		order.setAirlineType(3);
-		order.setLeaveAirport("首都机场");
-		order.setLeaveTerminal("T2");
-		order.setLeaveTimeDate(Calendar.getInstance().getTime());
-		order.setArriveAirport("浦东机场");
-		order.setArriveTimeDate(Calendar.getInstance().getTime());
-		passengers.add(passenger);
-		order.setPassengers(passengers);
-		order.setOrderStatus(4);
-		orderList.add(order);
-		
-		order = new Order();
-		order.setLeaveCity("上海");
-		order.setArriveCity("北京");
-		order.setAirlineType(1);
-		order.setLeaveAirport("首都机场");
-		order.setLeaveTerminal("T2");
-		order.setLeaveTimeDate(Calendar.getInstance().getTime());
-		order.setArriveAirport("浦东机场");
-		order.setArriveTimeDate(Calendar.getInstance().getTime());
-		passengers.add(passenger);
-		order.setPassengers(passengers);
-		order.setOrderStatus(5);
-		orderList.add(order);
-		
-		orderListAdapter = new OrderListAdapter(this, orderList);
-		ordersListView.setAdapter(orderListAdapter);
-		
 		addListeners();
 	}
 	
 	private void addListeners(){
+		ordersListView.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int position,
+					long arg3) {
+				Order selectedOrder = orderListAdapter.getItem(position);
+				Intent intent = new Intent();
+				Bundle bundle = new Bundle();
+				bundle.putString(IntentExtraAttribute.CHOOSED_ORDER_ID, 
+						selectedOrder.getOrderCode());
+				intent.putExtras(bundle);
+				intent.setClass(OrderListActivity.this, OrderDetailActivity.class);
+				startActivityForResult(intent, IntentRequestCode.ORDER_DETAIL.getRequestCode());
+			}
+		});
 	}
 	
 	
@@ -182,7 +143,7 @@ public class OrderListActivity extends Activity {
 	            holder = new ViewHolder();  
 	            
 	            holder.flyFromCityTextView = (TextView) convertView.findViewById(R.id.listitemorder_flyFromCity_textView);
-	            holder.transitCityTextView = (TextView) convertView.findViewById(R.id.listitemorder_transitCity_textView);
+//	            holder.transitCityTextView = (TextView) convertView.findViewById(R.id.listitemorder_transitCity_textView);
 	            holder.flyFromTerminalTextView = (TextView) convertView.findViewById(R.id.listitemorder_flyFromTerminal_textView);
 	            holder.flyFromDateTextView = (TextView) convertView.findViewById(R.id.listitemorder_flyFromDate_textView);
 	            holder.flyFromTimeTextView = (TextView) convertView.findViewById(R.id.listitemorder_flyFromTime_textView);
@@ -202,17 +163,17 @@ public class OrderListActivity extends Activity {
 			
 			Order order = getItem(position);
 			holder.flyFromCityTextView.setText(order.getLeaveCity());
-			holder.transitCityTextView.setText(order.getTransitCity());
+//			holder.transitCityTextView.setText(order.getTransitCity());
 			holder.flyFromTerminalTextView.setText(order.getLeaveAirport()+order.getLeaveTerminal());
-			holder.flyFromDateTextView.setText(DateUtil.getFormatedDate(order.getLeaveTimeDate()));
-			//holder.flyFromTimeTextView.setText(order.getLeaveTimeDate());
+			holder.flyFromDateTextView.setText(order.getLeaveDate());
+			holder.flyFromTimeTextView.setText(order.getLeaveTime());
 			holder.flyToCityTextView.setText(order.getArriveCity());
 			holder.flyToTerminalTextView.setText(order.getArriveAirport()+order.getArriveTerminal());
-			holder.flyToDateTextView.setText(DateUtil.getFormatedDate(order.getArriveTimeDate()));
-			//holder.flyToTimeTextView.setText(order.getLeaveTimeDate());
+			holder.flyToDateTextView.setText(order.getArriveDate());
+			holder.flyToTimeTextView.setText(order.getLeaveTime());
 			
 			holder.flyTypeTextView.setText(order.getAirlineType().getAirlineTypeName());
-			holder.flyPassengerTextView.setText(order.getFirstPassenger());
+			holder.flyPassengerTextView.setText(order.getDisplayPassengerName());
 			holder.orderStatusTextView.setText(order.getOrderStatus().getOrderStatusName());
 			
 			Util.setViewBackground(holder.airlineTypeLinearLayout, getResources().getDrawable(order.getAirlineType().getAirlineTypePicID()));
@@ -222,7 +183,7 @@ public class OrderListActivity extends Activity {
 		
 		private class ViewHolder {
 			TextView flyFromCityTextView;
-			TextView transitCityTextView;
+//			TextView transitCityTextView;
 			TextView flyFromTerminalTextView;
 			TextView flyFromDateTextView;
 			TextView flyFromTimeTextView;
