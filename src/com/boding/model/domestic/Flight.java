@@ -199,7 +199,7 @@ public class Flight implements FlightInterface, Parcelable{
 	}
 	
 	public String getFlightPrice(){
-		return String.valueOf(this.cabins.get(0).getAdultPrice());
+		return String.valueOf((int)this.cabins.get(0).getAdultPrice());
 	}
 	
 	public int getFlightPriceInt(){

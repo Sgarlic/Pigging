@@ -11,6 +11,7 @@ import com.boding.R.menu;
 import com.boding.adapter.TicketSearchResultAdapter;
 import com.boding.adapter.TicketSearchResultListAdapter;
 import com.boding.adapter.TicketSearchResultListIAdapter;
+import com.boding.adapter.TicketSearchResultListIAdapter.FlightLineFilter;
 import com.boding.constants.ActivityNumber;
 import com.boding.constants.Constants;
 import com.boding.constants.GlobalVariables;
@@ -92,6 +93,8 @@ public class TicketSearchResultActivity extends FragmentActivity {
     
     private boolean isLeatimeAsc = true;
     private boolean isPriceAsc = true;
+    
+    private int orderFlag;
     
     private FlightQuery flightQuery;
     
@@ -218,6 +221,8 @@ public class TicketSearchResultActivity extends FragmentActivity {
                   nextDayAirline = todayAirline;
                   todayAirline = lastDayAirline;
                   lastDayAirline = null;
+                  
+                  refreshOrder();
                   setAdapter();
                   startdate = DateUtil.getLastDay(startdate);
                   loadDataOfDay(1);
@@ -236,6 +241,8 @@ public class TicketSearchResultActivity extends FragmentActivity {
                    lastDayAirline = todayAirline;
                    todayAirline = nextDayAirline;
                    nextDayAirline = null;
+                   
+                   refreshOrder();
                    setAdapter();
                    startdate = DateUtil.getNextDay(startdate);
                    loadDataOfDay(3);
@@ -249,13 +256,14 @@ public class TicketSearchResultActivity extends FragmentActivity {
 
 			@Override
 			public void onClick(View v) {
+				orderFlag = Constants.ORDERBYTIME;
 				if(!isLeatimeAsc){
-					todayAirline.orderLinesByLeatime(true);
+					adapter.orderLinesByLeatime(true);
 					leatimeOrderImageview.setImageResource(R.drawable.triangle_up_orange);
 					adapter.notifyDataSetChanged();
 					isLeatimeAsc = true;
 				}else{
-					todayAirline.orderLinesByLeatime(false);
+					adapter.orderLinesByLeatime(false);
 					leatimeOrderImageview.setImageResource(R.drawable.triangle_down_orange);
 					adapter.notifyDataSetChanged();
 					isLeatimeAsc = false;
@@ -267,15 +275,14 @@ public class TicketSearchResultActivity extends FragmentActivity {
         priceLinearLayout.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View v) {
+				orderFlag = Constants.ORDERBYPRICE;
 				if(!isPriceAsc){
-					todayAirline.orderLinesByPrice(true);
+					adapter.orderLinesByPrice(true);
 					priceOrderImageview.setImageResource(R.drawable.triangle_up_orange);
-					adapter.notifyDataSetChanged();
 					isPriceAsc = true;
 				}else{
-					todayAirline.orderLinesByPrice(false);
+					adapter.orderLinesByPrice(false);
 					priceOrderImageview.setImageResource(R.drawable.triangle_down_orange);
-					adapter.notifyDataSetChanged();
 					isPriceAsc = false;
 				}
 				Intent intent = new Intent();
@@ -368,9 +375,18 @@ public class TicketSearchResultActivity extends FragmentActivity {
 	  }
 
 	  public void doFilter(List<String> timeConstraints, List<String> classConstraints, List<String> compConstrains){
-		  TicketSearchResultListIAdapter.FlightLineFilter filter = (TicketSearchResultListIAdapter.FlightLineFilter)adapter.getFilter();
-		  filter.setConstraint(timeConstraints, classConstraints, compConstrains);
-		  filter.filter("");
+		  android.widget.Filter filter = null;
+		  if(isInternational){
+			   filter = (TicketSearchResultListIAdapter.FlightLineFilter)adapter.getFilter();
+			   ((FlightLineFilter) filter).setConstraint(timeConstraints, classConstraints, compConstrains);
+			   filter.filter("");
+		  }
+		  else{
+			  filter = (TicketSearchResultListAdapter.FlightLineFilter)adapter.getFilter();
+			  ((TicketSearchResultListAdapter.FlightLineFilter) filter).setConstraint(timeConstraints, classConstraints, compConstrains);
+			   filter.filter("");
+		  }
+		 
 	  }
 	  
 	  private void queryDomesticFlight(String date, String fromcity, String tocity, int whichday){
@@ -435,5 +451,15 @@ public class TicketSearchResultActivity extends FragmentActivity {
 			  intent.putExtras(bundle);
 		  }
 		  startActivityForResult(intent,IntentRequestCode.ORDER_FORM.getRequestCode());
+	  }
+	  
+	  private void refreshOrder(){
+		  switch(orderFlag){
+		  case Constants.ORDERBYTIME:
+			  todayAirline.orderLinesByLeatime(isLeatimeAsc);
+			  break;
+		  case Constants.ORDERBYPRICE:
+			  todayAirline.orderLinesByPrice(isPriceAsc);
+		  }
 	  }
 }
