@@ -110,6 +110,8 @@ public class TicketSearchResultActivity extends FragmentActivity {
 	private boolean isSingleWay = true;
 	private boolean goToOrder = true;
 	private boolean isInternational = true;
+	
+	FilterDialog filterDialog;
 
 	
 	private FlightInterface choosedGoFlight;
@@ -296,12 +298,8 @@ public class TicketSearchResultActivity extends FragmentActivity {
 
 			@Override
 			public void onClick(View v) {
-
-//				FilterDialog fd = new FilterDialog();
-//				
-//				fd.show(getSupportFragmentManager(), "filterDialog");
-
-				FilterDialog filterDialog = new FilterDialog(TicketSearchResultActivity.this,R.style.Custom_Dialog_Theme);
+				if(filterDialog == null)
+					filterDialog = new FilterDialog(TicketSearchResultActivity.this,R.style.Custom_Dialog_Theme);
 				filterDialog.show();
 			}
         });
