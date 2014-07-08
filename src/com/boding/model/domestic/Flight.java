@@ -39,9 +39,42 @@ public class Flight implements FlightInterface, Parcelable{
 	private List<Cabin> cabins = new ArrayList<Cabin>();
 	
 	private int selectedCabinPos = 0;
+	private int defaultShowedCabinPos = 0;
+	private List<Cabin> selectedCabins = new ArrayList<Cabin>();
 	
 	public Flight(){}
 	
+	
+	public int getSelectedCabinPos() {
+		return selectedCabinPos;
+	}
+
+
+	public void setSelectedCabinPos(int selectedCabinPos) {
+		this.selectedCabinPos = selectedCabinPos;
+	}
+
+
+	public List<Cabin> getSelectedCabins() {
+		return selectedCabins;
+	}
+
+
+	public void setSelectedCabins(List<Cabin> selectedCabins) {
+		this.selectedCabins = selectedCabins;
+	}
+
+
+	public static Parcelable.Creator<Flight> getCreator() {
+		return CREATOR;
+	}
+
+
+	public void setDefaultShowedCabinPos(int defaultShowedCabinPos) {
+		this.defaultShowedCabinPos = defaultShowedCabinPos;
+	}
+
+
 	public String getFlyFromCity(){
 		return CityUtil.getCityNameByCode(dptAirport);
 	}
@@ -222,6 +255,26 @@ public class Flight implements FlightInterface, Parcelable{
 	
 	private int getLeaveTimeInt(){
 		return Integer.parseInt(dptTime);
+	}
+	
+	public void setDefaultShowedCabins(String classStr){
+		double lowest = Double.MAX_VALUE;
+		Cabin cabin = null;
+		selectedCabins = new ArrayList<Cabin>();
+		for(int i=0; i<cabins.size(); ++i){
+			cabin = cabins.get(i);
+			if(cabin.getCabinName().contains(classStr)){
+				selectedCabins.add(cabin);
+				if(cabin.getAdultPrice() < lowest){
+					lowest = cabin.getAdultPrice();
+					defaultShowedCabinPos = i;
+				}
+			}
+		}
+	}
+	
+	public int getDefaultShowedCabinPos(){
+		return defaultShowedCabinPos;
 	}
 	
 	public static class LeatimeComp implements Comparator<Flight>{

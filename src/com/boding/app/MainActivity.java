@@ -63,6 +63,8 @@ public class MainActivity extends FragmentActivity {
 	private VPagerAdapter vAdapter;
 	private HPagerAdapter hAdapter;
 	
+	private String classInfo = Constants.COUCH_CLASS;
+	
 	/**
 	 * Left page widgets
 	 */
@@ -91,6 +93,7 @@ public class MainActivity extends FragmentActivity {
 	private ListView leftpagePassengerAmountSelectChildListView; 
 	private PassengerAmountAdapter leftpagePassengerAmountSelectAdultAdapter; 
 	private PassengerAmountAdapter leftpagePassengerAmountSelectChildAdapter; 
+	private TextView leftpageClassSelectionTextView;
 	
 	
 	/**
@@ -179,6 +182,7 @@ public class MainActivity extends FragmentActivity {
 				bundle.putParcelable(IntentExtraAttribute.FLIGHT_QUERY, fq);
 				bundle.putBoolean(Constants.IS_SINGLE_WAY, isSingleWay);
 				bundle.putInt(IntentExtraAttribute.PREVIOUS_ACTIVITY, ActivityNumber.MAIN.getActivityNum());
+				bundle.putString(IntentExtraAttribute.CLASS_INFO, classInfo);
 				intent.putExtras(bundle);
 				startActivityForResult(intent,IntentRequestCode.TICKET_SEARCH.getRequestCode());
 			}
@@ -209,15 +213,24 @@ public class MainActivity extends FragmentActivity {
 		});
 		
 		leftpageClassSelectionLinearLayout = (LinearLayout) leftPageView.findViewById(R.id.flight_class_selection_linearLayout);
+		leftpageClassSelectionTextView = (TextView)leftPageView.findViewById(R.id.flight_class_spinner_textView);
 		leftpageClassSelectionLinearLayout.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View arg0) {
-				List<String> classList = new ArrayList<String>();
-				classList.add("经济舱");
-				classList.add("公务舱/头等舱");
+				final List<String> classList = new ArrayList<String>();
+				classList.add(Constants.COUCH_CLASS);
+				classList.add(Constants.FIRST_CLASS);
+				classList.add(Constants.BUSINESS_CLASS);
 				
 				SelectionDialog classSelectionDialog = new SelectionDialog(MainActivity.this,
 						R.style.Custom_Dialog_Theme, "选择舱位",classList);
+				classSelectionDialog.setOnItemSelectedListener(new SelectionDialog.OnItemSelectedListener() {
+					@Override
+					public void OnItemSelected(int position) {
+						classInfo = classList.get(position);
+						leftpageClassSelectionTextView.setText(classInfo);
+					}
+				});
 				classSelectionDialog.show();
 			}
         });

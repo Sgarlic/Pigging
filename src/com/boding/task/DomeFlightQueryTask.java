@@ -126,8 +126,8 @@ public class DomeFlightQueryTask extends AsyncTask<Object,Void,Object> {
 		Cabin cabin = null;
 		JSONObject cabinj = null;
 		for(int i=0; i< flights.length(); ++i){
-			flight = new Flight();
 			flightj = flights.getJSONObject(i);
+			flight = new Flight();
 			flight.setCarrier(flightj.getString("Carrier"));
 			flight.setDptAirport(flightj.getString("DptAirport"));
 			flight.setArrAirport(flightj.getString("ArrAirport"));
@@ -172,6 +172,7 @@ public class DomeFlightQueryTask extends AsyncTask<Object,Void,Object> {
 				cabins.add(cabin);
 			}
 			flight.setCabins(cabins);
+			flight.setSelectedCabins(cabins);
 			flightlist.add(flight);		
 		}
 		airlines.setFlights(flightlist);

@@ -23,6 +23,7 @@ public class IntentExtraAttribute {
 	public static final String FLIGHT_QUERY = "flightQuery";
 	public static final String IS_SINGLE_WAY = "isSingleWay";
 	public static final String CHOOSED_ROUNDWAY_GOFLIGHT = "choosedRoundwayGoFlight";
+	public static final String CLASS_INFO = "classInfo";
 	
 	/**
 	 * Order Form

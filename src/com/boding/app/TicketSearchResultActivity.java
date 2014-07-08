@@ -112,6 +112,7 @@ public class TicketSearchResultActivity extends FragmentActivity {
 	private boolean isInternational = true;
 	
 	FilterDialog filterDialog;
+	private String classInfo;
 
 	
 	private FlightInterface choosedGoFlight;
@@ -127,6 +128,7 @@ public class TicketSearchResultActivity extends FragmentActivity {
 		}
 		flightQuery = (FlightQuery)bundle.getParcelable(IntentExtraAttribute.FLIGHT_QUERY);
 		System.out.println("$$$$$$$$$$" + flightQuery.getFromcity());
+		classInfo = bundle.getString(IntentExtraAttribute.CLASS_INFO);
 
 		String fromcity = flightQuery.getFromcity();
 		String tocity = flightQuery.getTocity();
@@ -331,6 +333,7 @@ public class TicketSearchResultActivity extends FragmentActivity {
 			  return;
 	       this.todayAirline = todayAV;
 	       setAdapter();
+	       //doDefaultFilter();
 	       progressDialog.dismiss();
 	  }
 
@@ -353,6 +356,7 @@ public class TicketSearchResultActivity extends FragmentActivity {
 			  adapter = new TicketSearchResultListIAdapter(this, (AirlineView)todayAirline);
 		  else
 			  adapter = new TicketSearchResultListAdapter(this, (Airlines)todayAirline);
+		  doDefaultFilter();
 	      searchResultListView.setAdapter(adapter);
 	      setTextViewInfo();
 	      searchResultListView.setOnChildClickListener(new OnChildClickListener() {
@@ -459,5 +463,11 @@ public class TicketSearchResultActivity extends FragmentActivity {
 		  case Constants.ORDERBYPRICE:
 			  todayAirline.orderLinesByPrice(isPriceAsc);
 		  }
+	  }
+	  
+	  public void doDefaultFilter(){
+		  List<String> classConstraints = new ArrayList<String>();
+		  classConstraints.add(classInfo);
+		  doFilter(new ArrayList<String>(), classConstraints, new ArrayList<String>());
 	  }
 }

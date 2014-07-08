@@ -29,17 +29,19 @@ public class TicketSearchResultListAdapter extends TicketSearchResultAdapter {
     private List<Flight> flightLineList;
     private Context context;
     private FlightLineFilter flightlineFilter;
+    private List<Flight> originList;
 	
 	public TicketSearchResultListAdapter(Context context, Airlines airlineView) {
 		this.context = context;
 		this.inflater = LayoutInflater.from(context);
 //		this.airlineViewList = new ArrayList<AirlineView>();
 		this.airlineView = airlineView;
-		this.flightLineList = airlineView.getFlights();
+		this.originList = this.flightLineList = airlineView.getFlights();
 //		int sectionPointer = 0;
 	}
 	
 	public boolean isGgroupExpandable(int groupPosition){
+		System.out.println("^^^^^^^^^^" + groupPosition + " " +getChildrenCount(groupPosition));
 		if(getChildrenCount(groupPosition) == 1)
 			return false;
 		return true;
@@ -47,7 +49,7 @@ public class TicketSearchResultListAdapter extends TicketSearchResultAdapter {
 	
 	@Override
 	public Cabin getChild(int groupPosition, int childPosition) {
-		return getGroup(groupPosition).getFlightClassByPos(childPosition); 
+		return getGroup(groupPosition).getSelectedCabins().get(childPosition);
 	}
 
 	@Override
@@ -57,7 +59,8 @@ public class TicketSearchResultListAdapter extends TicketSearchResultAdapter {
  
     @Override
     public int getChildrenCount(int groupPosition) { 
-            return getGroup(groupPosition).getFlightClassNum(); 
+    	System.out.println("&&&&&&&&&&&&" + getGroup(groupPosition).getSelectedCabins().size());
+            return getGroup(groupPosition).getSelectedCabins().size(); 
     } 
  
     @Override
@@ -108,6 +111,7 @@ public class TicketSearchResultListAdapter extends TicketSearchResultAdapter {
 		
 		holder.flightStartTimeTextView.setText(DateUtil.formatTime(leavetime)+" -");
 		holder.flightEndTimeTextView.setText(DateUtil.formatTime(arrivetime));
+		holder.flightClassTextView.setText(currentFlightLine.getCabins().get(currentFlightLine.getDefaultShowedCabinPos()).getCabinName());
 		holder.flightPriceTextView.setText(currentFlightLine.getFlightPrice());
 		if(currentFlightLine.getSeat().equals("A"))
 			holder.ticketLeftTextView.setText(">9"); //To edit by class type passed by invoker.
@@ -128,6 +132,8 @@ public class TicketSearchResultListAdapter extends TicketSearchResultAdapter {
 		
 		if(!isGgroupExpandable(groupPosition)){
 			holder.moreClassInfoLinearLayout.setVisibility(View.GONE);		
+		}else{
+			holder.moreClassInfoLinearLayout.setVisibility(View.VISIBLE);	
 		}
 		
 		holder.toOrderLinearLayout.setOnClickListener(new OnClickListener(){
@@ -233,10 +239,11 @@ public class TicketSearchResultListAdapter extends TicketSearchResultAdapter {
 			List<Flight> lines = new ArrayList<Flight>();
 			Flight flightline = null;
 			boolean tag = false;
-			for (Iterator<Flight> iterator = flightLineList.iterator(); iterator.hasNext();) {
+			System.out.println(originList.size());
+			for (Iterator<Flight> iterator = originList.iterator(); iterator.hasNext();) {
 		        flightline = iterator.next();
 		        tag = false;
-		        //System.out.println("---> name=" + name);
+		        System.out.println("---> name=" + flightline.getDptTime());
 		        if(timeConstraint.size() >0)
 		        	for(String timeSeg : timeConstraint){
 		        	//System.out.println(flightline.getLeaveTime() +"   " +timeSeg);
@@ -250,11 +257,14 @@ public class TicketSearchResultListAdapter extends TicketSearchResultAdapter {
 		        	tag = true;
 		        if(tag) tag = false;
 		        else
-		        	break;
+		        	continue;
 		        if(classConstraint.size() > 0)
 		        	for(String flightclass : classConstraint){
 		        	//´ýÌí¼Ó²ÕÎ»ÅÐ¶Ï
-		        		if (true) {
+		        		System.out.println(flightclass);
+		        		flightline.setDefaultShowedCabins(flightclass);
+		        		System.out.println("%%%%%%%%%%" + flightline.getSelectedCabins().size());
+		        		if (flightline.getSelectedCabins().size() > 0) {
 				          tag = true;
 				          break;
 		        		}
@@ -263,7 +273,7 @@ public class TicketSearchResultListAdapter extends TicketSearchResultAdapter {
 		        	tag = true;
 		        if(tag) tag = false;
 		        else
-		        	break;
+		        	continue;
 		        if(compConstraint.size() > 0)
 		        	for(String company : compConstraint){
 		        		System.out.println(flightline.getCarrierName());

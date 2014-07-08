@@ -20,4 +20,8 @@ public class Constants {
 	public static final int ORDERBYTIME = 0;
 	public static final int ORDERBYPRICE = 1;
 //	public static boolean isFlyToLocationSelection = false;
+	
+	public static final String COUCH_CLASS = "经济舱";
+	public static final String FIRST_CLASS = "头等舱";
+	public static final String BUSINESS_CLASS = "商务舱";
 }
