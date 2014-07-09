@@ -127,8 +127,8 @@ public class OrderFlightInfoLayout extends LinearLayout{
 		
 		if(!hasStopover)
 			stopOverLinearLayout.setVisibility(View.INVISIBLE);
-		Cabin cabin = flightLine.getCabins().get(flightLine.getSelectedCabinPos());
-		ticketPricePriceTextView.setText(cabin.getFilePrice()+"");
+		Cabin cabin = flightLine.getSelectedCabin();
+		ticketPricePriceTextView.setText(cabin.getAdultPrice()+"");
 		planeBuildingPriceTextView.setText(flightLine.getAdultAirportFee()+"");
 		fuelOilPriceTextView.setText(flightLine.getAdultFuelFee()+"");
 	}

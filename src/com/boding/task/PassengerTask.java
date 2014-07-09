@@ -229,7 +229,8 @@ public class PassengerTask extends AsyncTask<Object,Void,Object>{
 				passengers.add(new Passenger(passengerJSON.getString("auto_id"),
 						passengerJSON.getString("cardno"),passengerJSON.getString("name"),
 						passengerJSON.getString("E_name"),passengerJSON.getString("birthday"),
-						passengerJSON.getString("nationality"),passengerJSON.getString("PassPaper")));
+						passengerJSON.getString("nationality"),passengerJSON.getString("sex"),
+						passengerJSON.getString("PassPaper")));
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();

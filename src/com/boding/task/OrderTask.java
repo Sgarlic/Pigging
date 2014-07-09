@@ -25,12 +25,14 @@ import com.boding.app.AddDeliveryAddrActivity;
 import com.boding.app.OrderDetailActivity;
 import com.boding.app.OrderFormActivity;
 import com.boding.app.OrderListActivity;
+import com.boding.app.OrderPaymentActivity;
 import com.boding.constants.Constants;
 import com.boding.constants.GlobalVariables;
 import com.boding.constants.HTTPAction;
 import com.boding.model.Order;
 import com.boding.model.OrderFlight;
 import com.boding.model.Passenger;
+import com.boding.model.PaymentMethod;
 import com.boding.util.Encryption;
 
 public class OrderTask extends AsyncTask<Object,Void,Object>{
@@ -42,8 +44,11 @@ public class OrderTask extends AsyncTask<Object,Void,Object>{
 		this.action = action;
 	}
 	
-	public static String createOrderDomestic(String flightInfo, 
-			String passengerInfo, String contactInfo, String receiveInfo){
+	public static String createOrder(String flightInfo, String passengerInfo, 
+		String contactInfo, String receiveInfo, boolean internalFlag, PaymentMethod payMethod){
+		int flag = 0;
+		if(internalFlag)
+			flag = 1;
 		String resultCode = "";
 		StringBuilder sb = new StringBuilder();
 		sb.append(Constants.BODINGACCOUNT);
@@ -53,8 +58,8 @@ public class OrderTask extends AsyncTask<Object,Void,Object>{
 		sb.append(passengerInfo);
 		sb.append(contactInfo);
 		sb.append(receiveInfo);
-		sb.append("0");
-		sb.append("BB");
+		sb.append(flag);
+		sb.append(payMethod);
 		
 		try {
 			sb.append(Encryption.getMD5(Constants.BODINGKEY).toUpperCase());
@@ -82,10 +87,7 @@ public class OrderTask extends AsyncTask<Object,Void,Object>{
 		    connection.setRequestMethod("POST");
             connection.setUseCaches(false);
             connection.setRequestProperty("Content-Type","application/x-www-form-urlencoded");
-            
             connection.connect();
-
-
             
             DataOutputStream out = new DataOutputStream(connection.getOutputStream());
             
@@ -95,8 +97,8 @@ public class OrderTask extends AsyncTask<Object,Void,Object>{
             content += "&PassengerInfo=" + URLEncoder.encode(passengerInfo, "UTF-8");
             content += "&ContactInfo=" + URLEncoder.encode(contactInfo, "UTF-8");
             content += "&ReceiveInfo=" + URLEncoder.encode(receiveInfo, "UTF-8");
-            content += "&InternalFlag=0";
-            content += "&PayModel=BB";
+            content += "&InternalFlag="+flag;
+            content += "&PayModel="+payMethod;
             content += "&sign="+sign;
             
             out.writeBytes(content);
@@ -105,16 +107,18 @@ public class OrderTask extends AsyncTask<Object,Void,Object>{
             
             BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             String line;
-            
+            String result = "";
             while ((line = reader.readLine()) != null){
                 System.out.println(line);
+                result += line;
             }
           
             reader.close();
             connection.disconnect();
             
-			JSONObject resultJson = new JSONObject(line);
+			JSONObject resultJson = new JSONObject(result);
 			resultCode = resultJson.getString("result");
+			System.out.println(resultCode);
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -267,7 +271,8 @@ public class OrderTask extends AsyncTask<Object,Void,Object>{
 				result = getOrderDetail((String)params[0]);
 				break;
 			case CREATE_ORDER_DOMESTIC:
-				result = createOrderDomestic((String)params[0],(String)params[1],(String)params[2],(String)params[3]);
+				result = createOrder((String)params[0],(String)params[1],
+					(String)params[2],(String)params[3],(Boolean)params[4],(PaymentMethod)params[5]);
 				break;
 			default:
 				break;
@@ -287,8 +292,8 @@ public class OrderTask extends AsyncTask<Object,Void,Object>{
 				orderDetailActivity.setOrderInfo((Order)result);
 				break;
 			case CREATE_ORDER_DOMESTIC:
-				OrderFormActivity orderFormActivity = (OrderFormActivity)context;
-				orderFormActivity.setCreateOrderResult((String)result);
+				OrderPaymentActivity prderPaymentActivity = (OrderPaymentActivity)context;
+				prderPaymentActivity.setCreateOrderResult((String)result);
 				break;
 			default:
 				break;

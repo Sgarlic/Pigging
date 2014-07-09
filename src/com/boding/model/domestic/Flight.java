@@ -45,8 +45,8 @@ public class Flight implements FlightInterface, Parcelable{
 	public Flight(){}
 	
 	
-	public int getSelectedCabinPos() {
-		return selectedCabinPos;
+	public Cabin getSelectedCabin() {
+		return cabins.get(selectedCabinPos);
 	}
 
 

@@ -45,13 +45,14 @@ public class Passenger implements Parcelable{
 	}
 	
 	public Passenger(String auto_id, String cardno, String name, String eName, String brithday,
-			String nationality, String PassPaper){
+			String nationality,String genderCode, String PassPaper){
 		setAuto_id(auto_id);
 		setCardno(cardno);
 		setName(name);
 		seteName(eName);
 		setBirthday(brithday);
 		setNationality(nationality);
+		setGenderFromGCode(genderCode);
 		setPassPaper(PassPaper);
 	}
 	
@@ -81,6 +82,10 @@ public class Passenger implements Parcelable{
 	
 	public void setGenderFromGName(String genderName){
 		this.gender = Gender.getGenderFromName(genderName);
+	}
+	
+	public void setGenderFromGCode(String genderCode){
+		this.gender = Gender.getGenderFromCode(genderCode);
 	}
 	
 	public Passenger(String name, String cardNumber, IdentityType identityType){
@@ -230,8 +235,13 @@ public class Passenger implements Parcelable{
 			 birthYear = Integer.parseInt(birthday.split("-")[0]);
 		 }
 		 System.out.println(cardNumber + "    "+ birthYear);
-		 if((currentYear - birthYear)>6)
-			 return true;
-		 return false;
+		 int yearGap = currentYear - birthYear;
+		 /**
+		  * 成人（12周岁以上）
+			儿童（2-12周岁）
+		  */
+		 if(yearGap > 2 && yearGap < 12)
+			 return false;
+		 return true;
 	 }
 }

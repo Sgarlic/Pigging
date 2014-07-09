@@ -16,6 +16,7 @@ import com.boding.model.FlightInterface;
 import com.boding.model.Passenger;
 import com.boding.model.domestic.Cabin;
 import com.boding.model.domestic.Flight;
+import com.boding.util.CityUtil;
 import com.boding.util.RegularExpressionsUtil;
 import com.boding.util.Util;
 import com.boding.view.dialog.ProgressBarDialog;
@@ -70,15 +71,14 @@ public class OrderFormActivity extends Activity {
 
 	// if init complete
 	private boolean flag = false;
-	private ProgressBarDialog progressBarDialog;
 	
 	private int ticketPrice;
+	private int deliveryPrice;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_order_form);
-		progressBarDialog = new ProgressBarDialog(this, Constants.DIALOG_STYLE);
 		Bundle arguments = getIntent().getExtras();
         if(arguments != null){
         	if(arguments.containsKey(IntentExtraAttribute.IS_DOMESTIC_ORDER)){
@@ -102,13 +102,13 @@ public class OrderFormActivity extends Activity {
 		}else{
 			journeySheetTextView.setText(selectedAddr.getRecipientName());
 		}
+		calculateTotalPrice();
 	}
 	
-	private void setInsusrance(){
+	private void calculateTotalPrice(){
 		ticketPrice = 0;
 		if(needInsurance){
 			if(passengerList!=null){
-				insuranceAmountTextView.setText(passengerList.size()+"");
 				ticketPrice += passengerList.size() * Integer.parseInt(insurancePriceTextView.getText().toString());
 			}
 		}else{
@@ -129,8 +129,23 @@ public class OrderFormActivity extends Activity {
 				}
 			}
 		}
+		
+		if(selectedAddr != null)
+			ticketPrice += deliveryPrice;
 		totalPriceTextView.setText(ticketPrice+"");
 	}
+	
+	private void setInsusrance(){
+		if(needInsurance){
+			if(passengerList!=null){
+				insuranceAmountTextView.setText(passengerList.size()+"");
+			}
+		}else{
+			insuranceAmountTextView.setText("0");
+		}
+		calculateTotalPrice();
+	}
+		
 	
 	@Override
 	public void onWindowFocusChanged(boolean hasFocus){
@@ -196,28 +211,6 @@ public class OrderFormActivity extends Activity {
         setInsusrance();
 	}
 	
-	public void setCreateOrderResult(String result){
-		progressBarDialog.dismiss();
-		if(result.equals("1")){
-			System.out.println("ordercreated     pending audit");
-			Intent intent = new Intent();
-			intent.setClass(OrderFormActivity.this, OrderPaymentActivity.class);
-			startActivityForResult(intent, IntentRequestCode.ORDER_PAYEMNT.getRequestCode());
-//			Order order = new Order();
-//			order.setOrderStatus(OrderStatus.PENDING_AUDIT.getOrderStatusCode());
-			
-//			Intent intent = new Intent();
-//			intent.setClass(OrderFormActivity.this, OrderDetailActivity.class);
-//			startActivityForResult(intent,IntentRequestCode.ORDER_DETAIL.getRequestCode());
-		}else if(result.equals("0")){
-			System.out.println("ordercreated     OKKKKKKKKKKKKKKKKK");
-		}else{
-			WarningDialog dialog = new WarningDialog(this, Constants.DIALOG_STYLE);
-			dialog.setContent("请填写正确的信息");
-			dialog.show();
-		}
-	}
-	
 	private void addListeners(){
 		addPassengerLinearLayout.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -269,6 +262,20 @@ public class OrderFormActivity extends Activity {
 					dialog.show();
 					return;
 				}
+				
+				boolean containsAdult = false;
+				for(Passenger passenger : passengerList){
+					if(passenger.isAdult()){
+						containsAdult = true;
+						break;
+					}
+				}
+				if(!containsAdult){
+					dialog.setContent("必须选择一名成人");
+					dialog.show();
+					return;
+				}
+				
 				if(phoneNumberEditText.getText().toString().equals("") || 
 						!RegularExpressionsUtil.checkMobile(phoneNumberEditText.getText().toString())){
 					dialog.setContent("请填写正确的手机号码");
@@ -280,17 +287,30 @@ public class OrderFormActivity extends Activity {
 //				System.out.println(getPassengerInfoString());
 //				System.out.println(getContactInfo());
 //				System.out.println(getReceiveInfo());
-				progressBarDialog.show();
-				if(isDomestic){
-					(new OrderTask(OrderFormActivity.this,HTTPAction.CREATE_ORDER_DOMESTIC))
-					.execute(getFlightInfoStringDomestic(),getPassengerInfoString(),
-						getContactInfo(),getReceiveInfo());
-				}
+//				progressBarDialog.show();
+//				if(isDomestic){
+//					(new OrderTask(OrderFormActivity.this,HTTPAction.CREATE_ORDER_DOMESTIC))
+//					.execute(getFlightInfoStringDomestic(),getPassengerInfoString(),
+//						getContactInfo(),getReceiveInfo());
+//				}
 //				if(isDomestic){
 //					(new OrderTask(OrderFormActivity.this,HTTPAction.CREATE_ORDER_DOMESTIC))
 //					.execute(getFlightInfoStringDomestic(),"1|饶礼仁|NI|350783199011156575|0|0",
 //						"饶礼仁|15689654125","");
 //				}
+				
+				Intent intent = new Intent();
+				intent.putExtra(IntentExtraAttribute.FLIGHT_INFO_EXTRA, getFlightInfoStringDomestic());
+				intent.putExtra(IntentExtraAttribute.PASSENGER_INFO_EXTRA, getPassengerInfoString());
+				intent.putExtra(IntentExtraAttribute.CONTACT_INFO_EXTRA, getContactInfo());
+				intent.putExtra(IntentExtraAttribute.RECEIVE_INFO_EXTRA, getReceiveInfo());
+				intent.putExtra(IntentExtraAttribute.INTERNAL_FLAG_EXTRA, !isDomestic);
+				intent.putExtra(IntentExtraAttribute.FLY_FROM_TO_EXTRA, 
+					selectedFlight.getFlyFromCity() + "-" + selectedFlight.getFlyToCity());
+				intent.putExtra(IntentExtraAttribute.IS_ROUNDWAY_ORDER, isRoundWay);
+				intent.putExtra(IntentExtraAttribute.ORDER_TOTAL_EXTRA, ticketPrice);
+				intent.setClass(OrderFormActivity.this, OrderPaymentActivity.class);
+				startActivityForResult(intent, IntentRequestCode.ORDER_PAYEMNT.getRequestCode());
 			}
 		});
 		
@@ -513,6 +533,11 @@ public class OrderFormActivity extends Activity {
 				selectedAddr = data.getExtras().getParcelable(IntentExtraAttribute.CHOOSED_DELIVERADDR_EXTRA);
 			}else
 				selectedAddr = null;
+			if(data.getExtras().containsKey(IntentExtraAttribute.CHOOSED_DELIVERPRICE_EXTRA)){
+				deliveryPrice = data.getExtras().getInt(IntentExtraAttribute.CHOOSED_DELIVERPRICE_EXTRA);
+			}else
+				deliveryPrice = 0;
+			
 			setDeliveryAddr();
 		}
 		if(requestCode==IntentRequestCode.INSURANCE_SELECTION.getRequestCode()){

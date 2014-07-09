@@ -16,6 +16,7 @@ public class IntentExtraAttribute {
 	public static final String EDIT_DELIVERYADDR_EXTRA = "editDeliverAddr";
 	public static final String DELETE_DELIVERADDR_EXTRA = "deleteDeliverAddr";
 	public static final String CHOOSED_DELIVERADDR_EXTRA = "choosedDeliverAddr";
+	public static final String CHOOSED_DELIVERPRICE_EXTRA = "choosedDeliverPrice";
 	
 	
 	public static final String SELECTED_NATIONAL = "selectedNational";
@@ -36,4 +37,15 @@ public class IntentExtraAttribute {
 	
 	public static final String CHOOSED_ORDER_ID = "choosedOrderId";
 	public static final String NEW_CREATED_ORDER = "newCreatedOrder";
+	
+	/**
+	 * Payment
+	 */
+	public static final String FLIGHT_INFO_EXTRA = "flightInfoExtra";
+	public static final String PASSENGER_INFO_EXTRA = "passengerInfoExtra";
+	public static final String CONTACT_INFO_EXTRA = "contactInfoExtra";
+	public static final String RECEIVE_INFO_EXTRA = "receiveInfoExtra";
+	public static final String INTERNAL_FLAG_EXTRA = "internalFlayExtra";
+	public static final String FLY_FROM_TO_EXTRA = "flyFromTo";
+	public static final String ORDER_TOTAL_EXTRA = "orderTotal";
 }

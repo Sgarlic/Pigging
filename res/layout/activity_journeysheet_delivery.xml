@@ -177,7 +177,7 @@
 						    android:layout_height="wrap_content"
 						    android:layout_gravity="center_vertical"
 						    android:text="江浙沪（￥10） "
-						    android:textColor="@color/listviewDividerColor"
+						    android:textColor="@color/black"
 					        android:textSize="17sp"
 					        android:typeface="serif" />
 	

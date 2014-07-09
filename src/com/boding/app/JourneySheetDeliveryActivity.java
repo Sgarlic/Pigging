@@ -11,6 +11,7 @@ import com.boding.model.DeliveryAddress;
 import com.boding.model.Passenger;
 import com.boding.util.Util;
 import com.boding.view.dialog.SelectionDialog;
+import com.boding.view.dialog.SelectionDialog.OnItemSelectedListener;
 import com.boding.view.dialog.WarningDialog;
 import com.boding.view.layout.OrderFlightInfoLayout;
 
@@ -42,6 +43,8 @@ public class JourneySheetDeliveryActivity extends Activity {
 	private TextView deliveryAddrTextView; 
 	
 	private DeliveryAddress selectedAddr;
+	
+	private int deliveryPrice = 10;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -85,9 +88,11 @@ public class JourneySheetDeliveryActivity extends Activity {
 		if(selectedAddr == null){
 			deliveryAddrTextView.setText("");
 			showJourneySheetInfoLinearLayout.setVisibility(View.INVISIBLE);
+			needJourneySheetImageView.setSelected(false);
 		}else{
 			deliveryAddrTextView.setText(selectedAddr.getRecipientName());
 			showJourneySheetInfoLinearLayout.setVisibility(View.VISIBLE);
+			needJourneySheetImageView.setSelected(true);
 		}
 	}
 	
@@ -96,13 +101,23 @@ public class JourneySheetDeliveryActivity extends Activity {
 		selectDeliveryMethodsLinearLayout.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				List<String> deliverMethodList = new ArrayList<String>();
+				final List<String> deliverMethodList = new ArrayList<String>();
 				deliverMethodList.add("江浙沪（￥10）");
 				deliverMethodList.add("其他地区（￥20）");
 				
 				SelectionDialog deliveryMethodDialog = new SelectionDialog(JourneySheetDeliveryActivity.this,
 						R.style.Custom_Dialog_Theme, "选择配送方式",deliverMethodList);
 				deliveryMethodDialog.show();
+				deliveryMethodDialog.setOnItemSelectedListener(new OnItemSelectedListener() {
+					@Override
+					public void OnItemSelected(int position) {
+						if(position == 0)
+							deliveryPrice = 10;
+						else
+							deliveryPrice = 20;
+						deliveryMethodTextView.setText(deliverMethodList.get(position));
+					}
+				});
 			}
 		});
 		
@@ -146,6 +161,7 @@ public class JourneySheetDeliveryActivity extends Activity {
 						return;
 	            	}else{
 	            		intent.putExtra(IntentExtraAttribute.CHOOSED_DELIVERADDR_EXTRA, selectedAddr);
+	            		intent.putExtra(IntentExtraAttribute.CHOOSED_DELIVERPRICE_EXTRA, deliveryPrice);
 	            	}
 				}
 				setResult(IntentRequestCode.JOURNEYSHEET_DELIVERY.getRequestCode(), intent);
