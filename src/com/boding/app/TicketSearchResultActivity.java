@@ -90,6 +90,7 @@ public class TicketSearchResultActivity extends FragmentActivity {
     
     private ImageView leatimeOrderImageview;
     private ImageView priceOrderImageview;
+    private TextView noResultTextView;
     
     private boolean isLeatimeAsc = true;
     private boolean isPriceAsc = true;
@@ -187,6 +188,8 @@ public class TicketSearchResultActivity extends FragmentActivity {
         
         leatimeOrderImageview = (ImageView)findViewById(R.id.leatime_order_imageview);
         priceOrderImageview = (ImageView)findViewById(R.id.price_order_imageview);
+        noResultTextView = (TextView) findViewById(R.id.international_ticket_search_result_noResultTextView);
+        noResultTextView.setVisibility(View.GONE);
         
         fromCityTextView.setText(from.getCityName());
         fromCityCodeTextView.setText(from.getCityCode());
@@ -367,8 +370,11 @@ public class TicketSearchResultActivity extends FragmentActivity {
 				flight.setSelectedClassPos(childPosition);
 				goToNextActivity(flight);
 				return false;
-			}
-		});
+				}
+	      });
+	      if(adapter.getGroupCount() == 0){
+	    	  noResultTextView.setVisibility(View.VISIBLE);
+	      }
 	  }
 
 	  private void invokeXmlTask(String url, int whichday){

@@ -16,7 +16,7 @@
 
 		<LinearLayout
 		    android:id="@+id/return_logo_linearLayout"
-		    android:layout_width="wrap_content"
+		    android:layout_width="150dp"
 		    android:layout_height="match_parent"
 		    android:layout_weight="1"
 		    android:orientation="horizontal" >
@@ -28,11 +28,13 @@
 	            android:layout_gravity="center_vertical"
 	            android:src="@drawable/arrow_left_returntoprepage" />
         </LinearLayout>
+
 	    <LinearLayout
-	        android:layout_width="wrap_content"
-		    android:layout_height="match_parent"
-		    android:layout_weight="1"
-		    android:orientation="vertical">
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent"
+	        android:layout_weight="1"
+	        android:orientation="vertical" >
+
 	        <LinearLayout
 		        android:layout_width="wrap_content"
 			    android:layout_height="match_parent"
@@ -49,11 +51,13 @@
 		            android:typeface="serif" />
 	        </LinearLayout>
 		</LinearLayout>
+
 		<LinearLayout
-	        android:layout_width="wrap_content"
+		    android:layout_width="150dp"
 		    android:layout_height="match_parent"
 		    android:layout_weight="1"
-		    android:orientation="horizontal">
+		    android:orientation="horizontal" >
+
 	    </LinearLayout>
     </LinearLayout>
 
@@ -306,6 +310,17 @@
 	    android:layout_height="wrap_content"
 	    android:orientation="vertical"
         android:layout_weight="11"  >
+
+		<TextView
+		    android:id="@+id/international_ticket_search_result_noResultTextView"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_gravity="center_horizontal"
+		    android:layout_marginTop="15dp"
+		    android:text="没有找到符合条件的结果"
+		    android:textColor="@color/priceGray"
+		    android:textSize="17sp"
+		    android:typeface="serif" />
 
         <ExpandableListView
             android:id="@+id/international_ticket_search_result_expandableListView"

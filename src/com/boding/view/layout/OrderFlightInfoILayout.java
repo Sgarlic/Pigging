@@ -54,6 +54,9 @@ public class OrderFlightInfoILayout extends LinearLayout{
 	private TextView toEstimateTimeTextView;
 	private LinearLayout seatBackChangeInfoLinearLayout; 
 	
+	private TextView ticketPricePriceTextView;
+	private TextView ticketTaxPriceTextView;
+	
 	// if init complete
 	private boolean flag = false;
 	public OrderFlightInfoILayout(Context context) {
@@ -116,6 +119,8 @@ public class OrderFlightInfoILayout extends LinearLayout{
 		toEstimateTimeTextView = (TextView)view.findViewById(R.id.flightinfo_i_toEstimateTime_textView);
 		seatBackChangeInfoLinearLayout = (LinearLayout)view.findViewById(R.id.flightinfo_i_seatBackChangeInfo_linearLayout);
 		
+		ticketPricePriceTextView = (TextView)view.findViewById(R.id.orderform_ticketPrice_price_textView);
+		ticketTaxPriceTextView = (TextView)view.findViewById(R.id.orderform_ticketTax_price_textView);
 		
 		this.addView(view);
 		addListeners();

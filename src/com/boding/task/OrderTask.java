@@ -1,10 +1,13 @@
 package com.boding.task;
 
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.security.NoSuchAlgorithmException;
@@ -51,6 +54,7 @@ public class OrderTask extends AsyncTask<Object,Void,Object>{
 		sb.append(contactInfo);
 		sb.append(receiveInfo);
 		sb.append("0");
+		sb.append("BB");
 		
 		try {
 			sb.append(Encryption.getMD5(Constants.BODINGKEY).toUpperCase());
@@ -58,24 +62,67 @@ public class OrderTask extends AsyncTask<Object,Void,Object>{
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		}
-		String urlStr = "";
-		String urlFormat = "http://api.iboding.com/API/User/Order/CreateOrder.ashx?userid=%s&CardNo=%s&FlightInfo=%s&PassengerInfo=%s&ContactInfo=%s&ReceiveInfo=%s&InternalFlag=%s&sign=%s";
+		String urlStr = "http://api.iboding.com/API/User/Order/CreateOrder.ashx";
+//		String urlFormat = "http://api.iboding.com/API/User/Order/CreateOrder.ashx?userid=%s&CardNo=%s&FlightInfo=%s&PassengerInfo=%s&ContactInfo=%s&ReceiveInfo=%s&InternalFlag=%s&PayModel=%s&sign=%s";
+//		try {
+//			urlStr =  String.format(urlFormat,Constants.BODINGACCOUNT,GlobalVariables.bodingUser.getCardno(),
+//					URLEncoder.encode(flightInfo,"UTF-8"),URLEncoder.encode(passengerInfo,"UTF-8"), 
+//					URLEncoder.encode(contactInfo,"UTF-8"),URLEncoder.encode(receiveInfo,"UTF-8"),
+//					"0","BB",sign);
+//		} catch (UnsupportedEncodingException e) {
+//			e.printStackTrace();
+//		}
+		URL postURL;
 		try {
-			urlStr =  String.format(urlFormat,Constants.BODINGACCOUNT,GlobalVariables.bodingUser.getCardno(),
-					URLEncoder.encode(flightInfo,"UTF-8"),URLEncoder.encode(passengerInfo,"UTF-8"), 
-					URLEncoder.encode(contactInfo,"UTF-8"),URLEncoder.encode(receiveInfo,"UTF-8"),
-					"0",sign);
-		} catch (UnsupportedEncodingException e) {
+			postURL = new URL(urlStr);
+			System.out.println(urlStr);
+			HttpURLConnection connection = (HttpURLConnection) postURL.openConnection();
+			connection.setDoOutput(true);
+			connection.setDoInput(true);
+		    connection.setRequestMethod("POST");
+            connection.setUseCaches(false);
+            connection.setRequestProperty("Content-Type","application/x-www-form-urlencoded");
+            
+            connection.connect();
+
+
+            
+            DataOutputStream out = new DataOutputStream(connection.getOutputStream());
+            
+            String content = "userid=" + Constants.BODINGACCOUNT;
+            content += "&CardNo=" + GlobalVariables.bodingUser.getCardno();
+            content += "&FlightInfo=" + URLEncoder.encode(flightInfo, "UTF-8");
+            content += "&PassengerInfo=" + URLEncoder.encode(passengerInfo, "UTF-8");
+            content += "&ContactInfo=" + URLEncoder.encode(contactInfo, "UTF-8");
+            content += "&ReceiveInfo=" + URLEncoder.encode(receiveInfo, "UTF-8");
+            content += "&InternalFlag=0";
+            content += "&PayModel=BB";
+            content += "&sign="+sign;
+            
+            out.writeBytes(content);
+            out.flush();
+            out.close(); // flush and close
+            
+            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            String line;
+            
+            while ((line = reader.readLine()) != null){
+                System.out.println(line);
+            }
+          
+            reader.close();
+            connection.disconnect();
+            
+			JSONObject resultJson = new JSONObject(line);
+			resultCode = resultJson.getString("result");
+		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		
-		String result = connectingServer(urlStr);
-		try {
-			JSONObject resultJson = new JSONObject(result);
-			resultCode = resultJson.getString("result");
-			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		} catch (JSONException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.boding.R;
 import com.boding.constants.GlobalVariables;
+import com.boding.model.domestic.Cabin;
 import com.boding.model.domestic.Flight;
 import com.boding.util.DateUtil;
 import com.boding.util.Util;
@@ -42,6 +43,10 @@ public class OrderFlightInfoLayout extends LinearLayout{
 	private LinearLayout stopOverLinearLayout;
 	
 	private Flight flightLine;
+	
+	private TextView ticketPricePriceTextView;
+	private TextView planeBuildingPriceTextView;
+	private TextView fuelOilPriceTextView;
 	
 	// if init complete
 	private boolean flag = false;
@@ -96,7 +101,9 @@ public class OrderFlightInfoLayout extends LinearLayout{
 		changeSeatTextView = (TextView)view.findViewById(R.id.flightinfo_changeClass_textView);
 		stopOverLinearLayout = (LinearLayout) view.findViewById(R.id.flightinfo_stopover_linearLayout);
 		
-		
+		ticketPricePriceTextView = (TextView)view.findViewById(R.id.orderform_ticketPrice_price_textView);
+		planeBuildingPriceTextView = (TextView)view.findViewById(R.id.orderform_planeBuilding_price_textView);
+		fuelOilPriceTextView = (TextView)view.findViewById(R.id.orderform_fuelOil_price_textView);
 		this.addView(view);
 		
 		addListeners();
@@ -120,6 +127,10 @@ public class OrderFlightInfoLayout extends LinearLayout{
 		
 		if(!hasStopover)
 			stopOverLinearLayout.setVisibility(View.INVISIBLE);
+		Cabin cabin = flightLine.getCabins().get(flightLine.getSelectedCabinPos());
+		ticketPricePriceTextView.setText(cabin.getFilePrice()+"");
+		planeBuildingPriceTextView.setText(flightLine.getAdultAirportFee()+"");
+		fuelOilPriceTextView.setText(flightLine.getAdultFuelFee()+"");
 	}
 	
 	

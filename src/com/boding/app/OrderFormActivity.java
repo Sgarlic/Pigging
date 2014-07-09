@@ -16,6 +16,7 @@ import com.boding.model.FlightInterface;
 import com.boding.model.Passenger;
 import com.boding.model.domestic.Cabin;
 import com.boding.model.domestic.Flight;
+import com.boding.util.RegularExpressionsUtil;
 import com.boding.util.Util;
 import com.boding.view.dialog.ProgressBarDialog;
 import com.boding.view.dialog.WarningDialog;
@@ -40,14 +41,6 @@ import android.widget.TextView;
 
 public class OrderFormActivity extends Activity {
 	private LinearLayout flightInfoLinearLayout;
-	private TextView ticketPriceTextView;
-	private TextView ticketPricePriceTextView;
-	private LinearLayout planeBuildingLinearLayout; 
-	private TextView planeBuildingPriceTextView;
-	private LinearLayout fuelOilLinearLayout; 
-	private TextView fuelOilPriceTextView;
-	private LinearLayout ticketTaxLinearLayout; 
-	private TextView ticketTaxPriceTextView;
 	private TextView passengerAmountTextView;
 	private ListView passengerListView;
 	private LinearLayout addPassengerLinearLayout;
@@ -78,6 +71,9 @@ public class OrderFormActivity extends Activity {
 	// if init complete
 	private boolean flag = false;
 	private ProgressBarDialog progressBarDialog;
+	
+	private int ticketPrice;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -109,12 +105,31 @@ public class OrderFormActivity extends Activity {
 	}
 	
 	private void setInsusrance(){
+		ticketPrice = 0;
 		if(needInsurance){
-			if(passengerList!=null)
+			if(passengerList!=null){
 				insuranceAmountTextView.setText(passengerList.size()+"");
+				ticketPrice += passengerList.size() * Integer.parseInt(insurancePriceTextView.getText().toString());
+			}
 		}else{
 			insuranceAmountTextView.setText("0");
+			
 		}
+		
+		Flight flight = (Flight)selectedFlight;
+		Cabin cabin = flight.getCabins().get(flight.getSelectedClassPos());
+		if(passengerList != null){
+	        for(Passenger passenger : passengerList){
+				if(passenger.isAdult()){
+					ticketPrice += (cabin.getAdultPrice() + 
+						Integer.parseInt(flight.getAdultAirportFee()) + Integer.parseInt(flight.getAdultFuelFee()));
+				}else{
+					ticketPrice += (cabin.getChildPrice() +
+						cabin.getChildAirportFee() + cabin.getChildFuelFee());
+				}
+			}
+		}
+		totalPriceTextView.setText(ticketPrice+"");
 	}
 	
 	@Override
@@ -157,14 +172,7 @@ public class OrderFormActivity extends Activity {
 			}
 		}
 		
-		ticketPriceTextView = (TextView) findViewById(R.id.orderform_ticketPrice_textView);
-		ticketPricePriceTextView = (TextView) findViewById(R.id.orderform_ticketPrice_price_textView);
-		planeBuildingLinearLayout = (LinearLayout) findViewById(R.id.orderform_planeBuilding_linearLayout); 
-		planeBuildingPriceTextView = (TextView) findViewById(R.id.orderform_planeBuilding_price_textView);
-		fuelOilLinearLayout = (LinearLayout) findViewById(R.id.orderform_fuelOil_linearLayout); 
-		fuelOilPriceTextView = (TextView) findViewById(R.id.orderform_fuelOil_price_textView);
-		ticketTaxLinearLayout = (LinearLayout) findViewById(R.id.orderform_ticketTax_linearLayout); 
-		ticketTaxPriceTextView = (TextView) findViewById(R.id.orderform_ticketTax_price_textView);
+		
 		passengerAmountTextView = (TextView) findViewById(R.id.orderform_passengerAmount_textView);
 		passengerListView = (ListView) findViewById(R.id.orderform_passenger_listView);
 		addPassengerLinearLayout = (LinearLayout) findViewById(R.id.orderform_addPassenger_linearLayout);
@@ -177,16 +185,6 @@ public class OrderFormActivity extends Activity {
 		totalPriceTextView = (TextView) findViewById(R.id.orderform_totalPrice_textView);
 		nextStepLinearLayout = (LinearLayout) findViewById(R.id.orderform_nextStep_linearLayout); 
 		
-		if(!isDomestic){
-			planeBuildingLinearLayout.setVisibility(View.GONE);
-			fuelOilLinearLayout.setVisibility(View.GONE);
-		}else{
-			ticketTaxLinearLayout.setVisibility(View.GONE);
-		}
-		
-		if(isRoundWay)
-			ticketPriceTextView.setText("往返总价");
-		
 //		insurancePopupParentWidth = insuranceLinearLayout.getWidth();
 		addListeners();
     }
@@ -194,6 +192,7 @@ public class OrderFormActivity extends Activity {
 	private void setPassengerView(){
 		Util.setListViewHeightBasedOnChildren(passengerListView);
         passengerAmountTextView.setText(String.valueOf(peopleAdapter.getCount()));
+        
         setInsusrance();
 	}
 	
@@ -201,6 +200,9 @@ public class OrderFormActivity extends Activity {
 		progressBarDialog.dismiss();
 		if(result.equals("1")){
 			System.out.println("ordercreated     pending audit");
+			Intent intent = new Intent();
+			intent.setClass(OrderFormActivity.this, OrderPaymentActivity.class);
+			startActivityForResult(intent, IntentRequestCode.ORDER_PAYEMNT.getRequestCode());
 //			Order order = new Order();
 //			order.setOrderStatus(OrderStatus.PENDING_AUDIT.getOrderStatusCode());
 			
@@ -267,8 +269,9 @@ public class OrderFormActivity extends Activity {
 					dialog.show();
 					return;
 				}
-				if(phoneNumberEditText.getText().toString().equals("")){
-					dialog.setContent("请选择联系手机");
+				if(phoneNumberEditText.getText().toString().equals("") || 
+						!RegularExpressionsUtil.checkMobile(phoneNumberEditText.getText().toString())){
+					dialog.setContent("请填写正确的手机号码");
 					dialog.show();
 					return;
 				}
@@ -283,6 +286,11 @@ public class OrderFormActivity extends Activity {
 					.execute(getFlightInfoStringDomestic(),getPassengerInfoString(),
 						getContactInfo(),getReceiveInfo());
 				}
+//				if(isDomestic){
+//					(new OrderTask(OrderFormActivity.this,HTTPAction.CREATE_ORDER_DOMESTIC))
+//					.execute(getFlightInfoStringDomestic(),"1|饶礼仁|NI|350783199011156575|0|0",
+//						"饶礼仁|15689654125","");
+//				}
 			}
 		});
 		
@@ -456,7 +464,7 @@ public class OrderFormActivity extends Activity {
 			passengerInfo += "$";
 		}
 		
-		return passengerInfo;
+		return passengerInfo.substring(0,passengerInfo.length()-1);
 	}
 //	
 //	private void initPopupWindow(){

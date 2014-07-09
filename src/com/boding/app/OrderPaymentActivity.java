@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class OrderPaymentActivity extends Activity {
+	private TextView titleTextView;
 	private LinearLayout completeLinearLayout;
 	private TextView fromToTextView;
 	private TextView singleorRoundWayTextView;
@@ -29,6 +30,8 @@ public class OrderPaymentActivity extends Activity {
 	private LinearLayout paybyAlipayLinearLayout;
 	private LinearLayout paybyTenpayLinearLayout;
 	
+	private boolean isPaying = false;// if is order created
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -38,6 +41,7 @@ public class OrderPaymentActivity extends Activity {
 //        	isReturnDateSelection = arguments.getBoolean(Constants.IS_RETURN_DATE_SELECTION);
         
 		initView();
+		setTitle();
 	}
 	
 	private void initView(){
@@ -50,6 +54,7 @@ public class OrderPaymentActivity extends Activity {
 			
 		});
 		
+		titleTextView = (TextView) findViewById(R.id.orderpayment_title_textView);
 		completeLinearLayout = (LinearLayout) findViewById(R.id.adddeliveryaddr_complete_linearLayout);
 		fromToTextView = (TextView) findViewById(R.id.orderpayment_fromto_textView);
 		singleorRoundWayTextView = (TextView) findViewById(R.id.orderpayment_singleorroundway_textView);
@@ -62,6 +67,14 @@ public class OrderPaymentActivity extends Activity {
 		paybyAlipayLinearLayout = (LinearLayout) findViewById(R.id.orderpayment_paybyAlipay_linearLayout);
 		paybyTenpayLinearLayout = (LinearLayout) findViewById(R.id.orderpayment_paybyTenpay_linearLayout);
 		addListeners();
+	}
+	
+	private void setTitle(){
+		if(isPaying){
+			titleTextView.setText("订单支付");
+		}else{
+			titleTextView.setText("选择支付方式");
+		}
 	}
 	
 	private void addListeners(){

@@ -1,6 +1,8 @@
 package com.boding.model;
 
 
+import java.util.Calendar;
+
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -31,12 +33,15 @@ public class Passenger implements Parcelable{
 	}
 	
 	public Passenger(String name, String paper_type, String id_code){
-		setName(name);
 		this.identityType = IdentityType.getIdentityTypeFromIDCode(paper_type);
-		if(identityType == IdentityType.NI)
+		if(identityType == IdentityType.NI){
 			this.cardNumber = id_code;
-		else
+			setName(name);
+		}
+		else{
 			this.cardNumber = id_code.split("/")[1];
+			seteName(name);
+		}
 	}
 	
 	public Passenger(String auto_id, String cardno, String name, String eName, String brithday,
@@ -215,4 +220,18 @@ public class Passenger implements Parcelable{
 	            return new Passenger[size];  
 	        }  
 	 };
+	 
+	 public boolean isAdult(){
+		 int currentYear = Calendar.getInstance().get(Calendar.YEAR);
+		 int birthYear = 0;
+		 if(identityType == IdentityType.NI){
+			 birthYear = Integer.parseInt(cardNumber.substring(6, 10));
+		 }else{
+			 birthYear = Integer.parseInt(birthday.split("-")[0]);
+		 }
+		 System.out.println(cardNumber + "    "+ birthYear);
+		 if((currentYear - birthYear)>6)
+			 return true;
+		 return false;
+	 }
 }
