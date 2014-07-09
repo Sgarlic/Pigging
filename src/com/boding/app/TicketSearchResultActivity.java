@@ -456,6 +456,7 @@ public class TicketSearchResultActivity extends FragmentActivity {
 			  bundle.putParcelable(IntentExtraAttribute.FLIGHT_QUERY, flightQuery);
 			  if(!isInternational)
 				  bundle.putParcelable(IntentExtraAttribute.CHOOSED_ROUNDWAY_GOFLIGHT, (Flight)flightInterface);
+			  bundle.putString(IntentExtraAttribute.CLASS_INFO, classInfo);
 			  intent.putExtras(bundle);
 		  }
 		  startActivityForResult(intent,IntentRequestCode.ORDER_FORM.getRequestCode());

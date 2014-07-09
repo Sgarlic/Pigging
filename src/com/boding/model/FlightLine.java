@@ -1,7 +1,10 @@
 package com.boding.model;
 
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 
+import com.boding.model.domestic.Cabin;
 import com.boding.util.CityUtil;
 
 public class FlightLine implements FlightInterface{
@@ -10,7 +13,37 @@ public class FlightLine implements FlightInterface{
 	private ReturnList returnlist;
 	
 	private int selectedClassPos;
+	private int defaultShowedCabinPos = 0;
+	private List<FlightClass> selectedCabins = new ArrayList<FlightClass>();
 	
+	public String getCurrentClass(){
+		return this.selectedCabins.get(defaultShowedCabinPos).getClassType();
+	}
+	
+	public Departure getDeparture() {
+		return departure;
+	}
+
+	public void setDeparture(Departure departure) {
+		this.departure = departure;
+	}
+
+	public int getDefaultShowedCabinPos() {
+		return defaultShowedCabinPos;
+	}
+
+	public void setDefaultShowedCabinPos(int defaultShowedCabinPos) {
+		this.defaultShowedCabinPos = defaultShowedCabinPos;
+	}
+
+	public List<FlightClass> getSelectedCabins() {
+		return selectedCabins;
+	}
+
+	public void setSelectedCabins(List<FlightClass> selectedCabins) {
+		this.selectedCabins = selectedCabins;
+	}
+
 	public String getFlyFromCity(){
 		return CityUtil.getCityNameByCode(departure.getSegments().get(0).getLeacode());
 	}
@@ -115,6 +148,24 @@ public class FlightLine implements FlightInterface{
 		if(seat.equals("A"))
 			return 10;
 		return Integer.parseInt(seat);
+	}
+	
+	public void setDefaultShowedCabins(String classStr){
+		double lowest = Double.MAX_VALUE;
+		FlightClass cabin = null;
+		selectedCabins = new ArrayList<FlightClass>();
+		List<FlightClass> cabins = this.departure.getSegments().get(0).getFclasslist();
+		for(int i=0; i<cabins.size(); ++i){
+			cabin = cabins.get(i);
+			if(cabin.getClassType().contains(classStr)){
+				selectedCabins.add(cabin);
+				double p = Double.parseDouble(cabin.getPrice().getAdult());
+				if(p < lowest){
+					lowest = p;
+					defaultShowedCabinPos = i;
+				}
+			}
+		}
 	}
 
 	public static class LeatimeComp implements Comparator<FlightLine>{

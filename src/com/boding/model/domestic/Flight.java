@@ -232,11 +232,11 @@ public class Flight implements FlightInterface, Parcelable{
 	}
 	
 	public String getFlightPrice(){
-		return String.valueOf((int)this.cabins.get(0).getAdultPrice());
+		return String.valueOf((int)this.cabins.get(defaultShowedCabinPos).getAdultPrice());
 	}
 	
 	public int getFlightPriceInt(){
-		return (int)this.cabins.get(0).getAdultPrice();
+		return (int)this.cabins.get(defaultShowedCabinPos).getAdultPrice();
 	}
 	
 	public String getSeat(){

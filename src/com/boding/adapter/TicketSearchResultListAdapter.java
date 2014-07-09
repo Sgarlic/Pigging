@@ -42,14 +42,14 @@ public class TicketSearchResultListAdapter extends TicketSearchResultAdapter {
 	
 	public boolean isGgroupExpandable(int groupPosition){
 		System.out.println("^^^^^^^^^^" + groupPosition + " " +getChildrenCount(groupPosition));
-		if(getChildrenCount(groupPosition) == 1)
+		if(getChildrenCount(groupPosition) < 2)
 			return false;
 		return true;
 	}
 	
 	@Override
 	public Cabin getChild(int groupPosition, int childPosition) {
-		return getGroup(groupPosition).getSelectedCabins().get(childPosition);
+		return getGroup(groupPosition).getSelectedCabins().get(childPosition+1);
 	}
 
 	@Override
@@ -60,7 +60,7 @@ public class TicketSearchResultListAdapter extends TicketSearchResultAdapter {
     @Override
     public int getChildrenCount(int groupPosition) { 
     	System.out.println("&&&&&&&&&&&&" + getGroup(groupPosition).getSelectedCabins().size());
-            return getGroup(groupPosition).getSelectedCabins().size(); 
+            return getGroup(groupPosition).getSelectedCabins().size()-1; 
     } 
  
     @Override
@@ -135,7 +135,6 @@ public class TicketSearchResultListAdapter extends TicketSearchResultAdapter {
 		}else{
 			holder.moreClassInfoLinearLayout.setVisibility(View.VISIBLE);	
 		}
-		
 		holder.toOrderLinearLayout.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View v) {
@@ -183,7 +182,18 @@ public class TicketSearchResultListAdapter extends TicketSearchResultAdapter {
             holder.returnMoneyTextView = (TextView)convertView.findViewById(R.id.child_class_return_money_textView); 
             holder.discountTextView = (TextView)convertView.findViewById(R.id.child_class_discount_textView); 
             holder.priceTextView = (TextView)convertView.findViewById(R.id.child_class_price_textView); 
-            holder.buyImageView  = (ImageView)convertView.findViewById(R.id.child_class_buy_imageView);            
+            holder.buyImageView  = (ImageView)convertView.findViewById(R.id.child_class_buy_imageView); 
+            
+            final Flight currentFlightLine = getGroup(groupPosition);
+            final int pos = childPosition;
+            holder.buyImageView.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					
+					((TicketSearchResultActivity)context).goToNextActivity(currentFlightLine);
+					currentFlightLine.setSelectedCabinPos(pos);
+				}
+			});
             
             convertView.setTag(holder);  
         } else {  
@@ -198,6 +208,8 @@ public class TicketSearchResultListAdapter extends TicketSearchResultAdapter {
         else{
         	holder.leftTicketTextView.setText(flightClass.getStatus());
         }
+        holder.priceTextView.setText(String.valueOf(flightClass.getAdultPrice()));
+        holder.discountTextView.setText(flightClass.getCabinName());
         holder.returnMoneyTextView.setText("5");
 //        discountTextView.setTextij");
 //        priceTextView.setText(flightClass.getPrice()+"");

@@ -57,7 +57,7 @@ public class TicketSearchResultListIAdapter extends TicketSearchResultAdapter {
 	
 	@Override
 	public FlightClass getChild(int groupPosition, int childPosition) {
-		return getGroup(groupPosition).getFlightClassByPos(childPosition); 
+		return getGroup(groupPosition).getSelectedCabins().get(childPosition);
 	}
 
 	@Override
@@ -67,7 +67,7 @@ public class TicketSearchResultListIAdapter extends TicketSearchResultAdapter {
  
     @Override
     public int getChildrenCount(int groupPosition) { 
-            return getGroup(groupPosition).getFlightClassNum(); 
+            return getGroup(groupPosition).getSelectedCabins().size();
     } 
  
     @Override
@@ -122,6 +122,7 @@ public class TicketSearchResultListIAdapter extends TicketSearchResultAdapter {
 		holder.flightEndTimeTextView.setText(DateUtil.formatTime(arrivetime));
 		holder.flightPriceTextView.setText(currentFlightLine.getFlightPrice());
 		holder.flyingTimeTextView.setText(flyingtime);	
+		holder.flightClassTextView.setText(currentFlightLine.getCurrentClass());
 		holder.ticketLeftTextView.setText(currentFlightLine.getSeat()); //To edit by class type passed by invoker.
 		holder.airlineCompanyTextView.setText(currentFlightLine.getAirCompany());
 		holder.airlineCodeTextView.setText(currentFlightLine.getCarrier()+currentFlightLine.getNum());
@@ -144,6 +145,8 @@ public class TicketSearchResultListIAdapter extends TicketSearchResultAdapter {
 		
 		if(!isGgroupExpandable(groupPosition)){
 			holder.moreClassInfoLinearLayout.setVisibility(View.GONE);		
+		}else{
+			holder.moreClassInfoLinearLayout.setVisibility(View.VISIBLE);	
 		}
 		
 		holder.toOrderLinearLayout.setOnClickListener(new OnClickListener(){
