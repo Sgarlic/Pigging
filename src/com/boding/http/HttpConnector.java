@@ -32,6 +32,7 @@ import com.boding.model.Country;
 import com.boding.model.Passenger;
 import com.boding.model.domestic.Airlines;
 import com.boding.util.Encryption;
+import com.boding.util.SharedPreferenceUtil;
 import com.boding.util.Util;
 
 public class HttpConnector extends AsyncTask<Object,Void,Object>{
@@ -124,13 +125,13 @@ public class HttpConnector extends AsyncTask<Object,Void,Object>{
 				if(result == null)
 					loginActivity.loginFailed();
 				else{
-					Util.successLogin(context, (BodingUser)result, userName, password);
+					SharedPreferenceUtil.successLogin(context, (BodingUser)result, userName, password);
 					loginActivity.loginSuccess();
 				}
 				break;
 			case LAUNCHER_LOGIN:
 				if (result!=null){
-					Util.successLogin(context, (BodingUser)result, userName, password);
+					SharedPreferenceUtil.successLogin(context, (BodingUser)result, userName, password);
 				}
 				break;
 			default:

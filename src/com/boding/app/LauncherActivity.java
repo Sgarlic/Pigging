@@ -2,21 +2,16 @@ package com.boding.app;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 import com.boding.R;
-import com.boding.constants.GlobalVariables;
 import com.boding.constants.HTTPAction;
-import com.boding.constants.SharedPreferencesAttributes;
 import com.boding.http.HttpConnector;
-import com.boding.model.Province;
 import com.boding.task.InitCityTask;
 import com.boding.task.InitCountryTask;
 import com.boding.util.AreaXmlParser;
 import com.boding.util.DateUtil;
-import com.boding.util.Util;
+import com.boding.util.SharedPreferenceUtil;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -52,23 +47,23 @@ public class LauncherActivity extends Activity {
 	}
 	
 	private void something(){
-		SharedPreferences sharedPreferences = Util.getSharedPreferences(this);  
+		SharedPreferences sharedPreferences = SharedPreferenceUtil.getSharedPreferences(this);  
         
-	    boolean isFirstRun = sharedPreferences.getBoolean(SharedPreferencesAttributes.IS_FIRSTRUN, true);  
+	    boolean isFirstRun = sharedPreferences.getBoolean(SharedPreferenceUtil.IS_FIRSTRUN, true);  
 	    if (isFirstRun)  
 	    {  
 	        Log.d("debug", "第一次运行");  
-	        Util.setBooleanSharedPreferences(this, SharedPreferencesAttributes.IS_FIRSTRUN, false);
+	        SharedPreferenceUtil.setBooleanSharedPreferences(this, SharedPreferenceUtil.IS_FIRSTRUN, false);
 	    } else  
 	    {  
 	        Log.d("debug", "不是第一次运行");
-	        boolean isAutoLogin = sharedPreferences.getBoolean(SharedPreferencesAttributes.IS_AUTOLOGIN, true);
+	        boolean isAutoLogin = sharedPreferences.getBoolean(SharedPreferenceUtil.IS_AUTOLOGIN, true);
 	        if(isAutoLogin){
-	        	String expireDate = sharedPreferences.getString(SharedPreferencesAttributes.LOGIN_EXPIREDATE,"1991-01-01");
+	        	String expireDate = sharedPreferences.getString(SharedPreferenceUtil.LOGIN_EXPIREDATE,"1991-01-01");
 	        	String nowDate = DateUtil.getFormatedDate(Calendar.getInstance());
 	        	if(expireDate.compareTo(nowDate) > -1 ){
-	        		String userName = sharedPreferences.getString(SharedPreferencesAttributes.LOGIN_USERNAME,"");
-	        		String password = sharedPreferences.getString(SharedPreferencesAttributes.LOGIN_PASSWORD,"");
+	        		String userName = sharedPreferences.getString(SharedPreferenceUtil.LOGIN_USERNAME,"");
+	        		String password = sharedPreferences.getString(SharedPreferenceUtil.LOGIN_PASSWORD,"");
 	        		HttpConnector httpConnector = new HttpConnector(this,HTTPAction.LAUNCHER_LOGIN);
 	        		httpConnector.execute(userName,password);
 	        	}

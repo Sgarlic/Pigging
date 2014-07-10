@@ -1,27 +1,16 @@
 package com.boding.util;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.boding.R;
-import com.boding.constants.Constants;
 import com.boding.constants.GlobalVariables;
-import com.boding.constants.IdentityType;
 import com.boding.constants.IntentRequestCode;
-import com.boding.constants.SharedPreferencesAttributes;
-import com.boding.model.BodingUser;
 import com.boding.model.City;
 import com.boding.view.dialog.WarningDialog;
 
@@ -34,26 +23,17 @@ import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombi
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.content.res.AssetManager;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.os.Environment;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.View.OnLayoutChangeListener;
 import android.widget.CalendarView;
 import android.widget.DatePicker;
 import android.widget.ListAdapter;
@@ -263,25 +243,25 @@ public class Util {
 	
 	public static void selectCityOperation(ListView listView, int position, boolean isFlyToCitySelection, Context context, Dialog dialog){
 		City city = (City) listView.getAdapter().getItem(position);
-		String cityName = city.getCityName();
-		String cityCode = city.getCityCode();
-		boolean isInternationalCity = false;
-		String cityCountry = "";
-		
-		City selectedCity = new City(cityName,cityCode,isInternationalCity,cityCountry);
+//		String cityName = city.getCityName();
+//		String cityCode = city.getCityCode();
+//		boolean isInternationalCity = false;
+//		String cityCountry = "";
+//		
+//		City selectedCity = new City(cityName,cityCode,isInternationalCity,cityCountry);
 		
 		String toastInfo = null;
 		if(isFlyToCitySelection){
-			if(selectedCity.equals(GlobalVariables.Fly_From_City))
+			if(city.equals(GlobalVariables.Fly_From_City))
 				toastInfo = "出发和到达不能为同一城市";
 			else
-				GlobalVariables.Fly_To_City = selectedCity;
+				GlobalVariables.Fly_To_City = city;
 		}
 		else{
-			if(selectedCity.equals(GlobalVariables.Fly_To_City))
+			if(city.equals(GlobalVariables.Fly_To_City))
 				toastInfo = "出发和到达不能为同一城市";
 			else
-				GlobalVariables.Fly_From_City = selectedCity;
+				GlobalVariables.Fly_From_City = city;
 		}
 		
 		if(toastInfo!=null){
@@ -343,37 +323,6 @@ public class Util {
 		if(ftime.compareTo(left) >= 0 && ftime.compareTo(right) <=0)
 			return true;
 		return false;
-	}
-	
-	public static SharedPreferences getSharedPreferences(Context context){
-		return context.getSharedPreferences("share", context.MODE_PRIVATE);  
-	}
-	
-	public static void setBooleanSharedPreferences(Context context, String key, boolean value){
-		Editor editor = getSharedPreferences(context).edit();
-		editor.putBoolean(key, value);
-		editor.commit();
-	}
-	
-	public static void setStringSharedPreferences(Context context, String key, String value){
-		Editor editor = getSharedPreferences(context).edit();
-		editor.putString(key, value);
-		editor.commit();
-	}
-	
-	public static void successLogin(Context context, BodingUser bodingUser, String userName, String password){
-		GlobalVariables.bodingUser = bodingUser;
-		// set autologin
-		setBooleanSharedPreferences(context, SharedPreferencesAttributes.IS_AUTOLOGIN, true);
-		
-		// set expire date
-		Calendar calendar = Calendar.getInstance();
-		calendar.add(Calendar.MONTH, 1);
-		setStringSharedPreferences(context, SharedPreferencesAttributes.LOGIN_EXPIREDATE, DateUtil.getFormatedDate(calendar));
-		
-		// set username and password
-		setStringSharedPreferences(context, SharedPreferencesAttributes.LOGIN_USERNAME, userName);
-		setStringSharedPreferences(context, SharedPreferencesAttributes.LOGIN_PASSWORD, password);
 	}
 	
 	public static Bitmap getFlightCompanyLogo(Context context, String companyCode){

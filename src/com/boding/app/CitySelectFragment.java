@@ -20,6 +20,7 @@ import com.boding.R;
 import com.boding.constants.Constants;
 import com.boding.constants.GlobalVariables;
 import com.boding.model.City;
+import com.boding.util.SharedPreferenceUtil;
 import com.boding.util.Util;
 import com.boding.view.listview.LetterSelectListView;
 import com.boding.view.listview.LetterSelectListView.OnTouchingLetterChangedListener;
@@ -27,7 +28,7 @@ import com.boding.view.listview.LetterSelectListView.OnTouchingLetterChangedList
 public class CitySelectFragment extends Fragment {
 	private boolean isInternational = false;
 	private boolean isFlyToCitySelection = false;
-	private BaseAdapter adapter;  
+	private CityListAdapter adapter;  
     private ListView allCitiesListView;
     private LetterSelectListView letterListView;
     private HashMap<String, Integer> alphaIndexer;//存放存在的汉语拼音首字母和与之对应的列表位置
@@ -70,6 +71,11 @@ public class CitySelectFragment extends Fragment {
 				//view	The view within the AdapterView that was clicked
 				//position	The position of the view in the adapter
 				//id	The row id of the item that is selected
+				if(isInternational)
+					SharedPreferenceUtil.addInternationalHistoryCity(adapter.getItem(position).getCityCode(),currentView.getContext());
+				else
+					SharedPreferenceUtil.addDomesticHistoryCity(adapter.getItem(position).getCityCode(),currentView.getContext());
+				
 				Util.selectCityOperation(allCitiesListView, position, isFlyToCitySelection, currentView.getContext(),null);
 			}
     		
@@ -85,12 +91,16 @@ public class CitySelectFragment extends Fragment {
     }  
     
     private void setAdapter() {
-    	if(isInternational)
-    		adapter = new CityListAdapter(currentView.getContext(), new ArrayList<City>(), 
+    	if(isInternational){
+    		List<City> historyCity = SharedPreferenceUtil.getInternationalHistoryCity(currentView.getContext());
+    		adapter = new CityListAdapter(currentView.getContext(), historyCity, 
     				GlobalVariables.interHotCitiesList, GlobalVariables.interCitiesList);
-    	else
-    		adapter = new CityListAdapter(currentView.getContext(), new ArrayList<City>(),
+    	}
+    	else{
+    		List<City> historyCity = SharedPreferenceUtil.getDomesticHistoryCity(currentView.getContext());
+    		adapter = new CityListAdapter(currentView.getContext(), historyCity,
     				GlobalVariables.domHotCitiesList, GlobalVariables.domesticCitiesList);
+    	}
         allCitiesListView.setAdapter(adapter);  
     }
     
@@ -126,7 +136,7 @@ public class CitySelectFragment extends Fragment {
     		}
     		contentList.addAll(cityList);
     		
-    		GlobalVariables.allCitiesList.addAll(cityList); 
+//    		GlobalVariables.allCitiesList.addAll(cityList); 
     		sectionSize += contentList.size();
     		sections = new String[sectionSize];
     		

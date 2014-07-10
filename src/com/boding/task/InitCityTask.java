@@ -50,7 +50,10 @@ public class InitCityTask extends AsyncTask<Object,Void,Object>{
 			sortCityLists();
 			saveCitiesToFile();
 		}
-		
+		GlobalVariables.allCitiesList.addAll(GlobalVariables.domesticCitiesList);
+		GlobalVariables.allCitiesList.addAll(GlobalVariables.interCitiesList);
+//		List<City> domesticCities = GlobalVariables.domesticCitiesList;
+//		List<City> interC = GlobalVariables.interCitiesList;
 		return null;
 	}
 	

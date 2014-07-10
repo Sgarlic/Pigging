@@ -20,6 +20,8 @@ import com.boding.task.OrderTask;
 import com.boding.util.DateUtil;
 import com.boding.util.Util;
 import com.boding.view.dialog.ProgressBarDialog;
+import com.boding.view.listview.DragListView;
+import com.boding.view.listview.DragListView.OnRefreshLoadingMoreListener;
 
 import android.app.Activity;
 import android.content.Context;
@@ -40,14 +42,16 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-public class OrderListActivity extends Activity {
+public class OrderListActivity extends Activity{
 	private LinearLayout orderFilterLinearLayout;
 	private TextView orderFilterTypeTextView;
-	private ListView ordersListView;
+	private DragListView ordersListView;
 	
 	private OrderListAdapter orderListAdapter;
 	
 	private ProgressBarDialog progressBarDialog;
+	private int currentPage = 0;
+	private List<Order> allOrdersList = new ArrayList<Order>();
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -58,18 +62,26 @@ public class OrderListActivity extends Activity {
 //        	isReturnDateSelection = arguments.getBoolean(Constants.IS_RETURN_DATE_SELECTION);
         progressBarDialog = new ProgressBarDialog(this, Constants.DIALOG_STYLE);
 		initView();
+		
+		
 		setViewContent();
 	}
 	
 	private void setViewContent(){
-		progressBarDialog.show();
-		(new OrderTask(this, HTTPAction.GET_ORDER_LIST)).execute("20","1");
+		currentPage++;
+		if(currentPage == 1){
+			progressBarDialog.show();
+		}
+		(new OrderTask(this, HTTPAction.GET_ORDER_LIST)).execute("10",currentPage+"");
 	}
 	
 	public void setOrderList(List<Order> orderList){
-		orderListAdapter = new OrderListAdapter(this, orderList);
-		ordersListView.setAdapter(orderListAdapter);
-		
+		allOrdersList.addAll(orderList);
+		orderListAdapter.notifyDataSetChanged();
+		boolean hasMoreInfo = true;
+		if(orderList.size() == 0)
+			hasMoreInfo = false;
+		ordersListView.onLoadMoreComplete(hasMoreInfo);
 		progressBarDialog.dismiss();
 	}
 	
@@ -85,12 +97,20 @@ public class OrderListActivity extends Activity {
 		
 		orderFilterLinearLayout = (LinearLayout) findViewById(R.id.allorders_orderfilter_linearLayout);
 		orderFilterTypeTextView = (TextView) findViewById(R.id.allorders_orderFilterType_textView);
-		ordersListView = (ListView) findViewById(R.id.allorders_listView);
+		ordersListView = (DragListView) findViewById(R.id.allorders_listView);
+		orderListAdapter = new OrderListAdapter(this, allOrdersList);
+		ordersListView.setAdapter(orderListAdapter);
 		
 		addListeners();
 	}
 	
 	private void addListeners(){
+		ordersListView.setOnRefreshListener(new OnRefreshLoadingMoreListener() {
+			@Override
+			public void onLoadMore() {
+				setViewContent();
+			}
+		});
 		ordersListView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int position,

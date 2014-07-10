@@ -15,7 +15,14 @@
  */
 package com.boding.app;
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.location.Address;
+import android.location.Criteria;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -30,13 +37,19 @@ import android.widget.LinearLayout;
 import android.widget.TabHost;
 import android.widget.TabWidget;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 import com.boding.R;
 import com.boding.constants.Constants;
+import com.boding.constants.GlobalVariables;
 import com.boding.constants.IntentRequestCode;
 import com.boding.util.Util;
+import com.boding.view.dialog.ProgressBarDialog;
 import com.boding.view.dialog.SearchCityDialog;
 
 /**
@@ -49,16 +62,21 @@ public class CitySelectActivity extends FragmentActivity {
 	private static final String NATIONAL_CITY = "国内城市";
 	private static final String INTERNATIONAL_CITY = "国际城市";
 	FragmentTabHost mTabHost;
+	ProgressBarDialog progressBarDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        progressBarDialog = new ProgressBarDialog(this,Constants.DIALOG_STYLE);
         
         Bundle arguments = getIntent().getExtras();
         if(arguments != null)
         	isFlyToCitySelection = arguments.getBoolean(Constants.IS_FLY_TO_CITY_SELECTION);
          
         setContentView(R.layout.activity_city_select);
+        
+//        getLocatedCity();
+        
         mTabHost = (FragmentTabHost)findViewById(android.R.id.tabhost);
         mTabHost.setup(this, getSupportFragmentManager(), R.id.realtabcontent);
 
@@ -84,8 +102,82 @@ public class CitySelectActivity extends FragmentActivity {
                 CitySelectFragment.class, internationalCityBundle);
        
         initView();
+        
+        if(isFlyToCitySelection){
+        	if(GlobalVariables.Fly_To_City.isInternationalCity())
+        		mTabHost.setCurrentTab(1);
+        }else{
+        	if(GlobalVariables.Fly_From_City.isInternationalCity())
+        		mTabHost.setCurrentTab(1);
+        }
     }
+    
 
+    private void getLocatedCity(){
+    	progressBarDialog.show();
+    	final LocationManager lm = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+    	System.out.println(lm.getAllProviders());
+//    	boolean isGPSEnabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
+    	boolean isNetWorkEnabled = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+    	Location location = null;
+    	if(!isNetWorkEnabled){
+    		progressBarDialog.dismiss(); 
+        	Toast.makeText(this, "请打开gps来定位城市！", Toast.LENGTH_SHORT).show();
+        	return;
+    	}
+//    	if(isGPSEnabled)
+//    		location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+//    	else if(isNetWorkEnabled)
+		location = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+		lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 2000, 0, new LocationListener() {
+			@Override
+			public void onStatusChanged(String provider, int status, Bundle extras) {
+				
+			}
+			
+			@Override
+			public void onProviderEnabled(String provider) {
+				
+			}
+			
+			@Override
+			public void onProviderDisabled(String provider) {
+				
+			}
+			
+			@Override
+			public void onLocationChanged(Location location) {
+				if(location==null){
+					location = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+				}
+			}
+		});
+    		
+//        Criteria criteria = new Criteria();
+//        criteria.setAccuracy(Criteria.ACCURACY_FINE);
+//        criteria.setAltitudeRequired(false);
+//        criteria.setBearingRequired(false);
+//        criteria.setCostAllowed(true);
+//        criteria.setPowerRequirement(Criteria.POWER_LOW);
+//        
+//    	Geocoder geoCoder = new Geocoder(getBaseContext(), Locale.getDefault());
+//    	try {
+//    	   List<Address> addresses = geoCoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+//
+//    	   String add = "";
+//    	   if (addresses.size() > 0) 
+//    	   {
+//    	      for (int i=0; i<addresses.get(0).getMaxAddressLineIndex();i++)
+//    	     add += addresses.get(0).getAddressLine(i) + "\n";
+//    	   }
+//
+//    	}
+//    	catch (IOException e1) {                
+//    	   e1.printStackTrace();
+//    	}   
+//    	progressBarDialog.dismiss();; 
+    }
+    
     private void initView(){
     	setTitle();
         

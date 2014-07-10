@@ -415,7 +415,7 @@ public class MainActivity extends FragmentActivity {
 			
 			Bundle bundle  = new Bundle();
 			bundle.putBoolean(Constants.IS_FLY_TO_CITY_SELECTION, isFlyToCitySelection);
-			Intent intent = new Intent();
+			Intent intent = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
 			intent.setClass(MainActivity.this, CitySelectActivity.class);
 //			GlobalVariables.isFlyToCitySelection = isFlyToCitySelection;
 			intent.putExtras(bundle);

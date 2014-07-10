@@ -33,4 +33,16 @@ public class CityUtil {
 		}
 		return null;
 	}
+	
+	public static City getCityByCode(String cityCode){
+		for(City city : GlobalVariables.domesticCitiesList){
+			if(city.getCityCode().equals(cityCode))
+				return city;
+		}
+		for(City city : GlobalVariables.interCitiesList){
+			if(city.getCityCode().equals(cityCode))
+				return city;
+		}
+		return null;
+	}
 }

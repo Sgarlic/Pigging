@@ -28,8 +28,8 @@ public class GlobalVariables {
 	public static List<City> interCitiesList = new ArrayList<City>();
 	public static List<City> domHotCitiesList = new ArrayList<City>();
 	public static List<City> interHotCitiesList = new ArrayList<City>();
-	public static List<City> domHistoryCitiesList = new ArrayList<City>();
-	public static List<City> interHistoryCitiesList = new ArrayList<City>();
+//	public static List<City> domHistoryCitiesList = new ArrayList<City>();
+//	public static List<City> interHistoryCitiesList = new ArrayList<City>();
 	public static List<Country> allCountriesList = new ArrayList<Country>();
 	public static List<Province> allProvincesList = new ArrayList<Province>();
 	
