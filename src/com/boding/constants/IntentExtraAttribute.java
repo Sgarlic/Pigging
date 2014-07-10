@@ -26,6 +26,9 @@ public class IntentExtraAttribute {
 	public static final String CHOOSED_ROUNDWAY_GOFLIGHT = "choosedRoundwayGoFlight";
 	public static final String CLASS_INFO = "classInfo";
 	
+	public static final String FROM_CITY = "fromCity";
+	public static final String TO_CITY = "toCity";
+	
 	/**
 	 * Order Form
 	 */

@@ -7,6 +7,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.boding.R;
+import com.boding.constants.GlobalVariables;
 import com.boding.constants.IntentExtraAttribute;
 import com.boding.constants.IntentRequestCode;
 import com.boding.model.FlightQuery;
@@ -273,6 +274,8 @@ public class VoiceSearchActivity extends Activity {
     }
     
     private void goToSearch(){
+    	GlobalVariables.From_City = flightQuery.getFromcity();
+    	GlobalVariables.To_City = flightQuery.getTocity();
     	Intent intent = new Intent();
 		intent.setClass(VoiceSearchActivity.this, TicketSearchResultActivity.class);
 		Bundle bundle = new Bundle();

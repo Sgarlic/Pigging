@@ -69,6 +69,18 @@ public class FilterDialog extends Dialog{
 		initView();
 	}
 	
+	public List<String> getTimeSegmentList(){
+		return timeSegmentAdapter.getConstraints();
+	}
+	
+	public List<String> getClassList(){
+		return classAdapter.getConstraints();
+	}
+	
+	public List<String> getCompanyList(){
+		return companyAdapter.getConstraints();
+	}
+	
 	 private void setWidthHeight(){
 			//set dialog width
 			WindowManager.LayoutParams lp = this.getWindow().getAttributes();
@@ -347,5 +359,6 @@ public class FilterDialog extends Dialog{
 			TextView filterItemTextView;
 			CheckBox filterItemCheckBox;
 		}
+		
 	}
 }

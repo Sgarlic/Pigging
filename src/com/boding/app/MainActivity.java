@@ -172,12 +172,16 @@ public class MainActivity extends FragmentActivity {
 				Intent intent = new Intent();
 				intent.setClass(MainActivity.this, TicketSearchResultActivity.class);
 				FlightQuery fq = new FlightQuery();
-				fq.setFromcity((String)leftpageFlyFromTextView.getText());
-				fq.setTocity((String)leftpageFlyToTextView.getText());
+				String fromcity = (String)leftpageFlyFromTextView.getText();
+				String tocity = (String)leftpageFlyToTextView.getText();
+				fq.setFromcity(fromcity);
+				fq.setTocity(tocity);
 				fq.setStartdate((String)leftpageFlyFromDateTextView.getText());
 				if(!isSingleWay){
 					fq.setReturndate((String)leftpageFlyToDateTextView.getText());
 				}
+				GlobalVariables.From_City = fromcity;
+				GlobalVariables.To_City = tocity;
 				Bundle bundle = new Bundle();
 				bundle.putParcelable(IntentExtraAttribute.FLIGHT_QUERY, fq);
 				bundle.putBoolean(Constants.IS_SINGLE_WAY, isSingleWay);

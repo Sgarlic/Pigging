@@ -89,6 +89,7 @@ public class OrderFormActivity extends Activity {
         	}
         	if(arguments.containsKey(IntentExtraAttribute.FLIGHT_LINE_INFO)){
         		selectedFlight = arguments.getParcelable(IntentExtraAttribute.FLIGHT_LINE_INFO);
+        		System.out.println("PASS TO ORDER" + ((Flight)selectedFlight).getSelectedCabins().size());
         	}
         	if(arguments.containsKey(IntentExtraAttribute.FLIGHT_LINE_INFO_ROUNDWAY)){
         		selectedRoundwayFlight = arguments.getParcelable(IntentExtraAttribute.FLIGHT_LINE_INFO_ROUNDWAY);
@@ -171,11 +172,11 @@ public class OrderFormActivity extends Activity {
 		
 		if(isDomestic){
 			OrderFlightInfoLayout orderFlightInfoLinearLayout = new OrderFlightInfoLayout(this,
-					(Flight)selectedFlight);
+					(Flight)selectedFlight, false);
 			flightInfoLinearLayout.addView(orderFlightInfoLinearLayout);
 			if(isRoundWay){
 				OrderFlightInfoLayout orderFlightInfoRLinearLayout = new OrderFlightInfoLayout(this,
-						(Flight)selectedRoundwayFlight);
+						(Flight)selectedRoundwayFlight, true);
 				flightInfoLinearLayout.addView(orderFlightInfoRLinearLayout);
 			}
 		}else{

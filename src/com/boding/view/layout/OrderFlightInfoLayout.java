@@ -48,17 +48,21 @@ public class OrderFlightInfoLayout extends LinearLayout{
 	private TextView planeBuildingPriceTextView;
 	private TextView fuelOilPriceTextView;
 	
+	private boolean isReturn = false;
+	
 	// if init complete
 	private boolean flag = false;
-	public OrderFlightInfoLayout(Context context) {
+	public OrderFlightInfoLayout(Context context, boolean isReturn) {
 		super(context);
 		this.context = context;
+		this.isReturn = isReturn;
 	}
 	
-	public OrderFlightInfoLayout(Context context, Flight flightLine) {
+	public OrderFlightInfoLayout(Context context, Flight flightLine, boolean isReturn) {
 		super(context);
 		this.context = context;
 		this.flightLine = flightLine;
+		this.isReturn = isReturn;
 	}
 	
 	public OrderFlightInfoLayout(Context context, AttributeSet attrs) {
@@ -110,8 +114,14 @@ public class OrderFlightInfoLayout extends LinearLayout{
 	}
 	
 	private void setViewContent(){
-		flyFromTextView.setText(flightLine.getFlyFromCity());
-		flyToTextView.setText(flightLine.getFlyToCity());
+		if(isReturn){
+			flyFromTextView.setText(GlobalVariables.To_City);
+			flyToTextView.setText(GlobalVariables.From_City);
+		}else{
+			flyFromTextView.setText(GlobalVariables.From_City);
+			flyToTextView.setText(GlobalVariables.To_City);
+		}
+		
 		dateTextView.setText(flightLine.getDptDate());
 		companyLogoImageView.setImageBitmap(Util.getFlightCompanyLogo(context, 
 				flightLine.getCarrier()));
@@ -128,7 +138,7 @@ public class OrderFlightInfoLayout extends LinearLayout{
 		if(!hasStopover)
 			stopOverLinearLayout.setVisibility(View.INVISIBLE);
 		Cabin cabin = flightLine.getSelectedCabin();
-		ticketPricePriceTextView.setText(cabin.getAdultPrice()+"");
+		ticketPricePriceTextView.setText((int)cabin.getAdultPrice()+"");
 		planeBuildingPriceTextView.setText(flightLine.getAdultAirportFee()+"");
 		fuelOilPriceTextView.setText(flightLine.getAdultFuelFee()+"");
 	}

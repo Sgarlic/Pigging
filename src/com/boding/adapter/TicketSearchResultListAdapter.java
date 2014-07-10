@@ -185,13 +185,14 @@ public class TicketSearchResultListAdapter extends TicketSearchResultAdapter {
             holder.buyImageView  = (ImageView)convertView.findViewById(R.id.child_class_buy_imageView); 
             
             final Flight currentFlightLine = getGroup(groupPosition);
+            
             final int pos = childPosition;
             holder.buyImageView.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					
+					currentFlightLine.setSelectedCabinPos(pos+1);
+					System.out.println("HEEELOO" + currentFlightLine.getSelectedCabins().size());
 					((TicketSearchResultActivity)context).goToNextActivity(currentFlightLine);
-					currentFlightLine.setSelectedCabinPos(pos);
 				}
 			});
             
@@ -208,7 +209,7 @@ public class TicketSearchResultListAdapter extends TicketSearchResultAdapter {
         else{
         	holder.leftTicketTextView.setText(flightClass.getStatus());
         }
-        holder.priceTextView.setText(String.valueOf(flightClass.getAdultPrice()));
+        holder.priceTextView.setText(String.valueOf((int)flightClass.getAdultPrice()));
         holder.discountTextView.setText(flightClass.getCabinName());
         holder.returnMoneyTextView.setText("5");
 //        discountTextView.setTextij");
@@ -251,11 +252,11 @@ public class TicketSearchResultListAdapter extends TicketSearchResultAdapter {
 			List<Flight> lines = new ArrayList<Flight>();
 			Flight flightline = null;
 			boolean tag = false;
-			System.out.println(originList.size());
+			//System.out.println(originList.size());
 			for (Iterator<Flight> iterator = originList.iterator(); iterator.hasNext();) {
 		        flightline = iterator.next();
 		        tag = false;
-		        System.out.println("---> name=" + flightline.getDptTime());
+		        //System.out.println("---> name=" + flightline.getDptTime());
 		        if(timeConstraint.size() >0)
 		        	for(String timeSeg : timeConstraint){
 		        	//System.out.println(flightline.getLeaveTime() +"   " +timeSeg);
@@ -273,9 +274,9 @@ public class TicketSearchResultListAdapter extends TicketSearchResultAdapter {
 		        if(classConstraint.size() > 0)
 		        	for(String flightclass : classConstraint){
 		        	//´ýÌí¼Ó²ÕÎ»ÅÐ¶Ï
-		        		System.out.println(flightclass);
+		        		//System.out.println(flightclass);
 		        		flightline.setDefaultShowedCabins(flightclass);
-		        		System.out.println("%%%%%%%%%%" + flightline.getSelectedCabins().size());
+		        		//System.out.println("%%%%%%%%%%" + flightline.getSelectedCabins().size());
 		        		if (flightline.getSelectedCabins().size() > 0) {
 				          tag = true;
 				          break;
@@ -288,7 +289,7 @@ public class TicketSearchResultListAdapter extends TicketSearchResultAdapter {
 		        	continue;
 		        if(compConstraint.size() > 0)
 		        	for(String company : compConstraint){
-		        		System.out.println(flightline.getCarrierName());
+		        		//System.out.println(flightline.getCarrierName());
 		        		if (flightline.getCarrierName().equals(company)) {
 				          //lines.add(flightline);
 				          tag = true;
@@ -308,9 +309,14 @@ public class TicketSearchResultListAdapter extends TicketSearchResultAdapter {
 		protected void publishResults(CharSequence constraint,
 				FilterResults results) {
 			flightLineList = (List<Flight>)results.values;
-		    if (results.count > 0) {
+			
+			int size = (flightLineList != null) ? flightLineList.size() : 0;
+		    if (size > 0) {
 		        notifyDataSetChanged();
-		    } else {
+		        ((TicketSearchResultActivity)context).hideNoResult();
+		    }else if(size == 0){
+		    	((TicketSearchResultActivity)context).showNoResult();
+		    }else {
 		        notifyDataSetInvalidated();
 		    }
 			

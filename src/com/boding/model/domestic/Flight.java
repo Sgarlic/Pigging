@@ -46,7 +46,7 @@ public class Flight implements FlightInterface, Parcelable{
 	
 	
 	public Cabin getSelectedCabin() {
-		return cabins.get(selectedCabinPos);
+		return selectedCabins.get(selectedCabinPos);
 	}
 
 
@@ -365,6 +365,8 @@ public class Flight implements FlightInterface, Parcelable{
 		selectedCabinPos = in.readInt();
 		Parcelable[] cabinArray = in.readParcelableArray(Cabin.class.getClassLoader());
 		cabins = Arrays.asList(Arrays.asList(cabinArray).toArray(new Cabin[cabinArray.length]));
+		Parcelable[] selectedCabinArray = in.readParcelableArray(Cabin.class.getClassLoader());
+		selectedCabins = Arrays.asList(Arrays.asList(selectedCabinArray).toArray(new Cabin[selectedCabinArray.length]));
 	}
 	
 	@Override
@@ -392,6 +394,7 @@ public class Flight implements FlightInterface, Parcelable{
 		dest.writeString(duration);
 		dest.writeInt(selectedCabinPos);
 		dest.writeParcelableArray(cabins.toArray(new Cabin[cabins.size()]), 0);
+		dest.writeParcelableArray(selectedCabins.toArray(new Cabin[cabins.size()]), 0);
 	}
 
 	public static final Parcelable.Creator<Flight> CREATOR = new Parcelable.Creator<Flight>() {   

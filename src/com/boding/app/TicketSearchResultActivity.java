@@ -196,7 +196,7 @@ public class TicketSearchResultActivity extends FragmentActivity {
         toCityTextView.setText(to.getCityName());
         toCityCodeTextView.setText(to.getCityCode());
         
-        setTextViewInfo();
+        //setTextViewInfo();
         
         addListeners();
   }
@@ -292,9 +292,6 @@ public class TicketSearchResultActivity extends FragmentActivity {
 					priceOrderImageview.setImageResource(R.drawable.triangle_down_orange);
 					isPriceAsc = false;
 				}
-				Intent intent = new Intent();
-				intent.setClass(TicketSearchResultActivity.this, OrderFormActivity.class);
-				startActivityForResult(intent,IntentRequestCode.ORDER_FORM.getRequestCode());
 			}
         	
         });
@@ -310,7 +307,7 @@ public class TicketSearchResultActivity extends FragmentActivity {
         });
 	}
   
-	  private void setTextViewInfo(){
+	  public void setTextViewInfo(){
 		  todayDateTextView.setText(startdate);
 		  if(lastDayAirline!=null)
               lastDayPriceTextView.setText(lastDayAirline.getlowestPrice());
@@ -328,7 +325,6 @@ public class TicketSearchResultActivity extends FragmentActivity {
               nextDayPriceTextView.setText(nextDayAirline.getlowestPrice());
 		  else
               nextDayPriceTextView.setText("");
-
 	  }
 
 	  public void setTodayAirlineView(AirlineInterface todayAV){
@@ -372,9 +368,6 @@ public class TicketSearchResultActivity extends FragmentActivity {
 				return false;
 				}
 	      });
-	      if(adapter.getGroupCount() == 0){
-	    	  noResultTextView.setVisibility(View.VISIBLE);
-	      }
 	  }
 
 	  private void invokeXmlTask(String url, int whichday){
@@ -394,7 +387,14 @@ public class TicketSearchResultActivity extends FragmentActivity {
 			  ((TicketSearchResultListAdapter.FlightLineFilter) filter).setConstraint(timeConstraints, classConstraints, compConstrains);
 			   filter.filter("");
 		  }
-		 
+	  }
+	  
+	  public void showNoResult(){
+		  noResultTextView.setVisibility(View.VISIBLE);
+	  }
+	  
+	  public void hideNoResult(){
+		  noResultTextView.setVisibility(View.GONE);
 	  }
 	  
 	  private void queryDomesticFlight(String date, String fromcity, String tocity, int whichday){
@@ -473,8 +473,12 @@ public class TicketSearchResultActivity extends FragmentActivity {
 	  }
 	  
 	  public void doDefaultFilter(){
-		  List<String> classConstraints = new ArrayList<String>();
-		  classConstraints.add(classInfo);
-		  doFilter(new ArrayList<String>(), classConstraints, new ArrayList<String>());
+		  if(filterDialog == null){
+			  List<String> classConstraints = new ArrayList<String>();
+			  classConstraints.add(classInfo);
+			  doFilter(new ArrayList<String>(), classConstraints, new ArrayList<String>());
+		  }else{
+			  doFilter(filterDialog.getTimeSegmentList(), filterDialog.getClassList(), filterDialog.getCompanyList());
+		  }
 	  }
 }
