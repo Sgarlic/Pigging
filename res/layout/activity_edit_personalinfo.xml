@@ -149,7 +149,7 @@
 		        android:layout_gravity="center_vertical"
 		        android:gravity="top"
 		        android:text="请选择性别"
-		        android:textColor="@color/listviewDividerColor"
+		        android:textColor="@layout/selector_textview_of_selectedandunselected"
 		        android:textSize="17sp"
 		        android:typeface="serif" />
 		</LinearLayout>
@@ -177,7 +177,7 @@
 		        android:layout_gravity="center_vertical"
 		        android:gravity="top"
 		        android:text="请选择出生日期"
-		        android:textColor="@color/listviewDividerColor"
+		        android:textColor="@layout/selector_textview_of_selectedandunselected"
 		        android:textSize="17sp"
 		        android:typeface="serif" />
 		</LinearLayout>

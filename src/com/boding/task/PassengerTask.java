@@ -44,7 +44,7 @@ public class PassengerTask extends AsyncTask<Object,Void,Object>{
 		this.action = action;
 	}
 	
-	public static boolean addPassenger(Passenger passenger){
+	public boolean addPassenger(Passenger passenger){
 		boolean resultCode = false;
 		StringBuilder sb = new StringBuilder();
 		sb.append(Constants.BODINGACCOUNT);
@@ -107,7 +107,7 @@ public class PassengerTask extends AsyncTask<Object,Void,Object>{
 		return resultCode;
 	}
 	
-	public static boolean editPassenger(Passenger passenger){
+	public boolean editPassenger(Passenger passenger){
 		boolean resultCode = false;
 		StringBuilder sb = new StringBuilder();
 		sb.append(Constants.BODINGACCOUNT);
@@ -173,7 +173,7 @@ public class PassengerTask extends AsyncTask<Object,Void,Object>{
 		return resultCode;
 	}
 	
-	public static boolean deletePassenger(String passengerID){
+	public boolean deletePassenger(String passengerID){
 		boolean resultCode = false;
 		StringBuilder sb = new StringBuilder();
 		sb.append(Constants.BODINGACCOUNT);
@@ -205,7 +205,7 @@ public class PassengerTask extends AsyncTask<Object,Void,Object>{
 		return resultCode;
 	}
 	
-	public static List<Passenger> getPassengerList(){
+	public List<Passenger> getPassengerList(){
 		List<Passenger> passengers = new ArrayList<Passenger>();
 		StringBuilder sb = new StringBuilder();
 		sb.append(Constants.BODINGACCOUNT);
@@ -240,7 +240,7 @@ public class PassengerTask extends AsyncTask<Object,Void,Object>{
 	}
 	
 
-	public static String connectingServer(String urlStr){
+	public String connectingServer(String urlStr){
 		System.out.println(urlStr);
 		StringBuilder sbr = new StringBuilder();
 		URL url;

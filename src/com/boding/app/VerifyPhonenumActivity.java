@@ -1,36 +1,16 @@
 package com.boding.app;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
 
 import com.boding.R;
-import com.boding.constants.IdentityType;
 import com.boding.constants.IntentRequestCode;
-import com.boding.model.Passenger;
 import com.boding.util.Util;
-import com.boding.view.dialog.SelectionDialog;
-import com.boding.view.layout.OrderFlightInfoLayout;
 
 import android.app.Activity;
-import android.app.DatePickerDialog;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
-import android.widget.BaseAdapter;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.TextView;
 
 public class VerifyPhonenumActivity extends Activity {
 	private EditText phonenumEditText;
@@ -70,5 +50,6 @@ public class VerifyPhonenumActivity extends Activity {
 		addListeners();
 	}
 	private void addListeners(){
+		
 	}
 }

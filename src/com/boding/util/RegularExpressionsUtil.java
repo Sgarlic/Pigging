@@ -4,6 +4,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class RegularExpressionsUtil {
+	public static boolean checkPassword(String str){
+		String expressions = "^[\\x21-\\x7E]{6,20}$";
+		return checkIfMatchPattern(str, expressions);
+	}
+	
 	public static boolean checkPhone(String str){
 		String expressions = "^(0[0-9]{2,3}\\-)?([2-9][0-9]{6,7})+(\\-[0-9]{1,4})?$";
 		return checkIfMatchPattern(str, expressions);

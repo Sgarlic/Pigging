@@ -6,7 +6,7 @@ import java.util.Calendar;
 
 import com.boding.R;
 import com.boding.constants.HTTPAction;
-import com.boding.http.HttpConnector;
+import com.boding.task.BodingUserTask;
 import com.boding.task.InitCityTask;
 import com.boding.task.InitCountryTask;
 import com.boding.util.AreaXmlParser;
@@ -64,7 +64,7 @@ public class LauncherActivity extends Activity {
 	        	if(expireDate.compareTo(nowDate) > -1 ){
 	        		String userName = sharedPreferences.getString(SharedPreferenceUtil.LOGIN_USERNAME,"");
 	        		String password = sharedPreferences.getString(SharedPreferenceUtil.LOGIN_PASSWORD,"");
-	        		HttpConnector httpConnector = new HttpConnector(this,HTTPAction.LAUNCHER_LOGIN);
+	        		BodingUserTask httpConnector = new BodingUserTask(this,HTTPAction.LAUNCHER_LOGIN);
 	        		httpConnector.execute(userName,password);
 	        	}
 	        }

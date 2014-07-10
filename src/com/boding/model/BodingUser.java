@@ -3,14 +3,14 @@ package com.boding.model;
 import com.boding.constants.Gender;
 
 public class BodingUser {
-	private boolean activated_state;//0、未激活(需激活) 1、已激活(激活后才算登录成功)
-	private String mobile;//手机号为空表示未绑定手机号码
-	private String cardno;//用户代码/卡号
-	private String cardid;//用户id
-	private String name;//姓名
-	private String nickname;//昵称
-	private String portrait;//头像
-	private String login_type;//登录方式 :cardno 用户代码/卡号、email 邮箱 、mobile 手机 、kuaijie 快捷登录
+	private boolean activated_state = false;//0、未激活(需激活) 1、已激活(激活后才算登录成功)
+	private String mobile = "";//手机号为空表示未绑定手机号码
+	private String cardno = "";//用户代码/卡号
+	private String cardid = "";//用户id
+	private String name = "";//姓名
+	private String nickname = "";//昵称
+	private String portrait = "";//头像
+	private String login_type = "";//登录方式 :cardno 用户代码/卡号、email 邮箱 、mobile 手机 、kuaijie 快捷登录
 	
 	private Gender gender = Gender.Male;
 	private String birthdayInfo = "1979-01-01";
@@ -104,6 +104,10 @@ public class BodingUser {
 		this.login_type = login_type;
 	}
 
+	public String getGenderCode(){
+		return gender.getGenderCode();
+	}
+	
 	public String getGender() {
 		return gender.toString();
 	}
@@ -111,12 +115,16 @@ public class BodingUser {
 	public void setGender(String genderCode) {
 		this.gender = Gender.getGenderFromCode(genderCode);
 	}
+	
+	public void setGenderFromGName(String genderGName){
+		this.gender = Gender.getGenderFromName(genderGName);
+	}
 
 	public String getBirthdayInfo() {
 		return birthdayInfo;
 	}
 
 	public void setBirthdayInfo(String birthdayInfo) {
-		this.birthdayInfo = birthdayInfo;
+		this.birthdayInfo = birthdayInfo.split(" ")[0];
 	}
 }

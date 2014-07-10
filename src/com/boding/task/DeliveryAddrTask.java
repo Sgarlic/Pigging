@@ -48,7 +48,7 @@ public class DeliveryAddrTask extends AsyncTask<Object,Void,Object>{
 		this.action = action;
 	}
 	
-	public static boolean addDeliveryAddr(DeliveryAddress deliveryAddr){
+	public boolean addDeliveryAddr(DeliveryAddress deliveryAddr){
 		boolean resultCode = false;
 		StringBuilder sb = new StringBuilder();
 		sb.append(Constants.BODINGACCOUNT);
@@ -98,7 +98,7 @@ public class DeliveryAddrTask extends AsyncTask<Object,Void,Object>{
 		return resultCode;
 	}
 	
-	public static boolean editDeliveryAddr(DeliveryAddress deliveryAddr){
+	public boolean editDeliveryAddr(DeliveryAddress deliveryAddr){
 		boolean resultCode = false;
 		StringBuilder sb = new StringBuilder();
 		sb.append(Constants.BODINGACCOUNT);
@@ -150,7 +150,7 @@ public class DeliveryAddrTask extends AsyncTask<Object,Void,Object>{
 		return resultCode;
 	}
 	
-	public static boolean deleteDeliveryAddr(String deliveryAddrId){
+	public boolean deleteDeliveryAddr(String deliveryAddrId){
 		boolean resultCode = false;
 		StringBuilder sb = new StringBuilder();
 		sb.append(Constants.BODINGACCOUNT);
@@ -182,7 +182,7 @@ public class DeliveryAddrTask extends AsyncTask<Object,Void,Object>{
 		return resultCode;
 	}
 	
-	public static List<DeliveryAddress> getDeliveryAddrList(){
+	public List<DeliveryAddress> getDeliveryAddrList(){
 		List<DeliveryAddress> deliveryAddrs = new ArrayList<DeliveryAddress>();
 		StringBuilder sb = new StringBuilder();
 		sb.append(Constants.BODINGACCOUNT);
@@ -217,7 +217,7 @@ public class DeliveryAddrTask extends AsyncTask<Object,Void,Object>{
 	}
 	
 
-	public static String connectingServer(String urlStr){
+	public String connectingServer(String urlStr){
 		System.out.println(urlStr);
 		StringBuilder sbr = new StringBuilder();
 		URL url;

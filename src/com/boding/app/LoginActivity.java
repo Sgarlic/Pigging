@@ -1,44 +1,21 @@
 package com.boding.app;
 
-import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-
 import com.boding.R;
 import com.boding.constants.Constants;
-import com.boding.constants.GlobalVariables;
 import com.boding.constants.HTTPAction;
 import com.boding.constants.IntentRequestCode;
-import com.boding.http.HttpConnector;
-import com.boding.model.BodingUser;
-import com.boding.model.Passenger;
-import com.boding.task.DomeFlightQueryTask;
-import com.boding.util.Encryption;
+import com.boding.task.BodingUserTask;
 import com.boding.util.Util;
 import com.boding.view.dialog.ProgressBarDialog;
-import com.boding.view.dialog.SelectionDialog;
 import com.boding.view.dialog.WarningDialog;
-import com.boding.view.layout.OrderFlightInfoLayout;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
-import android.view.Window;
-import android.widget.BaseAdapter;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.TextView;
 
 /**
  * Failed to login
@@ -106,7 +83,7 @@ public class LoginActivity extends Activity {
 				userName = "13262763513";
 				password = "000000";
 				
-				WarningDialog warningDialog = new WarningDialog(LoginActivity.this,Constants.DIALOG_STYLE);
+				WarningDialog warningDialog = new WarningDialog(LoginActivity.this);
 //				if(userName.equals("")){
 //					warningDialog.setContent("请输入用户名");
 //					warningDialog.show();
@@ -119,10 +96,10 @@ public class LoginActivity extends Activity {
 //				}
 				
 				// Start logging in
-				progressDialog = new ProgressBarDialog(LoginActivity.this, Constants.DIALOG_STYLE);
+				progressDialog = new ProgressBarDialog(LoginActivity.this);
 				progressDialog.show();
 				
-				HttpConnector dfq = new HttpConnector(LoginActivity.this, HTTPAction.LOGIN);
+				BodingUserTask dfq = new BodingUserTask(LoginActivity.this, HTTPAction.LOGIN);
 				dfq.execute(userName,password);
 			}
 		});
@@ -135,7 +112,7 @@ public class LoginActivity extends Activity {
 	
 	public void loginFailed(){
 		progressDialog.dismiss();
-		WarningDialog warningDialog = new WarningDialog(this, Constants.DIALOG_STYLE);
+		WarningDialog warningDialog = new WarningDialog(this);
 		warningDialog.setContent("错误的用户名/密码");
 		warningDialog.show();
 	}

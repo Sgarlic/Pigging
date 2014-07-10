@@ -44,7 +44,7 @@ public class OrderTask extends AsyncTask<Object,Void,Object>{
 		this.action = action;
 	}
 	
-	public static String createOrder(String flightInfo, String passengerInfo, 
+	public String createOrder(String flightInfo, String passengerInfo, 
 		String contactInfo, String receiveInfo, boolean internalFlag, PaymentMethod payMethod){
 		int flag = 0;
 		if(internalFlag)
@@ -133,7 +133,7 @@ public class OrderTask extends AsyncTask<Object,Void,Object>{
 		return resultCode;
 	}
 	
-	public static Order getOrderDetail(String orderCode){
+	public Order getOrderDetail(String orderCode){
 		Order order = new Order();
 		StringBuilder sb = new StringBuilder();
 		sb.append(Constants.BODINGACCOUNT);
@@ -198,7 +198,7 @@ public class OrderTask extends AsyncTask<Object,Void,Object>{
 		return order;
 	}
 	
-	public static List<Order> getOrderList(String pageSize, String page){
+	public List<Order> getOrderList(String pageSize, String page){
 		List<Order> orders = new ArrayList<Order>();
 		StringBuilder sb = new StringBuilder();
 		sb.append(Constants.BODINGACCOUNT);
@@ -239,7 +239,7 @@ public class OrderTask extends AsyncTask<Object,Void,Object>{
 	}
 	
 
-	public static String connectingServer(String urlStr){
+	public String connectingServer(String urlStr){
 		System.out.println(urlStr);
 		StringBuilder sbr = new StringBuilder();
 		URL url;

@@ -2,9 +2,12 @@ package com.boding.app;
 
 import com.boding.R;
 import com.boding.constants.GlobalVariables;
+import com.boding.constants.HTTPAction;
 import com.boding.constants.IntentRequestCode;
+import com.boding.task.BodingUserTask;
 import com.boding.util.SharedPreferenceUtil;
 import com.boding.util.Util;
+import com.boding.view.dialog.ProgressBarDialog;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -25,17 +28,32 @@ public class MyPersonalInfoActivity extends Activity {
 	private LinearLayout changePhoneNumLinearLayout;
 	private LinearLayout exitLinearLayout;
 	
-	private String userName = "Àî´ó×ì";
+	private ProgressBarDialog progressBarDialog;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_mypersonalinfo);
+		progressBarDialog = new ProgressBarDialog(this);
 //		Bundle arguments = getIntent().getExtras();
 //        if(arguments != null)
 //        	isReturnDateSelection = arguments.getBoolean(Constants.IS_RETURN_DATE_SELECTION);
         
 		initView();
+		getPersonalInfo();
+	}
+	
+	public void setPersonalInfo(){
+		userNameTextView.setText(GlobalVariables.bodingUser.getWelcomeName());
+		nameInfoTextView.setText(GlobalVariables.bodingUser.getName());
+		genderInfoTextView.setText(GlobalVariables.bodingUser.getGender());
+		birthdayInfoTextView.setText(GlobalVariables.bodingUser.getBirthdayInfo());
+		progressBarDialog.dismiss();
+	}
+	
+	private void getPersonalInfo(){
+		progressBarDialog.show();
+		(new BodingUserTask(this, HTTPAction.GET_PERSONAL_INFO)).execute();
 	}
 	
 	private void initView(){
@@ -59,16 +77,9 @@ public class MyPersonalInfoActivity extends Activity {
 		changePhoneNumLinearLayout = (LinearLayout)findViewById(R.id.mypersonalinfo_changePhoneNum_linearLayout);
 		exitLinearLayout = (LinearLayout)findViewById(R.id.mypersonalinfo_exit_linearLayout);
 		
-		setBodingUserInfo();
+		setPersonalInfo();
 		
 		addListeners();
-	}
-	
-	private void setBodingUserInfo(){
-		userNameTextView.setText(GlobalVariables.bodingUser.getWelcomeName());
-		nameInfoTextView.setText(GlobalVariables.bodingUser.getName());
-		genderInfoTextView.setText(GlobalVariables.bodingUser.getGender());
-		birthdayInfoTextView.setText(GlobalVariables.bodingUser.getBirthdayInfo());
 	}
 	
 	private void addListeners(){
@@ -108,5 +119,15 @@ public class MyPersonalInfoActivity extends Activity {
 				Util.returnToPreviousPage(MyPersonalInfoActivity.this, IntentRequestCode.MYPERSONALINFO);
 			}
 		});
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if(data == null)
+			return;
+		if(requestCode==IntentRequestCode.EDIT_PERSONALINFO.getRequestCode()){
+			setPersonalInfo();
+		}
 	}
 }

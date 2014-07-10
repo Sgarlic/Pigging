@@ -3,6 +3,7 @@ package com.boding.view.dialog;
 import java.util.List;
 
 import com.boding.R;
+import com.boding.constants.Constants;
 import com.boding.constants.GlobalVariables;
 
 import android.app.Dialog;
@@ -26,6 +27,15 @@ public class SelectionDialog extends Dialog{
 	
 	private OnItemSelectedListener onItemSelectedListener;
 	
+	public SelectionDialog(Context context, String title, List<String> selectionList){
+		super(context,Constants.DIALOG_STYLE);
+		this.context = context;
+		this.selectionList = selectionList;
+		setContentView(R.layout.dialog_selection);
+		setWidthHeight();
+		initView();
+		setTitle(title);
+	}
 	public SelectionDialog(Context context, int theme, String title, List<String> selectionList){
 		super(context,theme);
 		this.context = context;
