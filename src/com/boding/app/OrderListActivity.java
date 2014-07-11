@@ -60,7 +60,7 @@ public class OrderListActivity extends Activity{
 //		Bundle arguments = getIntent().getExtras();
 //        if(arguments != null)
 //        	isReturnDateSelection = arguments.getBoolean(Constants.IS_RETURN_DATE_SELECTION);
-        progressBarDialog = new ProgressBarDialog(this, Constants.DIALOG_STYLE);
+        progressBarDialog = new ProgressBarDialog(this);
 		initView();
 		
 		

@@ -1,6 +1,7 @@
 package com.boding.app;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -32,6 +33,7 @@ import com.boding.util.CityUtil;
 import com.boding.util.DateUtil;
 import com.boding.util.Util;
 import com.boding.view.dialog.CalendarDialog;
+import com.boding.view.dialog.CalendarDialog.OnItemClickListener;
 import com.boding.view.dialog.FilterDialog;
 import com.boding.view.dialog.ProgressBarDialog;
 import com.boding.view.dialog.SearchCityDialog;
@@ -114,6 +116,8 @@ public class TicketSearchResultActivity extends FragmentActivity {
 	
 	FilterDialog filterDialog;
 	private String classInfo;
+	
+	private CalendarDialog calendarDialog;
 
 	
 	private FlightInterface choosedGoFlight;
@@ -121,7 +125,7 @@ public class TicketSearchResultActivity extends FragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_ticket_search_result);
-		
+		calendarDialog = new CalendarDialog(TicketSearchResultActivity.this);
 		Bundle bundle = getIntent().getExtras();
 		int pre_activity_num = bundle.getInt(IntentExtraAttribute.PREVIOUS_ACTIVITY);
 		if(bundle.containsKey(IntentExtraAttribute.CHOOSED_ROUNDWAY_GOFLIGHT)){
@@ -133,7 +137,7 @@ public class TicketSearchResultActivity extends FragmentActivity {
 
 		String fromcity = flightQuery.getFromcity();
 		String tocity = flightQuery.getTocity();
-		startdate = flightQuery.getStartdate();
+		startdate = GlobalVariables.Fly_From_Date;
 		from = CityUtil.getCityByName(fromcity);
 		to = CityUtil.getCityByName(tocity);
 		
@@ -148,15 +152,14 @@ public class TicketSearchResultActivity extends FragmentActivity {
 			City temp = from;
 			from = to;
 			to = temp;
-			startdate = flightQuery.getReturndate();
+			startdate = GlobalVariables.Fly_Return_Date;
 		}	
+		
+		progressDialog = new ProgressBarDialog(TicketSearchResultActivity.this);
 		
 		loadData(isInternational);
 		
 		initView();
-		
-		progressDialog = new ProgressBarDialog(TicketSearchResultActivity.this,R.style.Custom_Dialog_Theme);
-		progressDialog.show();
 	}
 	
 
@@ -177,11 +180,15 @@ public class TicketSearchResultActivity extends FragmentActivity {
         toCityCodeTextView= (TextView)findViewById(R.id.search_result_title_tocode_textView);
         lastDayLinearLayout= (LinearLayout)findViewById(R.id.search_result_lastday_linearLayout);
         lastDayPriceTextView= (TextView)findViewById(R.id.search_result_lastday_price_textView);
+        lastDayPriceTextView.setText("");
         todayLinearLayout= (LinearLayout)findViewById(R.id.search_result_today_linearLayout);
         todayDateTextView= (TextView)findViewById(R.id.search_result_today_textView);
+        todayDateTextView.setText("");
         todayPriceTextView= (TextView)findViewById(R.id.search_result_today_price_textView);
+        todayPriceTextView.setText("");
         nextDayLinearLayout= (LinearLayout)findViewById(R.id.search_result_nextday_linearLayout);
         nextDayPriceTextView= (TextView)findViewById(R.id.search_result_nextday_price_textView);
+        nextDayPriceTextView.setText("");
         filterLinearLayout= (LinearLayout)findViewById(R.id.search_result_filter_linearLayout);
         startFlyingLinearLayout= (LinearLayout)findViewById(R.id.search_result_startflying_linearLayout);
         priceLinearLayout= (LinearLayout)findViewById(R.id.search_result_price_linearLayout);
@@ -202,6 +209,22 @@ public class TicketSearchResultActivity extends FragmentActivity {
   }
 
 	private void addListeners(){
+		calendarDialog.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void OnItemClick(Date date) {
+				String selectedDate = DateUtil.getFormatedDate(date);
+				if(!startdate.equals(selectedDate)){
+					startdate = selectedDate;
+					if(choosedGoFlight == null){
+						GlobalVariables.Fly_From_Date = selectedDate;
+						DateUtil.setRetunrnWayDate();
+					}else{
+						GlobalVariables.Fly_Return_Date = selectedDate;
+					}
+					loadData(isInternational);
+				}
+			}
+		});
 		searchResultListView.setOnGroupClickListener(new OnGroupClickListener() { 
 			@Override 
 			public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
@@ -215,7 +238,14 @@ public class TicketSearchResultActivity extends FragmentActivity {
 		todayLinearLayout.setOnClickListener(new OnClickListener(){
             @Override
             public void onClick(View arg0) {
-            	CalendarDialog calendarDialog = new CalendarDialog(TicketSearchResultActivity.this,R.style.Custom_Dialog_Theme);
+//            	calendarDialog = new CalendarDialog(TicketSearchResultActivity.this);
+            if(choosedGoFlight != null){
+      			  calendarDialog.setMinDate(DateUtil.getDateFromString(GlobalVariables.Fly_From_Date));
+      			  calendarDialog.setDate(DateUtil.getDateFromString(GlobalVariables.Fly_Return_Date));
+      	  	}else{
+      	  		calendarDialog.setDate(DateUtil.getDateFromString(GlobalVariables.Fly_From_Date));
+      	  	}
+            	
             	calendarDialog.show();
             }
             
@@ -301,7 +331,7 @@ public class TicketSearchResultActivity extends FragmentActivity {
 			@Override
 			public void onClick(View v) {
 				if(filterDialog == null)
-					filterDialog = new FilterDialog(TicketSearchResultActivity.this,R.style.Custom_Dialog_Theme);
+					filterDialog = new FilterDialog(TicketSearchResultActivity.this);
 				filterDialog.show();
 			}
         });
@@ -333,7 +363,6 @@ public class TicketSearchResultActivity extends FragmentActivity {
 	       this.todayAirline = todayAV;
 	       setAdapter();
 	       //doDefaultFilter();
-	       progressDialog.dismiss();
 	  }
 
 	  public void setLastdayAirlineView(AirlineInterface lastdayAV){
@@ -368,6 +397,7 @@ public class TicketSearchResultActivity extends FragmentActivity {
 				return false;
 				}
 	      });
+	      progressDialog.dismiss();
 	  }
 
 	  private void invokeXmlTask(String url, int whichday){
@@ -403,6 +433,8 @@ public class TicketSearchResultActivity extends FragmentActivity {
 	  }
 	  
 	  private void loadData(boolean isInternational){
+		  calendarDialog.dismiss();
+		  progressDialog.show();
 		  if(isInternational){//国际
 				//此处先使用同一个xml测试
 				String urlstr = "http://192.168.0.22:9404/FakeBodingServer/XMLServlet?day=today";

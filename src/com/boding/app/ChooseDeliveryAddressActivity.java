@@ -83,7 +83,7 @@ public class ChooseDeliveryAddressActivity extends Activity {
 	}
 
 	private void viewContentSetting(){
-		progressBarDialog = new ProgressBarDialog(this, Constants.DIALOG_STYLE);
+		progressBarDialog = new ProgressBarDialog(this);
 		progressBarDialog.show();
 		
 		DeliveryAddrTask deliveryAddrTask = new DeliveryAddrTask(this, HTTPAction.GET_DELIVERYADDRLIST);
@@ -111,8 +111,7 @@ public class ChooseDeliveryAddressActivity extends Activity {
 			@Override
 			public void onClick(View arg0) {
 				if(selectedAddr == null){
-            		WarningDialog dialog = new WarningDialog(ChooseDeliveryAddressActivity.this,
-            				Constants.DIALOG_STYLE);
+            		WarningDialog dialog = new WarningDialog(ChooseDeliveryAddressActivity.this);
             		dialog.setContent("请选择一个配送地址");
             		dialog.show();
             		return;

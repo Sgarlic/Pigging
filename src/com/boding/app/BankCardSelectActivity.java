@@ -77,8 +77,7 @@ public class BankCardSelectActivity extends FragmentActivity {
         bankcardSearchLinearLayout.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View arg0) {
-				SearchBankcardDialog searchBankcardDialog = new SearchBankcardDialog(BankCardSelectActivity.this,
-						R.style.Custom_Dialog_Theme,allBankCardList);
+				SearchBankcardDialog searchBankcardDialog = new SearchBankcardDialog(BankCardSelectActivity.this,allBankCardList);
 				searchBankcardDialog.show();
 			}
         });

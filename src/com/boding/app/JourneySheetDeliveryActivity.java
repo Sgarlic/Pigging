@@ -106,7 +106,7 @@ public class JourneySheetDeliveryActivity extends Activity {
 				deliverMethodList.add("其他地区（￥20）");
 				
 				SelectionDialog deliveryMethodDialog = new SelectionDialog(JourneySheetDeliveryActivity.this,
-						R.style.Custom_Dialog_Theme, "选择配送方式",deliverMethodList);
+						"选择配送方式",deliverMethodList);
 				deliveryMethodDialog.show();
 				deliveryMethodDialog.setOnItemSelectedListener(new OnItemSelectedListener() {
 					@Override
@@ -155,7 +155,7 @@ public class JourneySheetDeliveryActivity extends Activity {
 				if(needJourneySheetImageView.isSelected()){
 					if(selectedAddr == null){
 						WarningDialog warningDialog = new WarningDialog(
-							JourneySheetDeliveryActivity.this, Constants.DIALOG_STYLE);
+							JourneySheetDeliveryActivity.this);
 						warningDialog.setContent("请选择配送地址");
 						warningDialog.show();
 						return;

@@ -32,15 +32,45 @@ public class Passenger implements Parcelable{
 		
 	}
 	
-	public Passenger(String name, String paper_type, String id_code){
+	// 0、国内票 1、国际票
+	public Passenger(String name, String paper_type, String id_code, boolean isInternalFlag){
 		this.identityType = IdentityType.getIdentityTypeFromIDCode(paper_type);
-		if(identityType == IdentityType.NI){
-			this.cardNumber = id_code;
-			setName(name);
-		}
-		else{
-			this.cardNumber = id_code.split("/")[1];
-			seteName(name);
+		if(isInternalFlag){
+			/**
+			 * 国际机票
+				格式为：
+				KR/M00000383/KR/04NOV70/M/27JUL22 (国籍/证件号/签发地/出生日期/姓别/证件有效期)
+			 */
+			String[] tempArray = id_code.split("/");
+			setNationality(tempArray[0]);
+			setCardNumber(tempArray[1]);
+//			set
+			setBirthday(tempArray[3]);
+			setGenderFromGCode(tempArray[4]);
+			setValidDate(tempArray[5]);
+		}else{
+			/**
+			 * 国内机票
+				证件类型为 “护照(PP)”格式为：
+				KR/M00000383/KR/04NOV70/M/27JUL22 (国籍/证件号/签发地/出生日期/姓别/证件有效期)
+				其它证件类型格式为：
+				证件号
+
+			 */
+			switch (identityType) {
+				case NI:
+					this.cardNumber = id_code;
+					setName(name);
+					break;
+				case PP:
+					this.cardNumber = id_code.split("/")[1];
+					seteName(name);
+					break;
+				default:
+					this.cardNumber = id_code;
+					seteName(name);
+					break;
+			}
 		}
 	}
 	

@@ -77,8 +77,8 @@ public class AddDeliveryAddrActivity extends Activity {
 //		Bundle arguments = getIntent().getExtras();
 //        if(arguments != null)
 //        	isReturnDateSelection = arguments.getBoolean(Constants.IS_RETURN_DATE_SELECTION);
-		warningDialog = new WarningDialog(AddDeliveryAddrActivity.this,Constants.DIALOG_STYLE);
-		progressBarDialog = new ProgressBarDialog(AddDeliveryAddrActivity.this,Constants.DIALOG_STYLE);
+		warningDialog = new WarningDialog(AddDeliveryAddrActivity.this);
+		progressBarDialog = new ProgressBarDialog(AddDeliveryAddrActivity.this);
 		initProvinceList();
 		initView();
 	}
@@ -264,8 +264,8 @@ public class AddDeliveryAddrActivity extends Activity {
 		chooseProvinceLinearLayout.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				SelectionDialog chooseProvinceDialog = new SelectionDialog(AddDeliveryAddrActivity.this,
-						R.style.Custom_Dialog_Theme, "选择省份",provinceList);
+				SelectionDialog chooseProvinceDialog = new SelectionDialog(AddDeliveryAddrActivity.this, 
+						"选择省份",provinceList);
 				chooseProvinceDialog.setOnItemSelectedListener(new SelectionDialog.OnItemSelectedListener() {
 					@Override
 					public void OnItemSelected(int position) {
@@ -286,7 +286,7 @@ public class AddDeliveryAddrActivity extends Activity {
 					return;
 				}
 				SelectionDialog chooseCityDialog = new SelectionDialog(AddDeliveryAddrActivity.this,
-						R.style.Custom_Dialog_Theme, "选择城市",cityList);
+						"选择城市",cityList);
 				chooseCityDialog.setOnItemSelectedListener(new SelectionDialog.OnItemSelectedListener() {
 					@Override
 					public void OnItemSelected(int position) {
@@ -308,7 +308,7 @@ public class AddDeliveryAddrActivity extends Activity {
 					return;
 				}
 				SelectionDialog chooseDistrictDialog = new SelectionDialog(AddDeliveryAddrActivity.this,
-						R.style.Custom_Dialog_Theme, "选择地区",districtList);
+						"选择地区",districtList);
 				chooseDistrictDialog.setOnItemSelectedListener(new SelectionDialog.OnItemSelectedListener() {
 					@Override
 					public void OnItemSelected(int position) {

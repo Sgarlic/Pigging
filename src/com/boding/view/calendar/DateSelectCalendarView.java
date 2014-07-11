@@ -125,7 +125,7 @@ public class DateSelectCalendarView extends View implements View.OnTouchListener
 		int todayIndex = -1;
 		calendar.setTime(curDate);
 		calendar.setTime(today);
-		if (Util.compareYearAndMonth(curDate, today) == 0) {
+		if (DateUtil.compareYearAndMonth(curDate, today) == 0) {
 			int todayNumber = calendar.get(Calendar.DAY_OF_MONTH);
 			todayIndex = curStartIndex + todayNumber - 1;
 		}
@@ -135,7 +135,7 @@ public class DateSelectCalendarView extends View implements View.OnTouchListener
 		int fromDateIndex = -1;
 		if(GlobalVariables.Fly_From_Date!=null){
 			Date fromDate = DateUtil.getDateFromString(GlobalVariables.Fly_From_Date);
-			if(Util.compareYearAndMonth(curDate, fromDate) == 0){
+			if(DateUtil.compareYearAndMonth(curDate, fromDate) == 0){
 				Calendar fromDateCalendar = Calendar.getInstance();
 				fromDateCalendar.setTime(fromDate);
 				int fromDateNumber = fromDateCalendar.get(Calendar.DAY_OF_MONTH);
@@ -148,7 +148,7 @@ public class DateSelectCalendarView extends View implements View.OnTouchListener
 		int returnDateIndex = -1;
 		if(GlobalVariables.Fly_Return_Date!=null && GlobalVariables.isRoundWaySelection){
 			Date returnDate = DateUtil.getDateFromString(GlobalVariables.Fly_Return_Date);
-			if(Util.compareYearAndMonth(curDate, returnDate) == 0){
+			if(DateUtil.compareYearAndMonth(curDate, returnDate) == 0){
 				Calendar returnDateCalendar = Calendar.getInstance();
 				returnDateCalendar.setTime(returnDate);
 				int returnDateNumber = returnDateCalendar.get(Calendar.DAY_OF_MONTH);
@@ -159,7 +159,7 @@ public class DateSelectCalendarView extends View implements View.OnTouchListener
 		 * 获得可以点击的最小日期的索引
 		 */
 		int minClickableDateIndex = -1;
-		int compareMinDateResult = Util.compareYearAndMonth(curDate, minClickableDate);
+		int compareMinDateResult = DateUtil.compareYearAndMonth(curDate, minClickableDate);
 		if( compareMinDateResult== 0){
 			Calendar minClickableDateCalendar = Calendar.getInstance();
 			minClickableDateCalendar.setTime(minClickableDate);
@@ -172,7 +172,7 @@ public class DateSelectCalendarView extends View implements View.OnTouchListener
 		 * 获得可以点击的最小日期的索引
 		 */
 		int maxClickableDateIndex = 42;
-		int compareMaxDateResult = Util.compareYearAndMonth(curDate, maxDate);
+		int compareMaxDateResult = DateUtil.compareYearAndMonth(curDate, maxDate);
 		if( compareMaxDateResult== 0){
 			Calendar maxDateResultCalendar = Calendar.getInstance();
 			maxDateResultCalendar.setTime(maxDate);
@@ -460,7 +460,7 @@ public class DateSelectCalendarView extends View implements View.OnTouchListener
 	public boolean isLastMonthAvailable(){
 		calendar.setTime(curDate);
 		calendar.add(Calendar.MONTH, -1);
-		if(Util.compareYearAndMonth(calendar.getTime(), today) > -1){
+		if(DateUtil.compareYearAndMonth(calendar.getTime(), today) > -1){
 			return true;
 		}
 		return false;
@@ -495,7 +495,7 @@ public class DateSelectCalendarView extends View implements View.OnTouchListener
 	public boolean isNextMonthAvaliable(){
 		calendar.setTime(curDate);
 		calendar.add(Calendar.MONTH, 1);
-		if(Util.compareYearAndMonth(calendar.getTime(), maxDate) < 1){
+		if(DateUtil.compareYearAndMonth(calendar.getTime(), maxDate) < 1){
 			return true;
 		}
 		return false;

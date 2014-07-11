@@ -213,26 +213,6 @@ public class Util {
 	
 	
 	
-	/**
-	 * Compare two date's year and month.
-	 * return 1 if date1 > date2
-	 * return 0 if date1 == date2
-	 * return -1 if date1 < date2
-	 * @param date1
-	 * @param date2
-	 * @return
-	 */
-	public static int compareYearAndMonth(Date date1, Date date2){
-		int yearMonth1 = date1.getYear()*100 + date1.getMonth();
-		int yearMonth2 = date2.getYear()*100 + date2.getMonth();
-		
-		if(yearMonth1 > yearMonth2)
-			return 1;
-		else if(yearMonth1 == yearMonth2)
-			return 0;
-		return -1;
-	}
-	
 	
 	public static String getFourCharofString(String string){
 		String newString = string;
@@ -265,7 +245,7 @@ public class Util {
 		}
 		
 		if(toastInfo!=null){
-			WarningDialog warningDialog = new WarningDialog(context, R.style.Custom_Dialog_Theme);
+			WarningDialog warningDialog = new WarningDialog(context);
 			warningDialog.setContent(toastInfo);
 			warningDialog.setKnown("ÖªµÀÁË");
 			warningDialog.show();
@@ -336,5 +316,10 @@ public class Util {
 			e.printStackTrace();
 		}
 		return image;
+	}
+	
+	public static String getIntStringFromDoubleString(String doubleString){
+		int intValue = (int) Double.parseDouble(doubleString);
+		return String.valueOf(intValue);
 	}
 }

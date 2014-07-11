@@ -38,8 +38,8 @@ public class SearchCityDialog extends Dialog{
 	private ListView searchResultListView;
 	private boolean isFlyToCitySelection;
 	private Context context;
-	public SearchCityDialog(Context context, int theme, boolean isFlyToCitySelection){
-		super(context,theme);
+	public SearchCityDialog(Context context, boolean isFlyToCitySelection){
+		super(context,Constants.DIALOG_STYLE);
 		setContentView(R.layout.dialog_search_city);
 		setWidthHeight();
 		this.isFlyToCitySelection = isFlyToCitySelection;

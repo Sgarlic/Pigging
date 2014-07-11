@@ -63,7 +63,7 @@ public class NationalitySelectActivity extends FragmentActivity {
 			@Override
 			public void onClick(View arg0) {
 				SearchNationalityDialog searchNationalityDialog = new SearchNationalityDialog(NationalitySelectActivity.this,
-						R.style.Custom_Dialog_Theme,GlobalVariables.allCountriesList);
+						GlobalVariables.allCountriesList);
 				searchNationalityDialog.show();
 			}
         });

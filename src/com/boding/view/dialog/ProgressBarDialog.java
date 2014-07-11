@@ -21,14 +21,6 @@ public class ProgressBarDialog extends Dialog{
 		initView();
 	}
 	
-	public ProgressBarDialog(Context context, int theme){
-		super(context,theme);
-		this.context = context;
-		this.setCanceledOnTouchOutside(false);
-		setContentView(R.layout.dialog_progressbar);
-		initView();
-	}
-	
 	private void initView(){
 		progressBar = (ProgressBar) findViewById(R.id.progressbardialog_progresBar);
 	}

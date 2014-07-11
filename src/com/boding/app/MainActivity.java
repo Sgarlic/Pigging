@@ -130,6 +130,13 @@ public class MainActivity extends FragmentActivity {
 		initDownPageView();
 	}
 	
+	@Override
+	protected void onResume(){
+		super.onResume();
+		System.out.println("resume");
+		setFlyFromReturnDate();
+	}
+	
 	
 	private void initLeftPageView(){
 		leftpageFlightWayChooseImageView = (ImageView)leftPageView.findViewById(R.id.left_page_flight_way_choose);
@@ -227,7 +234,7 @@ public class MainActivity extends FragmentActivity {
 				classList.add(Constants.BUSINESS_CLASS);
 				
 				SelectionDialog classSelectionDialog = new SelectionDialog(MainActivity.this,
-						R.style.Custom_Dialog_Theme, "选择舱位",classList);
+						"选择舱位",classList);
 				classSelectionDialog.setOnItemSelectedListener(new SelectionDialog.OnItemSelectedListener() {
 					@Override
 					public void OnItemSelected(int position) {
@@ -377,7 +384,8 @@ public class MainActivity extends FragmentActivity {
 		}
 		leftpageFlyFromDateTextView.setText(GlobalVariables.Fly_From_Date);
 		
-		if(GlobalVariables.Fly_Return_Date==null || (DateUtil.compareDateString(GlobalVariables.Fly_Return_Date, GlobalVariables.Fly_From_Date) == -1)){
+		if(GlobalVariables.Fly_Return_Date==null){
+			DateUtil.setRetunrnWayDate();
 			Calendar calendar = Calendar.getInstance();
 			calendar.setTime(DateUtil.getDateFromString(GlobalVariables.Fly_From_Date));
 			calendar.add(Calendar.HOUR, 7*24);

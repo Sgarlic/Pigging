@@ -5,6 +5,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import com.boding.constants.GlobalVariables;
+
 public class DateUtil {
 	/**
 	 * 
@@ -197,5 +199,40 @@ public class DateUtil {
 	public static String getFormatedDuration(String duration){
 		String[] tempArray = duration.split(":");
 		return tempArray[0]+"Ğ¡Ê±"+tempArray[1]+"·ÖÖÓ";
+	}
+	
+	/**
+	 * returnWayDate must later than go date.
+	 * if it is earlier than go date, set it to 7 days after go date.
+	 * @return
+	 */
+	public static void setRetunrnWayDate(){
+		if(GlobalVariables.Fly_From_Date.compareTo(GlobalVariables.Fly_Return_Date) == 1){
+			Date fromDate = getDateFromString(GlobalVariables.Fly_From_Date);
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(fromDate);
+			calendar.add(Calendar.HOUR, 24*7);
+			GlobalVariables.Fly_Return_Date = getFormatedDate(calendar); 
+		}
+	}
+	
+	/**
+	 * Compare two date's year and month.
+	 * return 1 if date1 > date2
+	 * return 0 if date1 == date2
+	 * return -1 if date1 < date2
+	 * @param date1
+	 * @param date2
+	 * @return
+	 */
+	public static int compareYearAndMonth(Date date1, Date date2){
+		int yearMonth1 = date1.getYear()*100 + date1.getMonth();
+		int yearMonth2 = date2.getYear()*100 + date2.getMonth();
+		
+		if(yearMonth1 > yearMonth2)
+			return 1;
+		else if(yearMonth1 == yearMonth2)
+			return 0;
+		return -1;
 	}
 }

@@ -45,7 +45,6 @@ public class OrderDetailActivity extends Activity {
 	private TextView ticketPriceTextView;
 	private TextView buildingPriceTextView;
 	private TextView fuelPriceTextView;
-	private LinearLayout changeRefundConditionLinearLayout;
 	
 	private ListView passengerListView;
 	private TextView contactPhoneNumTextView;
@@ -68,7 +67,7 @@ public class OrderDetailActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_order_detail);
-		progressBarDialog = new ProgressBarDialog(this, Constants.DIALOG_STYLE);
+		progressBarDialog = new ProgressBarDialog(this);
 		Bundle arguments = getIntent().getExtras();
         if(arguments != null){
         	if(arguments.containsKey(IntentExtraAttribute.CHOOSED_ORDER_ID))
@@ -97,10 +96,9 @@ public class OrderDetailActivity extends Activity {
 		flightInfoLinearLayout.addView(detailLinearLayout);
 		
 		if(order.getOrderFlights().size()>1){
-			System.out.println("!111111111111111111111111111111111");
-			OrderDetailFlightInfoLayout detailRLinearLayout = new OrderDetailFlightInfoLayout(
+			OrderDetailFlightInfoLayout detailReturnLinearLayout = new OrderDetailFlightInfoLayout(
 				this,order.getOrderFlights().get(1), order.getArriveCity(), order.getLeaveCity());
-			flightInfoLinearLayout.addView(detailRLinearLayout);
+			flightInfoLinearLayout.addView(detailReturnLinearLayout);
 		}
 		ticketPriceTextView.setText(order.getTicketPrice());
 
@@ -109,8 +107,8 @@ public class OrderDetailActivity extends Activity {
 		Util.setListViewHeightBasedOnChildren(passengerListView);
 		
 		contactPhoneNumTextView.setText(order.getContactPhone());
-		insuranceAmountTextView.setText(order.getInsuranceNum());
-		insuranceTotalTextView.setText(order.getInsurance());
+		insuranceAmountTextView.setText(order.getInsuranceNum()+"·Ý");
+		insuranceTotalTextView.setText("¹²"+order.getInsurance()+"Ôª");
 //		deliveryMethodTextView
 		totalPriceTextView.setText(order.getPayAmount());
 		
@@ -150,7 +148,6 @@ public class OrderDetailActivity extends Activity {
 		ticketPriceTextView = (TextView)findViewById(R.id.orderdetail_ticketPrice_textView);
 		buildingPriceTextView = (TextView)findViewById(R.id.orderdetail_buildingPrice_textView);
 		fuelPriceTextView = (TextView)findViewById(R.id.orderdetail_fuelPrice_textView);
-		changeRefundConditionLinearLayout = (LinearLayout)findViewById(R.id.orderdetail_changeRefundCondition_linearLayout);
 		
 		passengerListView = (ListView)findViewById(R.id.orderdetail_passenger_listView);
 		contactPhoneNumTextView = (TextView)findViewById(R.id.orderdetail_contactPhoneNum_textView);

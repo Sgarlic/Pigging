@@ -196,4 +196,28 @@
               android:typeface="serif" />
 
          </LinearLayout>
+
+         <LinearLayout
+             android:id="@+id/orderdetail_changeRefundCondition_linearLayout"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_marginTop="10dp"
+             android:orientation="horizontal" >
+
+            <TextView
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:layout_gravity="center_vertical"
+			    android:text="退改签条件"
+			    android:textColor="@color/textBlue"
+			    android:textSize="18sp"
+			    android:typeface="serif" />
+
+			<ImageView
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:layout_gravity="center_vertical"
+			    android:layout_marginLeft=" 5dp"
+			    android:src="@drawable/arrow_down_blue" />
+        </LinearLayout>
 </LinearLayout>

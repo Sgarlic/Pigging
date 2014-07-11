@@ -41,8 +41,8 @@ public class SearchNationalityDialog extends Dialog{
 	
 	private List<Country> countryList;
 	
-	public SearchNationalityDialog(Context context, int theme,List<Country> countryList){
-		super(context,theme);
+	public SearchNationalityDialog(Context context, List<Country> countryList){
+		super(context,Constants.DIALOG_STYLE);
 		setContentView(R.layout.dialog_search_city);
 		setWidthHeight();
 		this.context = context;

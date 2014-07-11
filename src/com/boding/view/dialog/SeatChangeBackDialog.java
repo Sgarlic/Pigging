@@ -1,6 +1,7 @@
 package com.boding.view.dialog;
 
 import com.boding.R;
+import com.boding.constants.Constants;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -13,8 +14,8 @@ public class SeatChangeBackDialog extends Dialog{
 	private TextView refundTextView;
 	private TextView rescheduleTextView;
 	private TextView signedTransferTextView;
-	public SeatChangeBackDialog(Context context, int theme){
-		super(context,theme);
+	public SeatChangeBackDialog(Context context){
+		super(context,Constants.DIALOG_STYLE);
 		setContentView(R.layout.dialog_seatbackchange_info);
 		initView();
 	}

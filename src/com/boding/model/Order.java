@@ -334,7 +334,7 @@ public class Order {
 	}
 
 	public String getTicketPrice() {
-		return ticketPrice.substring(0,ticketPrice.length()-5);
+		return ticketPrice;
 	}
 
 	public void setTicketPrice(String ticketPrice) {

@@ -15,11 +15,9 @@
  */
 package com.boding.app;
 
-import android.app.ProgressDialog;
+import java.util.ArrayList;
+
 import android.content.Context;
-import android.location.Address;
-import android.location.Criteria;
-import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -38,11 +36,6 @@ import android.widget.TabHost;
 import android.widget.TabWidget;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
 
 import com.boding.R;
 import com.boding.constants.Constants;
@@ -67,7 +60,7 @@ public class CitySelectActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        progressBarDialog = new ProgressBarDialog(this,Constants.DIALOG_STYLE);
+        progressBarDialog = new ProgressBarDialog(this);
         
         Bundle arguments = getIntent().getExtras();
         if(arguments != null)
@@ -193,7 +186,7 @@ public class CitySelectActivity extends FragmentActivity {
         citySearchLinearLayout.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View arg0) {
-				SearchCityDialog searchCityDialog = new SearchCityDialog(CitySelectActivity.this,R.style.Custom_Dialog_Theme,isFlyToCitySelection);
+				SearchCityDialog searchCityDialog = new SearchCityDialog(CitySelectActivity.this,isFlyToCitySelection);
 				searchCityDialog.show();
 			}
         });

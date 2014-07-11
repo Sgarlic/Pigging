@@ -87,8 +87,8 @@ public class AddPassengerInfoActivity extends Activity {
         	}else
         		passenger = new Passenger();
         }
-		progressBarDialog = new ProgressBarDialog(this, Constants.DIALOG_STYLE);
-		warningDialog = new WarningDialog(this, Constants.DIALOG_STYLE);
+		progressBarDialog = new ProgressBarDialog(this);
+		warningDialog = new WarningDialog(this);
 		
 		initView();
 	}
@@ -278,7 +278,7 @@ public class AddPassengerInfoActivity extends Activity {
 			@Override
 			public void onClick(View arg0) {
 				SelectionDialog chooseIDTypeDialog = new SelectionDialog(AddPassengerInfoActivity.this,
-						R.style.Custom_Dialog_Theme, "选择证件类型",idTypeList);
+					"选择证件类型",idTypeList);
 				chooseIDTypeDialog.setOnItemSelectedListener(new SelectionDialog.OnItemSelectedListener() {
 					@Override
 					public void OnItemSelected(int position) {
@@ -314,7 +314,7 @@ public class AddPassengerInfoActivity extends Activity {
 				genderList.add("女");
 				
 				SelectionDialog chooseGenderDialog = new SelectionDialog(AddPassengerInfoActivity.this,
-						R.style.Custom_Dialog_Theme, "选择性别",genderList);
+					"选择性别",genderList);
 				chooseGenderDialog.setOnItemSelectedListener(new SelectionDialog.OnItemSelectedListener() {
 					@Override
 					public void OnItemSelected(int position) {

@@ -47,17 +47,16 @@ public class DateSelectActivity extends Activity {
 			
 		});
 		calendarLinearLayout = (CalendarLayout)findViewById(R.id.date_select_calendar_linearLayout);
-		if(isReturnDateSelection){
-			calendarLinearLayout.setMinClickableDate(DateUtil.getDateFromString(GlobalVariables.Fly_From_Date));
-		}
 //		dateSelectCalendarView = (DateSelectCalendarView)findViewById(R.id.date_select_calendarView);
-		
-		if(isReturnDateSelection){
-			calendarLinearLayout.setDate(DateUtil.getDateFromString(GlobalVariables.Fly_Return_Date));
-			calendarLinearLayout.setMinClickableDate(DateUtil.getDateFromString(GlobalVariables.Fly_From_Date));
-		}
-		else{
-			calendarLinearLayout.setDate(DateUtil.getDateFromString(GlobalVariables.Fly_From_Date));
+		if(GlobalVariables.isRoundWaySelection){
+			if(isReturnDateSelection){
+				calendarLinearLayout.setDate(DateUtil.getDateFromString(GlobalVariables.Fly_Return_Date));
+				calendarLinearLayout.setMinClickableDate(DateUtil.getDateFromString(GlobalVariables.Fly_From_Date));
+			}
+			else{
+				calendarLinearLayout.setDate(DateUtil.getDateFromString(GlobalVariables.Fly_From_Date));
+//				calendarLinearLayout.setMaxClickableDate(DateUtil.getDateFromString(GlobalVariables.Fly_Return_Date));
+			}
 		}
 		
 		calendarLinearLayout.setOnItemClickListener(new CalendarLayout.OnItemClickListener(){
@@ -69,6 +68,7 @@ public class DateSelectActivity extends Activity {
 				}
 				else{
 					GlobalVariables.Fly_From_Date = selectedDate;
+					DateUtil.setRetunrnWayDate();
 				}
 				Util.returnToPreviousPage(DateSelectActivity.this, IntentRequestCode.DATE_SELECTION);
 			}

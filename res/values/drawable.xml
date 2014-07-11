@@ -5,6 +5,7 @@
     <color name="lightgray">#C8C3C3</color>
     <color name="lightgreen">#7CD12E</color>
     <color name="panelBackColor">#80000203</color>
+    <color name="panelTransparentBlackColor">#80000000</color>
     <color name="black">#000000</color>
     <color name="textOrange">#F68A1E</color>
     <color name="panelOrange">#FF8A00</color>

@@ -36,15 +36,6 @@ public class SelectionDialog extends Dialog{
 		initView();
 		setTitle(title);
 	}
-	public SelectionDialog(Context context, int theme, String title, List<String> selectionList){
-		super(context,theme);
-		this.context = context;
-		this.selectionList = selectionList;
-		setContentView(R.layout.dialog_selection);
-		setWidthHeight();
-		initView();
-		setTitle(title);
-	}
 	
 	private void setTitle(String title){
 		titleTextView.setText(title);

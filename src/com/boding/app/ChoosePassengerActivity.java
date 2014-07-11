@@ -84,7 +84,7 @@ public class ChoosePassengerActivity extends Activity {
 	
 	
 	private void viewContentSetting(){
-		progressBarDialog = new ProgressBarDialog(this, Constants.DIALOG_STYLE);
+		progressBarDialog = new ProgressBarDialog(this);
 		progressBarDialog.show();
 		
 		PassengerTask passengerTask = new PassengerTask(this, HTTPAction.GET_PASSENGERLIST);
@@ -113,8 +113,7 @@ public class ChoosePassengerActivity extends Activity {
 			@Override
 			public void onClick(View arg0) {
 				if(selectedPassengerIds.size() > 9){
-            		WarningDialog dialog = new WarningDialog(ChoosePassengerActivity.this,
-            				Constants.DIALOG_STYLE);
+            		WarningDialog dialog = new WarningDialog(ChoosePassengerActivity.this);
             		dialog.setContent("最多只能选择9位乘客");
             		dialog.show();
             		return;

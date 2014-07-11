@@ -52,7 +52,7 @@ public class OrderPaymentActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		progressBarDialog = new ProgressBarDialog(this, Constants.DIALOG_STYLE);
+		progressBarDialog = new ProgressBarDialog(this);
 		setContentView(R.layout.activity_orderpayment);
 		Bundle arguments = getIntent().getExtras();
         if(arguments != null){
@@ -188,7 +188,7 @@ public class OrderPaymentActivity extends Activity {
 		}else if(result.equals("0")){
 			System.out.println("ordercreated     OKKKKKKKKKKKKKKKKK");
 		}else{
-			WarningDialog dialog = new WarningDialog(this, Constants.DIALOG_STYLE);
+			WarningDialog dialog = new WarningDialog(this);
 			dialog.setContent("请填写正确的信息");
 			dialog.show();
 		}

@@ -148,7 +148,7 @@ public class OrderFlightInfoLayout extends LinearLayout{
 		seatBackChangeInfoLinearLayout.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View arg0) {
-				SeatChangeBackDialog seatChangeBackDialog = new SeatChangeBackDialog(OrderFlightInfoLayout.this.context,R.style.Custom_Dialog_Theme);
+				SeatChangeBackDialog seatChangeBackDialog = new SeatChangeBackDialog(OrderFlightInfoLayout.this.context);
 				seatChangeBackDialog.show();
 			}
         });
@@ -161,7 +161,7 @@ public class OrderFlightInfoLayout extends LinearLayout{
 				classList.add("公务舱/头等舱");
 				
 				SelectionDialog classSelectionDialog = new SelectionDialog(OrderFlightInfoLayout.this.context,
-						R.style.Custom_Dialog_Theme, "选择舱位",classList);
+						"选择舱位",classList);
 				classSelectionDialog.show();
 			}
         });

@@ -16,11 +16,6 @@ public class WarningDialog extends Dialog{
 		setContentView(R.layout.dialog_wraning_info);
 		initView();
 	}
-	public WarningDialog(Context context, int theme){
-		super(context,theme);
-		setContentView(R.layout.dialog_wraning_info);
-		initView();
-	}
 	
 	private void initView(){
 		warningContentTextView = (TextView)findViewById(R.id.warning_content_textView);

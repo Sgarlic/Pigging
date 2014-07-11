@@ -1,17 +1,13 @@
 package com.boding.app;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.boding.R;
-import com.boding.constants.Constants;
 import com.boding.constants.HTTPAction;
 import com.boding.constants.IntentExtraAttribute;
 import com.boding.constants.IntentRequestCode;
 import com.boding.model.DeliveryAddress;
-import com.boding.model.Passenger;
 import com.boding.task.DeliveryAddrTask;
-import com.boding.task.PassengerTask;
 import com.boding.util.Util;
 import com.boding.view.dialog.ProgressBarDialog;
 
@@ -24,7 +20,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
-import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -78,7 +73,7 @@ public class CommonInfoMDeliverAddrActivity extends Activity {
 	}
 	
 	private void viewContentSetting(){
-		progressBarDialog = new ProgressBarDialog(this, Constants.DIALOG_STYLE);
+		progressBarDialog = new ProgressBarDialog(this);
 		progressBarDialog.show();
 		
 		DeliveryAddrTask deliverAddrTask = new DeliveryAddrTask(this, HTTPAction.GET_DELIVERYADDRLIST_MANAGEMENT);

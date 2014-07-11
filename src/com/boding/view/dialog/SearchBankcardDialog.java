@@ -42,8 +42,8 @@ public class SearchBankcardDialog extends Dialog{
 	
 	private List<BankCard> bankcardList;
 	
-	public SearchBankcardDialog(Context context, int theme,List<BankCard> bankcardList){
-		super(context,theme);
+	public SearchBankcardDialog(Context context,List<BankCard> bankcardList){
+		super(context,Constants.DIALOG_STYLE);
 		setContentView(R.layout.dialog_search_city);
 		setWidthHeight();
 		this.context = context;

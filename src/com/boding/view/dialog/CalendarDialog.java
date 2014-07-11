@@ -1,37 +1,27 @@
 package com.boding.view.dialog;
 
-import java.util.ArrayList;
-import java.util.List;
+
+import java.util.Date;
 
 import com.boding.R;
-import com.boding.app.CitySelectActivity;
+import com.boding.constants.Constants;
 import com.boding.constants.GlobalVariables;
-import com.boding.constants.IntentRequestCode;
-import com.boding.util.Util;
+import com.boding.view.layout.CalendarLayout;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.graphics.drawable.BitmapDrawable;
-import android.widget.BaseAdapter;
-import android.widget.LinearLayout;
-import android.widget.ListAdapter;
-import android.widget.ListView;
-import android.widget.PopupWindow;
-import android.widget.TextView;
-import android.util.Log;
 import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
 import android.view.WindowManager;
 
 public class CalendarDialog extends Dialog{
+	private CalendarLayout calendarLayout;
+	private OnItemClickListener onItemClickListener;
 	
-	public CalendarDialog(Context context, int theme){
-		super(context,theme);
+	public CalendarDialog(Context context){
+		super(context,Constants.DIALOG_STYLE);
 		setContentView(R.layout.dialog_calendar);
 		setWidthHeight();
+		initView();
 	}
 	private void setWidthHeight(){
 		//set dialog width
@@ -47,4 +37,32 @@ public class CalendarDialog extends Dialog{
 		this.getWindow().setAttributes(lp);
 	}
 	
+	private void initView(){
+		calendarLayout = (CalendarLayout) findViewById(R.id.calendar_dialog_calendarLienarLayout);
+		calendarLayout.setOnItemClickListener(new CalendarLayout.OnItemClickListener() {
+			@Override
+			public void OnItemClick(Date date) {
+				//响应监听事件
+				if(onItemClickListener!=null)
+					onItemClickListener.OnItemClick(date);
+			}
+		});;
+	}
+	
+	//给控件设置监听事件
+	public void setOnItemClickListener(OnItemClickListener onItemClickListener){
+		this.onItemClickListener =  onItemClickListener;
+	}
+	//监听接口
+	public interface OnItemClickListener {
+		void OnItemClick(Date date);
+	}
+	
+	public void setMinDate(Date date){
+		calendarLayout.setMinClickableDate(date);
+	}
+	
+	public void setDate(Date date){
+		calendarLayout.setDate(date);
+	}
 }

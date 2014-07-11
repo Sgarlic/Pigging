@@ -88,7 +88,7 @@ public class ChooseDeliveryAddressActivityWithHolder extends Activity {
 	}
 
 	private void viewContentSetting(){
-		progressBarDialog = new ProgressBarDialog(this, Constants.DIALOG_STYLE);
+		progressBarDialog = new ProgressBarDialog(this);
 		progressBarDialog.show();
 		
 		DeliveryAddrTask deliveryAddrTask = new DeliveryAddrTask(this, HTTPAction.GET_DELIVERYADDRLIST);
@@ -116,8 +116,7 @@ public class ChooseDeliveryAddressActivityWithHolder extends Activity {
 			@Override
 			public void onClick(View arg0) {
 				if(selectedAddrIds.size() > 1){
-            		WarningDialog dialog = new WarningDialog(ChooseDeliveryAddressActivityWithHolder.this,
-            				Constants.DIALOG_STYLE);
+            		WarningDialog dialog = new WarningDialog(ChooseDeliveryAddressActivityWithHolder.this);
             		dialog.setContent("最多只能选择9位乘客");
             		dialog.show();
             		return;

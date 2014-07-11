@@ -6,6 +6,7 @@ import java.util.List;
 import com.boding.R;
 import com.boding.app.CitySelectFragment;
 import com.boding.app.TicketSearchResultActivity;
+import com.boding.constants.Constants;
 import com.boding.constants.GlobalVariables;
 import com.boding.model.AirlineView;
 import com.boding.model.FlightLine;
@@ -61,8 +62,8 @@ public class FilterDialog extends Dialog{
 	private TextView clearBt;
 	private TextView okBt;
 	
-	public FilterDialog(Context context, int theme) {
-		super(context, theme);
+	public FilterDialog(Context context) {
+		super(context, Constants.DIALOG_STYLE);
 		this.context = context;
 		setContentView(R.layout.dialog_filter);
 		setWidthHeight();

@@ -252,7 +252,7 @@ public class OrderFormActivity extends Activity {
 		nextStepLinearLayout.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				WarningDialog dialog = new WarningDialog(OrderFormActivity.this, Constants.DIALOG_STYLE);
+				WarningDialog dialog = new WarningDialog(OrderFormActivity.this);
 				if(passengerList == null){
 					dialog.setContent("ÇëÑ¡Ôñ³Ë¿Í");
 					dialog.show();
@@ -407,34 +407,30 @@ public class OrderFormActivity extends Activity {
 	private String getFlightInfoStringDomestic(){
 		Flight flight = (Flight)selectedFlight;
 		Cabin cabin = flight.getCabins().get(flight.getSelectedClassPos());
-		String flightInfo = "|"+flight.getCarrierName()+"|"+flight.getCarrier()+"|"
-			+flight.getFlightNum()+"|"+flight.getPlantype()+"|"+cabin.getCode()+"|"
-			+cabin.getClassType()+"|"+"|"+"|"+flight.getDptDate()+"|"+flight.getArrDate()+"|"
-			+flight.getDptTime()+"|"+flight.getArrTime()+"|"+"|"+"|"
-			+flight.getDptAirport()+"|"+flight.getArrAirport()+"|"+flight.getDptTerminal()
-			+"|"+flight.getArrTerminal()+"|"+cabin.getAdultPrice()+"|"+cabin.getChildPrice()
-			+"|0|0|"+flight.hasStops()+"|"+cabin.getStatus()+"|"+flight.getDuration()
-			+"|"+cabin.getFilePrice()+"|"+cabin.getRule()+"|||"+flight.getAdultFuelFee()
-			+"|"+flight.getAdultAirportFee()+"|"+cabin.getChildFuelFee()+"|"
-			+cabin.getChildAirportFee()+"|"+cabin.getTid()+"|"+cabin.getGid()+"|"
-			+cabin.getCabinName()+"|"+cabin.getCabinNameLogogram();
+		String flightInfo = getFlightInfoStringDomestic(flight, cabin);
 		if(isRoundWay){
 			Flight returnFlight = (Flight)selectedRoundwayFlight;
 			Cabin returnCabin = returnFlight.getCabins().get(returnFlight.getSelectedClassPos());
-			flightInfo += "$|"+returnFlight.getCarrierName()+"|"+returnFlight.getCarrier()+"|"
-				+returnFlight.getFlightNum()+"|"+returnFlight.getPlantype()+"|"+returnCabin.getCode()+"|"
-				+returnCabin.getClassType()+"|"+"|"+"|"+returnFlight.getDptDate()+"|"+returnFlight.getArrDate()+"|"
-				+returnFlight.getDptTime()+"|"+returnFlight.getArrTime()+"|"+"|"+"|"
-				+returnFlight.getDptAirport()+"|"+returnFlight.getArrAirport()+"|"+returnFlight.getDptTerminal()
-				+"|"+returnFlight.getArrTerminal()+"|"+returnCabin.getAdultPrice()+"|"+returnCabin.getChildPrice()
-				+"|0|0|"+returnFlight.hasStops()+"|"+returnCabin.getStatus()+"|"+returnFlight.getDuration()
-				+"|"+returnCabin.getFilePrice()+"|"+returnCabin.getRule()+"|||"+returnFlight.getAdultFuelFee()
-				+"|"+returnFlight.getAdultAirportFee()+"|"+returnCabin.getChildFuelFee()+"|"
-				+returnCabin.getChildAirportFee()+"|"+returnCabin.getTid()+"|"+returnCabin.getGid()+"|"
-				+returnCabin.getCabinName()+"|"+returnCabin.getCabinNameLogogram();
+			flightInfo += "$";
+			flightInfo += getFlightInfoStringDomestic(returnFlight, returnCabin);
 		}
 		  return flightInfo;
-	 }
+	}
+	
+	private String getFlightInfoStringDomestic(Flight flight, Cabin cabin){
+		String flightInfo = "|"+flight.getCarrierName()+"|"+flight.getCarrier()+"|"
+				+flight.getFlightNum()+"|"+flight.getPlantype()+"|"+cabin.getCode()+"|"
+				+cabin.getClassType()+"|"+"|"+"|"+flight.getDptDate()+"|"+flight.getArrDate()+"|"
+				+flight.getDptTime()+"|"+flight.getArrTime()+"|"+"|"+"|"
+				+flight.getDptAirport()+"|"+flight.getArrAirport()+"|"+flight.getDptTerminal()
+				+"|"+flight.getArrTerminal()+"|"+cabin.getAdultPrice()+"|"+cabin.getChildPrice()
+				+"|0|0|"+flight.hasStops()+"|"+cabin.getStatus()+"|"+flight.getDuration()
+				+"|"+cabin.getFilePrice()+"|"+cabin.getRule()+"|||"+flight.getAdultFuelFee()
+				+"|"+flight.getAdultAirportFee()+"|"+cabin.getChildFuelFee()+"|"
+				+cabin.getChildAirportFee()+"|"+cabin.getTid()+"|"+cabin.getGid()+"|"
+				+cabin.getCabinName()+"|"+cabin.getCabinNameLogogram() + "|0|0|0";
+		return flightInfo;
+	}
 	
 	private String getContactInfo(){
 		return passengerList.get(0).getDiaplayName()+"|"+phoneNumberEditText.getText().toString();
@@ -467,10 +463,7 @@ public class OrderFormActivity extends Activity {
 				else
 					passengerInfo += "|1|0";
 			}else{
-				if(isRoundWay)
-					passengerInfo += "|0|1";
-				else
-					passengerInfo += "|0|0";
+				passengerInfo += "|0|0";
 			}
 			if(passenger.getIdentityType() != IdentityType.NI){
 				passengerInfo += "|" + passenger.getBirthday() + "|" + passenger.getValidDate()

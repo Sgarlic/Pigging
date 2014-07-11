@@ -33,6 +33,7 @@ public class OrderDetailFlightInfoLayout extends LinearLayout{
 	private TextView flyFromTerminalTextView;
 	private TextView flyToTimeTextView;
 	private TextView flyToTerminalTextView;
+	private LinearLayout changeRefundConditionLinearLayout;
 	
 	private OrderFlight flight;
 	private String leaveCity;
@@ -101,6 +102,7 @@ public class OrderDetailFlightInfoLayout extends LinearLayout{
 		flyFromTerminalTextView = (TextView)view.findViewById(R.id.orderdetail_flyFromTerminal_textView);
 		flyToTimeTextView = (TextView)view.findViewById(R.id.orderdetail_flyToTime_textView);
 		flyToTerminalTextView = (TextView)view.findViewById(R.id.orderdetail_flyToTerminal_textView);
+		changeRefundConditionLinearLayout = (LinearLayout)view.findViewById(R.id.orderdetail_changeRefundCondition_linearLayout);
 		
 		this.addView(view);
 		

@@ -8,6 +8,7 @@
     tools:ignore="MergeRootFrame" >
 
     <com.boding.view.layout.CalendarLayout
+        android:id="@+id/calendar_dialog_calendarLienarLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" >
     </com.boding.view.layout.CalendarLayout>
