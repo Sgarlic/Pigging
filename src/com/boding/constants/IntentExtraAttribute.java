@@ -51,4 +51,9 @@ public class IntentExtraAttribute {
 	public static final String INTERNAL_FLAG_EXTRA = "internalFlayExtra";
 	public static final String FLY_FROM_TO_EXTRA = "flyFromTo";
 	public static final String ORDER_TOTAL_EXTRA = "orderTotal";
+	
+	/**
+	 * User extra
+	 */
+	public static final String VERIFY_PHONENUM_TYPE = "verifyPhonenumType";
 }

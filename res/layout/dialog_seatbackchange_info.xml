@@ -31,6 +31,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/seatbackchangeinfo_buyinfo_linearLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -38,186 +39,31 @@
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
         android:paddingTop="0dp" >
-
-		<TextView
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"
-		    android:text="购票说明"
-		    android:textColor="@color/white"
-		    android:textSize="16sp" />
-	
 		<LinearLayout
 		    android:layout_width="match_parent"
 		    android:layout_height="wrap_content"
 		    android:layout_marginTop="10dp"
 		    android:orientation="vertical" >
-		    <TextView
+			<TextView
 			    android:layout_width="wrap_content"
 			    android:layout_height="wrap_content"
-			    android:text="行李规定："
+			    android:layout_marginTop="5dp"
+			    android:text="购票说明及退改签信息"
 			    android:textColor="@color/white"
-			    android:textSize="13sp" />
-	
+			    android:textSize="16sp" />
+			<LinearLayout
+			    android:layout_width="match_parent"
+			    android:layout_height="2dp"
+			    android:layout_marginTop="10dp"
+			    android:background="#c2c2c2"
+			    android:orientation="vertical"/>
 		    <TextView
-		        android:id="@+id/refund_condition_textView"
+		        android:id="@+id/seatbackchangeinfo_rules_textView"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
-		        android:layout_marginTop="2dp"
-		        android:text="1件，每件23公斤"
-		        android:textColor="@color/white"
-		        android:textSize="13sp" />
-	
-		</LinearLayout>
-	
-		<LinearLayout
-		    android:layout_width="match_parent"
-		    android:layout_height="wrap_content"
-		    android:layout_marginTop="5dp"
-		    android:orientation="vertical" >
-	
-		    <TextView
-			    android:layout_width="wrap_content"
-			    android:layout_height="wrap_content"
-			    android:text="儿童运价"
-			    android:textColor="@color/white"
-			    android:textSize="13sp" />
-	
-		    <TextView
-		        android:id="@+id/rescheduling_condition_textView"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:layout_marginTop="2dp"
-		        android:text="文件运价75%"
-		        android:textColor="@color/white"
-		        android:textSize="13sp" />
-		</LinearLayout>
-	
-		<LinearLayout
-		    android:layout_width="match_parent"
-		    android:layout_height="wrap_content"
-		    android:layout_marginTop="5dp"
-		    android:orientation="vertical" >
-	
-		    <TextView
-		        android:id="@+id/signedtransfer_condition_textView"
-			    android:layout_width="wrap_content"
-			    android:layout_height="wrap_content"
-			    android:text="误机费"
-			    android:textColor="@color/white"
-			    android:textSize="13sp" />
-	
-		    <TextView
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:layout_marginTop="2dp"
-		        android:text="如无法搭乘当次航班应提前24小时通知取消记录"
-		        android:textColor="@color/white"
-		        android:textSize="13sp" />
-		</LinearLayout>
-		<LinearLayout
-		    android:layout_width="match_parent"
-		    android:layout_height="wrap_content"
-		    android:layout_marginTop="5dp"
-		    android:orientation="vertical" >
-	
-		    <TextView
-		        android:id="@+id/signedtransfer_condition_textView"
-			    android:layout_width="wrap_content"
-			    android:layout_height="wrap_content"
-			    android:text="最短停留时期:"
-			    android:textColor="@color/white"
-			    android:textSize="13sp" />
-	
-		    <TextView
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:layout_marginTop="2dp"
-		        android:text="0天"
-		        android:textColor="@color/white"
-		        android:textSize="13sp" />
-		</LinearLayout>
-		<LinearLayout
-		    android:layout_width="match_parent"
-		    android:layout_height="wrap_content"
-		    android:layout_marginTop="5dp"
-		    android:orientation="vertical" >
-	
-		    <TextView
-		        android:id="@+id/signedtransfer_condition_textView"
-			    android:layout_width="wrap_content"
-			    android:layout_height="wrap_content"
-			    android:text="最长停留时期:"
-			    android:textColor="@color/white"
-			    android:textSize="13sp" />
-	
-		    <TextView
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:layout_marginTop="2dp"
-		        android:text="1月"
-		        android:textColor="@color/white"
-		        android:textSize="13sp" />
-		</LinearLayout>
-
-		<LinearLayout
-		    android:layout_width="match_parent"
-		    android:layout_height="2dp"
-		    android:layout_marginTop="10dp"
-		    android:background="#c2c2c2"
-		    android:orientation="vertical" >
-
-		</LinearLayout>
-
-		<TextView
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"
-		    android:layout_marginTop="5dp"
-		    android:text="退改签"
-		    android:textColor="@color/white"
-		    android:textSize="16sp" />
-
-		<LinearLayout
-		    android:layout_width="match_parent"
-		    android:layout_height="wrap_content"
-		    android:layout_marginTop="10dp"
-		    android:orientation="vertical" >
-	
-		    <TextView
-		        android:id="@+id/signedtransfer_condition_textView"
-			    android:layout_width="wrap_content"
-			    android:layout_height="wrap_content"
-			    android:text="改期规定:"
-			    android:textColor="@color/white"
-			    android:textSize="13sp" />
-	
-		    <TextView
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:layout_marginTop="2dp"
-		        android:text="起飞前收取实际票面价格10%的变更手续费;起飞后收取实际票面价格20%的变更手续."
-		        android:textColor="@color/white"
-		        android:textSize="13sp" />
-		</LinearLayout>
-		<LinearLayout
-		    android:layout_width="match_parent"
-		    android:layout_height="wrap_content"
-		    android:layout_marginTop="5dp"
-		    android:orientation="vertical" >
-	
-		    <TextView
-		        android:id="@+id/signedtransfer_condition_textView"
-			    android:layout_width="wrap_content"
-			    android:layout_height="wrap_content"
-			    android:text="退票规定:"
-			    android:textColor="@color/white"
-			    android:textSize="13sp" />
-	
-		    <TextView
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:layout_marginTop="2dp"
-		        android:text="起飞前收取实际票面价格20%的退票手续费;起飞后收取实际票面价格30%退票手续费.
-"
+		        android:layout_marginBottom="10dp"
+		        android:layout_marginTop="10dp"
+		        android:text="暂无信息"
 		        android:textColor="@color/white"
 		        android:textSize="13sp" />
 		</LinearLayout>

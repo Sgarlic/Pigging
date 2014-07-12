@@ -19,6 +19,7 @@ import android.os.AsyncTask;
 import com.boding.app.EditPersonalInfoActivity;
 import com.boding.app.LoginActivity;
 import com.boding.app.MyPersonalInfoActivity;
+import com.boding.app.RegisterActivity;
 import com.boding.constants.Constants;
 import com.boding.constants.GlobalVariables;
 import com.boding.constants.HTTPAction;
@@ -32,40 +33,84 @@ public class BodingUserTask extends AsyncTask<Object,Void,Object> {
 
 	private String userName;
 	private String password;
-//	
 	public BodingUserTask(Context context, HTTPAction action){
 		this.context = context;
 		this.action = action;
 	}
 	
-	public boolean register(String mobile, String password){
-		boolean resultCode = false;
-		StringBuilder sb = new StringBuilder();
-		sb.append(Constants.BODINGACCOUNT);
-		sb.append(mobile);
-		sb.append(password);
-		sb.append("android");
-		String sign = "";
+	//短信类型 1、手机注册 2、账户激活 3、绑定手机或修改手机 4、密码找回
+	public String verifyPhoneNumber(String mobile,String type){
+		String verifyCode = "";
 		try {
-			sb.append(Encryption.getMD5(Constants.BODINGKEY).toUpperCase());
-			sign = Encryption.getMD5(sb.toString()).toUpperCase();
-		} catch (NoSuchAlgorithmException e) {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		String urlFormat = "http://api.iboding.com/API/User/UserRegister.ashx?userid=%s&mobile=%s&password=%s&source_flag=android&sign=%s";
-		String urlStr =  String.format(urlFormat,Constants.BODINGACCOUNT,mobile,password,sign);
+		String sourceFlag = "android";
+//		StringBuilder sb = new StringBuilder();
+//		sb.append(Constants.BODINGACCOUNT);
+//		sb.append(mobile);
+//		sb.append(password);
+//		sb.append("android");
+//		String sign = "";
+//		try {
+//			sb.append(Encryption.getMD5(Constants.BODINGKEY).toUpperCase());
+//			sign = Encryption.getMD5(sb.toString()).toUpperCase();
+//		} catch (NoSuchAlgorithmException e) {
+//			e.printStackTrace();
+//		}
+//		String urlFormat = "http://api.iboding.com/API/User/UserRegister.ashx?userid=%s&mobile=%s&password=%s&source_flag=android&sign=%s";
+//		String urlStr =  String.format(urlFormat,Constants.BODINGACCOUNT,mobile,password,sign);
+//		
+//		String result = connectingServer(urlStr);
+//		try {
+//			JSONObject resultJson = new JSONObject(result);
+//			if(resultJson.getString("result").equals("0")){
+//				resultCode = true;
+//			}
+//		} catch (JSONException e) {
+//			e.printStackTrace();
+//		}
 		
-		String result = connectingServer(urlStr);
+		return verifyCode;
+	}
+	
+	public boolean register(String mobile, String password){
+		String cardNo = "dddd";
 		try {
-			JSONObject resultJson = new JSONObject(result);
-			if(resultJson.getString("result").equals("0")){
-				resultCode = true;
-				login(resultJson.getString("cardno"), password);
-			}
-		} catch (JSONException e) {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return resultCode;
+//		StringBuilder sb = new StringBuilder();
+//		sb.append(Constants.BODINGACCOUNT);
+//		sb.append(mobile);
+//		sb.append(password);
+//		sb.append("android");
+//		String sign = "";
+//		try {
+//			sb.append(Encryption.getMD5(Constants.BODINGKEY).toUpperCase());
+//			sign = Encryption.getMD5(sb.toString()).toUpperCase();
+//		} catch (NoSuchAlgorithmException e) {
+//			e.printStackTrace();
+//		}
+//		String urlFormat = "http://api.iboding.com/API/User/UserRegister.ashx?userid=%s&mobile=%s&password=%s&source_flag=android&sign=%s";
+//		String urlStr =  String.format(urlFormat,Constants.BODINGACCOUNT,mobile,password,sign);
+//		
+//		String result = connectingServer(urlStr);
+//		try {
+//			JSONObject resultJson = new JSONObject(result);
+//			if(resultJson.getString("result").equals("0")){
+//				resultCode = true;
+//			}
+//		} catch (JSONException e) {
+//			e.printStackTrace();
+//		}
+		GlobalVariables.bodingUser = new BodingUser();
+		GlobalVariables.bodingUser.setMobile(mobile);
+		return true;
 	}
 	
 	public boolean editPersonalInfo(){
@@ -247,12 +292,9 @@ public class BodingUserTask extends AsyncTask<Object,Void,Object> {
 				editPersonalInfoActivity.editPersonalInfoResult((Boolean)result);
 				break;
 			case REGISTER:
-				boolean registerSuccess = (Boolean)result;
-				if(registerSuccess){
-					SharedPreferenceUtil.successLogin(context, (BodingUser)result, userName, password);
-				}else{
-					
-				}
+				boolean registerResult = (Boolean)result;
+				RegisterActivity registerActivity = (RegisterActivity)context;
+				registerActivity.registerResult(registerResult);
 				break;
 			default:
 				break;

@@ -3,6 +3,7 @@ package com.boding.app;
 
 import com.boding.R;
 import com.boding.constants.HTTPAction;
+import com.boding.constants.IntentExtraAttribute;
 import com.boding.constants.IntentRequestCode;
 import com.boding.task.BodingUserTask;
 import com.boding.util.RegularExpressionsUtil;
@@ -11,6 +12,7 @@ import com.boding.view.dialog.ProgressBarDialog;
 import com.boding.view.dialog.WarningDialog;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -61,11 +63,17 @@ public class RegisterActivity extends Activity {
 	
 	public void registerResult(boolean isSuccess){
 		progressBarDialog.dismiss();
+		System.out.println("register result: "+isSuccess);
 		if(isSuccess){
 			Util.returnToPreviousPage(RegisterActivity.this, IntentRequestCode.REGISTER);
+			Intent intent = new Intent();
+			intent.putExtra(IntentExtraAttribute.VERIFY_PHONENUM_TYPE, "1");
+			intent.setClass(this, VerifyPhonenumActivity.class);
+			startActivity(intent);
+			this.finish();
 		}else{
 			warningDialog.setContent("您已经是波丁会员了，请用该手机号码直接登陆");
-			warningDialog.show();
+			warningDialog.show();		
 		}
 	}
 	
@@ -75,21 +83,21 @@ public class RegisterActivity extends Activity {
 			public void onClick(View arg0) {
 				String userName = userNameEditText.getText().toString();
 				String password = passwordEditText.getText().toString();
-				if(userName.equals("") || !RegularExpressionsUtil.checkMobile(userName)){
-					warningDialog.setContent("请输入正确的手机号！");
-					warningDialog.show();
-					return;
-				}
-				if(password.equals("") || !RegularExpressionsUtil.checkPassword(password)){
-					warningDialog.setContent("请输入正确的密码！");
-					warningDialog.show();
-					return;
-				}
-				if(!password.equals(passwordConfirmEditText.getText().toString())){
-					warningDialog.setContent("两次输入的密码不一致！");
-					warningDialog.show();
-					return;
-				}
+//				if(userName.equals("") || !RegularExpressionsUtil.checkMobile(userName)){
+//					warningDialog.setContent("请输入正确的手机号！");
+//					warningDialog.show();
+//					return;
+//				}
+//				if(password.equals("") || !RegularExpressionsUtil.checkPassword(password)){
+//					warningDialog.setContent("请输入正确的密码！");
+//					warningDialog.show();
+//					return;
+//				}
+//				if(!password.equals(passwordConfirmEditText.getText().toString())){
+//					warningDialog.setContent("两次输入的密码不一致！");
+//					warningDialog.show();
+//					return;
+//				}
 				progressBarDialog.show();
 				(new BodingUserTask(RegisterActivity.this, HTTPAction.REGISTER)).execute(userName,password);
 			}

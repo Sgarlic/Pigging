@@ -5,43 +5,52 @@ import com.boding.constants.Constants;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.view.View;
 
 public class SeatChangeBackDialog extends Dialog{
 	private ImageView closedialogImageView;
-	private TextView refundTextView;
-	private TextView rescheduleTextView;
-	private TextView signedTransferTextView;
-	public SeatChangeBackDialog(Context context){
+	private LinearLayout buyInfoLinearLayout;
+	private TextView buyInfoTextView;
+	private TextView rulesTextView;
+	private String rules;
+	public SeatChangeBackDialog(Context context, String rules){
 		super(context,Constants.DIALOG_STYLE);
 		setContentView(R.layout.dialog_seatbackchange_info);
+		this.rules = rules;
 		initView();
 	}
 	
 	private void initView(){
 		closedialogImageView = (ImageView) findViewById(R.id.closedialog_imageView);
-		refundTextView = (TextView)findViewById(R.id.refund_condition_textView);
-		rescheduleTextView = (TextView)findViewById(R.id.rescheduling_condition_textView);
-		signedTransferTextView = (TextView)findViewById(R.id.signedtransfer_condition_textView);
+		buyInfoLinearLayout = (LinearLayout) findViewById(R.id.seatbackchangeinfo_buyinfo_linearLayout);
+		rulesTextView = (TextView)findViewById(R.id.seatbackchangeinfo_rules_textView);
 		closedialogImageView.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
 				SeatChangeBackDialog.this.dismiss();
-				
 			}
 		});
+		
+		
+		String[] tempArray = rules.split("\\^");
+		String rulesString = "";
+//		for(String temp : tempArray){
+//			String[] tempRuleItem = temp.split(":");
+//			rulesString += tempRuleItem[0] + ":" + "\n";
+//			String[] tempLines = tempRuleItem[1].split(";");
+//			for(String tempLine: tempLines){
+//				rulesString += tempLine + "\n";
+//			}
+//		}
+		for(String temp : tempArray){
+			rulesString += temp + "\n" + "\n";
+		}
+		if( !(rules == null || rules.equals(""))){
+			rulesTextView.setText(rulesString);
+		}
 	}
-	
-	public void setRefundCondition(String condition){
-		refundTextView.setText(condition);
-	}
-	public void setRescheduleCondition(String condition){
-		rescheduleTextView.setText(condition);
-	}
-	public void setSignedTransferCondition(String condition){
-		signedTransferTextView.setText(condition);
-	}
-	
 }

@@ -130,7 +130,7 @@ public class OrderFlightInfoILayout extends LinearLayout{
 		seatBackChangeInfoLinearLayout.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View arg0) {
-				SeatChangeBackDialog seatChangeBackDialog = new SeatChangeBackDialog(OrderFlightInfoILayout.this.context);
+				SeatChangeBackDialog seatChangeBackDialog = new SeatChangeBackDialog(OrderFlightInfoILayout.this.context,"");
 				seatChangeBackDialog.show();
 			}
         });

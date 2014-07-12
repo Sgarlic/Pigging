@@ -94,22 +94,15 @@
 		        android:textSize="17sp"
 		        android:typeface="serif" />
 
-			<EditText
-			    android:id="@+id/verifyphonenum_input_phoneNum_editText"
+			<TextView
+			    android:id="@+id/verifyphonenum_phoneNum_textView"
 			    android:layout_width="wrap_content"
 			    android:layout_height="wrap_content"
 			    android:background="@color/white"
-			    android:ems="6"
-			    android:hint="输入手机号码"
-			    android:inputType="phone"
-			    android:maxLines="1"
+			    android:text="13567829032"
 			    android:textColor="@color/black"
-			    android:textColorHint="@color/listviewDividerColor"
 			    android:textSize="17sp"
-			    android:typeface="serif" >
-
-			    <requestFocus />
-			</EditText>
+			    android:typeface="serif" />
 			<LinearLayout
 			    android:id="@+id/verifyphonenum_sendVerificationNum_linearLayout"
 			    android:layout_width="match_parent"
@@ -159,7 +152,7 @@
 			    android:layout_width="wrap_content"
 			    android:layout_height="wrap_content"
 			    android:background="@color/white"
-			    android:ems="8"
+			    android:ems="9"
 			    android:hint="输入收到的6位验证码"
 			    android:inputType="number"
 			    android:maxLines="1"

@@ -39,10 +39,10 @@ public class OrderFlightInfoLayout extends LinearLayout{
 	private TextView toDateTimeTextView;
 	private TextView toTerminalTextView;
 	private LinearLayout seatBackChangeInfoLinearLayout;
-	private TextView changeSeatTextView;
 	private LinearLayout stopOverLinearLayout;
 	
 	private Flight flightLine;
+	private String rules;
 	
 	private TextView ticketPricePriceTextView;
 	private TextView planeBuildingPriceTextView;
@@ -52,16 +52,13 @@ public class OrderFlightInfoLayout extends LinearLayout{
 	
 	// if init complete
 	private boolean flag = false;
-	public OrderFlightInfoLayout(Context context, boolean isReturn) {
-		super(context);
-		this.context = context;
-		this.isReturn = isReturn;
-	}
-	
+
 	public OrderFlightInfoLayout(Context context, Flight flightLine, boolean isReturn) {
 		super(context);
 		this.context = context;
 		this.flightLine = flightLine;
+		Cabin cabin = flightLine.getSelectedCabin();
+		this.rules = cabin.getRule();
 		this.isReturn = isReturn;
 	}
 	
@@ -102,7 +99,6 @@ public class OrderFlightInfoLayout extends LinearLayout{
 		toDateTimeTextView = (TextView)view.findViewById(R.id.flightinfo_toDateTime_textView);
 		toTerminalTextView = (TextView)view.findViewById(R.id.flightinfo_toTerminal_textView);
 		seatBackChangeInfoLinearLayout = (LinearLayout)view.findViewById(R.id.flightinfo_seatBackChangeInfo_linearLayout);
-		changeSeatTextView = (TextView)view.findViewById(R.id.flightinfo_changeClass_textView);
 		stopOverLinearLayout = (LinearLayout) view.findViewById(R.id.flightinfo_stopover_linearLayout);
 		
 		ticketPricePriceTextView = (TextView)view.findViewById(R.id.orderform_ticketPrice_price_textView);
@@ -148,24 +144,11 @@ public class OrderFlightInfoLayout extends LinearLayout{
 		seatBackChangeInfoLinearLayout.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View arg0) {
-				SeatChangeBackDialog seatChangeBackDialog = new SeatChangeBackDialog(OrderFlightInfoLayout.this.context);
+				SeatChangeBackDialog seatChangeBackDialog = new SeatChangeBackDialog(OrderFlightInfoLayout.this.context,
+					rules);
 				seatChangeBackDialog.show();
 			}
         });
-		
-		changeSeatTextView.setOnClickListener(new OnClickListener(){
-			@Override
-			public void onClick(View arg0) {
-				List<String> classList = new ArrayList<String>();
-				classList.add("经济舱");
-				classList.add("公务舱/头等舱");
-				
-				SelectionDialog classSelectionDialog = new SelectionDialog(OrderFlightInfoLayout.this.context,
-						"选择舱位",classList);
-				classSelectionDialog.show();
-			}
-        });
 	}
-	
 }
  

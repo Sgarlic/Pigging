@@ -2,6 +2,7 @@ package com.boding.app;
 
 
 import com.boding.R;
+import com.boding.constants.IntentExtraAttribute;
 import com.boding.constants.IntentRequestCode;
 import com.boding.util.Util;
 
@@ -13,22 +14,26 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 
 public class VerifyPhonenumActivity extends Activity {
-	private EditText phonenumEditText;
+	private EditText phonenumTextView;
 	private EditText verificationNumEditText;
 	private LinearLayout sendVerificationNumLinearLayout;
 	private LinearLayout confirmLinearLayout;
+	
+	private String verifyPhonenumType;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_verfiy_phonenum);
-		
-//		selectedIDType = IdentityType.values()[0];
-//		Bundle arguments = getIntent().getExtras();
-//        if(arguments != null)
-//        	isReturnDateSelection = arguments.getBoolean(Constants.IS_RETURN_DATE_SELECTION);
+		Bundle arguments = getIntent().getExtras();
+        if(arguments != null)
+        	verifyPhonenumType = arguments.getString(IntentExtraAttribute.VERIFY_PHONENUM_TYPE);
         
 		initView();
+	}
+	
+	public void setVerifyPhoneNumberResult(boolean isSuccess){
+		
 	}
 	
 	private void initView(){
@@ -41,7 +46,7 @@ public class VerifyPhonenumActivity extends Activity {
 			
 		});
 
-		phonenumEditText = (EditText) findViewById(R.id.verifyphonenum_input_phoneNum_editText);
+		phonenumTextView = (EditText) findViewById(R.id.verifyphonenum_phoneNum_textView);
 		verificationNumEditText = (EditText) findViewById(R.id.verifyphonenum_input_verificationNum_editText);
 		
 		sendVerificationNumLinearLayout = (LinearLayout) findViewById(R.id.verifyphonenum_sendVerificationNum_linearLayout);
@@ -50,6 +55,5 @@ public class VerifyPhonenumActivity extends Activity {
 		addListeners();
 	}
 	private void addListeners(){
-		
 	}
 }

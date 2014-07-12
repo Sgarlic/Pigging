@@ -41,10 +41,6 @@ public class OrderDetailFlightInfoLayout extends LinearLayout{
 	
 	// if init complete
 	private boolean flag = false;
-	public OrderDetailFlightInfoLayout(Context context) {
-		super(context);
-		this.context = context;
-	}
 	
 	public OrderDetailFlightInfoLayout(Context context, OrderFlight flightLine,
 			String leaveCity, String arriveCity) {
@@ -110,7 +106,14 @@ public class OrderDetailFlightInfoLayout extends LinearLayout{
 	}
 	
 	private void addListeners(){
-		
+		changeRefundConditionLinearLayout.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				SeatChangeBackDialog seatChangeBackDialog = new SeatChangeBackDialog(OrderDetailFlightInfoLayout.this.context,
+						flight.getReles());
+					seatChangeBackDialog.show();
+			}
+		});
 	}
 	
 }
