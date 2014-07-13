@@ -42,7 +42,7 @@ public class TicketSearchResultListAdapter extends TicketSearchResultAdapter {
 	
 	public boolean isGgroupExpandable(int groupPosition){
 		System.out.println("^^^^^^^^^^" + groupPosition + " " +getChildrenCount(groupPosition));
-		if(getChildrenCount(groupPosition) < 2)
+		if(getChildrenCount(groupPosition) < 1)
 			return false;
 		return true;
 	}
@@ -282,8 +282,10 @@ public class TicketSearchResultListAdapter extends TicketSearchResultAdapter {
 				          break;
 		        		}
 		        	}
-		        else
+		        else{
+		        	flightline.resetShowedCabins();
 		        	tag = true;
+		        }
 		        if(tag) tag = false;
 		        else
 		        	continue;

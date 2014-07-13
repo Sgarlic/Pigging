@@ -273,6 +273,10 @@ public class Flight implements FlightInterface, Parcelable{
 		}
 	}
 	
+	public void resetShowedCabins(){
+		this.selectedCabins = cabins;
+	}
+	
 	public int getDefaultShowedCabinPos(){
 		return defaultShowedCabinPos;
 	}

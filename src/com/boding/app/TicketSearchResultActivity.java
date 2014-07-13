@@ -385,6 +385,12 @@ public class TicketSearchResultActivity extends FragmentActivity {
 		  else
 			  adapter = new TicketSearchResultListAdapter(this, (Airlines)todayAirline);
 		  doDefaultFilter();
+		  
+		  if(adapter.getGroupCount() > 0){
+	    	  hideNoResult();
+	      }else{
+	    	  showNoResult();
+	      }
 	      searchResultListView.setAdapter(adapter);
 	      setTextViewInfo();
 	      searchResultListView.setOnChildClickListener(new OnChildClickListener() {
@@ -397,6 +403,7 @@ public class TicketSearchResultActivity extends FragmentActivity {
 				return false;
 				}
 	      });
+	      
 	      progressDialog.dismiss();
 	  }
 

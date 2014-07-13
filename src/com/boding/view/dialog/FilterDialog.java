@@ -160,7 +160,7 @@ public class FilterDialog extends Dialog{
 		 cancelBt.setOnClickListener(new View.OnClickListener(){
 			@Override
 			public void onClick(View arg0) {
-				FilterDialog.this.dismiss();
+				FilterDialog.this.hide();
 			}
 		 });
 		 
@@ -181,7 +181,7 @@ public class FilterDialog extends Dialog{
 				List<String> companyConstraint = companyAdapter.getConstraints();
 				System.out.println(timeConstraint);
 				((TicketSearchResultActivity)context).doFilter(timeConstraint,classConstraint, companyConstraint);
-				FilterDialog.this.dismiss();	
+				FilterDialog.this.hide();	
 			}
 		 });
 	 }
@@ -296,8 +296,9 @@ public class FilterDialog extends Dialog{
 						}else{
 							if(nolimit != null){
 								nolimit.setChecked(false);
-								checkedTag[0] = 0;
+								
 							}
+							checkedTag[0] = 0;
 							checkedBoxs.add(holder.filterItemCheckBox);
 							constraints.add((String)holder.filterItemTextView.getText());
 						}
@@ -321,8 +322,9 @@ public class FilterDialog extends Dialog{
 						}else{
 							if(nolimit != null){
 								nolimit.setChecked(false);
-								checkedTag[0] = 0;
+								
 							}
+							checkedTag[0] = 0;
 							checkedBoxs.add(cb);
 							constraints.add((String)holder.filterItemTextView.getText());
 						}						

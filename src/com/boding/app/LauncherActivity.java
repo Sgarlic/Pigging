@@ -70,7 +70,6 @@ public class LauncherActivity extends Activity {
 	        }
 	    }  
 	    initCityList();
-	    new InitCountryTask(this).execute();
 	    initAreaList();
 	}
 	
