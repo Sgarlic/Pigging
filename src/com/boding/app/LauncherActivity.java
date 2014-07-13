@@ -4,11 +4,18 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Calendar;
 
+import com.baidu.location.BDLocation;
+import com.baidu.location.BDLocationListener;
+import com.baidu.location.LocationClient;
+import com.baidu.location.LocationClientOption;
+import com.baidu.location.LocationClientOption.LocationMode;
 import com.boding.R;
+import com.boding.constants.GlobalVariables;
 import com.boding.constants.HTTPAction;
 import com.boding.task.BodingUserTask;
 import com.boding.task.InitCityTask;
 import com.boding.task.InitCountryTask;
+import com.boding.task.LocateCityTask;
 import com.boding.util.AreaXmlParser;
 import com.boding.util.DateUtil;
 import com.boding.util.SharedPreferenceUtil;
@@ -23,12 +30,24 @@ import android.util.Log;
 
 public class LauncherActivity extends Activity {
 	private final int SPLASH_DISPLAY_LENGHT = 3000; //延迟三秒   
+	public LocationClient mLocationClient;
+	public MyLocationListener mMyLocationListener;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_launcher);
+		
+		mLocationClient = new LocationClient(this.getApplicationContext());
+		mMyLocationListener = new MyLocationListener();
+		mLocationClient.registerLocationListener(mMyLocationListener);
+		
+		
+		initLocation();
+		
 		something();
+		
+		
 		
 		new Handler().postDelayed(new Runnable(){    
 	        @Override   
@@ -40,6 +59,16 @@ public class LauncherActivity extends Activity {
        }, SPLASH_DISPLAY_LENGHT); 
 	}
 
+	private void initLocation(){
+		LocationClientOption option = new LocationClientOption();
+		option.setLocationMode(LocationMode.Hight_Accuracy);//设置定位模式
+		option.setCoorType("gcj02");//返回的定位结果是百度经纬度，默认值gcj02
+		option.setScanSpan(5000);//设置发起定位请求的间隔时间为5000ms
+		option.setIsNeedAddress(true);
+		mLocationClient.setLocOption(option);
+		mLocationClient.start();
+	}
+	
 	private void initCityList(){
 		String testUrl = "http://api.iboding.com/API/Base/QueryAirportCity.ashx?userid=boding&sign=14AD779B4209D8DDC95BD2336D36C015";
 		
@@ -47,6 +76,7 @@ public class LauncherActivity extends Activity {
 	}
 	
 	private void something(){
+		initCityList();
 		SharedPreferences sharedPreferences = SharedPreferenceUtil.getSharedPreferences(this);  
         
 	    boolean isFirstRun = sharedPreferences.getBoolean(SharedPreferenceUtil.IS_FIRSTRUN, true);  
@@ -69,7 +99,7 @@ public class LauncherActivity extends Activity {
 	        	}
 	        }
 	    }  
-	    initCityList();
+	    
 	    initAreaList();
 	}
 	
@@ -83,5 +113,21 @@ public class LauncherActivity extends Activity {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	/**
+	 * 实现实位回调监听
+	 */
+	public class MyLocationListener implements BDLocationListener {
+
+		@Override
+		public void onReceiveLocation(BDLocation location) {
+			mLocationClient.stop();
+			String city = location.getCity();
+			GlobalVariables.CurrentCity = city.substring(0,city.length()-1);
+			System.out.println("%%%%%%%%%%%%%%%%%%%%" + GlobalVariables.CurrentCity );
+		}
+
+
 	}
 }

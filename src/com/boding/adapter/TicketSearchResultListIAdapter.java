@@ -5,27 +5,20 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.BaseExpandableListAdapter;
-import android.widget.ExpandableListView;
 import android.widget.Filter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.boding.R;
-import com.boding.adapter.TicketSearchResultListAdapter.FlightLineFilter;
-import com.boding.app.MainActivity;
 import com.boding.app.OrderFormActivity;
 import com.boding.app.TicketSearchResultActivity;
-import com.boding.app.VoiceSearchActivity;
 import com.boding.constants.IntentRequestCode;
 import com.boding.model.AirlineView;
 import com.boding.model.FlightClass;
@@ -39,13 +32,15 @@ public class TicketSearchResultListIAdapter extends TicketSearchResultAdapter {
 	private List<FlightLine> flightLineList;
     private Context context;
     private FlightLineFilter flightlineFilter;
+    private List<FlightLine> originList;
     
 	public TicketSearchResultListIAdapter(Context context, AirlineView airlineView) {
 		this.context = context;
 		this.inflater = LayoutInflater.from(context);
 //		this.airlineViewList = new ArrayList<AirlineView>();
 		this.airlineView = airlineView;
-		this.flightLineList = airlineView.getLines();
+		this.originList = this.flightLineList = airlineView.getLines();
+		
 //		int sectionPointer = 0;
 	}
 	
@@ -122,7 +117,7 @@ public class TicketSearchResultListIAdapter extends TicketSearchResultAdapter {
 		holder.flightEndTimeTextView.setText(DateUtil.formatTime(arrivetime));
 		holder.flightPriceTextView.setText(currentFlightLine.getFlightPrice());
 		holder.flyingTimeTextView.setText(flyingtime);	
-		holder.flightClassTextView.setText(currentFlightLine.getCurrentClass());
+		//holder.flightClassTextView.setText(currentFlightLine.getCurrentClass());
 		holder.ticketLeftTextView.setText(currentFlightLine.getSeat()); //To edit by class type passed by invoker.
 		holder.airlineCompanyTextView.setText(currentFlightLine.getAirCompany());
 		holder.airlineCodeTextView.setText(currentFlightLine.getCarrier()+currentFlightLine.getNum());
@@ -251,7 +246,7 @@ public class TicketSearchResultListIAdapter extends TicketSearchResultAdapter {
 			List<FlightLine> lines = new ArrayList<FlightLine>();
 			FlightLine flightline = null;
 			boolean tag = false;
-			for (Iterator<FlightLine> iterator = flightLineList.iterator(); iterator.hasNext();) {
+			for (Iterator<FlightLine> iterator = originList.iterator(); iterator.hasNext();) {
 		        flightline = iterator.next();
 		        tag = false;
 		        //System.out.println("---> name=" + name);
@@ -271,14 +266,19 @@ public class TicketSearchResultListIAdapter extends TicketSearchResultAdapter {
 		        	break;
 		        if(classConstraint.size() > 0)
 		        	for(String flightclass : classConstraint){
-		        	//´ýÌí¼Ó²ÕÎ»ÅÐ¶Ï
-		        		if (true) {
-				          tag = true;
-				          break;
-		        		}
-		        	}
-		        else
+			        	//´ýÌí¼Ó²ÕÎ»ÅÐ¶Ï
+			        		//System.out.println(flightclass);
+			        		flightline.setDefaultShowedCabins(flightclass);
+			        		System.out.println("%%%%%%%%%%" + flightline.getSelectedCabins().size());
+			        		if (flightline.getSelectedCabins().size() > 0) {
+					          tag = true;
+					          break;
+			        		}
+			        }
+		        else{
+		        	flightline.resetShowedCabins();
 		        	tag = true;
+		        }
 		        if(tag) tag = false;
 		        else
 		        	break;

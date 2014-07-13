@@ -155,6 +155,7 @@ public class FlightLine implements FlightInterface{
 		FlightClass cabin = null;
 		selectedCabins = new ArrayList<FlightClass>();
 		List<FlightClass> cabins = this.departure.getSegments().get(0).getFclasslist();
+		System.out.println(" ((((((((("+cabins.size());
 		for(int i=0; i<cabins.size(); ++i){
 			cabin = cabins.get(i);
 			if(cabin.getClassType().contains(classStr)){
@@ -166,6 +167,10 @@ public class FlightLine implements FlightInterface{
 				}
 			}
 		}
+	}
+	
+	public void resetShowedCabins(){
+		this.selectedCabins = this.departure.getSegments().get(0).getFclasslist();
 	}
 
 	public static class LeatimeComp implements Comparator<FlightLine>{
