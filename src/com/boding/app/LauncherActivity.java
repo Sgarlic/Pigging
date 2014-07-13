@@ -14,8 +14,6 @@ import com.boding.constants.GlobalVariables;
 import com.boding.constants.HTTPAction;
 import com.boding.task.BodingUserTask;
 import com.boding.task.InitCityTask;
-import com.boding.task.InitCountryTask;
-import com.boding.task.LocateCityTask;
 import com.boding.util.AreaXmlParser;
 import com.boding.util.DateUtil;
 import com.boding.util.SharedPreferenceUtil;
