@@ -39,7 +39,6 @@ public class CalendarLayout extends LinearLayout{
 	private ListView monthListView;
 	
 	private Date minClickableDate;
-	private Date maxClickableDate;
 	private Date curDate;
 	
 	private int parentWidth = 0;
@@ -238,12 +237,10 @@ public class CalendarLayout extends LinearLayout{
 	public void setMinClickableDate(Date minClickableDate){
 		this.minClickableDate = minClickableDate;
 	}
-	public void setMaxClickableDate(Date maxClickableDate){
-		this.maxClickableDate = maxClickableDate;
-	}
 	
 	public void setDate(Date curDate){
 		this.curDate = curDate;
+		Log.d("poding","current date: "+curDate.toString());
 	}
 	
 	//给控件设置监听事件

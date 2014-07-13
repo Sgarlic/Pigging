@@ -57,6 +57,8 @@ public class DateSelectActivity extends Activity {
 				calendarLinearLayout.setDate(DateUtil.getDateFromString(GlobalVariables.Fly_From_Date));
 //				calendarLinearLayout.setMaxClickableDate(DateUtil.getDateFromString(GlobalVariables.Fly_Return_Date));
 			}
+		}else{
+			calendarLinearLayout.setDate(DateUtil.getDateFromString(GlobalVariables.Fly_From_Date));
 		}
 		
 		calendarLinearLayout.setOnItemClickListener(new CalendarLayout.OnItemClickListener(){
