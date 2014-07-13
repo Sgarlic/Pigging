@@ -2,6 +2,7 @@ package com.boding.app;
 
 import com.boding.R;
 import com.boding.constants.Constants;
+import com.boding.constants.GlobalVariables;
 import com.boding.constants.HTTPAction;
 import com.boding.constants.IntentRequestCode;
 import com.boding.task.BodingUserTask;
@@ -116,4 +117,12 @@ public class LoginActivity extends Activity {
 		warningDialog.setContent("错误的用户名/密码");
 		warningDialog.show();
 	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		  super.onActivityResult(requestCode, resultCode, data);
+		  if(GlobalVariables.bodingUser!=null && GlobalVariables.bodingUser.isActivated_state()){
+			  Util.returnToPreviousPage(LoginActivity.this, IntentRequestCode.LOGIN);
+		  }
+	 }
 }

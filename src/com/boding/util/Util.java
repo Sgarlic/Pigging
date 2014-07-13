@@ -30,6 +30,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -38,6 +39,7 @@ import android.widget.CalendarView;
 import android.widget.DatePicker;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class Util {
 //	/**
@@ -321,5 +323,11 @@ public class Util {
 	public static String getIntStringFromDoubleString(String doubleString){
 		int intValue = (int) Double.parseDouble(doubleString);
 		return String.valueOf(intValue);
+	}
+	
+	public static void showToast(Context context, String toastContent){
+		Toast toast = Toast.makeText(context,toastContent, Toast.LENGTH_SHORT);
+	    toast.setGravity(Gravity.CENTER, 0, 0);
+	    toast.show();
 	}
 }

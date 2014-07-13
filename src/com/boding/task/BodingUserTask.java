@@ -20,6 +20,7 @@ import com.boding.app.EditPersonalInfoActivity;
 import com.boding.app.LoginActivity;
 import com.boding.app.MyPersonalInfoActivity;
 import com.boding.app.RegisterActivity;
+import com.boding.app.VerifyPhonenumActivity;
 import com.boding.constants.Constants;
 import com.boding.constants.GlobalVariables;
 import com.boding.constants.HTTPAction;
@@ -38,9 +39,167 @@ public class BodingUserTask extends AsyncTask<Object,Void,Object> {
 		this.action = action;
 	}
 	
+	public boolean setNewPassword(String newPwd){
+		boolean resultCode = false;
+		StringBuilder sb = new StringBuilder();
+		sb.append(Constants.BODINGACCOUNT);
+		sb.append(GlobalVariables.bodingUser.getCardno());
+		sb.append(newPwd);
+		String sign = "";
+		try {
+			sb.append(Encryption.getMD5(Constants.BODINGKEY).toUpperCase());
+			sign = Encryption.getMD5(sb.toString()).toUpperCase();
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
+		String urlFormat = "http://api.iboding.com/API/User/MyInfo/SetPwd.ashx?userid=%s&cardno=%s&new_pwd=%s&sign=%s";
+		String urlStr =  String.format(urlFormat,Constants.BODINGACCOUNT,
+			GlobalVariables.bodingUser.getCardno(),newPwd,sign);
+		
+		String result = connectingServer(urlStr);
+		try {
+			JSONObject resultJson = new JSONObject(result);
+			String jsonResultCode = resultJson.getString("result"); 
+			if(jsonResultCode.equals("0")){
+				resultCode = true;
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return resultCode;
+	}
+	
+	public boolean verifyOldMoblie(String oldMobile){
+		boolean resultCode = false;
+		StringBuilder sb = new StringBuilder();
+		sb.append(Constants.BODINGACCOUNT);
+		sb.append(GlobalVariables.bodingUser.getCardno());
+		sb.append(oldMobile);
+		String sign = "";
+		try {
+			sb.append(Encryption.getMD5(Constants.BODINGKEY).toUpperCase());
+			sign = Encryption.getMD5(sb.toString()).toUpperCase();
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
+		String urlFormat = "http://api.iboding.com/API/User/CheckOldMobile.ashx?userid=%s&cardno=%s&oldmobile=%s&sign=%s";
+		String urlStr =  String.format(urlFormat,Constants.BODINGACCOUNT,
+			GlobalVariables.bodingUser.getCardno(),oldMobile,sign);
+		
+		String result = connectingServer(urlStr);
+		try {
+			JSONObject resultJson = new JSONObject(result);
+			String jsonResultCode = resultJson.getString("result"); 
+			if(jsonResultCode.equals("0")){
+				resultCode = true;
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return resultCode;
+	}
+	
+	/**
+	 * return true, change success
+	 * return false, 密码不正确
+	 * @param curPwd
+	 * @param newPwd
+	 * @return
+	 */
+	public boolean changePassword(String curPwd, String newPwd){
+		boolean resultCode = false;
+		StringBuilder sb = new StringBuilder();
+		sb.append(Constants.BODINGACCOUNT);
+		sb.append(GlobalVariables.bodingUser.getCardno());
+		sb.append(curPwd);
+		sb.append(newPwd);
+		String sign = "";
+		try {
+			sb.append(Encryption.getMD5(Constants.BODINGKEY).toUpperCase());
+			sign = Encryption.getMD5(sb.toString()).toUpperCase();
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
+		String urlFormat = "http://api.iboding.com/API/User/ModifyPwd.ashx?userid=%s&cardno=%s&cur_pwd=%s&new_pwd=%s&sign=%s";
+		String urlStr =  String.format(urlFormat,Constants.BODINGACCOUNT,
+			GlobalVariables.bodingUser.getCardno(),curPwd,newPwd,sign);
+		
+		String result = connectingServer(urlStr);
+		try {
+			JSONObject resultJson = new JSONObject(result);
+			String jsonResultCode = resultJson.getString("result"); 
+			if(jsonResultCode.equals("0")){
+				resultCode = true;
+			}else if(jsonResultCode.equals("40014")){
+				resultCode = false;
+			}
+			
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return resultCode;
+	}
+	
+	public boolean phoneNumBinding(String mobile){
+		boolean resultCode = false;
+		StringBuilder sb = new StringBuilder();
+		sb.append(Constants.BODINGACCOUNT);
+		sb.append(GlobalVariables.bodingUser.getCardno());
+		sb.append(mobile);
+		String sign = "";
+		try {
+			sb.append(Encryption.getMD5(Constants.BODINGKEY).toUpperCase());
+			sign = Encryption.getMD5(sb.toString()).toUpperCase();
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
+		String urlFormat = "http://api.iboding.com/API/User/BindMobile.ashx?userid=%s&cardno=%s&mobile=%s&sign=%s";
+		String urlStr =  String.format(urlFormat,Constants.BODINGACCOUNT,
+			GlobalVariables.bodingUser.getCardno(),mobile,sign);
+		
+		String result = connectingServer(urlStr);
+		try {
+			JSONObject resultJson = new JSONObject(result);
+			if(resultJson.getString("result").equals("0")){
+				resultCode = true;
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return resultCode;
+	}
+	
+	public boolean activiteUser(){
+		boolean resultCode = false;
+		StringBuilder sb = new StringBuilder();
+		sb.append(Constants.BODINGACCOUNT);
+		sb.append(GlobalVariables.bodingUser.getCardno());
+		String sign = "";
+		try {
+			sb.append(Encryption.getMD5(Constants.BODINGKEY).toUpperCase());
+			sign = Encryption.getMD5(sb.toString()).toUpperCase();
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
+		String urlFormat = "http://api.iboding.com/API/User/UserActivation.ashx?userid=%s&cardno=%s&sign=%s";
+		String urlStr =  String.format(urlFormat,Constants.BODINGACCOUNT,
+			GlobalVariables.bodingUser.getCardno(),sign);
+		
+		String result = connectingServer(urlStr);
+		try {
+			JSONObject resultJson = new JSONObject(result);
+			if(resultJson.getString("result").equals("0")){
+				resultCode = true;
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return resultCode;
+	}
+	
 	//短信类型 1、手机注册 2、账户激活 3、绑定手机或修改手机 4、密码找回
-	public String verifyPhoneNumber(String mobile,String type){
-		String verifyCode = "";
+	public String verifyPhoneNumber(String type){
+		String verifyCode = "123";
 		try {
 			Thread.sleep(3000);
 		} catch (InterruptedException e) {
@@ -48,69 +207,66 @@ public class BodingUserTask extends AsyncTask<Object,Void,Object> {
 			e.printStackTrace();
 		}
 		String sourceFlag = "android";
-//		StringBuilder sb = new StringBuilder();
-//		sb.append(Constants.BODINGACCOUNT);
-//		sb.append(mobile);
-//		sb.append(password);
-//		sb.append("android");
-//		String sign = "";
-//		try {
-//			sb.append(Encryption.getMD5(Constants.BODINGKEY).toUpperCase());
-//			sign = Encryption.getMD5(sb.toString()).toUpperCase();
-//		} catch (NoSuchAlgorithmException e) {
-//			e.printStackTrace();
-//		}
-//		String urlFormat = "http://api.iboding.com/API/User/UserRegister.ashx?userid=%s&mobile=%s&password=%s&source_flag=android&sign=%s";
-//		String urlStr =  String.format(urlFormat,Constants.BODINGACCOUNT,mobile,password,sign);
-//		
-//		String result = connectingServer(urlStr);
-//		try {
-//			JSONObject resultJson = new JSONObject(result);
-//			if(resultJson.getString("result").equals("0")){
-//				resultCode = true;
-//			}
-//		} catch (JSONException e) {
-//			e.printStackTrace();
-//		}
+		StringBuilder sb = new StringBuilder();
+		sb.append(Constants.BODINGACCOUNT);
+		sb.append(GlobalVariables.bodingUser.getMobile());
+		sb.append(sourceFlag);
+		sb.append(type);
+		String sign = "";
+		try {
+			sb.append(Encryption.getMD5(Constants.BODINGKEY).toUpperCase());
+			sign = Encryption.getMD5(sb.toString()).toUpperCase();
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
+		String urlFormat = "http://localhost:8907/API/User/SMSCode.ashx?userid=%s&mobile=%s&source_flag=%s&type=%s&sign=%s";
+		String urlStr =  String.format(urlFormat,GlobalVariables.bodingUser.getMobile(),
+				sourceFlag,type,sign);
+		
+		String result = connectingServer(urlStr);
+		try {
+			JSONObject resultJson = new JSONObject(result);
+			if(resultJson.getString("result").equals("0")){
+				verifyCode = resultJson.getString("code");
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
 		
 		return verifyCode;
 	}
 	
 	public boolean register(String mobile, String password){
-		String cardNo = "dddd";
+		boolean resultCode = false;
+		StringBuilder sb = new StringBuilder();
+		sb.append(Constants.BODINGACCOUNT);
+		sb.append(mobile);
+		sb.append(password);
+		sb.append("android");
+		String sign = "";
 		try {
-			Thread.sleep(3000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
+			sb.append(Encryption.getMD5(Constants.BODINGKEY).toUpperCase());
+			sign = Encryption.getMD5(sb.toString()).toUpperCase();
+		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		}
-//		StringBuilder sb = new StringBuilder();
-//		sb.append(Constants.BODINGACCOUNT);
-//		sb.append(mobile);
-//		sb.append(password);
-//		sb.append("android");
-//		String sign = "";
-//		try {
-//			sb.append(Encryption.getMD5(Constants.BODINGKEY).toUpperCase());
-//			sign = Encryption.getMD5(sb.toString()).toUpperCase();
-//		} catch (NoSuchAlgorithmException e) {
-//			e.printStackTrace();
-//		}
-//		String urlFormat = "http://api.iboding.com/API/User/UserRegister.ashx?userid=%s&mobile=%s&password=%s&source_flag=android&sign=%s";
-//		String urlStr =  String.format(urlFormat,Constants.BODINGACCOUNT,mobile,password,sign);
-//		
-//		String result = connectingServer(urlStr);
-//		try {
-//			JSONObject resultJson = new JSONObject(result);
-//			if(resultJson.getString("result").equals("0")){
-//				resultCode = true;
-//			}
-//		} catch (JSONException e) {
-//			e.printStackTrace();
-//		}
-		GlobalVariables.bodingUser = new BodingUser();
-		GlobalVariables.bodingUser.setMobile(mobile);
-		return true;
+		String urlFormat = "http://api.iboding.com/API/User/UserRegister.ashx?userid=%s&mobile=%s&password=%s&source_flag=android&sign=%s";
+		String urlStr =  String.format(urlFormat,Constants.BODINGACCOUNT,mobile,password,sign);
+		
+		String result = connectingServer(urlStr);
+		try {
+			JSONObject resultJson = new JSONObject(result);
+			if(resultJson.getString("result").equals("0")){
+				resultCode = true;
+				BodingUser bodingUser = new BodingUser();
+				bodingUser.setMobile(mobile);
+				bodingUser.setCardno(resultJson.getString("cardno"));
+				SharedPreferenceUtil.successLogin(context, bodingUser, bodingUser.getCardno(), password);
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return resultCode;
 	}
 	
 	public boolean editPersonalInfo(){
@@ -260,6 +416,9 @@ public class BodingUserTask extends AsyncTask<Object,Void,Object> {
 			case REGISTER:
 				result = register((String) params[0], (String) params[1]);
 				break;
+			case VERIFY_PHONENUMBER:
+				result = verifyPhoneNumber((String) params[0]);
+				break;
 			default:
 				break;
 		}
@@ -295,6 +454,10 @@ public class BodingUserTask extends AsyncTask<Object,Void,Object> {
 				boolean registerResult = (Boolean)result;
 				RegisterActivity registerActivity = (RegisterActivity)context;
 				registerActivity.registerResult(registerResult);
+				break;
+			case VERIFY_PHONENUMBER:
+				VerifyPhonenumActivity verifyPhonenumActivity = (VerifyPhonenumActivity)context;
+				verifyPhonenumActivity.setVerifyCode((String)result);
 				break;
 			default:
 				break;

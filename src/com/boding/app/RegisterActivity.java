@@ -14,10 +14,12 @@ import com.boding.view.dialog.WarningDialog;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 public class RegisterActivity extends Activity {
 	private EditText userNameEditText;
@@ -65,6 +67,7 @@ public class RegisterActivity extends Activity {
 		progressBarDialog.dismiss();
 		System.out.println("register result: "+isSuccess);
 		if(isSuccess){
+			Util.showToast(RegisterActivity.this, "×¢²á³É¹¦");
 			Util.returnToPreviousPage(RegisterActivity.this, IntentRequestCode.REGISTER);
 			Intent intent = new Intent();
 			intent.putExtra(IntentExtraAttribute.VERIFY_PHONENUM_TYPE, "1");
