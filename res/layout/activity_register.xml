@@ -105,7 +105,6 @@
 		        android:textColorHint="@color/listviewDividerColor"
 		        android:textSize="17sp"
 		        android:typeface="serif" >
-
 				<requestFocus />
 			</EditText>
 	    </LinearLayout>
@@ -174,7 +173,6 @@
 		        android:textColorHint="@color/listviewDividerColor"
 		        android:textSize="17sp"
 		        android:typeface="serif" >
-
 			</EditText>
 		</LinearLayout>
 		<LinearLayout

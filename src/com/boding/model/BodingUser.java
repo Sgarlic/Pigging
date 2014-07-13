@@ -19,6 +19,12 @@ public class BodingUser {
 		
 	}
 	
+	public BodingUser(boolean activated_state, String mobile, String cardno){
+		setActivated_state(activated_state);
+		setMobile(mobile);
+		setCardno(cardno);
+	}
+	
 	public BodingUser(boolean activated_state, String mobile, String cardno, String cardid, String name, String nickname, String portrait,
 			String login_type){
 		setActivated_state(activated_state);

@@ -48,8 +48,12 @@ public class SharedPreferenceUtil {
 		return sharedPreferences.getBoolean(key, defaultValue);
 	}
 	
-	public static void successLogin(Context context, BodingUser bodingUser, String userName, String password){
-		GlobalVariables.bodingUser = bodingUser;
+	/**
+	 * ´æ´¢µÄusernameÄ¬ÈÏÎª¿¨ºÅ
+	 * @param context
+	 * @param password
+	 */
+	public static void successLogin(Context context,String password){
 		// set autologin
 		setBooleanSharedPreferences(context, IS_AUTOLOGIN, true);
 		
@@ -59,7 +63,7 @@ public class SharedPreferenceUtil {
 		setStringSharedPreferences(context, LOGIN_EXPIREDATE, DateUtil.getFormatedDate(calendar));
 		
 		// set username and password
-		setStringSharedPreferences(context, LOGIN_USERNAME, userName);
+		setStringSharedPreferences(context, LOGIN_USERNAME, GlobalVariables.bodingUser.getCardno());
 		setStringSharedPreferences(context, LOGIN_PASSWORD, password);
 	}
 	

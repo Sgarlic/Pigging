@@ -23,16 +23,12 @@ public enum Gender {
 	public static Gender getGenderFromCode(String code){
 		if(code.equals("M"))
 			return Male;
-		else if(code.equals("F"))
-			return Female;
-		return null;
+		return Female;
 	}
 	public static Gender getGenderFromName(String code){
 		if(code.equals("ÄÐ"))
 			return Male;
-		else if(code.equals("Å®"))
-			return Female;
-		return null;
+		return Female;
 	}
 	
 }

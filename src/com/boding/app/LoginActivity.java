@@ -4,6 +4,7 @@ import com.boding.R;
 import com.boding.constants.Constants;
 import com.boding.constants.GlobalVariables;
 import com.boding.constants.HTTPAction;
+import com.boding.constants.IntentExtraAttribute;
 import com.boding.constants.IntentRequestCode;
 import com.boding.task.BodingUserTask;
 import com.boding.util.Util;
@@ -81,20 +82,20 @@ public class LoginActivity extends Activity {
 				String userName = userNameEditText.getText().toString();
 				String password = passwordEditText.getText().toString();
 				
-				userName = "13262763513";
-				password = "000000";
+//				userName = "13262763513";
+//				password = "000000";
 				
 				WarningDialog warningDialog = new WarningDialog(LoginActivity.this);
-//				if(userName.equals("")){
-//					warningDialog.setContent("请输入用户名");
-//					warningDialog.show();
-//					return;
-//				}
-//				if(password.equals("")){
-//					warningDialog.setContent("请输入密码");
-//					warningDialog.show();
-//					return;
-//				}
+				if(userName.equals("")){
+					warningDialog.setContent("请输入用户名");
+					warningDialog.show();
+					return;
+				}
+				if(password.equals("")){
+					warningDialog.setContent("请输入密码");
+					warningDialog.show();
+					return;
+				}
 				
 				// Start logging in
 				progressDialog = new ProgressBarDialog(LoginActivity.this);
@@ -104,11 +105,29 @@ public class LoginActivity extends Activity {
 				dfq.execute(userName,password);
 			}
 		});
+		
+		forgetPasswordLinearLayout.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				Intent intent = new Intent();
+				intent.setClass(LoginActivity.this, VerifyPhonenumActivity.class);
+				intent.putExtra(IntentExtraAttribute.VERIFY_PHONENUM_TYPE, "4");
+				startActivityForResult(intent, IntentRequestCode.VERIFY_PHONENUM.getRequestCode());
+			}
+		});
 	}
 	
 	public void loginSuccess(){
 		progressDialog.dismiss();
-		Util.returnToPreviousPage(LoginActivity.this, IntentRequestCode.LOGIN);
+		if(GlobalVariables.bodingUser.isActivated_state())
+			Util.returnToPreviousPage(LoginActivity.this, IntentRequestCode.LOGIN);
+		else{
+			Intent intent = new Intent();
+			intent.setClass(LoginActivity.this, VerifyPhonenumActivity.class);
+			intent.putExtra(IntentExtraAttribute.VERIFY_PHONENUM_TYPE, "2");
+			startActivity(intent);
+			this.finish();
+		}
 	}
 	
 	public void loginFailed(){

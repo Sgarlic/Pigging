@@ -3,6 +3,7 @@ package com.boding.app;
 
 import com.boding.R;
 import com.boding.constants.GlobalVariables;
+import com.boding.constants.IntentExtraAttribute;
 import com.boding.constants.IntentRequestCode;
 import com.boding.util.Util;
 
@@ -51,6 +52,12 @@ public class CommonInfoActivity extends Activity {
 			public void onClick(View arg0) {
 				if(GlobalVariables.bodingUser == null){
 					openLoginActivity();
+					return;
+				}else if(!GlobalVariables.bodingUser.isActivated_state()){
+					Intent intent = new Intent();
+					intent.setClass(CommonInfoActivity.this, VerifyPhonenumActivity.class);
+					intent.putExtra(IntentExtraAttribute.VERIFY_PHONENUM_TYPE, "2");
+					startActivityForResult(intent, IntentRequestCode.LOGIN.getRequestCode());
 					return;
 				}
 				Intent intent = new Intent();

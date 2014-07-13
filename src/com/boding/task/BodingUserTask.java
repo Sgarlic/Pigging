@@ -16,10 +16,13 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.os.AsyncTask;
 
+import com.boding.app.ChangePasswordActivity;
+import com.boding.app.ChangePhonenumActivity;
 import com.boding.app.EditPersonalInfoActivity;
 import com.boding.app.LoginActivity;
 import com.boding.app.MyPersonalInfoActivity;
 import com.boding.app.RegisterActivity;
+import com.boding.app.SetNewPasswordActivity;
 import com.boding.app.VerifyPhonenumActivity;
 import com.boding.constants.Constants;
 import com.boding.constants.GlobalVariables;
@@ -32,8 +35,8 @@ public class BodingUserTask extends AsyncTask<Object,Void,Object> {
 	private Context context;
 	private HTTPAction action;
 
-	private String userName;
 	private String password;
+	private String verifyPhoneNumType = "1";
 	public BodingUserTask(Context context, HTTPAction action){
 		this.context = context;
 		this.action = action;
@@ -130,6 +133,8 @@ public class BodingUserTask extends AsyncTask<Object,Void,Object> {
 			String jsonResultCode = resultJson.getString("result"); 
 			if(jsonResultCode.equals("0")){
 				resultCode = true;
+				// 如果修改密码成功，要更新sharedperference里面的密码
+				SharedPreferenceUtil.successLogin(context, newPwd);
 			}else if(jsonResultCode.equals("40014")){
 				resultCode = false;
 			}
@@ -198,18 +203,13 @@ public class BodingUserTask extends AsyncTask<Object,Void,Object> {
 	}
 	
 	//短信类型 1、手机注册 2、账户激活 3、绑定手机或修改手机 4、密码找回
-	public String verifyPhoneNumber(String type){
-		String verifyCode = "123";
-		try {
-			Thread.sleep(3000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public String verifyPhoneNumber(String mobile, String type){
+		verifyPhoneNumType = type;
+		String verifyCode = "";
 		String sourceFlag = "android";
 		StringBuilder sb = new StringBuilder();
 		sb.append(Constants.BODINGACCOUNT);
-		sb.append(GlobalVariables.bodingUser.getMobile());
+		sb.append(mobile);
 		sb.append(sourceFlag);
 		sb.append(type);
 		String sign = "";
@@ -220,8 +220,8 @@ public class BodingUserTask extends AsyncTask<Object,Void,Object> {
 			e.printStackTrace();
 		}
 		String urlFormat = "http://localhost:8907/API/User/SMSCode.ashx?userid=%s&mobile=%s&source_flag=%s&type=%s&sign=%s";
-		String urlStr =  String.format(urlFormat,GlobalVariables.bodingUser.getMobile(),
-				sourceFlag,type,sign);
+		String urlStr =  String.format(urlFormat,Constants.BODINGACCOUNT,
+				mobile,sourceFlag,type,sign);
 		
 		String result = connectingServer(urlStr);
 		try {
@@ -258,10 +258,10 @@ public class BodingUserTask extends AsyncTask<Object,Void,Object> {
 			JSONObject resultJson = new JSONObject(result);
 			if(resultJson.getString("result").equals("0")){
 				resultCode = true;
-				BodingUser bodingUser = new BodingUser();
-				bodingUser.setMobile(mobile);
-				bodingUser.setCardno(resultJson.getString("cardno"));
-				SharedPreferenceUtil.successLogin(context, bodingUser, bodingUser.getCardno(), password);
+				GlobalVariables.bodingUser = new BodingUser();
+				GlobalVariables.bodingUser.setMobile(mobile);
+				GlobalVariables.bodingUser.setCardno(resultJson.getString("cardno"));
+				SharedPreferenceUtil.successLogin(context, password);
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();
@@ -341,10 +341,9 @@ public class BodingUserTask extends AsyncTask<Object,Void,Object> {
 		}
 	}
 	
-	public BodingUser login(String userName,String password){
-		this.userName = userName;
+	public boolean login(String userName,String password){
+		boolean isSuccess = false;
 		this.password = password;
-		BodingUser bodingUser = null;
 		StringBuilder sb = new StringBuilder();
 		sb.append(Constants.BODINGACCOUNT);
 		sb.append(userName);
@@ -364,9 +363,16 @@ public class BodingUserTask extends AsyncTask<Object,Void,Object> {
 			JSONObject resultJson = new JSONObject(result);
 			String resultCode = resultJson.getString("result");
 			if(resultCode.equals("0")){
-				bodingUser = new BodingUser(Boolean.parseBoolean(resultJson.getString("activated_state")), resultJson.getString("mobile"),
+				isSuccess = true;
+				boolean activatedStatus = Boolean.parseBoolean(resultJson.getString("activated_state"));
+				if(activatedStatus){
+					GlobalVariables.bodingUser = new BodingUser(activatedStatus, resultJson.getString("mobile"),
 						resultJson.getString("cardno"),	resultJson.getString("cardid"), resultJson.getString("name"), 
 						resultJson.getString("nickname"),resultJson.getString("pictureimages"), resultJson.getString("login_type"));
+				}else{
+					GlobalVariables.bodingUser = new BodingUser(activatedStatus, resultJson.getString("mobile"),
+							resultJson.getString("cardno"));
+				}
 			}
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
@@ -374,7 +380,7 @@ public class BodingUserTask extends AsyncTask<Object,Void,Object> {
 		}
 		
 		
-		return bodingUser;
+		return isSuccess;
 	}
 	
 	public String connectingServer(String urlStr){
@@ -417,7 +423,23 @@ public class BodingUserTask extends AsyncTask<Object,Void,Object> {
 				result = register((String) params[0], (String) params[1]);
 				break;
 			case VERIFY_PHONENUMBER:
-				result = verifyPhoneNumber((String) params[0]);
+				result = verifyPhoneNumber((String) params[0], (String) params[1]);
+				break;
+			case ACTIVIATE:
+				result = activiteUser();
+				break;
+			case CHANGE_PASSWORD:
+				result = changePassword((String) params[0], (String) params[1]);
+				break;
+			case VERIFY_OLD_PHONENUM_CHANGEPHONEACTIVITY:
+			case VERIFY_OLD_PHONENUM_VERIFYPHOENACTIVITY:
+				result = verifyOldMoblie((String) params[0]);
+				break;
+			case BIND_NEW_PHONENUM:
+				result = phoneNumBinding((String) params[0]);
+				break;
+			case SET_NEW_PASSWORD:
+				result = setNewPassword((String) params[0]);
 				break;
 			default:
 				break;
@@ -430,16 +452,17 @@ public class BodingUserTask extends AsyncTask<Object,Void,Object> {
 		switch (action) {
 			case LOGIN:
 				LoginActivity loginActivity = (LoginActivity) context;
-				if(result == null)
-					loginActivity.loginFailed();
-				else{
-					SharedPreferenceUtil.successLogin(context, (BodingUser)result, userName, password);
+				if((Boolean)result){
+					SharedPreferenceUtil.successLogin(context, password);
 					loginActivity.loginSuccess();
+				}
+				else{
+					loginActivity.loginFailed();
 				}
 				break;
 			case LAUNCHER_LOGIN:
-				if (result!=null){
-					SharedPreferenceUtil.successLogin(context, (BodingUser)result, userName, password);
+				if ((Boolean)result){
+					SharedPreferenceUtil.successLogin(context, password);
 				}
 				break;
 			case GET_PERSONAL_INFO:
@@ -456,8 +479,37 @@ public class BodingUserTask extends AsyncTask<Object,Void,Object> {
 				registerActivity.registerResult(registerResult);
 				break;
 			case VERIFY_PHONENUMBER:
+				if(verifyPhoneNumType.equals("1") || verifyPhoneNumType.equals("2")){
+					VerifyPhonenumActivity verifyPhonenumActivity = (VerifyPhonenumActivity)context;
+					verifyPhonenumActivity.setVerifyCode((String)result);
+				}else if(verifyPhoneNumType.equals("3")){
+					ChangePhonenumActivity changePhonenumActivity = (ChangePhonenumActivity)context;
+					changePhonenumActivity.setVerifyCode((String)result);
+				}
+				break;
+			case ACTIVIATE:
 				VerifyPhonenumActivity verifyPhonenumActivity = (VerifyPhonenumActivity)context;
-				verifyPhonenumActivity.setVerifyCode((String)result);
+				verifyPhonenumActivity.setActiviteResult((Boolean)result);
+				break;
+			case CHANGE_PASSWORD:
+				ChangePasswordActivity changePwdActivity = (ChangePasswordActivity)context;
+				changePwdActivity.setChangePwdResult((Boolean)result);
+				break;
+			case VERIFY_OLD_PHONENUM_VERIFYPHOENACTIVITY:
+				VerifyPhonenumActivity verifyPhonenumVActivity = (VerifyPhonenumActivity)context;
+				verifyPhonenumVActivity.verifyOldPhoneNumResult((Boolean)result);
+				break;
+			case VERIFY_OLD_PHONENUM_CHANGEPHONEACTIVITY:
+				ChangePhonenumActivity changePhonenumActivity = (ChangePhonenumActivity)context;
+				changePhonenumActivity.verifyOldPhoneNumResult((Boolean)result);
+				break;
+			case BIND_NEW_PHONENUM:
+				ChangePhonenumActivity changePhonenumBActivity = (ChangePhonenumActivity)context;
+				changePhonenumBActivity.bindNewPhoneNumResult((Boolean)result);
+				break;
+			case SET_NEW_PASSWORD:
+				SetNewPasswordActivity setNewPasswordActivity = (SetNewPasswordActivity)context;
+				setNewPasswordActivity.setNewPasswordResut((Boolean)result);
 				break;
 			default:
 				break;

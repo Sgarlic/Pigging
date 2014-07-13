@@ -17,9 +17,8 @@ import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
-public class ChangePasswordActivity extends Activity {
-	private LinearLayout completeLinearLayout;
-	private EditText currentPasswordEditText;
+public class SetNewPasswordActivity extends Activity {
+	private LinearLayout confirmLinearLayout;
 	private EditText newPasswordEditText;
 	private EditText confirmPasswordEditText;
 	
@@ -32,9 +31,6 @@ public class ChangePasswordActivity extends Activity {
 		setContentView(R.layout.activity_changepassword);
 		progressBarDialog = new ProgressBarDialog(this);
 		warningDialog = new WarningDialog(this);
-//		Bundle arguments = getIntent().getExtras();
-//        if(arguments != null)
-//        	isReturnDateSelection = arguments.getBoolean(Constants.IS_RETURN_DATE_SELECTION);
         
 		initView();
 	}
@@ -44,26 +40,23 @@ public class ChangePasswordActivity extends Activity {
 		returnLinearLayout.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View arg0) {
-				Util.returnToPreviousPage(ChangePasswordActivity.this, IntentRequestCode.CHANGE_PASSWORD);
+				Util.returnToPreviousPage(SetNewPasswordActivity.this, IntentRequestCode.CHANGE_PASSWORD);
 			}
 			
 		});
-		completeLinearLayout = (LinearLayout) findViewById(R.id.changepassword_complete_linearLayout);
+		confirmLinearLayout = (LinearLayout) findViewById(R.id.setnewpassword_confirm_linearLayout);
 
-		currentPasswordEditText = (EditText) findViewById(R.id.changepassword_input_currentPassword_editText);
-		newPasswordEditText = (EditText) findViewById(R.id.changepassword_input_newPassword_editText);
-		confirmPasswordEditText = (EditText) findViewById(R.id.changepassword_input_confirmPassword_editText);
+		newPasswordEditText = (EditText) findViewById(R.id.setnewpassword_input_newPassword_editText);
+		confirmPasswordEditText = (EditText) findViewById(R.id.setnewpassword_input_confirmPassword_editText);
 
 		addListeners();
 	}
 	private void addListeners(){
-		completeLinearLayout.setOnClickListener(new OnClickListener() {
+		confirmLinearLayout.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				String curPwd = currentPasswordEditText.getText().toString();
 				String newPwd = newPasswordEditText.getText().toString();
-				if(curPwd.equals("") || !RegularExpressionsUtil.checkPassword(curPwd)
-					|| newPwd.equals("") || !RegularExpressionsUtil.checkPassword(newPwd)){
+				if(newPwd.equals("") || !RegularExpressionsUtil.checkPassword(newPwd)){
 					warningDialog.setContent("请输入正确的密码！");
 					warningDialog.show();
 					return;
@@ -74,18 +67,18 @@ public class ChangePasswordActivity extends Activity {
 					return;
 				}
 				progressBarDialog.show();
-				(new BodingUserTask(ChangePasswordActivity.this, HTTPAction.CHANGE_PASSWORD)).execute(curPwd,newPwd);
+				(new BodingUserTask(SetNewPasswordActivity.this, HTTPAction.SET_NEW_PASSWORD)).execute(newPwd);
 			}
 		});
 	}
 	
-	public void setChangePwdResult(boolean isSuccess){
+	public void setNewPasswordResut(boolean isSuccess){
 		progressBarDialog.dismiss();
 		if(isSuccess){
-			Util.showToast(this, "修改密码成功");
+			Util.showToast(this, "设置新密码成功");
 			Util.returnToPreviousPage(this, IntentRequestCode.CHANGE_PASSWORD);
 		}else{
-			Util.showToast(this, "修改密码失败，请输入正确的当前密码");
+			Util.showToast(this, "设置新密码失败");
 		}
 	}
 }

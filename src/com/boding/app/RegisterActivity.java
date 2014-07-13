@@ -86,21 +86,21 @@ public class RegisterActivity extends Activity {
 			public void onClick(View arg0) {
 				String userName = userNameEditText.getText().toString();
 				String password = passwordEditText.getText().toString();
-//				if(userName.equals("") || !RegularExpressionsUtil.checkMobile(userName)){
-//					warningDialog.setContent("请输入正确的手机号！");
-//					warningDialog.show();
-//					return;
-//				}
-//				if(password.equals("") || !RegularExpressionsUtil.checkPassword(password)){
-//					warningDialog.setContent("请输入正确的密码！");
-//					warningDialog.show();
-//					return;
-//				}
-//				if(!password.equals(passwordConfirmEditText.getText().toString())){
-//					warningDialog.setContent("两次输入的密码不一致！");
-//					warningDialog.show();
-//					return;
-//				}
+				if(userName.equals("") || !RegularExpressionsUtil.checkMobile(userName)){
+					warningDialog.setContent("请输入正确的手机号！");
+					warningDialog.show();
+					return;
+				}
+				if(password.equals("") || !RegularExpressionsUtil.checkPassword(password)){
+					warningDialog.setContent("请输入正确的密码！");
+					warningDialog.show();
+					return;
+				}
+				if(!password.equals(passwordConfirmEditText.getText().toString())){
+					warningDialog.setContent("两次输入的密码不一致！");
+					warningDialog.show();
+					return;
+				}
 				progressBarDialog.show();
 				(new BodingUserTask(RegisterActivity.this, HTTPAction.REGISTER)).execute(userName,password);
 			}

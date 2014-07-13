@@ -221,6 +221,12 @@ public class OrderFormActivity extends Activity {
 				if(GlobalVariables.bodingUser == null){
 					openLoginActivity();
 					return;
+				}else if(!GlobalVariables.bodingUser.isActivated_state()){
+					Intent intent = new Intent();
+					intent.setClass(OrderFormActivity.this, VerifyPhonenumActivity.class);
+					intent.putExtra(IntentExtraAttribute.VERIFY_PHONENUM_TYPE, "2");
+					startActivityForResult(intent, IntentRequestCode.LOGIN.getRequestCode());
+					return;
 				}
 				Intent intent = new Intent();
 				if(passengerList!=null){

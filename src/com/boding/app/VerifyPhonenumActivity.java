@@ -7,22 +7,25 @@ import com.boding.constants.HTTPAction;
 import com.boding.constants.IntentExtraAttribute;
 import com.boding.constants.IntentRequestCode;
 import com.boding.task.BodingUserTask;
+import com.boding.util.RegularExpressionsUtil;
 import com.boding.util.Util;
 import com.boding.view.dialog.ProgressBarDialog;
 import com.boding.view.dialog.WarningDialog;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.Gravity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class VerifyPhonenumActivity extends Activity {
-	private TextView phonenumTextView;
+	private TextView titleTextView;
+	private EditText phoneNumEditText;
 	private EditText verificationNumEditText;
 	private LinearLayout sendVerificationNumLinearLayout;
 	private LinearLayout confirmLinearLayout;
@@ -44,11 +47,14 @@ public class VerifyPhonenumActivity extends Activity {
         	verifyPhonenumType = arguments.getString(IntentExtraAttribute.VERIFY_PHONENUM_TYPE);
         
 		initView();
-		setViewContent();
+		setTitle();
+		
 	}
 	
-	public void setVerifyPhoneNumberResult(boolean isSuccess){
-		
+	private void setTitle(){
+		if(verifyPhonenumType.equals("4")){
+			titleTextView.setText("忘记密码");
+		}
 	}
 	
 	private void initView(){
@@ -61,7 +67,8 @@ public class VerifyPhonenumActivity extends Activity {
 			
 		});
 
-		phonenumTextView = (TextView) findViewById(R.id.verifyphonenum_phoneNum_textView);
+		titleTextView = (TextView) findViewById(R.id.verifyphonenum_title_textView);
+		phoneNumEditText = (EditText) findViewById(R.id.verifyphonenum_input_phoneNum_editText);
 		verificationNumEditText = (EditText) findViewById(R.id.verifyphonenum_input_verificationNum_editText);
 		
 		sendVerificationNumLinearLayout = (LinearLayout) findViewById(R.id.verifyphonenum_sendVerificationNum_linearLayout);
@@ -70,40 +77,79 @@ public class VerifyPhonenumActivity extends Activity {
 		addListeners();
 	}
 	
-	private void setViewContent(){
-		phonenumTextView.setText(GlobalVariables.bodingUser.getMobile());
-	}
 	private void addListeners(){
+		phoneNumEditText.addTextChangedListener(new TextWatcher() {
+			@Override
+			public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+			}
+			@Override
+			public void beforeTextChanged(CharSequence arg0, int arg1, int arg2,
+					int arg3) {
+			}
+			@Override
+			public void afterTextChanged(Editable arg0) {
+				verifyCode = "";
+			}
+		});
 		sendVerificationNumLinearLayout.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
+				String phoneNum = phoneNumEditText.getText().toString();
+				if(phoneNum.equals("") || !RegularExpressionsUtil.checkMobile(phoneNum)){
+					warningDialog.setContent("请输入正确的手机号码");
+					warningDialog.show();
+					return;
+				}
 				progressBarDialog.show();
-				(new BodingUserTask(VerifyPhonenumActivity.this, HTTPAction.VERIFY_PHONENUMBER)).execute(verifyPhonenumType);
+				(new BodingUserTask(VerifyPhonenumActivity.this, HTTPAction.VERIFY_PHONENUMBER))
+				.execute(GlobalVariables.bodingUser.getMobile(),verifyPhonenumType);
 			}
 		});
 		
 		confirmLinearLayout.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
+				String phoneNum = phoneNumEditText.getText().toString();
+				if(phoneNum.equals("") || !RegularExpressionsUtil.checkMobile(phoneNum)){
+					warningDialog.setContent("请输入正确的手机号码");
+					warningDialog.show();
+					return;
+				}
+				
 				if(verifyCode.equals("")){
 					warningDialog.setContent("请先发送验证码");
 					warningDialog.show();
 					return;
 				}
+				
 				String verifyNumber = verificationNumEditText.getText().toString();
 				if(verifyNumber.equals("")|| !verifyNumber.equals(verifyCode)){
 					warningDialog.setContent("请输入正确的验证码");
 					warningDialog.show();
 					return;
 				}
-				Util.showToast(VerifyPhonenumActivity.this, "正在激活");
-				progressBarDialog.show();
-				(new BodingUserTask(VerifyPhonenumActivity.this, HTTPAction.ACTIVIATE)).execute();
-				System.out.println("验证成功");
-				GlobalVariables.bodingUser.setActivated_state(true);
-				Util.returnToPreviousPage(VerifyPhonenumActivity.this, IntentRequestCode.VERIFY_PHONENUM);
+				if(verifyPhonenumType.equals("4")){
+					Intent intent = new Intent();
+					intent.setClass(VerifyPhonenumActivity.this, SetNewPasswordActivity.class);
+					startActivity(intent);
+					VerifyPhonenumActivity.this.finish();
+				}else{
+					Util.showToast(VerifyPhonenumActivity.this, "正在激活");
+					progressBarDialog.show();
+					(new BodingUserTask(VerifyPhonenumActivity.this, HTTPAction.VERIFY_OLD_PHONENUM_VERIFYPHOENACTIVITY)).execute(phoneNum);
+				}
 			}
 		});
+	}
+	
+	public void verifyOldPhoneNumResult(boolean isSuccess){
+		if(isSuccess){
+			(new BodingUserTask(VerifyPhonenumActivity.this, HTTPAction.ACTIVIATE))
+			.execute();
+		}else{
+			progressBarDialog.dismiss();
+			Util.showToast(this, "请输入正确的原手机号码");
+		}
 	}
 	
 	public void setVerifyCode(String verifyCode){
@@ -114,5 +160,16 @@ public class VerifyPhonenumActivity extends Activity {
 			warningContent = "发送验证码成功";
 		}
 		Util.showToast(this, warningContent);
+	}
+	
+	public void setActiviteResult(boolean isSuccess){
+		progressBarDialog.dismiss();
+		if(isSuccess){
+			Util.showToast(this, "激活成功");
+			GlobalVariables.bodingUser.setActivated_state(true);
+			Util.returnToPreviousPage(VerifyPhonenumActivity.this, IntentRequestCode.VERIFY_PHONENUM);
+		}else{
+			Util.showToast(this, "激活失败");
+		}
 	}
 }
