@@ -156,6 +156,13 @@ public class DateUtil {
 		return getFormatedDate(calendar);
 	}
 	
+	public static Date getLastDate(Date curDate){
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(curDate);
+		calendar.add(Calendar.DATE, -1);
+		return calendar.getTime();
+	}
+	
 	/**
 	 * 
 	 * @param day yyyy-mm-dd

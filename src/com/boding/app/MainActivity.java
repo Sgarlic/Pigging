@@ -467,7 +467,7 @@ public class MainActivity extends FragmentActivity {
 	
 	private void initHorizontalViewPager(){
 		leftPageView = mInflater.inflate(R.layout.layout_left, null);
-		middlePageView = mInflater.inflate(R.layout.layout_middle_withwidget, null);
+		middlePageView = mInflater.inflate(R.layout.layout_middle, null);
 		rightPageView = mInflater.inflate(R.layout.layout_right, null);
 		hList = new ArrayList<View>();
 		hList.add(leftPageView);

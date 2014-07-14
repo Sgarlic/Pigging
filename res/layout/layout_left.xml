@@ -12,28 +12,25 @@
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:orientation="vertical" >
-
 	    <LinearLayout  
         android:layout_width="fill_parent"  
         android:layout_height="fill_parent"  
         android:gravity="bottom"
         android:orientation="horizontal"  >
-	    <LinearLayout  
-        android:layout_width="fill_parent"  
-        android:layout_height="fill_parent"  
-        android:gravity="center"
-        android:layout_gravity="bottom"
-        android:orientation="horizontal"  >
-
-	    <ImageView
-	        android:id="@+id/left_page_flight_way_choose"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
+		    <LinearLayout  
+	        android:layout_width="fill_parent"  
+	        android:layout_height="fill_parent"  
+	        android:gravity="center"
 	        android:layout_gravity="bottom"
-	        android:layout_marginBottom="10dp"
-	        android:src="@drawable/leftpage_singleway_line" />
-
-		</LinearLayout>
+	        android:orientation="horizontal"  >
+			    <ImageView
+			        android:id="@+id/left_page_flight_way_choose"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:layout_gravity="bottom"
+			        android:layout_marginBottom="10dp"
+			        android:src="@drawable/leftpage_singleway_line" />
+			</LinearLayout>
 		</LinearLayout>
 	</LinearLayout>
 
@@ -100,7 +97,6 @@
 							    android:layout_gravity="bottom"
 							    android:text="上海"
 							    android:textColor="@color/white"
-							    android:textColorHint="@color/white"
 							    android:textSize="21sp"
 							    android:typeface="serif" />
 
@@ -120,7 +116,6 @@
 							    android:layout_weight="1"
 							    android:text="SHA"
 							    android:textColor="@color/white"
-							    android:textColorHint="@color/white"
 							    android:textSize="13dp"
 							    android:typeface="serif" />
 						</LinearLayout>

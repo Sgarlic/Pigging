@@ -142,8 +142,6 @@
 			    android:textColorHint="@color/listviewDividerColor"
 			    android:textSize="17sp"
 			    android:typeface="serif" >
-
-			    <requestFocus />
 			</EditText>
 			<LinearLayout
 			    android:id="@+id/changephonenum_sendVerificationNum_linearLayout"
@@ -195,15 +193,13 @@
 			    android:layout_height="wrap_content"
 			    android:background="@color/white"
 			    android:ems="8"
-			    android:hint="输入收到的6位验证码"
+			    android:hint="输入6位验证码"
 			    android:inputType="number"
 			    android:maxLines="1"
 			    android:textColor="@color/black"
 			    android:textColorHint="@color/listviewDividerColor"
 			    android:textSize="17sp"
 			    android:typeface="serif" >
-
-			    <requestFocus />
 			</EditText>
 		</LinearLayout>
 		<LinearLayout

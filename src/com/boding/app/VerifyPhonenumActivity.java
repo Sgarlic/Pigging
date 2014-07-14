@@ -101,8 +101,8 @@ public class VerifyPhonenumActivity extends Activity {
 					return;
 				}
 				progressBarDialog.show();
-				(new BodingUserTask(VerifyPhonenumActivity.this, HTTPAction.VERIFY_PHONENUMBER))
-				.execute(GlobalVariables.bodingUser.getMobile(),verifyPhonenumType);
+				(new BodingUserTask(VerifyPhonenumActivity.this, HTTPAction.VERIFY_OLD_PHONENUM_VERIFYPHOENACTIVITY))
+				.execute(phoneNum);
 			}
 		});
 		
@@ -128,15 +128,15 @@ public class VerifyPhonenumActivity extends Activity {
 					warningDialog.show();
 					return;
 				}
+				
 				if(verifyPhonenumType.equals("4")){
 					Intent intent = new Intent();
 					intent.setClass(VerifyPhonenumActivity.this, SetNewPasswordActivity.class);
 					startActivity(intent);
 					VerifyPhonenumActivity.this.finish();
 				}else{
-					Util.showToast(VerifyPhonenumActivity.this, "正在激活");
 					progressBarDialog.show();
-					(new BodingUserTask(VerifyPhonenumActivity.this, HTTPAction.VERIFY_OLD_PHONENUM_VERIFYPHOENACTIVITY)).execute(phoneNum);
+					(new BodingUserTask(VerifyPhonenumActivity.this, HTTPAction.ACTIVIATE)).execute(phoneNum);
 				}
 			}
 		});
@@ -144,8 +144,8 @@ public class VerifyPhonenumActivity extends Activity {
 	
 	public void verifyOldPhoneNumResult(boolean isSuccess){
 		if(isSuccess){
-			(new BodingUserTask(VerifyPhonenumActivity.this, HTTPAction.ACTIVIATE))
-			.execute();
+			(new BodingUserTask(VerifyPhonenumActivity.this, HTTPAction.VERIFY_PHONENUMBER))
+			.execute(phoneNumEditText.getText().toString(),verifyPhonenumType);
 		}else{
 			progressBarDialog.dismiss();
 			Util.showToast(this, "请输入正确的原手机号码");

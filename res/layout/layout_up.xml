@@ -1,9 +1,292 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/middle_page_linearlayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" 
-    android:text="Up"
-    android:background="@drawable/toppage">
-    
+    android:layout_height="match_parent"
+    android:background="@color/backgroundDarkGray"
+    android:orientation="vertical" >
+	<LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:orientation="vertical" >
+	    <LinearLayout  
+        android:layout_width="fill_parent"  
+        android:layout_height="fill_parent"  
+        android:gravity="bottom"
+        android:orientation="horizontal"  >
+		    <LinearLayout  
+	        android:layout_width="fill_parent"  
+	        android:layout_height="fill_parent"  
+	        android:gravity="center"
+	        android:layout_gravity="bottom"
+	        android:orientation="horizontal"  >
+			    <ImageView
+			        android:id="@+id/toppage_searchmethod_imageView"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:layout_gravity="bottom"
+			        android:layout_marginBottom="10dp"
+			        android:src="@drawable/toppage_searchmethod" />
+			</LinearLayout>
+		</LinearLayout>
+	</LinearLayout>
+	<LinearLayout
+	    android:layout_width="match_parent"
+	    android:layout_height="220dp"
+	    android:orientation="vertical"
+	    android:paddingLeft="15dp"
+	    android:paddingRight="15dp" >
 
-</TextView>
+	    <LinearLayout
+	        android:layout_width="wrap_content"
+	        android:layout_height="match_parent"
+	        android:layout_gravity="center"
+	        android:background="@drawable/toppage_searchpanel_bg"
+	        android:orientation="vertical" >
+
+		    <LinearLayout
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:layout_gravity="center"
+		        android:layout_marginLeft="10dp"
+		        android:layout_marginRight="10dp"
+		        android:layout_weight="1"
+		        android:orientation="vertical" >
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_gravity="bottom"
+					android:layout_weight="4"
+					android:orientation="horizontal" >
+
+
+						<ImageView
+				    		android:layout_width="wrap_content"
+				    		android:layout_height="wrap_content"
+				    		android:layout_gravity="center_vertical"
+				    		android:layout_weight="1"
+				    		android:src="@drawable/fly_from_logo" />
+
+					<LinearLayout
+					    android:id="@+id/toppage_fly_from_linearlayout"
+					    android:layout_width="wrap_content"
+					    android:layout_height="match_parent"
+					    android:layout_weight="1"
+					    android:orientation="vertical" >
+
+						<LinearLayout
+						    android:layout_width="match_parent"
+						    android:layout_height="wrap_content"
+						    android:layout_weight="1"
+						    android:orientation="horizontal" >
+
+							<TextView
+							    android:id="@+id/toppage_fly_from_textView"
+							    android:layout_width="90dp"
+							    android:layout_height="wrap_content"
+							    android:layout_gravity="bottom"
+							    android:text="上海"
+							    android:textColor="@color/white"
+							    android:textSize="21sp"
+							    android:typeface="serif" />
+
+						</LinearLayout>
+
+						<LinearLayout
+						    android:layout_width="match_parent"
+						    android:layout_height="wrap_content"
+						    android:layout_weight="1"
+						    android:orientation="horizontal" >
+
+							<TextView
+							    android:id="@+id/toppage_fly_from_code_textView"
+							    android:layout_width="wrap_content"
+							    android:layout_height="wrap_content"
+							    android:layout_gravity="top"
+							    android:layout_weight="1"
+							    android:text="SHA"
+							    android:textColor="@color/white"
+							    android:textSize="13dp"
+							    android:typeface="serif" />
+						</LinearLayout>
+					</LinearLayout>
+
+					<LinearLayout
+					    android:layout_width="wrap_content"
+					    android:layout_height="match_parent"
+					    android:layout_gravity="bottom"
+					    android:layout_weight="1"
+					    android:gravity="center_horizontal"
+					    android:orientation="horizontal" >
+
+						<ImageView
+				    		    android:id="@+id/toppage_swithcity_imageView"
+				    		    android:layout_width="wrap_content"
+				    		    android:layout_height="wrap_content"
+				    		    android:layout_gravity="center_vertical"
+				    		    android:layout_weight="1"
+				    		    android:src="@drawable/leftpage_refresh" />
+					</LinearLayout>
+
+						<ImageView
+						    android:layout_width="wrap_content"
+						    android:layout_height="wrap_content"
+						    android:layout_gravity="center_vertical"
+						    android:layout_marginLeft="3dp"
+						    android:layout_marginRight="3dp"
+						    android:layout_weight="1"
+						    android:src="@drawable/fly_to_logo" />
+
+					<LinearLayout
+					    android:id="@+id/toppage_fly_to_linearlayout"
+					    android:layout_width="wrap_content"
+					    android:layout_height="match_parent"
+					    android:layout_gravity="bottom"
+					    android:layout_weight="1"
+					    android:orientation="vertical" >
+
+						<LinearLayout
+					    android:layout_width="wrap_content"
+					    android:layout_height="match_parent"
+					    android:layout_weight="1"
+					    android:orientation="vertical" >
+
+						<LinearLayout
+						    android:layout_width="match_parent"
+						    android:layout_height="wrap_content"
+						    android:layout_weight="1"
+						    android:orientation="horizontal" >
+
+							<TextView
+							    android:id="@+id/toppage__fly_to_textView"
+							    android:layout_width="90dp"
+							    android:layout_height="wrap_content"
+							    android:layout_gravity="bottom"
+							    android:text="北京"
+							    android:textColor="@color/white"
+							    android:textSize="21sp" />
+
+						</LinearLayout>
+
+						<LinearLayout
+						    android:layout_width="match_parent"
+						    android:layout_height="wrap_content"
+						    android:layout_weight="1"
+						    android:orientation="horizontal" >
+
+							<TextView
+							    android:id="@+id/toppage_fly_to_code_textView"
+							    android:layout_width="wrap_content"
+							    android:layout_height="wrap_content"
+							    android:layout_gravity="top"
+							    android:text="PEK"
+							    android:textColor="@color/white"
+							    android:textSize="13dp" />
+
+						</LinearLayout>
+					</LinearLayout>
+					</LinearLayout>
+				</LinearLayout>
+				<ImageView
+		    	    android:layout_width="wrap_content"
+		    	    android:layout_height="wrap_content"
+		    	    android:layout_gravity="center_horizontal"
+		    	    android:src="@drawable/leftpage_line" />
+
+				<LinearLayout
+				    android:layout_width="match_parent"
+				    android:layout_height="wrap_content"
+				    android:layout_weight="4"
+				    android:orientation="horizontal" >
+
+					<LinearLayout
+					    android:id="@+id/toppage__date_linearlayout"
+					    android:layout_width="wrap_content"
+					    android:layout_height="match_parent"
+					    android:layout_marginRight="5dp"
+					    android:layout_weight="1"
+					    android:orientation="horizontal" >
+
+						<ImageView
+				    	    android:layout_width="wrap_content"
+				    	    android:layout_height="wrap_content"
+				    	    android:layout_gravity="center_vertical"
+				    	    android:src="@drawable/calendar_logo_gray"
+				    	    android:layout_weight="1" />
+		
+						<TextView
+						    android:id="@+id/toppage_date_textView"
+						    android:layout_width="wrap_content"
+						    android:layout_height="wrap_content"
+						    android:layout_gravity="center_vertical"
+						    android:layout_marginLeft="3dp"
+						    android:layout_weight="4"
+						    android:text="2013-12-04"
+						    android:textColor="@color/white"
+						    android:textSize="20sp"
+						    android:typeface="serif" />
+					</LinearLayout>
+		    	</LinearLayout>
+		    </LinearLayout>
+	    </LinearLayout>
+	</LinearLayout>
+
+	<LinearLayout
+	    android:layout_width="match_parent"
+	    android:layout_height="100dp"
+	    android:orientation="horizontal"
+	    android:paddingLeft="15dp"
+	    android:paddingRight="15dp" >
+
+	    <LinearLayout
+	        android:id="@+id/toppage_search_linearLayout"
+	        android:layout_width="match_parent"
+	        android:layout_height="50dp"
+	        android:layout_gravity="bottom"
+	        android:background="@color/voicesearchBgGray"
+	        android:gravity="center_horizontal"
+	        android:orientation="horizontal" >
+
+	    	<ImageView
+	    	    android:layout_width="wrap_content"
+	    	    android:layout_height="wrap_content"
+	    	    android:layout_gravity="center_vertical"
+	    	    android:src="@drawable/leftpage_flight_search" />
+
+			<TextView
+			    android:layout_width="90dp"
+			    android:layout_height="wrap_content"
+			    android:layout_gravity="center_vertical"
+			    android:layout_marginLeft="10dp"
+			    android:text="查询"
+			    android:textColor="@color/white"
+			    android:textSize="21sp" />
+	    </LinearLayout>
+	</LinearLayout>
+
+	<LinearLayout
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    android:orientation="horizontal" >
+
+	    <LinearLayout
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:layout_gravity="bottom"
+		    android:orientation="vertical" >
+		    <LinearLayout
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:layout_gravity="right"
+			    android:orientation="vertical" >
+			    <ImageView
+				    android:id="@+id/main_page_airserver_imageView"
+				    android:layout_width="wrap_content"
+				    android:layout_height="wrap_content"
+				    android:layout_marginRight="20dp"
+				    android:src="@drawable/toppage_gotomainpage" />
+			</LinearLayout>
+		</LinearLayout>
+	</LinearLayout>
+</LinearLayout>

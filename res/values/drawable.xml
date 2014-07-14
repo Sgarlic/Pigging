@@ -50,4 +50,5 @@
     <color name="backgroundDarkGray">#23282f</color>
     <color name="voicesearchBgGray">#575757</color>
     <color name="flightSearchText">#b3b3b3</color>
+    <color name="rightpageItemBg">#60000203</color>
 </resources>

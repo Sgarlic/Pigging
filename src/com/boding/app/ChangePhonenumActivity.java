@@ -77,8 +77,8 @@ public class ChangePhonenumActivity extends Activity {
 					return;
 				}
 				progressBarDialog.show();
-				(new BodingUserTask(ChangePhonenumActivity.this, HTTPAction.VERIFY_PHONENUMBER))
-					.execute(newPhoneNum,"3");
+				(new BodingUserTask(ChangePhonenumActivity.this, HTTPAction.VERIFY_OLD_PHONENUM_CHANGEPHONEACTIVITY))
+				.execute(currentPhoneNum);
 			}
 		});
 		
@@ -109,8 +109,8 @@ public class ChangePhonenumActivity extends Activity {
 				}
 				
 				progressBarDialog.show();
-				(new BodingUserTask(ChangePhonenumActivity.this, HTTPAction.VERIFY_OLD_PHONENUM_CHANGEPHONEACTIVITY))
-					.execute(currentPhoneNum);
+				(new BodingUserTask(ChangePhonenumActivity.this, HTTPAction.BIND_NEW_PHONENUM))
+					.execute(newPhoneNum);
 			}
 		});
 		
@@ -143,8 +143,8 @@ public class ChangePhonenumActivity extends Activity {
 	
 	public void verifyOldPhoneNumResult(boolean isSuccess){
 		if(isSuccess){
-			(new BodingUserTask(this, HTTPAction.BIND_NEW_PHONENUM))
-			.execute(newPhonenumEditText.getText().toString());
+			(new BodingUserTask(ChangePhonenumActivity.this, HTTPAction.VERIFY_PHONENUMBER))
+			.execute(newPhonenumEditText.getText().toString(),"3");
 		}else{
 			progressBarDialog.dismiss();
 			Util.showToast(this, "请输入正确的原手机号码");

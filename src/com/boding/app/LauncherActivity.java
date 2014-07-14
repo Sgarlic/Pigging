@@ -15,6 +15,7 @@ import com.boding.constants.HTTPAction;
 import com.boding.task.BodingUserTask;
 import com.boding.task.InitCityTask;
 import com.boding.util.AreaXmlParser;
+import com.boding.util.CityUtil;
 import com.boding.util.DateUtil;
 import com.boding.util.SharedPreferenceUtil;
 
@@ -122,7 +123,7 @@ public class LauncherActivity extends Activity {
 		public void onReceiveLocation(BDLocation location) {
 			mLocationClient.stop();
 			String city = location.getCity();
-			GlobalVariables.CurrentCity = city.substring(0,city.length()-1);
+			GlobalVariables.CurrentCity = CityUtil.getCityByName(city.substring(0,city.length()-1));
 			System.out.println("%%%%%%%%%%%%%%%%%%%%" + GlobalVariables.CurrentCity );
 		}
 

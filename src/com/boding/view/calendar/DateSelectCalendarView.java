@@ -59,11 +59,10 @@ public class DateSelectCalendarView extends View implements View.OnTouchListener
 
 	private void init() {
 		curDate = selectedStartDate = selectedEndDate = today = new Date();
-		minClickableDate = curDate;
+		minClickableDate = DateUtil.getLastDate(curDate);
 		Calendar minDateCalendar = Calendar.getInstance();
 		minDateCalendar.add(Calendar.MONTH, 5);
 		maxDate = minDateCalendar.getTime();
-		Log.d("poding",maxDate.toString());
 		calendar = Calendar.getInstance();
 		calendar.setTime(curDate);
 		surface = new Surface();

@@ -35,7 +35,6 @@ public class CitySelectFragment extends Fragment {
     private String[] sections;//存放存在的汉语拼音首字母
 //    private Handler handler;
 //    private OverlayThread overlayThread;
-    private String locatedCity = "上海";
     private View currentView;
 
     /**
@@ -115,15 +114,9 @@ public class CitySelectFragment extends Fragment {
     		this.contentList = new ArrayList<City>();
     		alphaIndexer = new HashMap<String, Integer>();
     		int sectionSize = 0;
-    		if(locatedCity!=null){
+    		if(GlobalVariables.CurrentCity!=null){
     			sectionSize+=1;
-    			City c = new City();
-    			c.setCityName(locatedCity);
-    			c.setCityCode("123");
-    			c.setInternationalCity(false);
-    			c.setBelongsToCountry("china");
-    			c.setPinyin("shanghai");
-    			contentList.add(c);
+    			contentList.add(GlobalVariables.CurrentCity);
     		}
     		
     		if(historyCityList.size()!= 0 && historyCityList != null){
@@ -142,7 +135,7 @@ public class CitySelectFragment extends Fragment {
     		
     		int sectionPointer = 0;
     		
-    		if(locatedCity!=null){
+    		if(GlobalVariables.CurrentCity!=null){
     			sections[sectionPointer] = Constants.LOCATION;
     			alphaIndexer.put(Constants.LOCATION, sectionPointer);
     			sectionPointer++;

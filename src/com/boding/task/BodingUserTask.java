@@ -219,7 +219,7 @@ public class BodingUserTask extends AsyncTask<Object,Void,Object> {
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		}
-		String urlFormat = "http://localhost:8907/API/User/SMSCode.ashx?userid=%s&mobile=%s&source_flag=%s&type=%s&sign=%s";
+		String urlFormat = "http://api.iboding.com/API/User/SMSCode.ashx?userid=%s&mobile=%s&source_flag=%s&type=%s&sign=%s";
 		String urlStr =  String.format(urlFormat,Constants.BODINGACCOUNT,
 				mobile,sourceFlag,type,sign);
 		
@@ -364,7 +364,9 @@ public class BodingUserTask extends AsyncTask<Object,Void,Object> {
 			String resultCode = resultJson.getString("result");
 			if(resultCode.equals("0")){
 				isSuccess = true;
-				boolean activatedStatus = Boolean.parseBoolean(resultJson.getString("activated_state"));
+				boolean activatedStatus = false;
+				if(resultJson.getString("activated_state").equals("1"))
+					activatedStatus = true;
 				if(activatedStatus){
 					GlobalVariables.bodingUser = new BodingUser(activatedStatus, resultJson.getString("mobile"),
 						resultJson.getString("cardno"),	resultJson.getString("cardid"), resultJson.getString("name"), 

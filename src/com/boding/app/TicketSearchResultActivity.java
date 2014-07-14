@@ -1,6 +1,7 @@
 package com.boding.app;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -209,22 +210,6 @@ public class TicketSearchResultActivity extends FragmentActivity {
   }
 
 	private void addListeners(){
-		calendarDialog.setOnItemClickListener(new OnItemClickListener() {
-			@Override
-			public void OnItemClick(Date date) {
-				String selectedDate = DateUtil.getFormatedDate(date);
-				if(!startdate.equals(selectedDate)){
-					startdate = selectedDate;
-					if(choosedGoFlight == null){
-						GlobalVariables.Fly_From_Date = selectedDate;
-						DateUtil.setRetunrnWayDate();
-					}else{
-						GlobalVariables.Fly_Return_Date = selectedDate;
-					}
-					loadData(isInternational);
-				}
-			}
-		});
 		searchResultListView.setOnGroupClickListener(new OnGroupClickListener() { 
 			@Override 
 			public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
@@ -238,23 +223,43 @@ public class TicketSearchResultActivity extends FragmentActivity {
 		todayLinearLayout.setOnClickListener(new OnClickListener(){
             @Override
             public void onClick(View arg0) {
-//            	calendarDialog = new CalendarDialog(TicketSearchResultActivity.this);
-            if(choosedGoFlight != null){
-      			  calendarDialog.setMinDate(DateUtil.getDateFromString(GlobalVariables.Fly_From_Date));
-      			  calendarDialog.setDate(DateUtil.getDateFromString(GlobalVariables.Fly_Return_Date));
-      	  	}else{
-      	  		calendarDialog.setDate(DateUtil.getDateFromString(GlobalVariables.Fly_From_Date));
-      	  	}
-            	
-            	calendarDialog.show();
-            }
+	            calendarDialog = new CalendarDialog(TicketSearchResultActivity.this);
+	            calendarDialog.setOnItemClickListener(new OnItemClickListener() {
+	    			@Override
+	    			public void OnItemClick(Date date) {
+	    				String selectedDate = DateUtil.getFormatedDate(date);
+	    				if(!startdate.equals(selectedDate)){
+	    					startdate = selectedDate;
+	    					if(choosedGoFlight == null){
+	    						GlobalVariables.Fly_From_Date = selectedDate;
+	    						DateUtil.setRetunrnWayDate();
+	    					}else{
+	    						GlobalVariables.Fly_Return_Date = selectedDate;
+	    					}
+	    					loadData(isInternational);
+	    				}
+	    			}
+	    		});
+	            if(choosedGoFlight != null){
+	      			  calendarDialog.setMinDate(DateUtil.getDateFromString(GlobalVariables.Fly_From_Date));
+	      			  calendarDialog.setDate(DateUtil.getDateFromString(GlobalVariables.Fly_Return_Date));
+	      	  	}else{
+	      	  		calendarDialog.setDate(DateUtil.getDateFromString(GlobalVariables.Fly_From_Date));
+	      	  	}
+	            	
+	            	calendarDialog.show();
+	            }
             
-      });
+		});
         lastDayLinearLayout.setOnClickListener(new OnClickListener(){
               @Override
               public void onClick(View arg0) {
                   if(lastDayAirline == null)
                 	  return;
+                  
+                  if(startdate.equals(DateUtil.getFormatedDate(Calendar.getInstance())))
+                	  return;
+                  
                   nextDayAirline = todayAirline;
                   todayAirline = lastDayAirline;
                   lastDayAirline = null;
