@@ -13,7 +13,7 @@ public class LowPriceSubscribe {
 	private String flightEndDate;
 	private int subscribeWay;//订阅方式 1、折扣  2、价格
 	private int disCount;//折扣
-	private double price;
+	private int price;
 	private int noticeWay;//通知方式 1、邮箱 2、手机 3、邮箱和手机
 	private String email;
 	private String mobile;
@@ -94,11 +94,11 @@ public class LowPriceSubscribe {
 	public void setDisCount(int disCount) {
 		this.disCount = disCount;
 	}
-	public double getPrice() {
+	public int getPrice() {
 		return price;
 	}
 	public void setPrice(double price) {
-		this.price = price;
+		this.price = (int)price;
 	}
 	public int getNoticeWay() {
 		return noticeWay;

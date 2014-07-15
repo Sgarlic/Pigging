@@ -37,11 +37,8 @@ public class TicketSearchResultListIAdapter extends TicketSearchResultAdapter {
 	public TicketSearchResultListIAdapter(Context context, AirlineView airlineView) {
 		this.context = context;
 		this.inflater = LayoutInflater.from(context);
-//		this.airlineViewList = new ArrayList<AirlineView>();
 		this.airlineView = airlineView;
 		this.originList = this.flightLineList = airlineView.getLines();
-		
-//		int sectionPointer = 0;
 	}
 	
 	public boolean isGgroupExpandable(int groupPosition){

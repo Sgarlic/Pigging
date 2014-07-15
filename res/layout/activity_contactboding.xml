@@ -1,0 +1,183 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:ignore="MergeRootFrame" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp" >
+
+		<LinearLayout
+		    android:id="@+id/return_logo_linearLayout"
+		    android:layout_width="150dp"
+		    android:layout_height="match_parent"
+		    android:layout_weight="1"
+		    android:orientation="horizontal" >
+
+	        <ImageView
+	            android:id="@+id/return_logo_imageView"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_gravity="center_vertical"
+	            android:src="@drawable/arrow_left_returntoprepage" />
+        </LinearLayout>
+
+	    <LinearLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent"
+	        android:layout_weight="1"
+	        android:orientation="vertical" >
+
+	        <LinearLayout
+	            android:layout_width="wrap_content"
+	            android:layout_height="match_parent"
+	            android:layout_gravity="center_horizontal"
+	            android:orientation="horizontal" >
+
+		        <TextView
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_gravity="center_vertical"
+		            android:text="联系波丁"
+		            android:textColor="@color/textOrange"
+		            android:textSize="20sp"
+		            android:typeface="serif" />
+	        </LinearLayout>
+		</LinearLayout>
+
+		<LinearLayout
+		    android:layout_width="150dp"
+		    android:layout_height="match_parent"
+		    android:layout_weight="1"
+		    android:orientation="horizontal" >
+	    </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/panelOrange"
+        android:orientation="horizontal" >
+	</LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingTop="20dp" >
+
+		<LinearLayout
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:layout_marginBottom="20dp"
+		    android:orientation="horizontal" >
+
+			<TextView
+			    android:layout_width="100dp"
+			    android:layout_height="wrap_content"
+			    android:layout_gravity="center_vertical"
+			    android:gravity="top"
+			    android:text="客服电话"
+			    android:textColor="@color/priceGray"
+			    android:textSize="17sp"
+			    android:typeface="serif" />
+			<TextView
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:layout_gravity="center_vertical"
+			    android:layout_marginLeft="10dp"
+			    android:text="021-54738327"
+			    android:textColor="@color/black"
+			     android:textSize="17sp"
+			    android:typeface="serif" />
+
+			<LinearLayout
+			    android:layout_width="match_parent"
+			    android:layout_height="wrap_content"
+			    android:layout_gravity="center_vertical"
+			    android:orientation="vertical" >
+
+				<ImageView
+				    android:id="@+id/return_logo_imageView"
+				    android:layout_width="wrap_content"
+				    android:layout_height="wrap_content"
+				    android:layout_gravity="right"
+				    android:src="@drawable/contactboding_calllogo" />
+			</LinearLayout>
+	    </LinearLayout>
+
+	    <LinearLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_marginBottom="20dp"
+	        android:orientation="horizontal" >
+
+		    <TextView
+		        android:layout_width="100dp"
+		        android:layout_height="wrap_content"
+		        android:layout_gravity="center_vertical"
+		        android:gravity="top"
+		        android:text="客服QQ"
+		        android:textColor="@color/priceGray"
+		        android:textSize="17sp"
+		        android:typeface="serif" />
+			<TextView
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:layout_gravity="center_vertical"
+			    android:layout_marginLeft="10dp"
+			    android:text="2557886419"
+			    android:textColor="@color/black"
+			     android:textSize="17sp"
+			    android:typeface="serif" />
+		</LinearLayout>
+		<LinearLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_marginBottom="20dp"
+	        android:orientation="horizontal" >
+
+		    <TextView
+		        android:layout_width="100dp"
+		        android:layout_height="wrap_content"
+		        android:layout_gravity="center_vertical"
+		        android:gravity="top"
+		        android:text="企业邮箱"
+		        android:textColor="@color/priceGray"
+		        android:textSize="17sp"
+		        android:typeface="serif" />
+			<TextView
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:layout_gravity="center_vertical"
+			    android:layout_marginLeft="10dp"
+			    android:text="service@iboding.com"
+			    android:textColor="@color/black"
+			     android:textSize="17sp"
+			    android:typeface="serif" />
+		</LinearLayout>
+		<LinearLayout
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:orientation="vertical" >
+			<TextView
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:layout_gravity="center_horizontal"
+			    android:text="如有任何疑问，请拨打波丁客服电话"
+			    android:textColor="@color/textOrange"
+			    android:textSize="14sp"
+			    android:typeface="serif" />
+		</LinearLayout>
+    </LinearLayout>
+</LinearLayout>
+

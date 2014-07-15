@@ -1,0 +1,120 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:ignore="MergeRootFrame" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp" >
+
+		<LinearLayout
+		    android:id="@+id/return_logo_linearLayout"
+		    android:layout_width="150dp"
+		    android:layout_height="match_parent"
+		    android:layout_weight="1"
+		    android:orientation="horizontal" >
+	        <ImageView
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_gravity="center_vertical"
+	            android:src="@drawable/arrow_left_returntoprepage" />
+        </LinearLayout>
+
+	    <LinearLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent"
+	        android:layout_weight="1"
+	        android:orientation="vertical" >
+	        <LinearLayout
+		        android:layout_width="wrap_content"
+			    android:layout_height="match_parent"
+			    android:layout_gravity="center_horizontal"
+			    android:orientation="horizontal">
+		        <TextView
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_gravity="center_vertical"
+		            android:text="低价订阅"
+		            android:textColor="@color/textOrange"
+		            android:textSize="20sp"
+		            android:typeface="serif" />
+	        </LinearLayout>
+		</LinearLayout>
+		<LinearLayout
+		    android:id="@+id/lowpricesubscribe_addsubscribe_linearLayout"
+		    android:layout_width="150dp"
+		    android:layout_height="match_parent"
+		    android:layout_weight="1"
+		    android:orientation="horizontal" >
+	        <LinearLayout
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:layout_gravity="center_vertical"
+		        android:layout_weight="1"
+		        android:orientation="vertical" >
+		        <TextView
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_gravity="right"
+		            android:text="新增"
+		            android:textColor="@color/textOrange"
+		            android:textSize="19sp"
+		            android:typeface="serif" />
+		    </LinearLayout>
+	    </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/panelOrange"
+        android:orientation="horizontal" >
+
+	</LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingTop="20dp" >
+
+		<TextView
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_gravity="center_horizontal"
+		    android:text="每位用户限订阅2条航线的低价通知"
+		    android:textColor="@color/textOrange"
+		    android:textSize="15sp"
+		    android:typeface="serif" />
+
+		<LinearLayout
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:layout_marginTop="10dp"
+		    android:orientation="vertical" >
+		    <ListView
+		        android:id="@+id/lowpricesubscribe_listView"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:background="@color/lisViewDividerGray"
+		        android:divider="@color/lisViewDividerGray"
+		        android:scrollbars="none" />
+		</LinearLayout>
+		<TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="注：机票价格变动频繁，收到通知要立即出手哦！"
+            android:textColor="@color/textOrange"
+            android:textSize="13sp"
+            android:typeface="serif" />
+    </LinearLayout>
+</LinearLayout>
+
