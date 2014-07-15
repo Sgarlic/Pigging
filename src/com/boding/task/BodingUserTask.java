@@ -42,11 +42,11 @@ public class BodingUserTask extends AsyncTask<Object,Void,Object> {
 		this.action = action;
 	}
 	
-	public boolean setNewPassword(String newPwd){
+	public boolean setNewPassword(String cardNo, String newPwd){
 		boolean resultCode = false;
 		StringBuilder sb = new StringBuilder();
 		sb.append(Constants.BODINGACCOUNT);
-		sb.append(GlobalVariables.bodingUser.getCardno());
+		sb.append(cardNo);
 		sb.append(newPwd);
 		String sign = "";
 		try {
@@ -57,7 +57,7 @@ public class BodingUserTask extends AsyncTask<Object,Void,Object> {
 		}
 		String urlFormat = "http://api.iboding.com/API/User/MyInfo/SetPwd.ashx?userid=%s&cardno=%s&new_pwd=%s&sign=%s";
 		String urlStr =  String.format(urlFormat,Constants.BODINGACCOUNT,
-			GlobalVariables.bodingUser.getCardno(),newPwd,sign);
+				cardNo,newPwd,sign);
 		
 		String result = connectingServer(urlStr);
 		try {
@@ -70,6 +70,34 @@ public class BodingUserTask extends AsyncTask<Object,Void,Object> {
 			e.printStackTrace();
 		}
 		return resultCode;
+	}
+	
+	public String getCardNoFromMobile(String mobile){
+		String cardNo = "";
+		StringBuilder sb = new StringBuilder();
+		sb.append(Constants.BODINGACCOUNT);
+		sb.append(mobile);
+		String sign = "";
+		try {
+			sb.append(Encryption.getMD5(Constants.BODINGKEY).toUpperCase());
+			sign = Encryption.getMD5(sb.toString()).toUpperCase();
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
+		String urlFormat = "http://api.iboding.com/API/User/CheckExistMobile.ashx?userid=%s&mobile=%s&sign=%s";
+		String urlStr =  String.format(urlFormat,Constants.BODINGACCOUNT,
+			mobile,sign);
+		
+		String result = connectingServer(urlStr);
+		try {
+			JSONObject resultJson = new JSONObject(result);
+			if(resultJson.getString("result").equals("0")){
+				cardNo = resultJson.getString("cardno");
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return cardNo;
 	}
 	
 	public boolean verifyOldMoblie(String oldMobile){
@@ -109,8 +137,8 @@ public class BodingUserTask extends AsyncTask<Object,Void,Object> {
 	 * @param newPwd
 	 * @return
 	 */
-	public boolean changePassword(String curPwd, String newPwd){
-		boolean resultCode = false;
+	public String changePassword(String curPwd, String newPwd){
+		String resultCode = "";
 		StringBuilder sb = new StringBuilder();
 		sb.append(Constants.BODINGACCOUNT);
 		sb.append(GlobalVariables.bodingUser.getCardno());
@@ -123,20 +151,17 @@ public class BodingUserTask extends AsyncTask<Object,Void,Object> {
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		}
-		String urlFormat = "http://api.iboding.com/API/User/ModifyPwd.ashx?userid=%s&cardno=%s&cur_pwd=%s&new_pwd=%s&sign=%s";
+		String urlFormat = "http://api.iboding.com/API/User/MyInfo/ModifyPwd.ashx?userid=%s&cardno=%s&cur_pwd=%s&new_pwd=%s&sign=%s";
 		String urlStr =  String.format(urlFormat,Constants.BODINGACCOUNT,
 			GlobalVariables.bodingUser.getCardno(),curPwd,newPwd,sign);
 		
 		String result = connectingServer(urlStr);
 		try {
 			JSONObject resultJson = new JSONObject(result);
-			String jsonResultCode = resultJson.getString("result"); 
-			if(jsonResultCode.equals("0")){
-				resultCode = true;
+			resultCode = resultJson.getString("result"); 
+			if(resultCode.equals("0")){
 				// 如果修改密码成功，要更新sharedperference里面的密码
 				SharedPreferenceUtil.successLogin(context, newPwd);
-			}else if(jsonResultCode.equals("40014")){
-				resultCode = false;
 			}
 			
 		} catch (JSONException e) {
@@ -413,6 +438,7 @@ public class BodingUserTask extends AsyncTask<Object,Void,Object> {
 		switch (action) {
 			case LOGIN:
 			case LAUNCHER_LOGIN:
+			case SETNEWPWD_LOGIN:
 				result = login((String) params[0], (String) params[1]);
 				break;
 			case GET_PERSONAL_INFO:
@@ -437,11 +463,14 @@ public class BodingUserTask extends AsyncTask<Object,Void,Object> {
 			case VERIFY_OLD_PHONENUM_VERIFYPHOENACTIVITY:
 				result = verifyOldMoblie((String) params[0]);
 				break;
+			case FORGETPASSWORD_GETCARDNO:
+				result = getCardNoFromMobile((String) params[0]);
+				break;
 			case BIND_NEW_PHONENUM:
 				result = phoneNumBinding((String) params[0]);
 				break;
 			case SET_NEW_PASSWORD:
-				result = setNewPassword((String) params[0]);
+				result = setNewPassword((String) params[0], (String) params[1]);
 				break;
 			default:
 				break;
@@ -462,6 +491,13 @@ public class BodingUserTask extends AsyncTask<Object,Void,Object> {
 					loginActivity.loginFailed();
 				}
 				break;
+			case SETNEWPWD_LOGIN:
+				SetNewPasswordActivity setNewPasswordLoginActivity = (SetNewPasswordActivity)context;
+				if((Boolean)result){
+					SharedPreferenceUtil.successLogin(context, password);
+				}
+				setNewPasswordLoginActivity.loginResult();
+				break;
 			case LAUNCHER_LOGIN:
 				if ((Boolean)result){
 					SharedPreferenceUtil.successLogin(context, password);
@@ -481,12 +517,12 @@ public class BodingUserTask extends AsyncTask<Object,Void,Object> {
 				registerActivity.registerResult(registerResult);
 				break;
 			case VERIFY_PHONENUMBER:
-				if(verifyPhoneNumType.equals("1") || verifyPhoneNumType.equals("2")){
-					VerifyPhonenumActivity verifyPhonenumActivity = (VerifyPhonenumActivity)context;
-					verifyPhonenumActivity.setVerifyCode((String)result);
-				}else if(verifyPhoneNumType.equals("3")){
+				if(verifyPhoneNumType.equals("3")){
 					ChangePhonenumActivity changePhonenumActivity = (ChangePhonenumActivity)context;
 					changePhonenumActivity.setVerifyCode((String)result);
+				}else{
+					VerifyPhonenumActivity verifyPhonenumActivity = (VerifyPhonenumActivity)context;
+					verifyPhonenumActivity.setVerifyCode((String)result);
 				}
 				break;
 			case ACTIVIATE:
@@ -495,11 +531,15 @@ public class BodingUserTask extends AsyncTask<Object,Void,Object> {
 				break;
 			case CHANGE_PASSWORD:
 				ChangePasswordActivity changePwdActivity = (ChangePasswordActivity)context;
-				changePwdActivity.setChangePwdResult((Boolean)result);
+				changePwdActivity.setChangePwdResult((String)result);
 				break;
 			case VERIFY_OLD_PHONENUM_VERIFYPHOENACTIVITY:
 				VerifyPhonenumActivity verifyPhonenumVActivity = (VerifyPhonenumActivity)context;
 				verifyPhonenumVActivity.verifyOldPhoneNumResult((Boolean)result);
+				break;
+			case FORGETPASSWORD_GETCARDNO:
+				verifyPhonenumVActivity = (VerifyPhonenumActivity)context;
+				verifyPhonenumVActivity.getCardNoResult((String)result);
 				break;
 			case VERIFY_OLD_PHONENUM_CHANGEPHONEACTIVITY:
 				ChangePhonenumActivity changePhonenumActivity = (ChangePhonenumActivity)context;

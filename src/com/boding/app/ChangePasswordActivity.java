@@ -79,13 +79,15 @@ public class ChangePasswordActivity extends Activity {
 		});
 	}
 	
-	public void setChangePwdResult(boolean isSuccess){
+	public void setChangePwdResult(String resultCode){
 		progressBarDialog.dismiss();
-		if(isSuccess){
+		if(resultCode.equals("0")){
 			Util.showToast(this, "修改密码成功");
 			Util.returnToPreviousPage(this, IntentRequestCode.CHANGE_PASSWORD);
-		}else{
+		}else if(resultCode.equals("40014")){
 			Util.showToast(this, "修改密码失败，请输入正确的当前密码");
+		}else if(resultCode.equals("40015")){
+			Util.showToast(this, "修改密码失败，当前密码和新密码相同");
 		}
 	}
 }

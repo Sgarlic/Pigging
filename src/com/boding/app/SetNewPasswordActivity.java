@@ -2,8 +2,11 @@ package com.boding.app;
 
 
 import com.boding.R;
+import com.boding.constants.GlobalVariables;
 import com.boding.constants.HTTPAction;
+import com.boding.constants.IntentExtraAttribute;
 import com.boding.constants.IntentRequestCode;
+import com.boding.model.BodingUser;
 import com.boding.task.BodingUserTask;
 import com.boding.util.RegularExpressionsUtil;
 import com.boding.util.Util;
@@ -25,13 +28,18 @@ public class SetNewPasswordActivity extends Activity {
 	private ProgressBarDialog progressBarDialog;
 	private WarningDialog warningDialog;
 	
+	private String cardNo;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_changepassword);
+		setContentView(R.layout.activity_setnewpassword);
 		progressBarDialog = new ProgressBarDialog(this);
 		warningDialog = new WarningDialog(this);
-        
+		Bundle arguments = getIntent().getExtras();
+        if(arguments != null){
+        	cardNo = arguments.getString(IntentExtraAttribute.FORGETPWD_USERCARDNO);
+        }
 		initView();
 	}
 	
@@ -67,17 +75,22 @@ public class SetNewPasswordActivity extends Activity {
 					return;
 				}
 				progressBarDialog.show();
-				(new BodingUserTask(SetNewPasswordActivity.this, HTTPAction.SET_NEW_PASSWORD)).execute(newPwd);
+				(new BodingUserTask(SetNewPasswordActivity.this, HTTPAction.SET_NEW_PASSWORD)).execute(cardNo, newPwd);
 			}
 		});
 	}
 	
-	public void setNewPasswordResut(boolean isSuccess){
+	public void loginResult(){
 		progressBarDialog.dismiss();
+		Util.showToast(this, "设置新密码成功");
+		Util.returnToPreviousPage(this, IntentRequestCode.CHANGE_PASSWORD);
+	}
+	
+	public void setNewPasswordResut(boolean isSuccess){
 		if(isSuccess){
-			Util.showToast(this, "设置新密码成功");
-			Util.returnToPreviousPage(this, IntentRequestCode.CHANGE_PASSWORD);
+			(new BodingUserTask(SetNewPasswordActivity.this, HTTPAction.SETNEWPWD_LOGIN)).execute(cardNo, newPasswordEditText.getText().toString());
 		}else{
+			progressBarDialog.dismiss();
 			Util.showToast(this, "设置新密码失败");
 		}
 	}

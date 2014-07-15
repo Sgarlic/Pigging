@@ -32,6 +32,7 @@ public class VerifyPhonenumActivity extends Activity {
 	
 	private String verifyPhonenumType = "1";
 	private String verifyCode = "";
+	private String cardNo = "";
 	
 	private ProgressBarDialog progressBarDialog;
 	private WarningDialog warningDialog;
@@ -101,8 +102,13 @@ public class VerifyPhonenumActivity extends Activity {
 					return;
 				}
 				progressBarDialog.show();
-				(new BodingUserTask(VerifyPhonenumActivity.this, HTTPAction.VERIFY_OLD_PHONENUM_VERIFYPHOENACTIVITY))
-				.execute(phoneNum);
+				if(verifyPhonenumType.equals("4")){
+					(new BodingUserTask(VerifyPhonenumActivity.this, HTTPAction.FORGETPASSWORD_GETCARDNO))
+					.execute(phoneNum);
+				}else{
+					(new BodingUserTask(VerifyPhonenumActivity.this, HTTPAction.VERIFY_OLD_PHONENUM_VERIFYPHOENACTIVITY))
+					.execute(phoneNum);
+				}
 			}
 		});
 		
@@ -132,6 +138,7 @@ public class VerifyPhonenumActivity extends Activity {
 				if(verifyPhonenumType.equals("4")){
 					Intent intent = new Intent();
 					intent.setClass(VerifyPhonenumActivity.this, SetNewPasswordActivity.class);
+					intent.putExtra(IntentExtraAttribute.FORGETPWD_USERCARDNO, cardNo);
 					startActivity(intent);
 					VerifyPhonenumActivity.this.finish();
 				}else{
@@ -140,6 +147,17 @@ public class VerifyPhonenumActivity extends Activity {
 				}
 			}
 		});
+	}
+	
+	public void getCardNoResult(String result){
+		if(result.equals("")){
+			progressBarDialog.dismiss();
+			Util.showToast(this, "该用户不存在，请输入正确的手机号码");
+		}else{
+			this.cardNo = result;
+			(new BodingUserTask(VerifyPhonenumActivity.this, HTTPAction.VERIFY_PHONENUMBER))
+			.execute(phoneNumEditText.getText().toString(),verifyPhonenumType);
+		}
 	}
 	
 	public void verifyOldPhoneNumResult(boolean isSuccess){
@@ -152,11 +170,11 @@ public class VerifyPhonenumActivity extends Activity {
 		}
 	}
 	
-	public void setVerifyCode(String verifyCode){
+	public void setVerifyCode(String result){
 		progressBarDialog.dismiss();
 		String warningContent = "获取验证码失败，请重新获取！";
-		if(!verifyCode.equals("")){
-			this.verifyCode = verifyCode;
+		if(!result.equals("")){
+			this.verifyCode = result;
 			warningContent = "发送验证码成功";
 		}
 		Util.showToast(this, warningContent);

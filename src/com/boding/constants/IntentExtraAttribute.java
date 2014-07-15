@@ -56,4 +56,5 @@ public class IntentExtraAttribute {
 	 * User extra
 	 */
 	public static final String VERIFY_PHONENUM_TYPE = "verifyPhonenumType";
+	public static final String FORGETPWD_USERCARDNO = "forgetPwdUserCardno";
 }

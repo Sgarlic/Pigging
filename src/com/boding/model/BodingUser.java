@@ -31,24 +31,10 @@ public class BodingUser {
 		setMobile(mobile);
 		setCardno(cardno);
 		setCardid(cardid);
-		setName(nickname);
+		setName(name);
 		setNickname(nickname);
 		setPortrait(portrait);
 		setLogin_type(login_type);
-	}
-	
-	public BodingUser(boolean activated_state, String mobile, String cardno, String cardid, String name, String nickname, String portrait,
-			String login_type, String genderCode, String birthdayInfo){
-		setActivated_state(activated_state);
-		setMobile(mobile);
-		setCardno(cardno);
-		setCardid(cardid);
-		setName(nickname);
-		setNickname(nickname);
-		setPortrait(portrait);
-		setLogin_type(login_type);
-		setGender(genderCode);
-		setBirthdayInfo(birthdayInfo);
 	}
 	
 	public String getWelcomeName(){

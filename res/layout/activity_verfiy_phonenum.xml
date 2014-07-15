@@ -159,7 +159,7 @@
 			    android:layout_height="wrap_content"
 			    android:background="@color/white"
 			    android:ems="8"
-			    android:hint="输入收到的6位验证码"
+			    android:hint="输入6位验证码"
 			    android:inputType="number"
 			    android:maxLines="1"
 			    android:textColor="@color/black"
