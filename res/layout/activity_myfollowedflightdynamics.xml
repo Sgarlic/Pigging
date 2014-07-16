@@ -20,9 +20,7 @@
 		    android:layout_height="match_parent"
 		    android:layout_weight="1"
 		    android:orientation="horizontal" >
-
 	        <ImageView
-	            android:id="@+id/return_logo_imageView"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
 	            android:layout_gravity="center_vertical"
@@ -34,48 +32,26 @@
 	        android:layout_height="match_parent"
 	        android:layout_weight="1"
 	        android:orientation="vertical" >
-
 	        <LinearLayout
 		        android:layout_width="wrap_content"
 			    android:layout_height="match_parent"
 			    android:layout_gravity="center_horizontal"
 			    android:orientation="horizontal">
-
 		        <TextView
 		            android:layout_width="wrap_content"
 		            android:layout_height="wrap_content"
 		            android:layout_gravity="center_vertical"
-		            android:text="常用地址管理"
+		            android:text="关注的航班"
 		            android:textColor="@color/textOrange"
 		            android:textSize="20sp"
 		            android:typeface="serif" />
-
 	        </LinearLayout>
 		</LinearLayout>
-
 		<LinearLayout
-		    android:id="@+id/commoninfomanagement_deliveryAddr_addAddr_linearLayout"
 		    android:layout_width="150dp"
 		    android:layout_height="match_parent"
 		    android:layout_weight="1"
 		    android:orientation="horizontal" >
-
-	        <LinearLayout
-		        android:layout_width="match_parent"
-		        android:layout_height="wrap_content"
-		        android:layout_gravity="center_vertical"
-		        android:layout_weight="1"
-		        android:orientation="vertical" >
-	
-		        <TextView
-		            android:layout_width="wrap_content"
-		            android:layout_height="wrap_content"
-		            android:layout_gravity="right"
-		            android:text="添加"
-		            android:textColor="@color/textOrange"
-		            android:textSize="19sp"
-		            android:typeface="serif" />
-		    </LinearLayout>
 	    </LinearLayout>
     </LinearLayout>
 
@@ -91,25 +67,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
         android:paddingTop="20dp" >
-		<TextView
-		    android:id="@+id/commoninfomanagement_deliveryAddr_noDeliverAddr_textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="暂无常用地址"
-            android:textColor="@color/priceGray"
-            android:textSize="17sp"
-            android:typeface="serif" />
+
 		<LinearLayout
-	        android:layout_width="match_parent"
-	        android:layout_height="match_parent"
-	        android:orientation="vertical" >
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:layout_marginTop="10dp"
+		    android:orientation="vertical" >
 		    <ListView
-		        android:id="@+id/commoninfomanagement_deliveryAddr_deliveryAddresses_listView"
-		        android:layout_width="fill_parent"
+		        android:id="@+id/myfollowedflightdynamics_listView"
+		        android:layout_width="match_parent"
 		        android:layout_height="wrap_content"
 		        android:background="@color/white"
 		        android:divider="@color/white"

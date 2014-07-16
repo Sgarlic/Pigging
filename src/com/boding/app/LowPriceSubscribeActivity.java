@@ -6,6 +6,8 @@ import com.boding.R;
 import com.boding.constants.IntentRequestCode;
 import com.boding.model.LowPriceSubscribe;
 import com.boding.util.Util;
+import com.boding.view.dialog.ProgressBarDialog;
+import com.boding.view.dialog.WarningDialog;
 
 import android.app.Activity;
 import android.content.Context;
@@ -25,10 +27,15 @@ public class LowPriceSubscribeActivity extends Activity{
 	private LowPriceSubAdapter adapter;
 	private int deletedPos;
 	
+	private WarningDialog warningDialog;
+	private ProgressBarDialog progressBarDialog;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_aboutboding);
+		warningDialog = new WarningDialog(this);
+		progressBarDialog = new ProgressBarDialog(this);
 		initView();
 	}
 	
@@ -47,13 +54,11 @@ public class LowPriceSubscribeActivity extends Activity{
 	}
     
     private class LowPriceSubAdapter extends BaseAdapter{
-    	private LayoutInflater inflater;  
     	private List<LowPriceSubscribe> subsList;
         private Context context;
         
     	public LowPriceSubAdapter(Context context,  List<LowPriceSubscribe> subsList) {
     		this.context = context;
-    		this.inflater = LayoutInflater.from(context);
     		this.subsList = subsList;
     	}
 		@Override
@@ -74,7 +79,7 @@ public class LowPriceSubscribeActivity extends Activity{
 			notifyDataSetChanged();
 		}
 		
-		public void deleteSubscribe(int position){
+		public void deleteSubscribe(){
 			subsList.remove(deletedPos);
 			notifyDataSetChanged();
 		}

@@ -48,7 +48,6 @@
 		            android:layout_gravity="center_vertical"
 		            android:text="选择日期"
 		            android:textColor="@color/textOrange"
-		            android:textColorHint="@color/white"
 		            android:textSize="20sp"
 		            android:typeface="serif" />
 

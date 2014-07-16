@@ -1,25 +1,22 @@
 package com.boding.constants;
 
+import com.boding.R;
+
+
 public enum Weather {
-	SRAIN("srain","小雷雨"),
-	CLOUD("cloud","多云"),
-	FOG("fog","霾"),
-	SUN("sun","晴天");
+	SRAIN("srain","小雷雨",R.drawable.weather_sun),
+	CLOUD("cloud","多云",R.drawable.weather_cloud),
+	FOG("fog","霾",R.drawable.weather_sun),
+	SUN("sun","晴天",R.drawable.weather_sun);
 	
 	private String weatherCode;
-	public String getWeatherCode() {
-		return weatherCode;
-	}
-
-	public String getWeatherName() {
-		return weatherName;
-	}
-
 	private String weatherName;
+	private int weatherDrawable;
 	
-	private Weather(String weatherCode, String weatherName){
+	private Weather(String weatherCode, String weatherName, int weatherDrawable){
 		this.weatherCode = weatherCode;
 		this.weatherName = weatherName;
+		this.weatherDrawable = weatherDrawable;
 	}
 	
 	public static Weather getWeatherFromCode(String weatherCode){
@@ -31,5 +28,21 @@ public enum Weather {
 			return FOG;
 		
 		return SUN;
+	}
+	
+	public String getWeatherCode() {
+		return weatherCode;
+	}
+
+	public String getWeatherName() {
+		return weatherName;
+	}
+
+	public int getWeatherDrawable() {
+		return weatherDrawable;
+	}
+
+	public void setWeatherDrawable(int weatherDrawable) {
+		this.weatherDrawable = weatherDrawable;
 	}
 }

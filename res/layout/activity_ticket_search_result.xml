@@ -46,7 +46,6 @@
 		            android:layout_gravity="center_vertical"
 		            android:text="机票预订"
 		            android:textColor="@color/textOrange"
-		            android:textColorHint="@color/white"
 		            android:textSize="20dp"
 		            android:typeface="serif" />
 	        </LinearLayout>
@@ -327,7 +326,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
-            android:cacheColorHint="@android:color/white"
             android:childDivider="@color/classInfoPanelBgColor"
             android:divider="@color/listviewDividerColor"
             android:dividerHeight="2px"

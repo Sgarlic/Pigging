@@ -36,6 +36,8 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <!--打开拨号盘 -->
+    <uses-permission android:name="android.permission.ACTION_DIAL" />
 
     <application
         android:allowBackup="true"
@@ -263,6 +265,24 @@
         </activity>
         <activity
             android:name="com.boding.app.AboutBodingActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.boding.app.SettingsActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.boding.app.MessagePushSettingActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.boding.app.MyFollowedFlightDynamicsActivity"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.NoTitleBar"
             android:screenOrientation="portrait" >

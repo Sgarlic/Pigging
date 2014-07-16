@@ -97,6 +97,14 @@ public class MyBodingActivity extends Activity {
 				}
 			}
 		});
+		settingLinearLayout.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				Intent intent = new Intent();
+				intent.setClass(MyBodingActivity.this, SettingsActivity.class);
+				startActivityForResult(intent, IntentRequestCode.SETTINGS.getRequestCode());
+			}
+		});
 	}
 	
 	private void openMyAccount(){

@@ -45,6 +45,7 @@ public class GlobalVariables {
 	public static String allCountriesFile = "allCountries";
 	
 	public static BodingUser bodingUser = null;
+	public static String contact_boding_phonenum = "021-54738327";
 //	public static boolean isFlyToCitySelection = false;
 //	public static boolean isInternationCitySelection = false;
 }

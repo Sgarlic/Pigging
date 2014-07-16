@@ -21,6 +21,8 @@ public class SharedPreferenceUtil {
 	public static final String LOGIN_PASSWORD = "loginPassword";
 	public static final String HISTORYCITY_DOMESTIC= "historyCityDomestic";
 	public static final String HISTORYCITY_INTERNATIONAL = "historyCityInternational";
+	public static final String NEED_NOTIFICATION_TONE = "needNotificationTone";
+	public static final String NEED_NOTIFICATION_VIBRATE = "needNotificationVibrate";
 	
 	public static SharedPreferences getSharedPreferences(Context context){
 		return context.getSharedPreferences("share", context.MODE_PRIVATE);  

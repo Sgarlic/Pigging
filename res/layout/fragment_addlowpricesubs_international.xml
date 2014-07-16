@@ -1,0 +1,289 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:layout_marginLeft="15dp"
+    android:layout_marginRight="15dp"
+    android:paddingTop="20dp"   >
+	<LinearLayout
+	    android:id="@+id/addlowpricesubs_chooseTripType_linearLayout"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_marginBottom="25dp"
+	    android:orientation="horizontal" >
+		<TextView
+		    android:layout_width="140dp"
+		    android:layout_height="wrap_content"
+		    android:layout_gravity="center_vertical"
+		    android:gravity="top"
+		    android:maxLines="1"
+		    android:text="行程类型"
+		    android:textColor="@color/priceGray"
+		    android:textSize="17sp"
+		    android:typeface="serif" />
+		<TextView
+	        android:id="@+id/addlowpricesubs_choosedTripType_textView"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center_vertical"
+	        android:gravity="top"
+	        android:text="往返"
+	        android:textColor="@color/black"
+	        android:textSize="17sp"
+	        android:typeface="serif" />
+		<LinearLayout
+	        android:layout_width="wrap_content"
+	        android:layout_height="match_parent"
+	        android:layout_gravity="top"
+	        android:layout_weight="1"
+	        android:orientation="vertical" >
+
+	        <LinearLayout
+	            android:layout_width="wrap_content"
+	            android:layout_height="match_parent"
+	            android:layout_gravity="right"
+	            android:layout_weight="1"
+	            android:orientation="horizontal" >
+
+				<ImageView
+				    android:layout_width="wrap_content"
+				    android:layout_height="wrap_content"
+				    android:layout_gravity="center_vertical"
+				    android:layout_marginLeft="5dp"
+				    android:src="@drawable/arrow_right_orange_small" />
+			</LinearLayout>
+	    </LinearLayout>
+    </LinearLayout>
+	<LinearLayout
+	    android:id="@+id/addlowpricesubs_chooseFromCity_linearLayout"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_marginBottom="25dp"
+	    android:orientation="horizontal" >
+		<TextView
+		    android:layout_width="140dp"
+		    android:layout_height="wrap_content"
+		    android:layout_gravity="center_vertical"
+		    android:gravity="top"
+		    android:maxLines="1"
+		    android:text="出发城市"
+		    android:textColor="@color/priceGray"
+		    android:textSize="17sp"
+		    android:typeface="serif" />
+		<TextView
+	        android:id="@+id/addlowpricesubs_choosedFromCity_textView"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center_vertical"
+	        android:gravity="top"
+	        android:text="上海"
+	        android:textColor="@color/black"
+	        android:textSize="17sp"
+	        android:typeface="serif" />
+		<LinearLayout
+	        android:layout_width="wrap_content"
+	        android:layout_height="match_parent"
+	        android:layout_gravity="top"
+	        android:layout_weight="1"
+	        android:orientation="vertical" >
+
+	        <LinearLayout
+	            android:layout_width="wrap_content"
+	            android:layout_height="match_parent"
+	            android:layout_gravity="right"
+	            android:layout_weight="1"
+	            android:orientation="horizontal" >
+
+				<ImageView
+				    android:layout_width="wrap_content"
+				    android:layout_height="wrap_content"
+				    android:layout_gravity="center_vertical"
+				    android:layout_marginLeft="5dp"
+				    android:src="@drawable/arrow_right_orange_small" />
+			</LinearLayout>
+	    </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/addlowpricesubs_chooseArrCity_linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="25dp"
+        android:orientation="horizontal" >
+
+	    <TextView
+	        android:layout_width="140dp"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center_vertical"
+	        android:gravity="top"
+	        android:text="到大城市"
+	        android:textColor="@color/priceGray"
+	        android:textSize="17sp"
+	        android:typeface="serif" />
+	    <TextView
+	        android:id="@+id/addlowpricesubs_choosedArrCity_textView"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center_vertical"
+	        android:gravity="top"
+	        android:text="北京"
+	        android:textColor="@color/black"
+	        android:textSize="17sp"
+	        android:typeface="serif" />
+	    <LinearLayout
+	        android:layout_width="wrap_content"
+	        android:layout_height="match_parent"
+	        android:layout_gravity="top"
+	        android:layout_weight="1"
+	        android:orientation="vertical" >
+
+	        <LinearLayout
+	            android:layout_width="wrap_content"
+	            android:layout_height="match_parent"
+	            android:layout_gravity="right"
+	            android:layout_weight="1"
+	            android:orientation="horizontal" >
+
+				<ImageView
+				    android:layout_width="wrap_content"
+				    android:layout_height="wrap_content"
+				    android:layout_gravity="center_vertical"
+				    android:layout_marginLeft="5dp"
+				    android:src="@drawable/arrow_right_orange_small" />
+			</LinearLayout>
+	    </LinearLayout>
+	</LinearLayout>
+	<LinearLayout
+	    android:id="@+id/addlowpricesubs_chooseFromDate_linearLayout"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_marginBottom="25dp"
+	    android:orientation="horizontal" >
+
+	    <TextView
+	        android:layout_width="140dp"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center_vertical"
+	        android:gravity="top"
+	        android:text="出发日期"
+	        android:textColor="@color/priceGray"
+	        android:textSize="17sp"
+	        android:typeface="serif" />
+
+		<TextView
+	        android:id="@+id/addlowpricesubs_choosedFromDate_textView"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center_vertical"
+	        android:gravity="top"
+	        android:text="2014-12-10"
+	        android:textColor="@color/black"
+	        android:textSize="17sp"
+	        android:typeface="serif" />
+	</LinearLayout>
+
+	<LinearLayout
+	    android:id="@+id/addlowpricesubs_chooseEarlyDelay_linearLayout"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_marginBottom="25dp"
+	    android:orientation="horizontal" >
+
+	    <TextView
+	        android:layout_width="140dp"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center_vertical"
+	        android:gravity="top"
+	        android:text="可提前或延后一天"
+	        android:textColor="@color/priceGray"
+	        android:textSize="17sp"
+	        android:typeface="serif" />
+
+		<TextView
+	        android:id="@+id/addlowpricesubs_chooseEarlyDelay_textView"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center_vertical"
+	        android:gravity="top"
+	        android:text="是"
+	        android:textColor="@color/black"
+	        android:textSize="17sp"
+	        android:typeface="serif" />
+	</LinearLayout>
+	<LinearLayout
+	    android:id="@+id/addlowpricesubs_planStayTime_linearLayout"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_marginBottom="25dp"
+	    android:orientation="horizontal" >
+
+	    <TextView
+	        android:layout_width="140dp"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center_vertical"
+	        android:gravity="top"
+	        android:text="折扣(不含税)"
+	        android:textColor="@color/priceGray"
+	        android:textSize="17sp"
+	        android:typeface="serif" />
+
+		<TextView
+	        android:id="@+id/addlowpricesubs_choosedDiscount_textView"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center_vertical"
+	        android:gravity="top"
+	        android:text="5折及以下"
+	        android:textColor="@color/black"
+	        android:textSize="17sp"
+	        android:typeface="serif" />
+	</LinearLayout>
+
+	<LinearLayout
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_marginBottom="25dp"
+	    android:orientation="horizontal" >
+
+	    <TextView
+	        android:layout_width="140dp"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center_vertical"
+	        android:gravity="top"
+	        android:text="手机号码"
+	        android:textColor="@color/priceGray"
+	        android:textSize="17sp"
+	        android:typeface="serif" />
+
+			<EditText
+			    android:id="@+id/addlowpricesubs_input_mobile_editText"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:background="@color/white"
+			    android:ems="8"
+			    android:hint="用于接收低价通知"
+			    android:maxLines="1"
+			    android:textColor="@color/black"
+			    android:textColorHint="@color/listviewDividerColor"
+			    android:textSize="17sp"
+			    android:typeface="serif" >
+			    <requestFocus />
+			</EditText>
+	</LinearLayout>
+	<LinearLayout
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="horizontal"
+	    android:paddingTop="5dp">
+		<TextView
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_gravity="center_horizontal"
+		    android:text="注：机票价格变动频繁，收到通知要立即出手哦！"
+		    android:textColor="@color/textOrange"
+		    android:textSize="12sp"
+		    android:typeface="serif" />
+	</LinearLayout>
+</LinearLayout>
+

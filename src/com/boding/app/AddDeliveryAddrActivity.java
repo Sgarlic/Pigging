@@ -77,8 +77,8 @@ public class AddDeliveryAddrActivity extends Activity {
 //		Bundle arguments = getIntent().getExtras();
 //        if(arguments != null)
 //        	isReturnDateSelection = arguments.getBoolean(Constants.IS_RETURN_DATE_SELECTION);
-		warningDialog = new WarningDialog(AddDeliveryAddrActivity.this);
-		progressBarDialog = new ProgressBarDialog(AddDeliveryAddrActivity.this);
+		warningDialog = new WarningDialog(this);
+		progressBarDialog = new ProgressBarDialog(this);
 		initProvinceList();
 		initView();
 	}
