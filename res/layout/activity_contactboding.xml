@@ -170,14 +170,15 @@
 		    android:layout_width="match_parent"
 		    android:layout_height="wrap_content"
 		    android:orientation="vertical" >
+
 			<TextView
 			    android:layout_width="wrap_content"
 			    android:layout_height="wrap_content"
-			    android:layout_gravity="center_horizontal"
 			    android:text="如有任何疑问，请拨打波丁客服电话"
 			    android:textColor="@color/textOrange"
-			    android:textSize="14sp"
+			    android:textSize="13sp"
 			    android:typeface="serif" />
+
 		</LinearLayout>
     </LinearLayout>
 </LinearLayout>

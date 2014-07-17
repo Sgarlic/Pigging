@@ -186,8 +186,10 @@ public class SearchCityDialog extends Dialog{
 		searchText = searchText.toLowerCase();
 		List<City> searchResult = new ArrayList<City>();
 		for(City city : GlobalVariables.allCitiesList){
-			if(city.getCityName().contains(searchText) || city.getPinyin().contains(searchText) 
-					|| city.getCityCode().contains(searchText)){
+			if(city.getCityName().toLowerCase().contains(searchText) 
+					|| city.getPinyin().toLowerCase().contains(searchText) 
+					|| city.getCityCode().toLowerCase().contains(searchText)
+					|| city.getInitial().toLowerCase().contains(searchText)){
 				searchResult.add(city);
 				continue;
 			}

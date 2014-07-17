@@ -42,8 +42,12 @@ public class BodingUser {
 			return name;
 		if(!nickname.equals(""))
 			return nickname;
-		if(!mobile.equals(""))
-			return mobile;
+		if(!mobile.equals("")){
+			String mFirst = mobile.substring(0,3);
+			String mLast = mobile.substring(mobile.length()-4, mobile.length());
+			String anonymousMobile = mFirst + "****" + mLast;
+			return anonymousMobile;
+		}
 		return cardno;
 	}
 	

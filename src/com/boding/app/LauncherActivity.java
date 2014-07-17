@@ -121,10 +121,21 @@ public class LauncherActivity extends Activity {
 
 		@Override
 		public void onReceiveLocation(BDLocation location) {
-			mLocationClient.stop();
 			String city = location.getCity();
+			if(city == null){
+				System.out.println("%%%%%%%%%%%%%%%%%%%%" + city);
+				return;
+			}
+			mLocationClient.stop();
+			while(GlobalVariables.allCitiesList.size() == 0){
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 			GlobalVariables.CurrentCity = CityUtil.getCityByName(city.substring(0,city.length()-1));
-			System.out.println("%%%%%%%%%%%%%%%%%%%%" + GlobalVariables.CurrentCity );
 		}
 
 

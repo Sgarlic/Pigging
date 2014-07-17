@@ -2,22 +2,15 @@ package com.boding.app;
 
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import com.boding.R;
-import com.boding.constants.AirlineType;
-import com.boding.constants.Constants;
 import com.boding.constants.HTTPAction;
-import com.boding.constants.IdentityType;
 import com.boding.constants.IntentExtraAttribute;
 import com.boding.constants.IntentRequestCode;
 import com.boding.constants.OrderStatus;
-import com.boding.model.DeliveryAddress;
 import com.boding.model.Order;
-import com.boding.model.Passenger;
 import com.boding.task.OrderTask;
-import com.boding.util.DateUtil;
 import com.boding.util.Util;
 import com.boding.view.dialog.ProgressBarDialog;
 import com.boding.view.listview.DragListView;
@@ -26,7 +19,6 @@ import com.boding.view.listview.DragListView.OnRefreshLoadingMoreListener;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,12 +26,10 @@ import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.BaseAdapter;
-import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.ProgressBar;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 public class OrderListActivity extends Activity{
@@ -47,12 +37,29 @@ public class OrderListActivity extends Activity{
 	private TextView orderFilterTypeTextView;
 	private DragListView ordersListView;
 	
-	private OrderListAdapter orderListAdapter;
+	private OrderListAdapter allOrderListAdapter;
+	private OrderListAdapter unpaymentOrdersListAdapter;
+	private OrderListAdapter unTravelledOrdersAdapter;
 	
 	private ProgressBarDialog progressBarDialog;
 	private int currentPage = 0;
 	private List<Order> allOrdersList = new ArrayList<Order>();
+	private List<Order> unpaymentOrdersList;
+	private List<Order> unTravelledOrdersList;
 	
+	
+	private PopupWindow monthSelector;
+	
+	
+	private TextView allOrdersTextView;
+	private TextView unPaymentOrdersTextView;
+	private TextView unTravelledOrdersTextView;
+	
+	/**
+	 * 0 == all orders
+	 * 1 == unpayment orders
+	 * 2 == untravelled orders
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -67,6 +74,66 @@ public class OrderListActivity extends Activity{
 		setViewContent();
 	}
 	
+	private void setOrdersView(int selectedFilter){
+		allOrdersTextView.setSelected(false);
+		unPaymentOrdersTextView.setSelected(false);
+		unTravelledOrdersTextView.setSelected(false);
+		switch (selectedFilter) {
+			case 1:
+				unPaymentOrdersTextView.setSelected(true);
+				ordersListView.setAdapter(unpaymentOrdersListAdapter);
+				break;
+			case 2:
+				unTravelledOrdersTextView.setSelected(true);
+				ordersListView.setAdapter(unTravelledOrdersAdapter);
+				break;
+			default:
+				allOrdersTextView.setSelected(true);
+				ordersListView.setAdapter(allOrderListAdapter);
+				break;
+		}
+		popupWindowDismiss();
+	}
+	
+	private void initPopupWindow(){
+		View popupWindow =  LayoutInflater.from(this).inflate(R.layout.popup_order_filter, null);
+		allOrdersTextView = (TextView) popupWindow.findViewById(R.id.orderfilter_allOrders_textView);
+		allOrdersTextView.setSelected(true);
+		unPaymentOrdersTextView = (TextView) popupWindow.findViewById(R.id.orderfilter_unPaymentOrders_textView);
+		unTravelledOrdersTextView = (TextView) popupWindow.findViewById(R.id.orderfilter_unTravelledOrders_textView);
+		allOrdersTextView.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				setOrdersView(0);
+			}
+		});
+		
+		unPaymentOrdersTextView.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				setOrdersView(1);
+			}
+		});
+		
+		unTravelledOrdersTextView.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				setOrdersView(2);
+			}
+		});
+		monthSelector = new PopupWindow(popupWindow,LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT,true);
+	}
+	
+	private void popupWindowShowing(){
+		int width = orderFilterTypeTextView.getWidth();
+		monthSelector.showAsDropDown(orderFilterTypeTextView, 0 - width/3, -6);
+	}
+	
+	private void popupWindowDismiss(){
+		monthSelector.dismiss();
+	}
+	
+	
 	private void setViewContent(){
 		currentPage++;
 		if(currentPage == 1){
@@ -75,9 +142,32 @@ public class OrderListActivity extends Activity{
 		(new OrderTask(this, HTTPAction.GET_ORDER_LIST)).execute("10",currentPage+"");
 	}
 	
+	private void addOtherOrdersFromOrderList(List<Order> orderList){
+		if(unpaymentOrdersList == null || unTravelledOrdersList == null){
+			unpaymentOrdersList = new ArrayList<Order>();
+			unTravelledOrdersList = new ArrayList<Order>();
+			
+			unpaymentOrdersListAdapter = new OrderListAdapter(this, unpaymentOrdersList);
+			unTravelledOrdersAdapter = new OrderListAdapter(this, unTravelledOrdersList);
+		}
+		for(Order order : orderList){
+			OrderStatus orderStatus = order.getOrderStatus();
+			if(orderStatus == OrderStatus.PENDING_AUDIT || orderStatus == OrderStatus.PENDING_COLLECTMONEY
+			|| orderStatus == OrderStatus.PENDING_DELIVERY|| orderStatus == OrderStatus.PENDING_PAYMENT){
+				unpaymentOrdersList.add(order);
+			}
+			if(orderStatus == OrderStatus.PENDING_GETTICKET || orderStatus == OrderStatus.CENCELED){
+				unTravelledOrdersList.add(order);
+			}
+		}
+		unpaymentOrdersListAdapter.notifyDataSetChanged();
+		unTravelledOrdersAdapter.notifyDataSetChanged();
+	}
+	
 	public void setOrderList(List<Order> orderList){
 		allOrdersList.addAll(orderList);
-		orderListAdapter.notifyDataSetChanged();
+		allOrderListAdapter.notifyDataSetChanged();
+		addOtherOrdersFromOrderList(orderList);
 		boolean hasMoreInfo = true;
 		if(orderList.size() == 0)
 			hasMoreInfo = false;
@@ -98,10 +188,11 @@ public class OrderListActivity extends Activity{
 		orderFilterLinearLayout = (LinearLayout) findViewById(R.id.allorders_orderfilter_linearLayout);
 		orderFilterTypeTextView = (TextView) findViewById(R.id.allorders_orderFilterType_textView);
 		ordersListView = (DragListView) findViewById(R.id.allorders_listView);
-		orderListAdapter = new OrderListAdapter(this, allOrdersList);
-		ordersListView.setAdapter(orderListAdapter);
+		allOrderListAdapter = new OrderListAdapter(this, allOrdersList);
+		ordersListView.setAdapter(allOrderListAdapter);
 		
 		addListeners();
+		initPopupWindow();
 	}
 	
 	private void addListeners(){
@@ -115,7 +206,7 @@ public class OrderListActivity extends Activity{
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int position,
 					long arg3) {
-				Order selectedOrder = orderListAdapter.getItem(position);
+				Order selectedOrder = allOrderListAdapter.getItem(position);
 				Intent intent = new Intent();
 				Bundle bundle = new Bundle();
 				bundle.putString(IntentExtraAttribute.CHOOSED_ORDER_ID, 
@@ -123,6 +214,14 @@ public class OrderListActivity extends Activity{
 				intent.putExtras(bundle);
 				intent.setClass(OrderListActivity.this, OrderDetailActivity.class);
 				startActivityForResult(intent, IntentRequestCode.ORDER_DETAIL.getRequestCode());
+			}
+		});
+		
+		orderFilterLinearLayout.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				System.out.println("clicked");
+				popupWindowShowing();
 			}
 		});
 	}
@@ -148,11 +247,6 @@ public class OrderListActivity extends Activity{
 		@Override
 		public long getItemId(int position) {
 			return position;
-		}
-		
-		public void addNewOrder(Order addr){
-			orderList.add(addr);
-			notifyDataSetChanged();
 		}
 
 		@Override

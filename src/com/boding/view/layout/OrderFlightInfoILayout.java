@@ -3,6 +3,9 @@ package com.boding.view.layout;
 import com.boding.R;
 import com.boding.constants.Constants;
 import com.boding.constants.GlobalVariables;
+import com.boding.model.FlightLine;
+import com.boding.util.DateUtil;
+import com.boding.util.Util;
 import com.boding.view.dialog.SeatChangeBackDialog;
 
 import android.content.Context;
@@ -57,11 +60,16 @@ public class OrderFlightInfoILayout extends LinearLayout{
 	private TextView ticketPricePriceTextView;
 	private TextView ticketTaxPriceTextView;
 	
+	private FlightLine flightLine;
+	private boolean isReturn = false;
+	
 	// if init complete
 	private boolean flag = false;
-	public OrderFlightInfoILayout(Context context) {
+	public OrderFlightInfoILayout(Context context, FlightLine flightLine, boolean isReturn) {
 		super(context);
 		this.context = context;
+		this.flightLine = flightLine;
+		this.isReturn = isReturn;
 	}
 	
 	public OrderFlightInfoILayout(Context context, AttributeSet attrs) {
@@ -74,8 +82,36 @@ public class OrderFlightInfoILayout extends LinearLayout{
 		super.onWindowFocusChanged(hasFocus);
 		while(!flag){
 			initView();
+			setViewContent();
 			flag = true;
 		}
+	}
+	
+	
+	private void setViewContent(){
+		if(isReturn){
+			fromTextView.setText(GlobalVariables.To_City);
+			toTextView.setText(GlobalVariables.From_City);
+		}else{
+			fromTextView.setText(GlobalVariables.From_City);
+			toTextView.setText(GlobalVariables.To_City);
+		}
+		
+		dateTextView.setText(flightLine.getLeaveTime());
+		fromCompanyLogoImageView.setImageBitmap(Util.getFlightCompanyLogo(context, flightLine.getLeaveCarrier()));
+		fromCompanyTextView.setText(flightLine.getLeaveAirCompany());
+		fromPlaneCodeTextView.setText(flightLine.getLeaveCarrier() + flightLine.getLeaveFlightNum());
+		fromPlanSizeTextView.setText(flightLine.getLeavePlane());
+		fromFlightClassTextView.setText(flightLine.getLeaveFlightClassName());
+		fromPlaneTypeTextView.setText(flightLine.getLeavePlane());
+		fromDateDayTextView.setText(flightLine.getLeaveDate());
+		fromDateTimeTextView.setText(DateUtil.getFormatedTime(flightLine.getLeaveTime()));
+		fromTerminalTextView.setText(flightLine.getLeaveTerminal());
+		arrivalDateDayTextView.setText(flightLine.getLeaveToDate());
+		arrivalDateTimeTextView.setText(DateUtil.getFormatedTime(flightLine.getLeaveToTime()));
+		arrivalTerminalTextView.setText(flightLine.getLeaveToTerminal());
+		fromEstimateTimeTextView.setText(flightLine.getLeaveEstimateTime());
+		
 	}
 	
 	private void initView(){

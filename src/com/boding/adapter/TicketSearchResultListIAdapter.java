@@ -116,8 +116,8 @@ public class TicketSearchResultListIAdapter extends TicketSearchResultAdapter {
 		holder.flyingTimeTextView.setText(flyingtime);	
 		//holder.flightClassTextView.setText(currentFlightLine.getCurrentClass());
 		holder.ticketLeftTextView.setText(currentFlightLine.getSeat()); //To edit by class type passed by invoker.
-		holder.airlineCompanyTextView.setText(currentFlightLine.getAirCompany());
-		holder.airlineCodeTextView.setText(currentFlightLine.getCarrier()+currentFlightLine.getNum());
+		holder.airlineCompanyTextView.setText(currentFlightLine.getLeaveAirCompany());
+		holder.airlineCodeTextView.setText(currentFlightLine.getLeaveCarrier()+currentFlightLine.getLeaveFlightNum());
 		//此处设置舱位信息，要根据传入的参数决定。
 		holder.startAirportTextView.setText(currentFlightLine.getLeaveAirport());
 		holder.endAirportTextView.setText(currentFlightLine.getArriveAirport());
@@ -281,8 +281,8 @@ public class TicketSearchResultListIAdapter extends TicketSearchResultAdapter {
 		        	break;
 		        if(compConstraint.size() > 0)
 		        	for(String company : compConstraint){
-		        		System.out.println(flightline.getAirCompany());
-		        		if (flightline.getAirCompany().equals(company)) {
+		        		System.out.println(flightline.getLeaveAirCompany());
+		        		if (flightline.getLeaveAirCompany().equals(company)) {
 				          //lines.add(flightline);
 				          tag = true;
 				          break;

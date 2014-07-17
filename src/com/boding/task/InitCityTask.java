@@ -95,7 +95,6 @@ public class InitCityTask extends AsyncTask<Object,Void,Object>{
 				city.setCityName(jo.getString("cityName"));
 				city.setCityCode(jo.getString("citycode"));
 				city.setBelongsToCountry(jo.getString("area"));
-				city.setPinyin(Util.getPinYin(city.getCityName()));
 				if("True".equals(jo.getString("IsDomestic"))){
 					city.setInternationalCity(false);
 					GlobalVariables.domesticCitiesList.add(city);

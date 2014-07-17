@@ -9,6 +9,7 @@ public class FlightClass {
 	private Rule rule;
 	private Tax tax;
 	private Bind bind;
+	private String flightClassName = "";
 	
 	public String getClassType() {
 		return classType;
@@ -25,8 +26,16 @@ public class FlightClass {
 	public String getCode() {
 		return code;
 	}
+	
+	//国际舱位分别为：F 头等舱 、C 公务舱、Y或其它舱位代码为经济舱
 	public void setCode(String code) {
 		this.code = code;
+		if(code.equals("F"))
+			this.flightClassName = "头等舱";
+		else if(code.equals("C"))
+			this.flightClassName = "公务舱";
+		else
+			this.flightClassName = "经济舱";
 	}
 	public String getSeat() {
 		return seat;
@@ -58,6 +67,7 @@ public class FlightClass {
 	public void setBind(Bind bind) {
 		this.bind = bind;
 	}
-	
-	
+	public String getFlightClassName() {
+		return flightClassName;
+	}
 }

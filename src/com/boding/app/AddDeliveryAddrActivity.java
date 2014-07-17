@@ -302,7 +302,7 @@ public class AddDeliveryAddrActivity extends Activity {
 		chooseDistrictLinearLayout.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				if(deliveryAddr.getCity() == null){
+				if(deliveryAddr.getCity().equals("")){
 					warningDialog.setContent("请先选择城市");
 					warningDialog.show();
 					return;

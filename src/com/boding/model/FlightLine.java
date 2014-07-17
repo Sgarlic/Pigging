@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-import com.boding.model.domestic.Cabin;
 import com.boding.util.CityUtil;
+import com.boding.util.DateUtil;
 
 public class FlightLine implements FlightInterface{
 	private String flightType;
@@ -15,6 +15,8 @@ public class FlightLine implements FlightInterface{
 	private int selectedClassPos;
 	private int defaultShowedCabinPos = 0;
 	private List<FlightClass> selectedCabins = new ArrayList<FlightClass>();
+	
+	int segmentSize = 0;
 	
 	public String getCurrentClass(){
 		return this.selectedCabins.get(defaultShowedCabinPos).getClassType();
@@ -26,6 +28,7 @@ public class FlightLine implements FlightInterface{
 
 	public void setDeparture(Departure departure) {
 		this.departure = departure;
+		segmentSize = getDepature().getSegments().size();
 	}
 
 	public int getDefaultShowedCabinPos() {
@@ -49,7 +52,6 @@ public class FlightLine implements FlightInterface{
 	}
 	
 	public String getFlyToCity(){
-		int segmentSize = getDepature().getSegments().size();
 		return CityUtil.getCityNameByCode(departure.getSegments().get(segmentSize-1).getLeacode());
 	}
 	
@@ -76,8 +78,21 @@ public class FlightLine implements FlightInterface{
 		return departure.getSegments().get(0).getLeatime();
 	}
 	
+	public String getLeaveToTime(){
+		return departure.getSegments().get(0).getArrtime();
+	}
+
+	public String getLeaveEstimateTime(){
+		return DateUtil.getTimeIntDiff(
+			DateUtil.getDateFromString(getLeaveDate(), getLeaveTime()).getTime(), 
+			DateUtil.getDateFromString(getLeaveToDate(), getLeaveToTime()).getTime());
+	}
+	
+	public String getArriveFromTime(){
+		return departure.getSegments().get(segmentSize-1).getLeatime();
+	}
+	
 	public String getArriveTime(){
-		int segmentSize = getDepature().getSegments().size();
 		return departure.getSegments().get(segmentSize-1).getArrtime();
 	}
 	
@@ -93,8 +108,15 @@ public class FlightLine implements FlightInterface{
 		return departure.getSegments().get(0).getLeadate();
 	}
 	
+	public String getLeaveToDate(){
+		return departure.getSegments().get(0).getArrdate();
+	}
+	
+	public String getArriveFromDate(){
+		return departure.getSegments().get(segmentSize-1).getLeadate();
+	}
+	
 	public String getArriveDate(){
-		int segmentSize = getDepature().getSegments().size();
 		return departure.getSegments().get(segmentSize-1).getArrdate();
 	}
 	
@@ -102,25 +124,56 @@ public class FlightLine implements FlightInterface{
 		return departure.getSegments().get(0).getFclasslist().get(0).getSeat();
 	}
 	
-	public String getAirCompany(){
+	public String getLeaveAirCompany(){
 		return departure.getSegments().get(0).getCarname();
 	}
 	
-	public String getCarrier(){
+	public String getLeavePlane(){
+		return departure.getSegments().get(0).getPlane();
+	}
+	
+	public String getLeaveCarrier(){
 		return departure.getSegments().get(0).getCarrier();
 	}
 	
-	public String getNum(){
+	public String getLeaveFlightNum(){
 		return departure.getSegments().get(0).getNum();
+	}
+	
+	public String getLeaveFlightClassName(){
+		return selectedCabins.get(selectedClassPos).getFlightClassName();
 	}
 	
 	public String getLeaveAirport(){
 		return departure.getSegments().get(0).getLeaname();
 	}
 	
+	public String getLeaveTerminal(){
+		return departure.getSegments().get(0).getLeaTerminal();
+	}
+	
+	public String getLeaveToAirport(){
+		return departure.getSegments().get(0).getArrname();
+	}
+	
+	public String getLeaveToTerminal(){
+		return departure.getSegments().get(0).getArrTerminal();
+	}
+	
+	public String getArriveFromAirport(){
+		return departure.getSegments().get(segmentSize-1).getLeaname();
+	}
+	
+	public String getArriveFromTerminal(){
+		return departure.getSegments().get(segmentSize-1).getLeaTerminal();
+	}
+	
 	public String getArriveAirport(){
-		int segmentSize = getDepature().getSegments().size();
 		return departure.getSegments().get(segmentSize-1).getArrname();
+	}
+	
+	public String getArriveTerminal(){
+		return departure.getSegments().get(segmentSize-1).getArrTerminal();
 	}
 	
 	public int getSegmentSize(){

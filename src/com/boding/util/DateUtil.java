@@ -81,6 +81,27 @@ public class DateUtil {
 		return newDate.getTime();
 	}
 	
+	public static Date getDateFromString(String date, String time){
+		   String dateTime = date + "-" + time;
+			SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd-HHmm");
+			Date newDate = null;
+			try {
+				newDate = sdf.parse(dateTime);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+//			newDate.setYear(Integer.valueOf(temp[0]));
+			return newDate;
+		}
+	   
+   public static String getTimeIntDiff(long earlier, long later){
+	   long minus = later - earlier;
+	   String estimateTime = "";
+	   estimateTime += minus/1000/60/60 + "Ð¡Ê±";
+	   estimateTime += (minus/1000/60%60) + "·Ö";
+	   return estimateTime;
+   }
+	
 	public static Date getDateFromString(String date){
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
 		Date newDate = null;

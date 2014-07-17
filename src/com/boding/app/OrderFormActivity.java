@@ -13,6 +13,7 @@ import com.boding.constants.IntentExtraAttribute;
 import com.boding.constants.IntentRequestCode;
 import com.boding.model.DeliveryAddress;
 import com.boding.model.FlightInterface;
+import com.boding.model.FlightLine;
 import com.boding.model.Passenger;
 import com.boding.model.domestic.Cabin;
 import com.boding.model.domestic.Flight;
@@ -180,11 +181,13 @@ public class OrderFormActivity extends Activity {
 				flightInfoLinearLayout.addView(orderFlightInfoRLinearLayout);
 			}
 		}else{
-			OrderFlightInfoILayout orderFlightInfoILinearLayout = new OrderFlightInfoILayout(this);
+			OrderFlightInfoILayout orderFlightInfoILinearLayout = new OrderFlightInfoILayout(this,
+					(FlightLine)selectedFlight, false);
 			flightInfoLinearLayout.addView(orderFlightInfoILinearLayout);
 			if(isRoundWay){
-				orderFlightInfoILinearLayout = new OrderFlightInfoILayout(this);
-				flightInfoLinearLayout.addView(orderFlightInfoILinearLayout);
+				OrderFlightInfoILayout orderFlightInfoIRLinearLayout = new OrderFlightInfoILayout(this,
+					(FlightLine)selectedFlight, true);
+				flightInfoLinearLayout.addView(orderFlightInfoIRLinearLayout);
 			}
 		}
 		

@@ -52,6 +52,7 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+@SuppressLint("NewApi")
 public class MainActivity extends FragmentActivity {
 	private boolean isSingleWay = true;
 	
@@ -133,7 +134,6 @@ public class MainActivity extends FragmentActivity {
 	@Override
 	protected void onResume(){
 		super.onResume();
-		System.out.println("resume");
 		setFlyFromReturnDate();
 	}
 	

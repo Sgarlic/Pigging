@@ -51,4 +51,9 @@
     <color name="voicesearchBgGray">#575757</color>
     <color name="flightSearchText">#b3b3b3</color>
     <color name="rightpageItemBg">#60000203</color>
+    <color name="aboutbodingText">#5e5e5e</color>
+    <color name="versionTextGray">#8d8d8d</color>
+    <color name="boardTextGray">#919191</color>
+    <color name="boardDividerBlue">#629ac5</color>
+    <color name="boardPanelBg">#f7f7f7</color>
 </resources>

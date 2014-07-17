@@ -39,6 +39,7 @@
 		  	        android:textColor="@color/priceGray"
 		  	        android:textStyle="bold"
 		  	        android:typeface="serif" />
+
 		  	    <TextView
 		  	        android:layout_width="wrap_content"
 		  	        android:layout_height="wrap_content"
@@ -46,23 +47,29 @@
 		  	        android:text="返"
 		  	        android:textColor="@color/white"
 		  	        android:textStyle="bold"
-		  	        android:typeface="serif" />
+		  	        android:typeface="serif"
+		  	        android:visibility="gone" />
+
 		  	    <TextView
 		  	        android:layout_width="wrap_content"
 		  	        android:layout_height="wrap_content"
 		  	        android:text="￥"
 		  	        android:textColor="@color/textOrange"
 		  	        android:textStyle="bold"
-		  	        android:typeface="serif" />
+		  	        android:typeface="serif"
+		  	        android:visibility="gone" />
+
 				<TextView
-		  	        android:id="@+id/child_class_return_money_textView"
-		  	        android:layout_width="wrap_content"
-		  	        android:layout_height="wrap_content"
-		  	        android:layout_marginRight="5dp"
-		  	        android:text="25"
-		  	        android:textColor="@color/textOrange"
-		  	        android:textStyle="bold"
-		  	        android:typeface="serif" />
+				    android:id="@+id/child_class_return_money_textView"
+				    android:layout_width="wrap_content"
+				    android:layout_height="wrap_content"
+				    android:layout_marginRight="5dp"
+				    android:text="25"
+				    android:textColor="@color/textOrange"
+				    android:textStyle="bold"
+				    android:typeface="serif"
+				    android:visibility="gone" />
+
 		  	</LinearLayout>
 		  	<LinearLayout
 		  	    android:layout_width="wrap_content"

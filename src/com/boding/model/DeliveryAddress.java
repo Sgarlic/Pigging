@@ -1,8 +1,6 @@
 package com.boding.model;
 
-import com.boding.constants.Gender;
 import com.boding.constants.GlobalVariables;
-import com.boding.constants.IdentityType;
 
 import android.os.Parcel;
 import android.os.Parcelable;

@@ -14,15 +14,24 @@ public class City implements Serializable{
 	private String cityCode;
 	private boolean isInternationalCity;
 	private String belongsToCountry;
-	private String pinyin;
+	private String pinyin = "";
+	private String initial="";
 	
+	public String getInitial() {
+		return initial;
+	}
+
+	public void setInitial(String initial) {
+		this.initial = initial;
+	}
+
 	public City(){}
 	
 	public City(String cityName,String cityCode,boolean isInternationcalCity, String belongsToCountry){
-		this.cityName = cityName;
-		this.cityCode = cityCode;
-		this.isInternationalCity = isInternationcalCity;
-		this.belongsToCountry = belongsToCountry;
+		setCityName(cityName);
+		setCityCode(cityCode);
+		setInternationalCity(isInternationcalCity);
+		setBelongsToCountry(belongsToCountry);
 	}
 	
 	public String getCityName() {
@@ -30,6 +39,14 @@ public class City implements Serializable{
 	}
 	public void setCityName(String cityName) {
 		this.cityName = cityName;
+		this.initial = "";
+		this.pinyin = "";
+		for(char hanziChar : cityName.toCharArray()){
+			String charPinyin = Util.getPinYin(String.valueOf(hanziChar));
+			String alpha = Util.getAlpha(charPinyin);
+			this.pinyin += charPinyin;
+			this.initial += alpha;
+		}
 	}
 	public String getCityCode() {
 		return cityCode;
@@ -52,9 +69,6 @@ public class City implements Serializable{
 	public boolean equals(City anotherCity){
 		if(anotherCity == null)
 			return false;
-//		if(this.cityCode .equals(anotherCity.getCityCode()))
-//			return true;
-//		return false;
 		if(this.cityName.equals(anotherCity.getCityName()))
 			return true;
 		return false;
@@ -63,10 +77,6 @@ public class City implements Serializable{
 	
 	public String getPinyin() {
 		return pinyin;
-	}
-
-	public void setPinyin(String pinyin) {
-		this.pinyin = pinyin;
 	}
 
 	public static class CityNameComp implements Comparator<City>{

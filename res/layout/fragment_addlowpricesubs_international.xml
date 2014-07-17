@@ -281,7 +281,7 @@
 		    android:layout_height="wrap_content"
 		    android:layout_gravity="center_horizontal"
 		    android:text="注：机票价格变动频繁，收到通知要立即出手哦！"
-		    android:textColor="@color/textOrange"
+		    android:textColor="@color/panelOrange"
 		    android:textSize="12sp"
 		    android:typeface="serif" />
 	</LinearLayout>
