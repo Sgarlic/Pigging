@@ -202,7 +202,7 @@ public class AvXmlParser {
                     flight = null;
                 }else if (parser.getName().equals("departure")){
                     departure.setSegments(segments);
-                    flight.setDepature(departure);
+                    flight.setDeparture(departure);
                     departure = null;
                     segments = null;
                 }else if (parser.getName().equals("returnlist")){  

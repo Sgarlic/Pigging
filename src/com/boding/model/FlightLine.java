@@ -28,7 +28,7 @@ public class FlightLine implements FlightInterface{
 
 	public void setDeparture(Departure departure) {
 		this.departure = departure;
-		segmentSize = getDepature().getSegments().size();
+		segmentSize = getDeparture().getSegments().size();
 	}
 
 	public int getDefaultShowedCabinPos() {
@@ -61,12 +61,7 @@ public class FlightLine implements FlightInterface{
 	public void setFlightType(String flightType) {
 		this.flightType = flightType;
 	}
-	public Departure getDepature() {
-		return departure;
-	}
-	public void setDepature(Departure depature) {
-		this.departure = depature;
-	}
+	
 	public ReturnList getReturnlist() {
 		return returnlist;
 	}
@@ -211,7 +206,7 @@ public class FlightLine implements FlightInterface{
 		System.out.println(" ((((((((("+cabins.size());
 		for(int i=0; i<cabins.size(); ++i){
 			cabin = cabins.get(i);
-			if(cabin.getClassType().contains(classStr)){
+			if(cabin.getFlightClassName().contains(classStr)){
 				selectedCabins.add(cabin);
 				double p = Double.parseDouble(cabin.getPrice().getAdult());
 				if(p < lowest){
