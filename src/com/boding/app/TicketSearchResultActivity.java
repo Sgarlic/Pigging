@@ -116,7 +116,7 @@ public class TicketSearchResultActivity extends FragmentActivity {
 	private boolean isInternational = true;
 	
 	FilterDialog filterDialog;
-	private String classInfo;
+	private String classInfo = Constants.COUCH_CLASS;
 	
 	private CalendarDialog calendarDialog;
 
@@ -134,11 +134,12 @@ public class TicketSearchResultActivity extends FragmentActivity {
 		}
 		flightQuery = (FlightQuery)bundle.getParcelable(IntentExtraAttribute.FLIGHT_QUERY);
 		System.out.println("$$$$$$$$$$" + flightQuery.getFromcity());
-		classInfo = bundle.getString(IntentExtraAttribute.CLASS_INFO);
+		if(bundle.containsKey(IntentExtraAttribute.CLASS_INFO))
+			classInfo = bundle.getString(IntentExtraAttribute.CLASS_INFO);
 
 		String fromcity = flightQuery.getFromcity();
 		String tocity = flightQuery.getTocity();
-		startdate = GlobalVariables.Fly_From_Date;
+		startdate = flightQuery.getStartdate();
 		from = CityUtil.getCityByName(fromcity);
 		to = CityUtil.getCityByName(tocity);
 		
