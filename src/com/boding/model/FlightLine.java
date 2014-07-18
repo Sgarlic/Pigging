@@ -5,7 +5,6 @@ import java.util.Comparator;
 import java.util.List;
 
 import com.boding.util.CityUtil;
-import com.boding.util.DateUtil;
 
 public class FlightLine implements FlightInterface{
 	private String flightType;
@@ -75,27 +74,7 @@ public class FlightLine implements FlightInterface{
 	public String getLeaveTime(){
 		return firstSegment.getLeatime();
 	}
-	
-	public String getLeaveToTime(){
-		return firstSegment.getArrtime();
-	}
 
-	public String getLeaveEstimateTime(){
-		return DateUtil.getTimeIntDiff(
-			DateUtil.getDateFromString(getLeaveDate(), getLeaveTime()).getTime(), 
-			DateUtil.getDateFromString(getLeaveToDate(), getLeaveToTime()).getTime());
-	}
-	
-	public String getArriveEstimateTime(){
-		return DateUtil.getTimeIntDiff(
-				DateUtil.getDateFromString(getArriveFromDate(), getArriveFromTime()).getTime(), 
-				DateUtil.getDateFromString(getArriveDate(), getArriveTime()).getTime());
-	}
-	
-	public String getArriveFromTime(){
-		return lastSegment.getLeatime();
-	}
-	
 	public String getArriveTime(){
 		return lastSegment.getArrtime();
 	}
@@ -112,14 +91,6 @@ public class FlightLine implements FlightInterface{
 		return firstSegment.getLeadate();
 	}
 	
-	public String getLeaveToDate(){
-		return firstSegment.getArrdate();
-	}
-	
-	public String getArriveFromDate(){
-		return lastSegment.getLeadate();
-	}
-	
 	public String getArriveDate(){
 		return lastSegment.getArrdate();
 	}
@@ -134,10 +105,6 @@ public class FlightLine implements FlightInterface{
 	
 	public String getArriveAirCompany(){
 		return lastSegment.getCarname();
-	}
-	
-	public String getLeavePlane(){
-		return firstSegment.getPlane();
 	}
 	
 	public String getLeaveCarrier(){
@@ -166,22 +133,6 @@ public class FlightLine implements FlightInterface{
 	
 	public String getLeaveTerminal(){
 		return firstSegment.getLeaTerminal();
-	}
-	
-	public String getLeaveToAirport(){
-		return firstSegment.getArrname();
-	}
-	
-	public String getLeaveToTerminal(){
-		return firstSegment.getArrTerminal();
-	}
-	
-	public String getArriveFromAirport(){
-		return lastSegment.getLeaname();
-	}
-	
-	public String getArriveFromTerminal(){
-		return lastSegment.getLeaTerminal();
 	}
 	
 	public String getArriveAirport(){

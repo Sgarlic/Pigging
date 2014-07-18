@@ -15,6 +15,7 @@ import com.boding.model.DeliveryAddress;
 import com.boding.model.FlightInterface;
 import com.boding.model.FlightLine;
 import com.boding.model.Passenger;
+import com.boding.model.Segment;
 import com.boding.model.domestic.Cabin;
 import com.boding.model.domestic.Flight;
 import com.boding.util.CityUtil;
@@ -313,7 +314,10 @@ public class OrderFormActivity extends Activity {
 //				}
 				
 				Intent intent = new Intent();
-				intent.putExtra(IntentExtraAttribute.FLIGHT_INFO_EXTRA, getFlightInfoStringDomestic());
+				if(isDomestic)
+					intent.putExtra(IntentExtraAttribute.FLIGHT_INFO_EXTRA, getFlightInfoStringDomestic());
+				else
+					intent.putExtra(IntentExtraAttribute.FLIGHT_INFO_EXTRA, getFlightInfoStringInternational());
 				intent.putExtra(IntentExtraAttribute.PASSENGER_INFO_EXTRA, getPassengerInfoString());
 				intent.putExtra(IntentExtraAttribute.CONTACT_INFO_EXTRA, getContactInfo());
 				intent.putExtra(IntentExtraAttribute.RECEIVE_INFO_EXTRA, getReceiveInfo());
@@ -414,6 +418,22 @@ public class OrderFormActivity extends Activity {
 		Intent intent = new Intent();
 		intent.setClass(OrderFormActivity.this, LoginActivity.class);
 		startActivityForResult(intent, IntentRequestCode.LOGIN.getRequestCode());
+	}
+	
+	private String getFlightInfoStringInternational(){
+		FlightLine flightLine = (FlightLine)selectedFlight;
+		String flightInfo = "";
+		for(Segment segment : flightLine.getDeparture().getSegments()){
+			flightInfo += "|"+segment.getCarname()+"|"+segment.getCarrier()+"|"
+				+segment.getNum()+"|"+segment.getPlane()+"|"+"舱位名称"+"|"
+				+"舱位类型"+"|"+"|"+"|"+segment.getLeadate()+"|"+segment.getArrdate()+"|"
+				+segment.getLeatime()+"|"+segment.getArrtime()+"|"+"|"+"|"
+				+segment.getLeacode()+"|"+segment.getArrcode()+"|"+segment.getLeaTerminal()
+				+"|"+segment.getArrTerminal()+"|"+"成人价"+"|"+"儿童价"
+				+"|"+"成人税收"+"|"+"儿童税收"+"||||"+"文件价"+"|"+"规则"+"|||0|0|0|0|"+"特价id"
+				+"||||0|0|0"+"@";
+		}
+		return flightInfo.substring(0,flightInfo.length()-1);
 	}
 	
 	private String getFlightInfoStringDomestic(){

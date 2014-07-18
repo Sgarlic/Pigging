@@ -88,7 +88,7 @@ public class OrderFlightInfoISegmentLayout extends LinearLayout{
 	private void initView(){
 		this.setOrientation(VERTICAL); //水平布局  
 		this.setMinimumWidth(GlobalVariables.Screen_Width);
-		View view = LayoutInflater.from(context).inflate(R.layout.layout_order_flightinfo_i, null);
+		View view = LayoutInflater.from(context).inflate(R.layout.layout_order_flightinfo_i_segment, null);
 		LinearLayout orderFlightInfoILinearLayout = (LinearLayout) view.findViewById(R.id.order_flightinfo_i_segment_linearLayout);
 		orderFlightInfoILinearLayout.setMinimumWidth(GlobalVariables.Screen_Width);
 		
