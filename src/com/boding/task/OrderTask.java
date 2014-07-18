@@ -200,11 +200,13 @@ public class OrderTask extends AsyncTask<Object,Void,Object>{
 		return order;
 	}
 	
-	public List<Order> getOrderList(String pageSize, String page){
+	public List<Order> getOrderList(int flag, String pageSize, String page){
 		List<Order> orders = new ArrayList<Order>();
 		StringBuilder sb = new StringBuilder();
 		sb.append(Constants.BODINGACCOUNT);
 		sb.append(GlobalVariables.bodingUser.getCardno());
+		if(flag != -1)
+			sb.append(flag);
 		sb.append(pageSize);
 		sb.append(page);
 		String sign = "";
@@ -214,10 +216,16 @@ public class OrderTask extends AsyncTask<Object,Void,Object>{
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		}
-		
-		String urlFormat = "http://api.iboding.com/API/User/Order/QueryOrderInfo.ashx?userid=%s&cardno=%s&pageSize=%s&page=%s&sign=%s";
-		String urlStr =  String.format(urlFormat,Constants.BODINGACCOUNT,GlobalVariables.bodingUser.getCardno(),
-				pageSize,page,sign);
+		String urlStr = "";
+		if(flag != -1){
+			String urlFormat = "http://api.iboding.com/API/User/Order/QueryOrderInfo.ashx?userid=%s&cardno=%s&flag=%s&pageSize=%s&page=%s&sign=%s";
+			urlStr =  String.format(urlFormat,Constants.BODINGACCOUNT,GlobalVariables.bodingUser.getCardno(),
+					flag,pageSize,page,sign);
+		}else{
+			String urlFormat = "http://api.iboding.com/API/User/Order/QueryOrderInfo.ashx?userid=%s&cardno=%s&pageSize=%s&page=%s&sign=%s";
+			urlStr =  String.format(urlFormat,Constants.BODINGACCOUNT,GlobalVariables.bodingUser.getCardno(),
+					pageSize,page,sign);
+		}
 		String result = connectingServer(urlStr);
 		try {
 			JSONObject resultJson = new JSONObject(result);
@@ -267,7 +275,7 @@ public class OrderTask extends AsyncTask<Object,Void,Object>{
 		Object result = new Object();
 		switch (action) {
 			case GET_ORDER_LIST:
-				result = getOrderList((String)params[0],(String)params[1]);
+				result = getOrderList((Integer)params[0],(String)params[1],(String)params[2]);
 				break;
 			case GET_ORDER_DETAIL:
 				result = getOrderDetail((String)params[0]);

@@ -44,6 +44,7 @@ import com.boding.constants.IntentRequestCode;
 import com.boding.util.Util;
 import com.boding.view.dialog.ProgressBarDialog;
 import com.boding.view.dialog.SearchCityDialog;
+import com.boding.view.fragment.CitySelectFragment;
 
 /**
  * Demonstrates combining a TabHost with a ViewPager to implement a tab UI

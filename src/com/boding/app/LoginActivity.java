@@ -82,8 +82,8 @@ public class LoginActivity extends Activity {
 				String userName = userNameEditText.getText().toString();
 				String password = passwordEditText.getText().toString();
 				
-//				userName = "13262763513";
-//				password = "000000";
+				userName = "13262763513";
+				password = "000000";
 				
 				WarningDialog warningDialog = new WarningDialog(LoginActivity.this);
 				if(userName.equals("")){

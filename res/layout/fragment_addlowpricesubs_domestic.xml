@@ -13,7 +13,7 @@
 	    android:layout_marginBottom="25dp"
 	    android:orientation="horizontal" >
 		<TextView
-		    android:layout_width="140dp"
+		    android:layout_width="150dp"
 		    android:layout_height="wrap_content"
 		    android:layout_gravity="center_vertical"
 		    android:gravity="top"
@@ -64,7 +64,7 @@
         android:orientation="horizontal" >
 
 	    <TextView
-	        android:layout_width="140dp"
+	        android:layout_width="150dp"
 	        android:layout_height="wrap_content"
 	        android:layout_gravity="center_vertical"
 	        android:gravity="top"
@@ -113,7 +113,7 @@
 	    android:orientation="horizontal" >
 
 	    <TextView
-	        android:layout_width="140dp"
+	        android:layout_width="150dp"
 	        android:layout_height="wrap_content"
 	        android:layout_gravity="center_vertical"
 	        android:gravity="top"
@@ -135,6 +135,58 @@
 	</LinearLayout>
 
 	<LinearLayout
+	    android:id="@+id/addlowpricesubs_chooseSubscribeMethod_linearLayout"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_marginBottom="20dp"
+	    android:orientation="horizontal" >
+
+	    <TextView
+	        android:layout_width="150dp"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center_vertical"
+	        android:gravity="top"
+	        android:text="选择订阅方式"
+	        android:textColor="@color/priceGray"
+	        android:textSize="17sp"
+	        android:typeface="serif" />
+
+		<TextView
+	        android:id="@+id/addlowpricesubs_choosedSubscribeMethod_textView"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center_vertical"
+	        android:gravity="top"
+	        android:text="折扣"
+	        android:textColor="@color/black"
+	        android:textSize="17sp"
+	        android:typeface="serif" />
+		<LinearLayout
+	        android:layout_width="wrap_content"
+	        android:layout_height="match_parent"
+	        android:layout_gravity="top"
+	        android:layout_weight="1"
+	        android:orientation="vertical" >
+
+	        <LinearLayout
+	            android:layout_width="wrap_content"
+	            android:layout_height="match_parent"
+	            android:layout_gravity="right"
+	            android:layout_weight="1"
+	            android:orientation="horizontal" >
+
+				<ImageView
+				    android:layout_width="wrap_content"
+				    android:layout_height="wrap_content"
+				    android:layout_gravity="center_vertical"
+				    android:layout_marginLeft="5dp"
+				    android:src="@drawable/arrow_right_orange_small" />
+			</LinearLayout>
+	    </LinearLayout>
+	</LinearLayout>
+	
+	
+	<LinearLayout
 	    android:id="@+id/addlowpricesubs_chooseDiscount_linearLayout"
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"
@@ -142,7 +194,7 @@
 	    android:orientation="horizontal" >
 
 	    <TextView
-	        android:layout_width="140dp"
+	        android:layout_width="150dp"
 	        android:layout_height="wrap_content"
 	        android:layout_gravity="center_vertical"
 	        android:gravity="top"
@@ -161,6 +213,29 @@
 	        android:textColor="@color/black"
 	        android:textSize="17sp"
 	        android:typeface="serif" />
+		
+		<LinearLayout
+	        android:layout_width="wrap_content"
+	        android:layout_height="match_parent"
+	        android:layout_gravity="top"
+	        android:layout_weight="1"
+	        android:orientation="vertical" >
+
+	        <LinearLayout
+	            android:layout_width="wrap_content"
+	            android:layout_height="match_parent"
+	            android:layout_gravity="right"
+	            android:layout_weight="1"
+	            android:orientation="horizontal" >
+
+				<ImageView
+				    android:layout_width="wrap_content"
+				    android:layout_height="wrap_content"
+				    android:layout_gravity="center_vertical"
+				    android:layout_marginLeft="5dp"
+				    android:src="@drawable/arrow_right_orange_small" />
+			</LinearLayout>
+	    </LinearLayout>
 	</LinearLayout>
 
 	<LinearLayout
@@ -170,7 +245,7 @@
 	    android:orientation="horizontal" >
 
 	    <TextView
-	        android:layout_width="140dp"
+	        android:layout_width="150dp"
 	        android:layout_height="wrap_content"
 	        android:layout_gravity="center_vertical"
 	        android:gravity="top"

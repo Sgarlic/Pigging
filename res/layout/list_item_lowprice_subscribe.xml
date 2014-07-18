@@ -3,8 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:layout_marginLeft="15dp"
-	android:layout_marginRight="15dp"
+    android:background="@color/classInfoPanelBgColor"
+    android:paddingLeft="15dp"
+	android:paddingRight="15dp"
     android:paddingTop="5dp" >
 
 	<LinearLayout
@@ -20,7 +21,7 @@
 		    <LinearLayout
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
-		        android:layout_marginBottom="5dp"
+		        android:layout_marginBottom="8dp"
 		        android:layout_weight="1"
 		        android:orientation="horizontal" >
 		        <LinearLayout
@@ -31,7 +32,7 @@
 		
 		            <TextView
 		                android:id="@+id/lowpricesubscribe_flyfromto_textView"
-		                android:layout_width="100dp"
+		                android:layout_width="110dp"
 		                android:layout_height="wrap_content"
 		                android:layout_gravity="bottom|left"
 		                android:text="上海 - 北京"
@@ -44,7 +45,7 @@
 		                android:layout_height="wrap_content"
 		                android:layout_gravity="bottom|left"
 		                android:text="2013-12-10至2013-12-11"
-		                android:textColor="@color/black"
+		                android:textColor="@color/priceGray"
 		                android:layout_marginLeft="5dp"
 		                android:textSize="13sp"
 		                android:typeface="serif" />
@@ -58,7 +59,7 @@
 		        android:orientation="horizontal" >
 	
 		        <LinearLayout
-		            android:layout_width="100dp"
+		            android:layout_width="wrap_content"
 		            android:layout_height="wrap_content"
 		            android:orientation="horizontal" >
 		
@@ -68,7 +69,7 @@
 		                android:layout_gravity="bottom|left"
 		                android:text="原价："
 		                android:textColor="@color/priceGray"
-		                android:textSize="15sp"
+		                android:textSize="17sp"
 		                android:typeface="serif" />
 
 		            <TextView
@@ -78,18 +79,21 @@
 		                android:layout_gravity="bottom|left"
 		                android:layout_marginRight="3dp"
 		                android:text="￥1130"
-		                android:textColor="@color/textOrange"
-		                android:textSize="15sp"
+		                android:textColor="@color/panelOrange"
+		                android:textSize="17sp"
 		                android:typeface="serif" />
 				</LinearLayout>
+
 				<TextView
-	                android:layout_width="wrap_content"
-	                android:layout_height="wrap_content"
-	                android:layout_gravity="bottom|left"
-	                android:text="订阅："
-	                android:textColor="@color/priceGray"
-	                android:textSize="15dp"
-	                android:typeface="serif" />
+				    android:layout_width="wrap_content"
+				    android:layout_height="wrap_content"
+				    android:layout_gravity="bottom|left"
+				    android:layout_marginLeft="10dp"
+				    android:text="订阅："
+				    android:textColor="@color/priceGray"
+				    android:textSize="17dp"
+				    android:typeface="serif" />
+
 				<TextView
 	                android:id="@+id/lowpricesubscribe_subscribediscount_textView"
 	                android:layout_width="wrap_content"
@@ -97,7 +101,7 @@
 	                android:layout_gravity="bottom|left"
 	                android:text="5折及其以下"
 	                android:textColor="@color/priceGray"
-	                android:textSize="15sp"
+	                android:textSize="17sp"
 	                android:typeface="serif" />
 		        </LinearLayout>
 		</LinearLayout>
@@ -106,8 +110,8 @@
 		    android:id="@+id/lowpricesubscribe_deletesubscribe_linearLayout"
 		    android:layout_width="match_parent"
 		    android:layout_height="wrap_content"
-		    android:layout_gravity="center_vertical"
-		    android:orientation="horizontal" >
+		    android:layout_gravity="top"
+		    android:orientation="vertical" >
 		    <ImageView
 			    android:layout_width="wrap_content"
 			    android:layout_height="wrap_content"
@@ -143,7 +147,6 @@
 		    <LinearLayout
 		        android:layout_width="match_parent"
 		        android:layout_height="wrap_content"
-		        android:layout_marginBottom="5dp"
 		        android:orientation="horizontal" >
 
 		        <TextView
@@ -153,7 +156,7 @@
 		            android:layout_weight="1"
 		            android:text="2013-12-11"
 		            android:textColor="@color/black"
-		            android:textSize="17sp"
+		            android:textSize="15sp"
 		            android:typeface="serif" />
 
 		    </LinearLayout>
@@ -168,8 +171,8 @@
 		            android:layout_width="wrap_content"
 		            android:layout_height="wrap_content"
 		            android:text="￥341"
-		            android:textColor="@color/textOrange"
-		            android:textSize="20sp"
+		            android:textColor="@color/panelOrange"
+		            android:textSize="25sp"
 		            android:typeface="serif" />
 		        </LinearLayout>
 		</LinearLayout>
@@ -190,7 +193,7 @@
 		            android:layout_width="wrap_content"
 		            android:layout_height="wrap_content"
 		            android:text="3.1折"
-		            android:textColor="@color/textOrange"
+		            android:textColor="@color/discountRed"
 		            android:layout_gravity="center_vertical"
 		            android:textSize="20sp"
 		            android:typeface="serif" />

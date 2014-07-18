@@ -14,6 +14,7 @@ import com.boding.constants.GlobalVariables;
 import com.boding.constants.HTTPAction;
 import com.boding.task.BodingUserTask;
 import com.boding.task.InitCityTask;
+import com.boding.task.InitCountryTask;
 import com.boding.util.AreaXmlParser;
 import com.boding.util.CityUtil;
 import com.boding.util.DateUtil;
@@ -76,6 +77,7 @@ public class LauncherActivity extends Activity {
 	
 	private void something(){
 		initCityList();
+		new InitCountryTask(this).execute();
 		SharedPreferences sharedPreferences = SharedPreferenceUtil.getSharedPreferences(this);  
         
 	    boolean isFirstRun = sharedPreferences.getBoolean(SharedPreferenceUtil.IS_FIRSTRUN, true);  

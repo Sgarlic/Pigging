@@ -15,6 +15,25 @@ public enum OrderStatus {
 	private String orderStatusCode;
 	private String orderStatusName;
 	private String orderDetailStatusName;
+	
+	public OrderFilterStatus getRelatedOrderFilterStatus(){
+		if(this.orderStatusCode.equals("0"))
+			return OrderFilterStatus.PENDING_AUDIT;
+		if(this.orderStatusCode.equals("2"))
+			return OrderFilterStatus.PENDING_GETTICKET;
+		if(this.orderStatusCode.equals("3"))
+			return OrderFilterStatus.TICKET_ALREADY_GENERATED;
+		if(this.orderStatusCode.equals("4"))
+			return OrderFilterStatus.TICKET_ALREADY_GENERATED;
+		if(this.orderStatusCode.equals("5"))
+			return OrderFilterStatus.PENDING_PAYMENT;
+		if(this.orderStatusCode.equals("6"))
+			return OrderFilterStatus.CENCELED;
+		if(this.orderStatusCode.equals("7"))
+			return OrderFilterStatus.COMPLETED;
+		return OrderFilterStatus.REFUND;
+	}
+	
 	public String getOrderDetailStatusName() {
 		return orderDetailStatusName;
 	}

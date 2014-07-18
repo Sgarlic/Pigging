@@ -3,8 +3,10 @@ package com.boding.app;
 import java.util.List;
 
 import com.boding.R;
+import com.boding.constants.HTTPAction;
 import com.boding.constants.IntentRequestCode;
 import com.boding.model.LowPriceSubscribe;
+import com.boding.task.LowPriceSubscribeTask;
 import com.boding.util.Util;
 import com.boding.view.dialog.ProgressBarDialog;
 import com.boding.view.dialog.WarningDialog;
@@ -33,10 +35,25 @@ public class LowPriceSubscribeActivity extends Activity{
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_aboutboding);
+		setContentView(R.layout.activity_lowprice_subscribe);
 		warningDialog = new WarningDialog(this);
 		progressBarDialog = new ProgressBarDialog(this);
 		initView();
+		
+		setViewContent();
+	}
+	
+	public void setLowPriceResultList(List<LowPriceSubscribe> subsList){
+		adapter = new LowPriceSubAdapter(this, subsList);
+		lowPriceListView.setAdapter(adapter);
+		progressBarDialog.dismiss();
+	}
+	
+	private void setViewContent(){
+		progressBarDialog = new ProgressBarDialog(this);
+		progressBarDialog.show();
+		
+		(new LowPriceSubscribeTask(this, HTTPAction.GET_LOWPRICESUBS_LIST)).execute();
 	}
 	
     private void initView(){
@@ -109,11 +126,11 @@ public class LowPriceSubscribeActivity extends Activity{
 			final LowPriceSubscribe subscribe = getItem(position);
 			holder.flyFromToTextView.setText(subscribe.getLeaveName()+" - "+subscribe.getArriveName());
             holder.fromToDateTextView.setText(subscribe.getFlightBeginDate()+"÷¡"+subscribe.getFlightEndDate());
-            holder.originPriceTextView.setText(subscribe.getPrice()+"");
+//            holder.originPriceTextView.setText(subscribe.getPrice()+"");
 //            holder.subscribeDiscountTextView.setText(people.getCardNumber());
 //            holder.dateTextView.setText(text);
-            holder.priceTextView.setText(subscribe.getPrice()*subscribe.getDisCount()/100+"");
-            holder.discountTextView.setText(subscribe.getDisCount()+"");
+            holder.priceTextView.setText("£§"+subscribe.getPrice());
+            holder.discountTextView.setText(subscribe.getDisCount()+"’€");
             holder.deleteSubscribeLinearLayout.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {

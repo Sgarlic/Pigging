@@ -166,7 +166,6 @@ public class DragListView extends ListView implements OnScrollListener{
 	 *            false:е§дкМгди
 	 */
 	public void onLoadMoreComplete(boolean hasMoreInfo) {
-		System.out.println(hasMoreInfo);
 		if (hasMoreInfo) {
 			updateLoadMoreViewState(DListViewLoadingMore.LV_NORMAL);
 		} else {

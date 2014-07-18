@@ -56,4 +56,5 @@
     <color name="boardTextGray">#919191</color>
     <color name="boardDividerBlue">#629ac5</color>
     <color name="boardPanelBg">#f7f7f7</color>
+    <color name="discountRed">#eb612a</color>
 </resources>

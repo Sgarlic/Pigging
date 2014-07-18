@@ -5,10 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.boding.R;
+import com.boding.constants.GlobalVariables;
 import com.boding.constants.HTTPAction;
 import com.boding.constants.IntentExtraAttribute;
 import com.boding.constants.IntentRequestCode;
-import com.boding.constants.OrderStatus;
+import com.boding.constants.OrderFilterStatus;
 import com.boding.model.Order;
 import com.boding.task.OrderTask;
 import com.boding.util.Util;
@@ -20,6 +21,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,31 +31,37 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+/**
+ * 3，派送中和4，收银中都归为已出票状态
+ * PENDING_DELIVERY("3","派送中","待派送",R.color.darkgray),
+ * PENDING_COLLECTMONEY("4","收银中","待收银",R.color.darkgray),
+ * 在创建Filter的时候，pending_delivery就不放进去了，就放pending_collectmoney
+ * @author shiyge
+ *
+ */
 public class OrderListActivity extends Activity{
 	private LinearLayout orderFilterLinearLayout;
 	private TextView orderFilterTypeTextView;
 	private DragListView ordersListView;
 	
-	private OrderListAdapter allOrderListAdapter;
-	private OrderListAdapter unpaymentOrdersListAdapter;
-	private OrderListAdapter unTravelledOrdersAdapter;
-	
 	private ProgressBarDialog progressBarDialog;
 	private int currentPage = 0;
-	private List<Order> allOrdersList = new ArrayList<Order>();
-	private List<Order> unpaymentOrdersList;
-	private List<Order> unTravelledOrdersList;
+	private List<Order> ordersList = new ArrayList<Order>();
 	
+	
+	private OrderListAdapter adapter;
 	
 	private PopupWindow monthSelector;
 	
+	private ListView orderFilterListView;
 	
-	private TextView allOrdersTextView;
-	private TextView unPaymentOrdersTextView;
-	private TextView unTravelledOrdersTextView;
+	private OrderFilterAdapter filterAdapter;
+	
+	private OrderFilterStatus currentFilterStatus = OrderFilterStatus.ALL_ORDERS;
 	
 	/**
 	 * 0 == all orders
@@ -71,62 +79,57 @@ public class OrderListActivity extends Activity{
 		initView();
 		
 		
-		setViewContent();
+		setOrdersView();
 	}
 	
-	private void setOrdersView(int selectedFilter){
-		allOrdersTextView.setSelected(false);
-		unPaymentOrdersTextView.setSelected(false);
-		unTravelledOrdersTextView.setSelected(false);
-		switch (selectedFilter) {
-			case 1:
-				unPaymentOrdersTextView.setSelected(true);
-				ordersListView.setAdapter(unpaymentOrdersListAdapter);
-				break;
-			case 2:
-				unTravelledOrdersTextView.setSelected(true);
-				ordersListView.setAdapter(unTravelledOrdersAdapter);
-				break;
-			default:
-				allOrdersTextView.setSelected(true);
-				ordersListView.setAdapter(allOrderListAdapter);
-				break;
+	private void setOrdersView(){
+		currentPage++;
+		if(currentPage == 1){
+			progressBarDialog.show();
 		}
+		if(currentFilterStatus == OrderFilterStatus.TICKET_ALREADY_GENERATED){
+			(new OrderTask(this, HTTPAction.GET_ORDER_LIST)).execute(3, "10",currentPage+"");
+			(new OrderTask(this, HTTPAction.GET_ORDER_LIST)).execute(4, "10",currentPage+"");
+		}
+		else
+			(new OrderTask(this, HTTPAction.GET_ORDER_LIST)).execute(currentFilterStatus.getOrderStatusCode(), "10",currentPage+"");
 		popupWindowDismiss();
 	}
 	
 	private void initPopupWindow(){
 		View popupWindow =  LayoutInflater.from(this).inflate(R.layout.popup_order_filter, null);
-		allOrdersTextView = (TextView) popupWindow.findViewById(R.id.orderfilter_allOrders_textView);
-		allOrdersTextView.setSelected(true);
-		unPaymentOrdersTextView = (TextView) popupWindow.findViewById(R.id.orderfilter_unPaymentOrders_textView);
-		unTravelledOrdersTextView = (TextView) popupWindow.findViewById(R.id.orderfilter_unTravelledOrders_textView);
-		allOrdersTextView.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				setOrdersView(0);
-			}
-		});
+		orderFilterListView = (ListView) popupWindow.findViewById(R.id.orderfilter_filter_listView);
 		
-		unPaymentOrdersTextView.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				setOrdersView(1);
-			}
-		});
+		List<OrderFilterStatus> orderStatusList = new ArrayList<OrderFilterStatus>();
+		for(OrderFilterStatus filterStatus : OrderFilterStatus.values()){
+			orderStatusList.add(filterStatus);
+		}
+		filterAdapter = new OrderFilterAdapter(this, orderStatusList);
+		orderFilterListView.setAdapter(filterAdapter);
 		
-		unTravelledOrdersTextView.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				setOrdersView(2);
-			}
-		});
 		monthSelector = new PopupWindow(popupWindow,LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT,true);
+		
+		orderFilterListView.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int position,
+					long arg3) {
+				currentFilterStatus = filterAdapter.getItem(position);
+				orderFilterTypeTextView.setText(currentFilterStatus.getOrderStatusName());
+				currentPage = 0;
+				setOrdersView();
+				ordersList.clear();
+				ordersListView.onLoadMoreComplete(true);
+			}
+		});
 	}
 	
 	private void popupWindowShowing(){
-		int width = orderFilterTypeTextView.getWidth();
-		monthSelector.showAsDropDown(orderFilterTypeTextView, 0 - width/3, -6);
+		int parentY = (int) orderFilterLinearLayout.getHeight();
+		monthSelector.showAtLocation(orderFilterLinearLayout, Gravity.CENTER_HORIZONTAL | Gravity.TOP, 
+				0, GlobalVariables.Screen_Height * 50/ 640);
+		System.out.println(parentY);
+		
+//		monthSelector.showAsDropDown(orderFilterTypeTextView, 0 - width/2, -6);
 	}
 	
 	private void popupWindowDismiss(){
@@ -134,40 +137,9 @@ public class OrderListActivity extends Activity{
 	}
 	
 	
-	private void setViewContent(){
-		currentPage++;
-		if(currentPage == 1){
-			progressBarDialog.show();
-		}
-		(new OrderTask(this, HTTPAction.GET_ORDER_LIST)).execute("10",currentPage+"");
-	}
-	
-	private void addOtherOrdersFromOrderList(List<Order> orderList){
-		if(unpaymentOrdersList == null || unTravelledOrdersList == null){
-			unpaymentOrdersList = new ArrayList<Order>();
-			unTravelledOrdersList = new ArrayList<Order>();
-			
-			unpaymentOrdersListAdapter = new OrderListAdapter(this, unpaymentOrdersList);
-			unTravelledOrdersAdapter = new OrderListAdapter(this, unTravelledOrdersList);
-		}
-		for(Order order : orderList){
-			OrderStatus orderStatus = order.getOrderStatus();
-			if(orderStatus == OrderStatus.PENDING_AUDIT || orderStatus == OrderStatus.PENDING_COLLECTMONEY
-			|| orderStatus == OrderStatus.PENDING_DELIVERY|| orderStatus == OrderStatus.PENDING_PAYMENT){
-				unpaymentOrdersList.add(order);
-			}
-			if(orderStatus == OrderStatus.PENDING_GETTICKET || orderStatus == OrderStatus.CENCELED){
-				unTravelledOrdersList.add(order);
-			}
-		}
-		unpaymentOrdersListAdapter.notifyDataSetChanged();
-		unTravelledOrdersAdapter.notifyDataSetChanged();
-	}
-	
 	public void setOrderList(List<Order> orderList){
-		allOrdersList.addAll(orderList);
-		allOrderListAdapter.notifyDataSetChanged();
-		addOtherOrdersFromOrderList(orderList);
+		ordersList.addAll(orderList);
+		adapter.notifyDataSetChanged();
 		boolean hasMoreInfo = true;
 		if(orderList.size() == 0)
 			hasMoreInfo = false;
@@ -188,8 +160,8 @@ public class OrderListActivity extends Activity{
 		orderFilterLinearLayout = (LinearLayout) findViewById(R.id.allorders_orderfilter_linearLayout);
 		orderFilterTypeTextView = (TextView) findViewById(R.id.allorders_orderFilterType_textView);
 		ordersListView = (DragListView) findViewById(R.id.allorders_listView);
-		allOrderListAdapter = new OrderListAdapter(this, allOrdersList);
-		ordersListView.setAdapter(allOrderListAdapter);
+		adapter = new OrderListAdapter(this, ordersList);
+		ordersListView.setAdapter(adapter);
 		
 		addListeners();
 		initPopupWindow();
@@ -199,14 +171,14 @@ public class OrderListActivity extends Activity{
 		ordersListView.setOnRefreshListener(new OnRefreshLoadingMoreListener() {
 			@Override
 			public void onLoadMore() {
-				setViewContent();
+				setOrdersView();
 			}
 		});
 		ordersListView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int position,
 					long arg3) {
-				Order selectedOrder = allOrderListAdapter.getItem(position);
+				Order selectedOrder = adapter.getItem(position);
 				Intent intent = new Intent();
 				Bundle bundle = new Bundle();
 				bundle.putString(IntentExtraAttribute.CHOOSED_ORDER_ID, 
@@ -220,10 +192,47 @@ public class OrderListActivity extends Activity{
 		orderFilterLinearLayout.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				System.out.println("clicked");
 				popupWindowShowing();
 			}
 		});
+	}
+	
+	private class OrderFilterAdapter extends BaseAdapter{
+		private List<OrderFilterStatus> filters;
+		private Context context;
+		public OrderFilterAdapter(Context context, List<OrderFilterStatus> orderStatus){
+			this.context = context;
+			this.filters = orderStatus;
+		}
+		@Override
+		public int getCount() {
+			return filters.size();
+		}
+		
+		@Override
+		public OrderFilterStatus getItem(int position) {
+			return filters.get(position);
+		}
+		
+		@Override
+		public long getItemId(int position) {
+			return position;
+		}
+		
+		@Override
+		public View getView(final int position, View convertView, ViewGroup parent) {
+			convertView = LayoutInflater.from(context).inflate(R.layout.list_item_order_filter, null);
+			TextView filterItemTextView = (TextView) convertView.findViewById(R.id.orderfilter_filter_textView);
+			OrderFilterStatus orderStatus = getItem(position);
+			
+			if(orderStatus == currentFilterStatus)
+				filterItemTextView.setSelected(true);
+			else
+				filterItemTextView.setSelected(false);
+			filterItemTextView.setText(orderStatus.getOrderStatusName());
+			
+	        return convertView;  
+		}
 	}
 	
 	

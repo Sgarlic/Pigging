@@ -123,10 +123,11 @@ public class InitCountryTask extends AsyncTask<Object,Void,Object>{
 		ObjectInputStream ois;
 		String path = GlobalVariables.filepath;
 		File countryLisFile = new File(path + GlobalVariables.allCountriesFile);
-		if(countryLisFile.exists()){
+ 		if(countryLisFile.exists()){
 			System.out.println("EEEEEEEEEEEEEexits");
 			ois = new ObjectInputStream(context.openFileInput(GlobalVariables.allCountriesFile));
 			GlobalVariables.allCountriesList = (List<Country>)(ois.readObject());
+			List<Country> testList = GlobalVariables.allCountriesList;
 			ois.close();
 		}else
 			isok = false;

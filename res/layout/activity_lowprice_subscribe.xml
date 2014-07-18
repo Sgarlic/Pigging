@@ -90,8 +90,8 @@
 		    android:layout_height="wrap_content"
 		    android:layout_gravity="center_horizontal"
 		    android:text="每位用户限订阅2条航线的低价通知"
-		    android:textColor="@color/textOrange"
-		    android:textSize="15sp"
+		    android:textColor="@color/black"
+		    android:textSize="16sp"
 		    android:typeface="serif" />
 
 		<LinearLayout
@@ -103,7 +103,6 @@
 		        android:id="@+id/lowpricesubscribe_listView"
 		        android:layout_width="match_parent"
 		        android:layout_height="wrap_content"
-		        android:background="@color/lisViewDividerGray"
 		        android:divider="@color/lisViewDividerGray"
 		        android:scrollbars="none" />
 		</LinearLayout>
@@ -112,7 +111,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:text="注：机票价格变动频繁，收到通知要立即出手哦！"
-            android:textColor="@color/textOrange"
+            android:textColor="@color/panelOrange"
             android:textSize="13sp"
             android:typeface="serif" />
     </LinearLayout>

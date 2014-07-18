@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.boding.R;
-import com.boding.app.CitySelectFragment;
 import com.boding.app.TicketSearchResultActivity;
 import com.boding.constants.Constants;
 import com.boding.constants.GlobalVariables;
 import com.boding.model.AirlineView;
 import com.boding.model.FlightLine;
 import com.boding.util.Util;
+import com.boding.view.fragment.CitySelectFragment;
 
 import android.animation.TimeAnimator;
 import android.annotation.SuppressLint;

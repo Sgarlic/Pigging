@@ -2,7 +2,6 @@ package com.boding.app;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import com.boding.adapter.HPagerAdapter;
@@ -12,39 +11,28 @@ import com.boding.constants.Constants;
 import com.boding.constants.GlobalVariables;
 import com.boding.constants.IntentExtraAttribute;
 import com.boding.constants.IntentRequestCode;
-import com.boding.task.InitCityTask;
 import com.boding.util.DateUtil;
 import com.boding.util.Util;
 import com.boding.view.dialog.SelectionDialog;
 import com.boding.view.dialog.VerticalViewPager;
-import com.boding.view.layout.CalendarLayout;
-import com.boding.view.layout.OrderFlightInfoLayout;
-import com.boding.view.layout.CalendarLayout.OnItemClickListener;
 import com.boding.R;
 import com.boding.model.City;
 import com.boding.model.FlightQuery;
 
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.provider.Settings.Global;
-import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnLayoutChangeListener;
-import android.view.ViewTreeObserver;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
-import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -303,6 +291,26 @@ public class MainActivity extends FragmentActivity {
 				Intent intent = new Intent();
 				intent.setClass(MainActivity.this, MyBodingActivity.class);
 				startActivityForResult(intent, IntentRequestCode.MYBODING.getRequestCode());
+			}
+		});
+		
+		downpageLowPriceSubscriptionLienarLayout.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent();
+				if(GlobalVariables.bodingUser == null){
+					intent.setClass(MainActivity.this, LoginActivity.class);
+					startActivityForResult(intent, IntentRequestCode.LOGIN.getRequestCode());
+					return;
+				}else if(!GlobalVariables.bodingUser.isActivated_state()){
+					intent.setClass(MainActivity.this, VerifyPhonenumActivity.class);
+					intent.putExtra(IntentExtraAttribute.VERIFY_PHONENUM_TYPE, "2");
+					startActivityForResult(intent, IntentRequestCode.LOGIN.getRequestCode());
+					return;
+				}else{
+					intent.setClass(MainActivity.this, LowPriceSubscribeActivity.class);
+					startActivityForResult(intent, IntentRequestCode.LOWPRICE_SUBSCRIBE.getRequestCode());
+				}
 			}
 		});
 		

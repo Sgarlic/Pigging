@@ -1,4 +1,4 @@
-package com.boding.app;
+package com.boding.view.fragment;
 
 import java.util.ArrayList;
 import java.util.HashMap;

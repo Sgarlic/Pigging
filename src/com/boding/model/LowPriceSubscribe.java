@@ -18,7 +18,7 @@ public class LowPriceSubscribe {
 	private String email;
 	private String mobile;
 	private int status;//0、待处理 1、已处理
-	private int beforeAfterDay;//可以提前或延后1天 0、否 1、是
+	private boolean beforeAfterDay;//可以提前或延后1天,0、否 1、是
 	private String doDateTime;
 	
 	
@@ -124,16 +124,18 @@ public class LowPriceSubscribe {
 	public void setStatus(int status) {
 		this.status = status;
 	}
-	public int getBeforeAfterDay() {
-		return beforeAfterDay;
-	}
-	public void setBeforeAfterDay(int beforeAfterDay) {
-		this.beforeAfterDay = beforeAfterDay;
-	}
 	public String getDoDateTime() {
 		return doDateTime;
 	}
 	public void setDoDateTime(String doDateTime) {
 		this.doDateTime = doDateTime;
+	}
+	public int getBeforeAfterDay() {
+		if(beforeAfterDay)
+			return 1;
+		return 0;
+	}
+	public void setBeforeAfterDay(boolean beforeAfterDay) {
+		this.beforeAfterDay = beforeAfterDay;
 	}
 }

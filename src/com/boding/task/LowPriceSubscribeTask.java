@@ -13,6 +13,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.boding.app.LowPriceSubscribeActivity;
 import com.boding.constants.Constants;
 import com.boding.constants.GlobalVariables;
 import com.boding.constants.HTTPAction;
@@ -154,7 +155,10 @@ public class LowPriceSubscribeTask extends AsyncTask<Object,Void,Object> {
 				subscribe.setEmail(subJson.getString("Email"));
 				subscribe.setMobile(subJson.getString("Mobile"));
 				subscribe.setStatus(subJson.getInt("Status"));
-				subscribe.setBeforeAfterDay(subJson.getInt("BeforeAfterDay"));
+				if(subJson.getString("BeforeAfterDay").equals("False"))
+					subscribe.setBeforeAfterDay(false);
+				else
+					subscribe.setBeforeAfterDay(true);
 				subscribe.setDoDateTime(subJson.getString("DoDateTime"));
 				
 				subsList.add(subscribe);
@@ -188,9 +192,18 @@ public class LowPriceSubscribeTask extends AsyncTask<Object,Void,Object> {
 	}
 	
 	@Override
-	protected Object doInBackground(Object... arg0) {
+	protected Object doInBackground(Object... params) {
 		Object result = new Object();
 		switch (action) {
+			case GET_LOWPRICESUBS_LIST:
+				result = getLowPriceSubsList("10", "1");
+				break;
+			case ADD_LOWPRICESUB:
+				result = addLowPriceSub((LowPriceSubscribe) params[0]);
+				break;
+			case DELETE_LOWPRICESUB:
+				result = deleteLowPriceSub((String) params[0]);
+				break;
 			default:
 				break;
 		}
@@ -199,6 +212,10 @@ public class LowPriceSubscribeTask extends AsyncTask<Object,Void,Object> {
 	@Override  
 	protected void onPostExecute(Object result) {
 		switch (action) {
+			case GET_LOWPRICESUBS_LIST:
+				LowPriceSubscribeActivity lowPriceSubscribeActivity = (LowPriceSubscribeActivity)context;
+				lowPriceSubscribeActivity.setLowPriceResultList((List<LowPriceSubscribe>) result);
+				break;
 			default:
 				break;
 		}

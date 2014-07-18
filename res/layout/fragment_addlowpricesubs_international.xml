@@ -6,14 +6,16 @@
     android:layout_marginLeft="15dp"
     android:layout_marginRight="15dp"
     android:paddingTop="20dp"   >
+
 	<LinearLayout
-	    android:id="@+id/addlowpricesubs_chooseTripType_linearLayout"
+	    android:id="@+id/addlowpricesubsinternational_chooseTripType_linearLayout"
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"
-	    android:layout_marginBottom="25dp"
+	    android:layout_marginBottom="20dp"
 	    android:orientation="horizontal" >
+
 		<TextView
-		    android:layout_width="140dp"
+		    android:layout_width="150dp"
 		    android:layout_height="wrap_content"
 		    android:layout_gravity="center_vertical"
 		    android:gravity="top"
@@ -23,7 +25,7 @@
 		    android:textSize="17sp"
 		    android:typeface="serif" />
 		<TextView
-	        android:id="@+id/addlowpricesubs_choosedTripType_textView"
+	        android:id="@+id/addlowpricesubsinternational_choosedTripType_textView"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:layout_gravity="center_vertical"
@@ -55,14 +57,16 @@
 			</LinearLayout>
 	    </LinearLayout>
     </LinearLayout>
+
 	<LinearLayout
-	    android:id="@+id/addlowpricesubs_chooseFromCity_linearLayout"
+	    android:id="@+id/addlowpricesubsinternational_chooseFromCity_linearLayout"
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"
-	    android:layout_marginBottom="25dp"
+	    android:layout_marginBottom="20dp"
 	    android:orientation="horizontal" >
+
 		<TextView
-		    android:layout_width="140dp"
+		    android:layout_width="150dp"
 		    android:layout_height="wrap_content"
 		    android:layout_gravity="center_vertical"
 		    android:gravity="top"
@@ -72,7 +76,7 @@
 		    android:textSize="17sp"
 		    android:typeface="serif" />
 		<TextView
-	        android:id="@+id/addlowpricesubs_choosedFromCity_textView"
+	        android:id="@+id/addlowpricesubsinternational_choosedFromCity_textView"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:layout_gravity="center_vertical"
@@ -106,23 +110,23 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/addlowpricesubs_chooseArrCity_linearLayout"
+        android:id="@+id/addlowpricesubsinternational_chooseArrCity_linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="25dp"
+        android:layout_marginBottom="20dp"
         android:orientation="horizontal" >
 
 	    <TextView
-	        android:layout_width="140dp"
+	        android:layout_width="150dp"
 	        android:layout_height="wrap_content"
 	        android:layout_gravity="center_vertical"
 	        android:gravity="top"
-	        android:text="到大城市"
+	        android:text="到达城市"
 	        android:textColor="@color/priceGray"
 	        android:textSize="17sp"
 	        android:typeface="serif" />
 	    <TextView
-	        android:id="@+id/addlowpricesubs_choosedArrCity_textView"
+	        android:id="@+id/addlowpricesubsinternational_choosedArrCity_textView"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:layout_gravity="center_vertical"
@@ -154,15 +158,15 @@
 			</LinearLayout>
 	    </LinearLayout>
 	</LinearLayout>
-	<LinearLayout
-	    android:id="@+id/addlowpricesubs_chooseFromDate_linearLayout"
+	<LinearLayout
+	    android:id="@+id/addlowpricesubsinternational_chooseFromDate_linearLayout"
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"
-	    android:layout_marginBottom="25dp"
+	    android:layout_marginBottom="20dp"
 	    android:orientation="horizontal" >
 
 	    <TextView
-	        android:layout_width="140dp"
+	        android:layout_width="150dp"
 	        android:layout_height="wrap_content"
 	        android:layout_gravity="center_vertical"
 	        android:gravity="top"
@@ -172,7 +176,35 @@
 	        android:typeface="serif" />
 
 		<TextView
-	        android:id="@+id/addlowpricesubs_choosedFromDate_textView"
+	        android:id="@+id/addlowpricesubsinternational_choosedFromDate_textView"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center_vertical"
+	        android:gravity="top"
+	        android:text="2014-12-10"
+	        android:textColor="@color/black"
+	        android:textSize="17sp"
+	        android:typeface="serif" />
+	</LinearLayout>
+	<LinearLayout
+	    android:id="@+id/addlowpricesubsinternational_chooseReturnDate_linearLayout"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_marginBottom="20dp"
+	    android:orientation="horizontal" >
+
+	    <TextView
+	        android:layout_width="150dp"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center_vertical"
+	        android:gravity="top"
+	        android:text="出发日期"
+	        android:textColor="@color/priceGray"
+	        android:textSize="17sp"
+	        android:typeface="serif" />
+
+		<TextView
+	        android:id="@+id/addlowpricesubsinternational_choosedReturnDate_textView"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:layout_gravity="center_vertical"
@@ -184,14 +216,14 @@
 	</LinearLayout>
 
 	<LinearLayout
-	    android:id="@+id/addlowpricesubs_chooseEarlyDelay_linearLayout"
+	    android:id="@+id/addlowpricesubsinternational_chooseEarlyDelay_linearLayout"
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"
-	    android:layout_marginBottom="25dp"
+	    android:layout_marginBottom="20dp"
 	    android:orientation="horizontal" >
 
 	    <TextView
-	        android:layout_width="140dp"
+	        android:layout_width="150dp"
 	        android:layout_height="wrap_content"
 	        android:layout_gravity="center_vertical"
 	        android:gravity="top"
@@ -201,7 +233,7 @@
 	        android:typeface="serif" />
 
 		<TextView
-	        android:id="@+id/addlowpricesubs_chooseEarlyDelay_textView"
+	        android:id="@+id/addlowpricesubsinternational_chooseEarlyDelay_textView"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:layout_gravity="center_vertical"
@@ -211,15 +243,65 @@
 	        android:textSize="17sp"
 	        android:typeface="serif" />
 	</LinearLayout>
-	<LinearLayout
-	    android:id="@+id/addlowpricesubs_planStayTime_linearLayout"
+	<LinearLayout
+	    android:id="@+id/addlowpricesubsinternational_chooseSubscribeMethod_linearLayout"
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"
-	    android:layout_marginBottom="25dp"
+	    android:layout_marginBottom="20dp"
 	    android:orientation="horizontal" >
 
 	    <TextView
-	        android:layout_width="140dp"
+	        android:layout_width="150dp"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center_vertical"
+	        android:gravity="top"
+	        android:text="选择订阅方式"
+	        android:textColor="@color/priceGray"
+	        android:textSize="17sp"
+	        android:typeface="serif" />
+
+		<TextView
+	        android:id="@+id/addlowpricesubsinternational_choosedSubscribeMethod_textView"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center_vertical"
+	        android:gravity="top"
+	        android:text="折扣"
+	        android:textColor="@color/black"
+	        android:textSize="17sp"
+	        android:typeface="serif" />
+		<LinearLayout
+	        android:layout_width="wrap_content"
+	        android:layout_height="match_parent"
+	        android:layout_gravity="top"
+	        android:layout_weight="1"
+	        android:orientation="vertical" >
+
+	        <LinearLayout
+	            android:layout_width="wrap_content"
+	            android:layout_height="match_parent"
+	            android:layout_gravity="right"
+	            android:layout_weight="1"
+	            android:orientation="horizontal" >
+
+				<ImageView
+				    android:layout_width="wrap_content"
+				    android:layout_height="wrap_content"
+				    android:layout_gravity="center_vertical"
+				    android:layout_marginLeft="5dp"
+				    android:src="@drawable/arrow_right_orange_small" />
+			</LinearLayout>
+	    </LinearLayout>
+	</LinearLayout>
+	<LinearLayout
+	    android:id="@+id/addlowpricesubsinternational_planStayTime_linearLayout"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_marginBottom="20dp"
+	    android:orientation="horizontal" >
+
+	    <TextView
+	        android:layout_width="150dp"
 	        android:layout_height="wrap_content"
 	        android:layout_gravity="center_vertical"
 	        android:gravity="top"
@@ -229,7 +311,7 @@
 	        android:typeface="serif" />
 
 		<TextView
-	        android:id="@+id/addlowpricesubs_choosedDiscount_textView"
+	        android:id="@+id/addlowpricesubsinternational_choosedDiscount_textView"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:layout_gravity="center_vertical"
@@ -238,16 +320,38 @@
 	        android:textColor="@color/black"
 	        android:textSize="17sp"
 	        android:typeface="serif" />
+		<LinearLayout
+	        android:layout_width="wrap_content"
+	        android:layout_height="match_parent"
+	        android:layout_gravity="top"
+	        android:layout_weight="1"
+	        android:orientation="vertical" >
+
+	        <LinearLayout
+	            android:layout_width="wrap_content"
+	            android:layout_height="match_parent"
+	            android:layout_gravity="right"
+	            android:layout_weight="1"
+	            android:orientation="horizontal" >
+
+				<ImageView
+				    android:layout_width="wrap_content"
+				    android:layout_height="wrap_content"
+				    android:layout_gravity="center_vertical"
+				    android:layout_marginLeft="5dp"
+				    android:src="@drawable/arrow_right_orange_small" />
+			</LinearLayout>
+	    </LinearLayout>
 	</LinearLayout>
 
 	<LinearLayout
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"
-	    android:layout_marginBottom="25dp"
+	    android:layout_marginBottom="20dp"
 	    android:orientation="horizontal" >
 
 	    <TextView
-	        android:layout_width="140dp"
+	        android:layout_width="150dp"
 	        android:layout_height="wrap_content"
 	        android:layout_gravity="center_vertical"
 	        android:gravity="top"
@@ -257,7 +361,7 @@
 	        android:typeface="serif" />
 
 			<EditText
-			    android:id="@+id/addlowpricesubs_input_mobile_editText"
+			    android:id="@+id/addlowpricesubsinternational_input_mobile_editText"
 			    android:layout_width="wrap_content"
 			    android:layout_height="wrap_content"
 			    android:background="@color/white"

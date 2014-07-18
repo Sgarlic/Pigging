@@ -72,11 +72,21 @@ public class NationalitySelectActivity extends FragmentActivity {
         letterListView = (LetterSelectListView) findViewById(R.id.nationality_select_letter_listView);
         letterListView.setOnTouchingLetterChangedListener(new LetterListViewListener());
         
+        while(GlobalVariables.allCitiesList.size() == 0){
+        	try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+        }
+        
         List<Country> hotCountryList = new ArrayList<Country>();
         for(Country country : GlobalVariables.allCountriesList){
         	if (country.isCountryHot())
         		hotCountryList.add(country);
         }
+        
         countryAdapter = new CountryListAdapter(this,hotCountryList,GlobalVariables.allCountriesList);
         nationalityListView.setAdapter(countryAdapter);
         
