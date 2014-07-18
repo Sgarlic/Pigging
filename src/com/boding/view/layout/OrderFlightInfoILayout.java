@@ -4,6 +4,7 @@ import com.boding.R;
 import com.boding.constants.Constants;
 import com.boding.constants.GlobalVariables;
 import com.boding.model.FlightLine;
+import com.boding.model.Segment;
 import com.boding.util.DateUtil;
 import com.boding.util.Util;
 import com.boding.view.dialog.SeatChangeBackDialog;
@@ -27,10 +28,11 @@ public class OrderFlightInfoILayout extends LinearLayout{
 	private TextView fromTextView;
 	private TextView toTextView;
 	private TextView dateTextView;
+	
 	private ImageView fromCompanyLogoImageView;
 	private TextView fromCompanyTextView;
 	private TextView fromPlaneCodeTextView;
-	private TextView fromPlanSizeTextView;
+	private TextView fromPlaneSizeTextView;
 	private TextView fromFlightClassTextView;
 	private TextView fromPlaneTypeTextView;
 	private TextView fromDateDayTextView;
@@ -40,21 +42,8 @@ public class OrderFlightInfoILayout extends LinearLayout{
 	private TextView arrivalDateTimeTextView;
 	private TextView arrivalTerminalTextView;
 	private TextView fromEstimateTimeTextView;
-	private TextView transitCityTextView;
-	private TextView transitEstimateStayTimeTextView;
-	private ImageView toCompanyLogoImageView;
-	private TextView toCompanyTextView;
-	private TextView toPlaneCodeTextView;
-	private TextView toPlaneSizeTextView;
-	private TextView toFligthClassTextView;
-	private TextView toPlanTypeTextView;
-	private TextView departureDateDayTextView;
-	private TextView departureDteTimeTextView;
-	private TextView departureTerminalTextView;
-	private TextView toDateDayTextView;
-	private TextView toDateTimeTextView;
-	private TextView toTerminalTextView;
-	private TextView toEstimateTimeTextView;
+	
+	
 	private LinearLayout seatBackChangeInfoLinearLayout; 
 	
 	private TextView ticketPricePriceTextView;
@@ -62,6 +51,11 @@ public class OrderFlightInfoILayout extends LinearLayout{
 	
 	private FlightLine flightLine;
 	private boolean isReturn = false;
+	
+	private LinearLayout fromInfoLinearLayout;
+	private LinearLayout transitInfoLinearLayout;
+	
+	private LinearLayout segmentInfoLinearLayout;
 	
 	// if init complete
 	private boolean flag = false;
@@ -98,20 +92,28 @@ public class OrderFlightInfoILayout extends LinearLayout{
 		}
 		
 		dateTextView.setText(flightLine.getLeaveTime());
-		fromCompanyLogoImageView.setImageBitmap(Util.getFlightCompanyLogo(context, flightLine.getLeaveCarrier()));
-		fromCompanyTextView.setText(flightLine.getLeaveAirCompany());
-		fromPlaneCodeTextView.setText(flightLine.getLeaveCarrier() + flightLine.getLeaveFlightNum());
-		fromPlanSizeTextView.setText(flightLine.getLeavePlane());
-		fromFlightClassTextView.setText(flightLine.getLeaveFlightClassName());
-		fromPlaneTypeTextView.setText(flightLine.getLeavePlane());
-		fromDateDayTextView.setText(flightLine.getLeaveDate());
-		fromDateTimeTextView.setText(DateUtil.getFormatedTime(flightLine.getLeaveTime()));
-		fromTerminalTextView.setText(flightLine.getLeaveTerminal());
-		arrivalDateDayTextView.setText(flightLine.getLeaveToDate());
-		arrivalDateTimeTextView.setText(DateUtil.getFormatedTime(flightLine.getLeaveToTime()));
-		arrivalTerminalTextView.setText(flightLine.getLeaveToTerminal());
-		fromEstimateTimeTextView.setText(flightLine.getLeaveEstimateTime());
 		
+		int segmentSize = flightLine.getDeparture().getSegments().size();
+		for(int i = 0; i<segmentSize - 1; i ++){
+			OrderFlightInfoISegmentLayout orderFlightInfoISegmentLinearLayout = new OrderFlightInfoISegmentLayout(context,
+					flightLine.getDeparture().getSegments().get(i));
+			segmentInfoLinearLayout.addView(orderFlightInfoISegmentLinearLayout);
+		}
+
+		Segment segment = flightLine.getDeparture().getSegments().get(segmentSize - 1);
+		fromCompanyLogoImageView.setImageBitmap(Util.getFlightCompanyLogo(context, segment.getCarrier()));
+		fromCompanyTextView.setText(segment.getCarname());
+		fromPlaneCodeTextView.setText(segment.getCarrier() + segment.getNum());
+		fromPlaneSizeTextView.setText(segment.getPlane());
+//		fromFlightClassTextView.setText(segment.getFclasslist().g);
+		fromPlaneTypeTextView.setText(segment.getPlane());
+		fromDateDayTextView.setText(segment.getLeadate());
+		fromDateTimeTextView.setText(DateUtil.getFormatedTime(segment.getLeatime()));
+		fromTerminalTextView.setText(segment.getLeaTerminal());
+		arrivalDateDayTextView.setText(segment.getArrdate());
+		arrivalDateTimeTextView.setText(DateUtil.getFormatedTime(segment.getArrtime()));
+		arrivalTerminalTextView.setText(segment.getArrTerminal());
+		fromEstimateTimeTextView.setText(segment.getEstimatedTime());
 	}
 	
 	private void initView(){
@@ -125,38 +127,27 @@ public class OrderFlightInfoILayout extends LinearLayout{
 		fromTextView = (TextView)view.findViewById(R.id.flightinfo_i_from_textView);
 		toTextView = (TextView)view.findViewById(R.id.flightinfo_i_to_textView);
 		dateTextView = (TextView)view.findViewById(R.id.flightinfo_i_date_textView);
-		fromCompanyLogoImageView = (ImageView)view.findViewById(R.id.flightinfo_i_fromCompanyLogo_imageView);
-		fromCompanyTextView = (TextView)view.findViewById(R.id.flightinfo_i_fromCompany_textView);
-		fromPlaneCodeTextView = (TextView)view.findViewById(R.id.flightinfo_i_fromPlanecode_textView);
-		fromPlanSizeTextView = (TextView)view.findViewById(R.id.flightinfo_i_fromPlanesize_textView);
-		fromFlightClassTextView = (TextView)view.findViewById(R.id.flightinfo_i_fromFlightclass_textView);
-		fromPlaneTypeTextView = (TextView)view.findViewById(R.id.flightinfo_i_fromPlaneType_textView);
-		fromDateDayTextView = (TextView)view.findViewById(R.id.flightinfo_i_fromDateDay_textView);
-		fromDateTimeTextView = (TextView)view.findViewById(R.id.flightinfo_i_fromDateTime_textView);
-		fromTerminalTextView = (TextView)view.findViewById(R.id.flightinfo_i_fromTerminal_textView);
-		arrivalDateDayTextView = (TextView)view.findViewById(R.id.flightinfo_i_arrivalDateDay_textView);
-		arrivalDateTimeTextView = (TextView)view.findViewById(R.id.flightinfo_i_arrivalDateTime_textView);
-		arrivalTerminalTextView = (TextView)view.findViewById(R.id.flightinfo_i_arrivalTerminal_textView);
-		fromEstimateTimeTextView = (TextView)view.findViewById(R.id.flightinfo_i_fromEstimateTime_textView);
-		transitCityTextView = (TextView)view.findViewById(R.id.flightinfo_i_tansitCity_textView);
-		transitEstimateStayTimeTextView = (TextView)view.findViewById(R.id.flightinfo_i_tansitEstimateStayTime_textView);
-		toCompanyLogoImageView = (ImageView)view.findViewById(R.id.flightinfo_i_toCompanyLogo_imageView);
-		toCompanyTextView = (TextView)view.findViewById(R.id.flightinfo_i_toCompany_textView);
-		toPlaneCodeTextView = (TextView)view.findViewById(R.id.flightinfo_i_toPlanecode_textView);
-		toPlaneSizeTextView = (TextView)view.findViewById(R.id.flightinfo_i_toPlanesize_textView);
-		toFligthClassTextView = (TextView)view.findViewById(R.id.flightinfo_i_toFlightclass_textView);
-		toPlanTypeTextView = (TextView)view.findViewById(R.id.flightinfo_i_toPlaneType_textView);
-		departureDateDayTextView = (TextView)view.findViewById(R.id.flightinfo_i_departureDateDay_textView);
-		departureDteTimeTextView = (TextView)view.findViewById(R.id.flightinfo_i_departureDateTime_textView);
-		departureTerminalTextView = (TextView)view.findViewById(R.id.flightinfo_i_departureTerminal_textView);
-		toDateDayTextView = (TextView)view.findViewById(R.id.flightinfo_i_toDateDay_textView);
-		toDateTimeTextView = (TextView)view.findViewById(R.id.flightinfo_i_toDateTime_textView);
-		toTerminalTextView = (TextView)view.findViewById(R.id.flightinfo_i_toTerminal_textView);
-		toEstimateTimeTextView = (TextView)view.findViewById(R.id.flightinfo_i_toEstimateTime_textView);
+
+		
+		fromCompanyLogoImageView = (ImageView)view.findViewById(R.id.flightinfo_i_toCompanyLogo_imageView);
+		fromCompanyTextView = (TextView)view.findViewById(R.id.flightinfo_i_toCompany_textView);
+		fromPlaneCodeTextView = (TextView)view.findViewById(R.id.flightinfo_i_toPlanecode_textView);
+		fromPlaneSizeTextView = (TextView)view.findViewById(R.id.flightinfo_i_toPlanesize_textView);
+		fromFlightClassTextView = (TextView)view.findViewById(R.id.flightinfo_i_toFlightclass_textView);
+		fromPlaneTypeTextView = (TextView)view.findViewById(R.id.flightinfo_i_toPlaneType_textView);
+		fromDateDayTextView = (TextView)view.findViewById(R.id.flightinfo_i_departureDateDay_textView);
+		fromDateTimeTextView = (TextView)view.findViewById(R.id.flightinfo_i_departureDateTime_textView);
+		fromTerminalTextView = (TextView)view.findViewById(R.id.flightinfo_i_departureTerminal_textView);
+		arrivalDateDayTextView = (TextView)view.findViewById(R.id.flightinfo_i_toDateDay_textView);
+		arrivalDateTimeTextView = (TextView)view.findViewById(R.id.flightinfo_i_toDateTime_textView);
+		arrivalTerminalTextView = (TextView)view.findViewById(R.id.flightinfo_i_toTerminal_textView);
+		fromEstimateTimeTextView = (TextView)view.findViewById(R.id.flightinfo_i_toEstimateTime_textView);
 		seatBackChangeInfoLinearLayout = (LinearLayout)view.findViewById(R.id.flightinfo_i_seatBackChangeInfo_linearLayout);
 		
 		ticketPricePriceTextView = (TextView)view.findViewById(R.id.orderform_ticketPrice_price_textView);
 		ticketTaxPriceTextView = (TextView)view.findViewById(R.id.orderform_ticketTax_price_textView);
+		
+		segmentInfoLinearLayout = (LinearLayout) view.findViewById(R.id.flightinfo_i_segmentinfo_linearLayout);
 		
 		this.addView(view);
 		addListeners();

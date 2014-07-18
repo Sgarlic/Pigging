@@ -96,6 +96,8 @@ public class OrderFormActivity extends Activity {
         		selectedRoundwayFlight = arguments.getParcelable(IntentExtraAttribute.FLIGHT_LINE_INFO_ROUNDWAY);
         	}
         }
+        if(!isDomestic)
+        	selectedFlight = GlobalVariables.flightLine;
 	}
 	
 	private void setDeliveryAddr(){
@@ -117,17 +119,18 @@ public class OrderFormActivity extends Activity {
 			insuranceAmountTextView.setText("0");
 			
 		}
-		
-		Flight flight = (Flight)selectedFlight;
-		Cabin cabin = flight.getCabins().get(flight.getSelectedClassPos());
-		if(passengerList != null){
-	        for(Passenger passenger : passengerList){
-				if(passenger.isAdult()){
-					ticketPrice += (cabin.getAdultPrice() + 
-						Integer.parseInt(flight.getAdultAirportFee()) + Integer.parseInt(flight.getAdultFuelFee()));
-				}else{
-					ticketPrice += (cabin.getChildPrice() +
-						cabin.getChildAirportFee() + cabin.getChildFuelFee());
+		if(isDomestic){
+			Flight flight = (Flight)selectedFlight;
+			Cabin cabin = flight.getCabins().get(flight.getSelectedClassPos());
+			if(passengerList != null){
+		        for(Passenger passenger : passengerList){
+					if(passenger.isAdult()){
+						ticketPrice += (cabin.getAdultPrice() + 
+							Integer.parseInt(flight.getAdultAirportFee()) + Integer.parseInt(flight.getAdultFuelFee()));
+					}else{
+						ticketPrice += (cabin.getChildPrice() +
+							cabin.getChildAirportFee() + cabin.getChildFuelFee());
+					}
 				}
 			}
 		}

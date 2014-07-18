@@ -9,6 +9,7 @@ import android.content.ContentValues;
 import com.boding.model.BodingUser;
 import com.boding.model.City;
 import com.boding.model.Country;
+import com.boding.model.FlightLine;
 import com.boding.model.Province;
 import com.boding.util.DateUtil;
 
@@ -46,6 +47,8 @@ public class GlobalVariables {
 	
 	public static BodingUser bodingUser = null;
 	public static String contact_boding_phonenum = "021-54738327";
+	
+	public static FlightLine flightLine;
 //	public static boolean isFlyToCitySelection = false;
 //	public static boolean isInternationCitySelection = false;
 }

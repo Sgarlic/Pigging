@@ -2,6 +2,8 @@ package com.boding.model;
 
 import java.util.List;
 
+import com.boding.util.DateUtil;
+
 public class Segment {
 	private String id;
 	private String carrier;
@@ -138,5 +140,10 @@ public class Segment {
 		this.fclasslist = fclasslist;
 	}
 	
+	
+	public String getEstimatedTime(){
+		return DateUtil.getTimeIntDiff(DateUtil.getDateFromString(arrdate, arrtime).getTime(),
+				DateUtil.getDateFromString(leadate, leatime).getTime());
+	}
 	
 }

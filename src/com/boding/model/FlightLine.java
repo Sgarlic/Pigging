@@ -16,7 +16,8 @@ public class FlightLine implements FlightInterface{
 	private int defaultShowedCabinPos = 0;
 	private List<FlightClass> selectedCabins = new ArrayList<FlightClass>();
 	
-	int segmentSize = 0;
+	private Segment firstSegment = null;
+	private Segment lastSegment = null;
 	
 	public String getCurrentClass(){
 		return this.selectedCabins.get(defaultShowedCabinPos).getClassType();
@@ -28,7 +29,9 @@ public class FlightLine implements FlightInterface{
 
 	public void setDeparture(Departure departure) {
 		this.departure = departure;
-		segmentSize = getDeparture().getSegments().size();
+		int segmentSize = getDeparture().getSegments().size();
+		firstSegment = getDeparture().getSegments().get(0);
+		lastSegment = getDeparture().getSegments().get(segmentSize - 1);
 	}
 
 	public int getDefaultShowedCabinPos() {
@@ -48,11 +51,11 @@ public class FlightLine implements FlightInterface{
 	}
 
 	public String getFlyFromCity(){
-		return CityUtil.getCityNameByCode(departure.getSegments().get(0).getLeacode());
+		return CityUtil.getCityNameByCode(firstSegment.getLeacode());
 	}
 	
 	public String getFlyToCity(){
-		return CityUtil.getCityNameByCode(departure.getSegments().get(segmentSize-1).getLeacode());
+		return CityUtil.getCityNameByCode(lastSegment.getLeacode());
 	}
 	
 	public String getFlightType() {
@@ -70,11 +73,11 @@ public class FlightLine implements FlightInterface{
 	}
 	
 	public String getLeaveTime(){
-		return departure.getSegments().get(0).getLeatime();
+		return firstSegment.getLeatime();
 	}
 	
 	public String getLeaveToTime(){
-		return departure.getSegments().get(0).getArrtime();
+		return firstSegment.getArrtime();
 	}
 
 	public String getLeaveEstimateTime(){
@@ -83,12 +86,18 @@ public class FlightLine implements FlightInterface{
 			DateUtil.getDateFromString(getLeaveToDate(), getLeaveToTime()).getTime());
 	}
 	
+	public String getArriveEstimateTime(){
+		return DateUtil.getTimeIntDiff(
+				DateUtil.getDateFromString(getArriveFromDate(), getArriveFromTime()).getTime(), 
+				DateUtil.getDateFromString(getArriveDate(), getArriveTime()).getTime());
+	}
+	
 	public String getArriveFromTime(){
-		return departure.getSegments().get(segmentSize-1).getLeatime();
+		return lastSegment.getLeatime();
 	}
 	
 	public String getArriveTime(){
-		return departure.getSegments().get(segmentSize-1).getArrtime();
+		return lastSegment.getArrtime();
 	}
 	
 	public boolean hasTransit(){
@@ -96,43 +105,55 @@ public class FlightLine implements FlightInterface{
 	}
 	
 	public String getFlightPrice(){
-		return this.departure.getSegments().get(0).getFclasslist().get(0).getPrice().getFile();
+		return this.firstSegment.getFclasslist().get(0).getPrice().getFile();
 	}
 	
 	public String getLeaveDate(){
-		return departure.getSegments().get(0).getLeadate();
+		return firstSegment.getLeadate();
 	}
 	
 	public String getLeaveToDate(){
-		return departure.getSegments().get(0).getArrdate();
+		return firstSegment.getArrdate();
 	}
 	
 	public String getArriveFromDate(){
-		return departure.getSegments().get(segmentSize-1).getLeadate();
+		return lastSegment.getLeadate();
 	}
 	
 	public String getArriveDate(){
-		return departure.getSegments().get(segmentSize-1).getArrdate();
+		return lastSegment.getArrdate();
 	}
 	
 	public String getSeat(){
-		return departure.getSegments().get(0).getFclasslist().get(0).getSeat();
+		return firstSegment.getFclasslist().get(0).getSeat();
 	}
 	
 	public String getLeaveAirCompany(){
-		return departure.getSegments().get(0).getCarname();
+		return firstSegment.getCarname();
+	}
+	
+	public String getArriveAirCompany(){
+		return lastSegment.getCarname();
 	}
 	
 	public String getLeavePlane(){
-		return departure.getSegments().get(0).getPlane();
+		return firstSegment.getPlane();
 	}
 	
 	public String getLeaveCarrier(){
-		return departure.getSegments().get(0).getCarrier();
+		return firstSegment.getCarrier();
+	}
+	
+	public String getArriveCarrier(){
+		return lastSegment.getCarrier();
 	}
 	
 	public String getLeaveFlightNum(){
-		return departure.getSegments().get(0).getNum();
+		return firstSegment.getNum();
+	}
+	
+	public String getArriveFlightNum(){
+		return lastSegment.getNum();
 	}
 	
 	public String getLeaveFlightClassName(){
@@ -140,35 +161,35 @@ public class FlightLine implements FlightInterface{
 	}
 	
 	public String getLeaveAirport(){
-		return departure.getSegments().get(0).getLeaname();
+		return firstSegment.getLeaname();
 	}
 	
 	public String getLeaveTerminal(){
-		return departure.getSegments().get(0).getLeaTerminal();
+		return firstSegment.getLeaTerminal();
 	}
 	
 	public String getLeaveToAirport(){
-		return departure.getSegments().get(0).getArrname();
+		return firstSegment.getArrname();
 	}
 	
 	public String getLeaveToTerminal(){
-		return departure.getSegments().get(0).getArrTerminal();
+		return firstSegment.getArrTerminal();
 	}
 	
 	public String getArriveFromAirport(){
-		return departure.getSegments().get(segmentSize-1).getLeaname();
+		return lastSegment.getLeaname();
 	}
 	
 	public String getArriveFromTerminal(){
-		return departure.getSegments().get(segmentSize-1).getLeaTerminal();
+		return lastSegment.getLeaTerminal();
 	}
 	
 	public String getArriveAirport(){
-		return departure.getSegments().get(segmentSize-1).getArrname();
+		return lastSegment.getArrname();
 	}
 	
 	public String getArriveTerminal(){
-		return departure.getSegments().get(segmentSize-1).getArrTerminal();
+		return lastSegment.getArrTerminal();
 	}
 	
 	public int getSegmentSize(){
@@ -176,23 +197,23 @@ public class FlightLine implements FlightInterface{
 	}
 	
 	public int getFlightClassNum(){
-		return departure.getSegments().get(0).getFclasslist().size();
+		return firstSegment.getFclasslist().size();
 	}
 	
 	public FlightClass getFlightClassByPos(int position){
-		return departure.getSegments().get(0).getFclasslist().get(position);
+		return firstSegment.getFclasslist().get(position);
 	}
 	
 	public int getLeaveTimeInt(){
-		return Integer.parseInt(departure.getSegments().get(0).getLeatime());
+		return Integer.parseInt(firstSegment.getLeatime());
 	}
 	
 	public int getFlightPriceInt(){
-		return Integer.parseInt(departure.getSegments().get(0).getFclasslist().get(0).getPrice().getFile());
+		return Integer.parseInt(firstSegment.getFclasslist().get(0).getPrice().getFile());
 	}
 	
 	public int getSelectedClassLeftTicket(){
-		String seat = this.departure.getSegments().get(0).getFclasslist().get(selectedClassPos).getSeat();
+		String seat = this.firstSegment.getFclasslist().get(selectedClassPos).getSeat();
 		if(seat.equals("A"))
 			return 10;
 		return Integer.parseInt(seat);
@@ -202,7 +223,7 @@ public class FlightLine implements FlightInterface{
 		double lowest = Double.MAX_VALUE;
 		FlightClass cabin = null;
 		selectedCabins = new ArrayList<FlightClass>();
-		List<FlightClass> cabins = this.departure.getSegments().get(0).getFclasslist();
+		List<FlightClass> cabins = this.firstSegment.getFclasslist();
 		System.out.println(" ((((((((("+cabins.size());
 		for(int i=0; i<cabins.size(); ++i){
 			cabin = cabins.get(i);
@@ -218,7 +239,7 @@ public class FlightLine implements FlightInterface{
 	}
 	
 	public void resetShowedCabins(){
-		this.selectedCabins = this.departure.getSegments().get(0).getFclasslist();
+		this.selectedCabins = this.firstSegment.getFclasslist();
 	}
 
 	public static class LeatimeComp implements Comparator<FlightLine>{

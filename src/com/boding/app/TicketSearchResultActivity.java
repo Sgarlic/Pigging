@@ -485,11 +485,22 @@ public class TicketSearchResultActivity extends FragmentActivity {
 							  (Flight)choosedGoFlight);
 					  bundle.putParcelable(IntentExtraAttribute.FLIGHT_LINE_INFO_ROUNDWAY, 
 							  (Flight)flightInterface);
+				  }else{
+//					  bundle.putParcelable(IntentExtraAttribute.FLIGHT_LINE_INFO, 
+//							  (FlightLine)choosedGoFlight);
+//					  bundle.putParcelable(IntentExtraAttribute.FLIGHT_LINE_INFO_ROUNDWAY, 
+//							  (Flight)flightInterface);
 				  }
 			  }else{
 				  if(!isInternational){
 					  bundle.putParcelable(IntentExtraAttribute.FLIGHT_LINE_INFO, 
 							  (Flight)flightInterface);
+				  }else{
+					  GlobalVariables.flightLine = (FlightLine)flightInterface;
+					  FlightLine flightLine = GlobalVariables.flightLine;
+					  System.out.println(flightLine);
+//					  bundle.putParcelable(IntentExtraAttribute.FLIGHT_LINE_INFO, 
+//							  (Flight)flightInterface);
 				  }
 			  }
 			  intent.putExtras(bundle);

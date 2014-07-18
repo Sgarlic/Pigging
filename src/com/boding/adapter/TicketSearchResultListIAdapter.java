@@ -105,7 +105,7 @@ public class TicketSearchResultListIAdapter extends TicketSearchResultAdapter {
             
         }  
     	
-		FlightLine currentFlightLine = getGroup(groupPosition);
+		final FlightLine currentFlightLine = getGroup(groupPosition);
 		String leavetime = currentFlightLine.getLeaveTime();
 		String arrivetime = currentFlightLine.getArriveTime();
 		String flyingtime = Util.calculateFlyingtime(currentFlightLine.getLeaveDate(), currentFlightLine.getArriveDate(), leavetime, arrivetime);
@@ -144,9 +144,7 @@ public class TicketSearchResultListIAdapter extends TicketSearchResultAdapter {
 		holder.toOrderLinearLayout.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent();
-				intent.setClass(context, OrderFormActivity.class);
-				((TicketSearchResultActivity)context).startActivityForResult(intent,IntentRequestCode.ORDER_FORM.getRequestCode());
+				((TicketSearchResultActivity)context).goToNextActivity(currentFlightLine);
 			}
 		});
 		
