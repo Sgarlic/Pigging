@@ -59,7 +59,7 @@ public class AirlineView implements AirlineInterface{
 		int lowestPrice = Integer.MAX_VALUE;
 		int temp = 0;
 		for(FlightLine line : lines){
-			temp = Integer.parseInt(line.getFlightPrice());
+			temp = line.getLowestPrice();
 			lowestPrice = lowestPrice < temp ? lowestPrice : temp;
 		}
 		return String.valueOf(lowestPrice);

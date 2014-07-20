@@ -91,7 +91,7 @@ public class OrderFlightInfoILayout extends LinearLayout{
 			toTextView.setText(GlobalVariables.To_City);
 		}
 		
-		dateTextView.setText(flightLine.getLeaveTime());
+		dateTextView.setText(flightLine.getLeaveDate());
 		
 		int segmentSize = flightLine.getDeparture().getSegments().size();
 		for(int i = 0; i<segmentSize - 1; i ++){
@@ -114,6 +114,7 @@ public class OrderFlightInfoILayout extends LinearLayout{
 		arrivalDateTimeTextView.setText(DateUtil.getFormatedTime(segment.getArrtime()));
 		arrivalTerminalTextView.setText(segment.getArrTerminal());
 		fromEstimateTimeTextView.setText(segment.getEstimatedTime());
+		ticketPricePriceTextView.setText(flightLine.getFlightPrice());
 	}
 	
 	private void initView(){

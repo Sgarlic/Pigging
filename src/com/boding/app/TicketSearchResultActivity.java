@@ -497,8 +497,6 @@ public class TicketSearchResultActivity extends FragmentActivity {
 							  (Flight)flightInterface);
 				  }else{
 					  GlobalVariables.flightLine = (FlightLine)flightInterface;
-					  FlightLine flightLine = GlobalVariables.flightLine;
-					  System.out.println(flightLine);
 //					  bundle.putParcelable(IntentExtraAttribute.FLIGHT_LINE_INFO, 
 //							  (Flight)flightInterface);
 				  }

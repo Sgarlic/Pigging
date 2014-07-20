@@ -201,6 +201,7 @@ public class TicketSearchResultListIAdapter extends TicketSearchResultAdapter {
         
         holder.leftTicketTextView.setText(">9");
         holder.returnMoneyTextView.setText("5");
+        holder.priceTextView.setText(flightClass.getPrice().getAdult());
 //        discountTextView.setTextij");
 //        priceTextView.setText(flightClass.getPrice()+"");
         

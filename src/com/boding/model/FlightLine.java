@@ -1,9 +1,14 @@
 package com.boding.model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import com.boding.model.domestic.Cabin;
 import com.boding.util.CityUtil;
 
 public class FlightLine implements FlightInterface{
@@ -84,7 +89,8 @@ public class FlightLine implements FlightInterface{
 	}
 	
 	public String getFlightPrice(){
-		return this.firstSegment.getFclasslist().get(0).getPrice().getFile();
+		System.out.println(this.getClass().toString() + "  " + this.selectedCabins.size());
+		return this.selectedCabins.get(defaultShowedCabinPos).getPrice().getAdult();
 	}
 	
 	public String getLeaveDate(){
@@ -253,4 +259,15 @@ public class FlightLine implements FlightInterface{
 	public int getSelectedClassPos() {
 		return this.selectedClassPos;
 	}
+	
+	public int getLowestPrice(){
+		int lowest = Integer.MAX_VALUE;
+		int temp;
+		for(FlightClass cabin : departure.getSegments().get(0).getFclasslist()){
+			temp = Integer.parseInt(cabin.getPrice().getAdult());
+			lowest = lowest <= temp ? lowest : temp;
+		}
+		return lowest;
+	}
+	
 }
