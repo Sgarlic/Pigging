@@ -27,7 +27,7 @@
 			        android:layout_height="wrap_content"
 			        android:layout_gravity="bottom"
 			        android:layout_marginBottom="10dp"
-			        android:src="@drawable/toppage_searchmethod" />
+			        android:src="@drawable/toppage_searchmethod_flyfromto" />
 			</LinearLayout>
 		</LinearLayout>
 	</LinearLayout>
@@ -53,13 +53,46 @@
 		        android:layout_marginRight="10dp"
 		        android:layout_weight="1"
 		        android:orientation="vertical" >
-				<LinearLayout
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:layout_gravity="bottom"
-					android:layout_weight="4"
-					android:orientation="horizontal" >
 
+			    <LinearLayout
+			        android:id="@+id/toppage_searchby_flightNum_linearlayout"
+			        android:layout_width="match_parent"
+			        android:layout_height="wrap_content"
+			        android:layout_gravity="bottom"
+			        android:layout_weight="4"
+			        android:orientation="horizontal"
+			        android:visibility="gone" >
+			        <ImageView
+			            android:layout_marginRight="5dp"
+			    		android:layout_width="wrap_content"
+			    		android:layout_height="wrap_content"
+			    		android:layout_gravity="center_vertical"
+			    		android:src="@drawable/toppage_searchbyflightnum" />
+			        <EditText
+					    android:id="@+id/toppage_searchbyflightnum_editText"
+					    android:layout_width="wrap_content"
+					    android:layout_height="wrap_content"
+					    android:ems="8"
+					    android:hint="HO1251"
+					    android:maxLines="1"
+					    android:layout_gravity="center_vertical"
+					    android:textColor="@color/white"
+					    android:textColorHint="@color/white"
+					    android:background="@null"
+					    android:textSize="17sp"
+					    android:typeface="serif" >
+					    <requestFocus />
+					</EditText>
+				</LinearLayout>
+
+				<LinearLayout
+				    android:id="@+id/toppage_searchby_flyfromto_linearlayout"
+				    android:layout_width="match_parent"
+				    android:layout_height="wrap_content"
+				    android:layout_gravity="bottom"
+				    android:layout_weight="4"
+				    android:orientation="horizontal"
+				    android:visibility="visible" >
 
 						<ImageView
 				    		android:layout_width="wrap_content"
@@ -270,6 +303,26 @@
 	    android:layout_height="match_parent"
 	    android:orientation="horizontal" >
 
+	    <LinearLayout
+	        android:id="@+id/toppage_myfollowed_linearLayout"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="bottom"
+	        android:layout_marginBottom="15dp"
+	        android:layout_marginLeft="10dp"
+	        android:orientation="horizontal" >
+
+			<ImageView
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:src="@drawable/arrow_left_returntoprepage" />
+			<TextView
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:text="我的关注"
+			    android:textColor="@color/white"
+			    android:textSize="18sp" />
+		</LinearLayout>
 	    <LinearLayout
 		    android:layout_width="match_parent"
 		    android:layout_height="wrap_content"

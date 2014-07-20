@@ -57,7 +57,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/addlowpricesubs_chooseArrCity_linearLayout"
+        android:id="@+id/addlowpricesubs_chooseToCity_linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="25dp"
@@ -68,12 +68,12 @@
 	        android:layout_height="wrap_content"
 	        android:layout_gravity="center_vertical"
 	        android:gravity="top"
-	        android:text="到大城市"
+	        android:text="到达城市"
 	        android:textColor="@color/priceGray"
 	        android:textSize="17sp"
 	        android:typeface="serif" />
 	    <TextView
-	        android:id="@+id/addlowpricesubs_choosedArrCity_textView"
+	        android:id="@+id/addlowpricesubs_choosedToCity_textView"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:layout_gravity="center_vertical"
@@ -209,7 +209,7 @@
 	        android:layout_height="wrap_content"
 	        android:layout_gravity="center_vertical"
 	        android:gravity="top"
-	        android:text="5折及以下"
+	        android:text="7 折及以下"
 	        android:textColor="@color/black"
 	        android:textSize="17sp"
 	        android:typeface="serif" />
@@ -237,6 +237,40 @@
 			</LinearLayout>
 	    </LinearLayout>
 	</LinearLayout>
+	<LinearLayout
+	    android:id="@+id/addlowpricesubs_inputPrice_linearLayout"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_marginBottom="25dp"
+	    android:orientation="horizontal" >
+
+	    <TextView
+	        android:layout_width="150dp"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center_vertical"
+	        android:gravity="top"
+	        android:text="价格"
+	        android:textColor="@color/priceGray"
+	        android:textSize="17sp"
+	        android:typeface="serif" />
+		<EditText
+		    android:id="@+id/addlowpricesubs_inputPrice_editText"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		     android:layout_gravity="center_vertical"
+		     android:inputType="number"
+		    android:background="@color/white"
+		    android:ems="8"
+		    android:hint="请输入价格"
+		    android:maxLines="1"
+		    android:textColor="@color/black"
+		    android:textColorHint="@color/listviewDividerColor"
+		    android:textSize="17sp"
+		    android:typeface="serif" >
+
+		    <requestFocus />
+		</EditText>
+	</LinearLayout>
 
 	<LinearLayout
 	    android:layout_width="match_parent"
@@ -260,6 +294,7 @@
 			    android:layout_height="wrap_content"
 			    android:background="@color/white"
 			    android:ems="8"
+			    android:inputType="number"
 			    android:hint="用于接收低价通知"
 			    android:maxLines="1"
 			    android:textColor="@color/black"

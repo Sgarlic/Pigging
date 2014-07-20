@@ -5,27 +5,28 @@ import com.boding.constants.Weather;
 
 public class FlightDynamics {
 	private String id;
+	private String date;
 	private String carrier;
 	private String num;
 	private String car_name;
 	private String plan_dep_time;
-	private String expect_dep_time;
-	private String actual_dep_time;
+	private String expect_dep_time = "";
+	private String actual_dep_time = "";
 	private String dep_airport_code;
 	private String arr_airport_code;
 	private String dep_airport_name;
 	private String arr_airport_name;
-	private String dep_terminal;
-	private String arr_terminal;
+	private String dep_terminal = "";
+	private String arr_terminal = "";
 	private String plan_arr_time;
-	private String expect_arr_time;
-	private String actual_arr_time;
+	private String expect_arr_time = "";
+	private String actual_arr_time = "";
 	private FlightStatus flightStatus;
-	private String punctuality;
-	private Weather dep_weather;
-	private String dep_temperature;
-	private Weather arr_weather;
-	private String arr_temperature;
+	private String punctuality = "";
+	private Weather dep_weather = null;
+	private String dep_temperature = "";
+	private Weather arr_weather = null;
+	private String arr_temperature = "";
 	
 	public String getId() {
 		return id;
@@ -129,12 +130,28 @@ public class FlightDynamics {
 	public void setFlightStatus(FlightStatus flightStatus) {
 		this.flightStatus = flightStatus;
 	}
+	public void setFlightStatusByCode(String flightStatusCode) {
+		this.flightStatus = FlightStatus.getFlightStatusFromCode(flightStatusCode);
+		if(this.flightStatus == null)
+			setFlightStatusByName(flightStatusCode);
+	}
+	public void setFlightStatusByName(String flightStatusName) {
+		this.flightStatus = FlightStatus.getFlightStatusFromName(flightStatusName);
+		if(this.flightStatus == null)
+			this.flightStatus = FlightStatus.PLAN;
+	}
 	public String getPunctuality() {
 		return punctuality;
 	}
 	public void setPunctuality(String punctuality) {
 		this.punctuality = punctuality;
 	}
+	public String getDep_weatherCodeString() {
+		if(this.dep_weather == null)
+			return "";
+		return dep_weather.getWeatherCode();
+	}
+	
 	public Weather getDep_weather() {
 		return dep_weather;
 	}
@@ -147,6 +164,11 @@ public class FlightDynamics {
 	public void setDep_temperature(String dep_temperature) {
 		this.dep_temperature = dep_temperature;
 	}
+	public String getArr_weatherCodeString() {
+		if(arr_weather == null)
+			return "";
+		return arr_weather.getWeatherCode();
+	}
 	public Weather getArr_weather() {
 		return arr_weather;
 	}
@@ -158,5 +180,11 @@ public class FlightDynamics {
 	}
 	public void setArr_temperature(String arr_temperature) {
 		this.arr_temperature = arr_temperature;
+	}
+	public String getDate() {
+		return date;
+	}
+	public void setDate(String date) {
+		this.date = date;
 	}
 }

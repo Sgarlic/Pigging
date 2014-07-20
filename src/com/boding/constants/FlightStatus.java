@@ -32,7 +32,24 @@ public enum FlightStatus {
 			return DELAY;
 		if(flightStatusCode.equals("cancel"))
 			return CANCEL;
-		return ALTERNATE;
+		if(flightStatusCode.equals("alternate"))
+			return ALTERNATE;
+		return null;
+	}
+	public static FlightStatus getFlightStatusFromName(String flightStatusName){
+		if(flightStatusName.equals("起飞"))
+			return TAKEOFF;
+		if(flightStatusName.equals("计划"))
+			return PLAN;
+		if(flightStatusName.equals("到达"))
+			return ARRIVE;
+		if(flightStatusName.equals("延误"))
+			return DELAY;
+		if(flightStatusName.equals("取消"))
+			return CANCEL;
+		if(flightStatusName.equals("备降"))
+			return ALTERNATE;
+		return null;
 	}
 	
 	public int getFlightStatusDrawable() {

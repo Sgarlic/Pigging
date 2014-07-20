@@ -57,4 +57,9 @@ public class IntentExtraAttribute {
 	 */
 	public static final String VERIFY_PHONENUM_TYPE = "verifyPhonenumType";
 	public static final String FORGETPWD_USERCARDNO = "forgetPwdUserCardno";
+	
+	/**
+	 * Low price subscribe
+	 */
+	public static final String ADD_LOWPRICESUB = "addLowPriceSub";
 }

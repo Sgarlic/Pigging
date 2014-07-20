@@ -1,5 +1,7 @@
 package com.boding.model;
 
+import com.boding.util.CityUtil;
+
 public class LowPriceSubscribe {
 	private String id;
 	private String cardNo;
@@ -10,17 +12,22 @@ public class LowPriceSubscribe {
 	private String arriveCode;
 	private String arriveName;
 	private String flightBeginDate;
-	private String flightEndDate;
+	private String flightEndDate = "";
 	private int subscribeWay;//订阅方式 1、折扣  2、价格
 	private int disCount;//折扣
 	private int price;
 	private int noticeWay;//通知方式 1、邮箱 2、手机 3、邮箱和手机
-	private String email;
-	private String mobile;
+	private String email = "";
+	private String mobile = "";
 	private int status;//0、待处理 1、已处理
-	private boolean beforeAfterDay;//可以提前或延后1天,0、否 1、是
+	private int beforeAfterDay;//可以提前或延后1天,0、否 1、是
 	private String doDateTime;
 	
+	public boolean isInternational(){
+		if(CityUtil.isDomesticCity(leaveName) && CityUtil.isDomesticCity(arriveName))
+			return false;
+		return true;
+	}
 	
 	public String getId() {
 		return id;
@@ -56,7 +63,10 @@ public class LowPriceSubscribe {
 		return leaveName;
 	}
 	public void setLeaveName(String leaveName) {
-		this.leaveName = leaveName;
+		if(leaveName.equals("")){
+			this.leaveName = CityUtil.getCityNameByCode(this.leaveCode);
+		}else
+			this.leaveName = leaveName;
 	}
 	public String getArriveCode() {
 		return arriveCode;
@@ -68,7 +78,10 @@ public class LowPriceSubscribe {
 		return arriveName;
 	}
 	public void setArriveName(String arriveName) {
-		this.arriveName = arriveName;
+		if(arriveName.equals(""))
+			this.arriveName = CityUtil.getCityNameByCode(arriveCode);
+		else
+			this.arriveName = arriveName;
 	}
 	public String getFlightBeginDate() {
 		return flightBeginDate;
@@ -131,11 +144,9 @@ public class LowPriceSubscribe {
 		this.doDateTime = doDateTime;
 	}
 	public int getBeforeAfterDay() {
-		if(beforeAfterDay)
-			return 1;
-		return 0;
+		return beforeAfterDay;
 	}
-	public void setBeforeAfterDay(boolean beforeAfterDay) {
+	public void setBeforeAfterDay(int beforeAfterDay) {
 		this.beforeAfterDay = beforeAfterDay;
 	}
 }

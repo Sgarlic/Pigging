@@ -6,12 +6,20 @@
     android:layout_marginLeft="15dp"
     android:layout_marginRight="15dp"
     android:paddingTop="20dp"   >
-
+<ScrollView
+	 	android:layout_width="match_parent"
+	 	android:layout_height="wrap_content"
+		android:scrollbars="none">
+		<LinearLayout
+		    android:id="@+id/scrollView_linearLayout"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:orientation="vertical">
 	<LinearLayout
 	    android:id="@+id/addlowpricesubsinternational_chooseTripType_linearLayout"
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"
-	    android:layout_marginBottom="20dp"
+	    android:layout_marginBottom="25dp"
 	    android:orientation="horizontal" >
 
 		<TextView
@@ -62,7 +70,7 @@
 	    android:id="@+id/addlowpricesubsinternational_chooseFromCity_linearLayout"
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"
-	    android:layout_marginBottom="20dp"
+	    android:layout_marginBottom="25dp"
 	    android:orientation="horizontal" >
 
 		<TextView
@@ -110,10 +118,10 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/addlowpricesubsinternational_chooseArrCity_linearLayout"
+        android:id="@+id/addlowpricesubsinternational_chooseToCity_linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="25dp"
         android:orientation="horizontal" >
 
 	    <TextView
@@ -126,7 +134,7 @@
 	        android:textSize="17sp"
 	        android:typeface="serif" />
 	    <TextView
-	        android:id="@+id/addlowpricesubsinternational_choosedArrCity_textView"
+	        android:id="@+id/addlowpricesubsinternational_choosedToCity_textView"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:layout_gravity="center_vertical"
@@ -162,7 +170,7 @@
 	    android:id="@+id/addlowpricesubsinternational_chooseFromDate_linearLayout"
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"
-	    android:layout_marginBottom="20dp"
+	    android:layout_marginBottom="25dp"
 	    android:orientation="horizontal" >
 
 	    <TextView
@@ -190,7 +198,7 @@
 	    android:id="@+id/addlowpricesubsinternational_chooseReturnDate_linearLayout"
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"
-	    android:layout_marginBottom="20dp"
+	    android:layout_marginBottom="25dp"
 	    android:orientation="horizontal" >
 
 	    <TextView
@@ -198,7 +206,7 @@
 	        android:layout_height="wrap_content"
 	        android:layout_gravity="center_vertical"
 	        android:gravity="top"
-	        android:text="出发日期"
+	        android:text="返回日期"
 	        android:textColor="@color/priceGray"
 	        android:textSize="17sp"
 	        android:typeface="serif" />
@@ -219,7 +227,7 @@
 	    android:id="@+id/addlowpricesubsinternational_chooseEarlyDelay_linearLayout"
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"
-	    android:layout_marginBottom="20dp"
+	    android:layout_marginBottom="25dp"
 	    android:orientation="horizontal" >
 
 	    <TextView
@@ -247,7 +255,7 @@
 	    android:id="@+id/addlowpricesubsinternational_chooseSubscribeMethod_linearLayout"
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"
-	    android:layout_marginBottom="20dp"
+	    android:layout_marginBottom="25dp"
 	    android:orientation="horizontal" >
 
 	    <TextView
@@ -294,10 +302,10 @@
 	    </LinearLayout>
 	</LinearLayout>
 	<LinearLayout
-	    android:id="@+id/addlowpricesubsinternational_planStayTime_linearLayout"
+	    android:id="@+id/addlowpricesubsinternational_chooseDiscount_linearLayout"
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"
-	    android:layout_marginBottom="20dp"
+	    android:layout_marginBottom="25dp"
 	    android:orientation="horizontal" >
 
 	    <TextView
@@ -343,11 +351,43 @@
 			</LinearLayout>
 	    </LinearLayout>
 	</LinearLayout>
+	<LinearLayout
+	    android:id="@+id/addlowpricesubsinternational_inputPrice_linearLayout"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_marginBottom="25dp"
+	    android:orientation="horizontal" >
 
+	    <TextView
+	        android:layout_width="150dp"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center_vertical"
+	        android:gravity="top"
+	        android:text="价格"
+	        android:textColor="@color/priceGray"
+	        android:textSize="17sp"
+	        android:typeface="serif" />
+		<EditText
+		    android:id="@+id/addlowpricesubsinternational_inputPrice_editText"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		     android:layout_gravity="center_vertical"
+		    android:background="@color/white"
+		    android:inputType="number"
+		    android:ems="8"
+		    android:hint="请输入价格"
+		    android:maxLines="1"
+		    android:textColor="@color/black"
+		    android:textColorHint="@color/listviewDividerColor"
+		    android:textSize="17sp"
+		    android:typeface="serif" >
+		    <requestFocus />
+		</EditText>
+	</LinearLayout>
 	<LinearLayout
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"
-	    android:layout_marginBottom="20dp"
+	    android:layout_marginBottom="25dp"
 	    android:orientation="horizontal" >
 
 	    <TextView
@@ -366,6 +406,7 @@
 			    android:layout_height="wrap_content"
 			    android:background="@color/white"
 			    android:ems="8"
+			    android:inputType="number"
 			    android:hint="用于接收低价通知"
 			    android:maxLines="1"
 			    android:textColor="@color/black"
@@ -389,5 +430,7 @@
 		    android:textSize="12sp"
 		    android:typeface="serif" />
 	</LinearLayout>
+</LinearLayout>
+</ScrollView>
 </LinearLayout>
 

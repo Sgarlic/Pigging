@@ -3,8 +3,10 @@ package com.boding.task;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +15,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.boding.app.AddLowpriceSubsActivity;
 import com.boding.app.LowPriceSubscribeActivity;
 import com.boding.constants.Constants;
 import com.boding.constants.GlobalVariables;
@@ -47,7 +50,7 @@ public class LowPriceSubscribeTask extends AsyncTask<Object,Void,Object> {
 			e.printStackTrace();
 		}
 		
-		String urlFormat = "http://api.iboding.com/API/User/Subscribe/NewSubscribe.ashx?userid=%s&cardno=%s&id=%s&sign=%s";
+		String urlFormat = "http://api.iboding.com/API/User/Subscribe/DelSubscribe.ashx?userid=%s&cardno=%s&id=%s&sign=%s";
 		String urlStr =  String.format(urlFormat,Constants.BODINGACCOUNT,GlobalVariables.bodingUser.getCardno(),
 				subId,sign);
 		String result = connectingServer(urlStr);
@@ -93,13 +96,20 @@ public class LowPriceSubscribeTask extends AsyncTask<Object,Void,Object> {
 			e.printStackTrace();
 		}
 		
+		String urlStr = "";
 		String urlFormat = "http://api.iboding.com/API/User/Subscribe/NewSubscribe.ashx?userid=%s&CardNo=%s&TicketType=%s&TripType=%s&LeaveCode=%s&LeaveName=%s&ArriveCode=%s&ArriveName=%s&FlightBeginDate=%s&FlightEndDate=%s&SubscribeWay=%s&DisCount=%s&Price=%s&NoticeWay=%s&Email=%s&Mobile=%s&BeforeAfterDay=%s&sign=%s";
-		String urlStr =  String.format(urlFormat,Constants.BODINGACCOUNT,GlobalVariables.bodingUser.getCardno(),
-				subscribe.getTicketType(),subscribe.getTripType(),subscribe.getLeaveCode(),subscribe.getLeaveName(),
-				subscribe.getArriveCode(),subscribe.getArriveName(),subscribe.getFlightBeginDate(),
-				subscribe.getFlightEndDate(),subscribe.getSubscribeWay(),subscribe.getDisCount(),
-				subscribe.getPrice(),subscribe.getNoticeWay(),subscribe.getEmail(),subscribe.getMobile(),
-				subscribe.getBeforeAfterDay(),sign);
+		try {
+			urlStr =  String.format(urlFormat,Constants.BODINGACCOUNT,GlobalVariables.bodingUser.getCardno(),
+					subscribe.getTicketType(),subscribe.getTripType(),subscribe.getLeaveCode(),
+					URLEncoder.encode(subscribe.getLeaveName(),"UTF-8"),subscribe.getArriveCode(),
+					URLEncoder.encode(subscribe.getArriveName(),"UTF-8"),subscribe.getFlightBeginDate(),
+					subscribe.getFlightEndDate(),subscribe.getSubscribeWay(),subscribe.getDisCount(),
+					subscribe.getPrice(),subscribe.getNoticeWay(),subscribe.getEmail(),subscribe.getMobile(),
+					subscribe.getBeforeAfterDay(),sign);
+		} catch (UnsupportedEncodingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		String result = connectingServer(urlStr);
 		try {
 			JSONObject resultJson = new JSONObject(result);
@@ -156,9 +166,9 @@ public class LowPriceSubscribeTask extends AsyncTask<Object,Void,Object> {
 				subscribe.setMobile(subJson.getString("Mobile"));
 				subscribe.setStatus(subJson.getInt("Status"));
 				if(subJson.getString("BeforeAfterDay").equals("False"))
-					subscribe.setBeforeAfterDay(false);
+					subscribe.setBeforeAfterDay(0);
 				else
-					subscribe.setBeforeAfterDay(true);
+					subscribe.setBeforeAfterDay(1);
 				subscribe.setDoDateTime(subJson.getString("DoDateTime"));
 				
 				subsList.add(subscribe);
@@ -215,6 +225,14 @@ public class LowPriceSubscribeTask extends AsyncTask<Object,Void,Object> {
 			case GET_LOWPRICESUBS_LIST:
 				LowPriceSubscribeActivity lowPriceSubscribeActivity = (LowPriceSubscribeActivity)context;
 				lowPriceSubscribeActivity.setLowPriceResultList((List<LowPriceSubscribe>) result);
+				break;
+			case ADD_LOWPRICESUB:
+				AddLowpriceSubsActivity addLowpriceSubsActivity = (AddLowpriceSubsActivity) context;
+				addLowpriceSubsActivity.setAddLowPriceSubsResult((Boolean) result);
+				break;
+			case DELETE_LOWPRICESUB:
+				lowPriceSubscribeActivity = (LowPriceSubscribeActivity)context;
+				lowPriceSubscribeActivity.setDeleteResult((Boolean) result);;
 				break;
 			default:
 				break;

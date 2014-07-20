@@ -4,12 +4,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import android.content.ContentValues;
-
 import com.boding.model.BodingUser;
 import com.boding.model.City;
 import com.boding.model.Country;
 import com.boding.model.FlightLine;
+import com.boding.model.LowPriceSubscribe;
 import com.boding.model.Province;
 import com.boding.util.DateUtil;
 
@@ -49,6 +48,7 @@ public class GlobalVariables {
 	public static String contact_boding_phonenum = "021-54738327";
 	
 	public static FlightLine flightLine = null;
+	public static LowPriceSubscribe currentSubscribe = null;
 //	public static boolean isFlyToCitySelection = false;
 //	public static boolean isInternationCitySelection = false;
 }

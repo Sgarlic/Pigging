@@ -15,6 +15,7 @@ import com.boding.util.DateUtil;
 import com.boding.util.Util;
 import com.boding.view.dialog.SelectionDialog;
 import com.boding.view.dialog.VerticalViewPager;
+import com.boding.view.layout.FlightBoardLinearLayout;
 import com.boding.R;
 import com.boding.model.City;
 import com.boding.model.FlightQuery;
@@ -34,6 +35,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -51,6 +53,10 @@ public class MainActivity extends FragmentActivity {
 	private LayoutInflater mInflater;
 	private VPagerAdapter vAdapter;
 	private HPagerAdapter hAdapter;
+
+	private List<View> myFollowsHList;
+	private ViewPager myFollowsViewPager;
+	private MyFollowsPagerAdapter myFollowsHAdapter;
 	
 	private String classInfo = Constants.COUCH_CLASS;
 	
@@ -97,11 +103,32 @@ public class MainActivity extends FragmentActivity {
 	private LinearLayout downpageAboutBodingLienarLayout;
 	
 	
+	/**
+	 * up page view
+	 */
+	
+	private ImageView topPageSearchMethodImageView;
+	private LinearLayout topPageSearchByFlightNumLinearLayout;
+	private EditText topPageSearchByFlightNumEditText;
+	private LinearLayout topPageSearchByFromToLinearLayout;
+	private LinearLayout topPageFromLinearLayout;
+	private TextView topPageFromTextView;
+	private TextView topPageFromCodeTextView;
+	private ImageView topPageSwitchCityImageView;
+	private LinearLayout topPageToLinearLayout;
+	private TextView topPageToTextView;
+	private TextView topPageToCodeTextView;
+	private LinearLayout topPageDateLinearLayout;
+	private TextView topPageDateTextView;
+	private LinearLayout topPageSearchLinearLayout;
+	private LinearLayout topPageMyFollowsLinearLayout;
+	
 	private View leftPageView;
 	private View rightPageView;
 	private View middlePageView;
 	private View upPageView;
 	private View downPageView;
+	private int curUpdatePager;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -111,12 +138,14 @@ public class MainActivity extends FragmentActivity {
 		mInflater = getLayoutInflater();
 		
 		getScreenSize();
-		
+
+		initMyFollowsViewPager();
 		initHorizontalViewPager();
 		initVerticalViewPager();
 		
 		initLeftPageView();
 		initDownPageView();
+		initTopPageView();
 	}
 	
 	@Override
@@ -342,6 +371,53 @@ public class MainActivity extends FragmentActivity {
 		});
 	}
 	
+	private void initTopPageView(){
+		topPageSearchMethodImageView = (ImageView) upPageView.findViewById(R.id.toppage_searchmethod_imageView);
+		topPageSearchByFlightNumLinearLayout = (LinearLayout) upPageView.findViewById(R.id.toppage_searchby_flightNum_linearlayout);
+		topPageSearchByFlightNumEditText = (EditText) upPageView.findViewById(R.id.toppage_searchbyflightnum_editText);
+		topPageSearchByFromToLinearLayout = (LinearLayout) upPageView.findViewById(R.id.toppage_searchby_flyfromto_linearlayout);
+		topPageFromLinearLayout = (LinearLayout) upPageView.findViewById(R.id.toppage_fly_from_linearlayout);
+		topPageFromTextView = (TextView) upPageView.findViewById(R.id.toppage_fly_from_textView);
+		topPageFromCodeTextView = (TextView) upPageView.findViewById(R.id.toppage_fly_from_code_textView);
+		topPageSwitchCityImageView = (ImageView) upPageView.findViewById(R.id.toppage_swithcity_imageView);
+		topPageToLinearLayout = (LinearLayout) upPageView.findViewById(R.id.toppage_fly_to_linearlayout);
+		topPageToTextView = (TextView) upPageView.findViewById(R.id.toppage__fly_to_textView);
+		topPageToCodeTextView = (TextView) upPageView.findViewById(R.id.toppage_fly_to_code_textView);
+		topPageDateLinearLayout = (LinearLayout) upPageView.findViewById(R.id.toppage__date_linearlayout);
+		topPageDateTextView = (TextView) upPageView.findViewById(R.id.toppage_date_textView);
+		topPageSearchLinearLayout = (LinearLayout) upPageView.findViewById(R.id.toppage_search_linearLayout);
+		topPageMyFollowsLinearLayout = (LinearLayout) upPageView.findViewById(R.id.toppage_myfollowed_linearLayout);
+		
+		
+		/**
+		 * Listeners
+		 */
+		topPageMyFollowsLinearLayout.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				myFollowsHList.add(mInflater.inflate(R.layout.fragment_test, null));
+				myFollowsHList.add(mInflater.inflate(R.layout.layout_flightboard, null));
+				myFollowsHList.add(new FlightBoardLinearLayout(MainActivity.this, null));
+//				myFollowsHList.add(new FlightBoardLinearLayout(MainActivity.this, null));
+//				myFollowsHList.add(new FlightBoardLinearLayout(MainActivity.this, null));
+//				updateViewPagerItem(mInflater.inflate(R.layout.fragment_test, null), 0);
+				myFollowsHAdapter.notifyDataSetChanged();
+				myFollowsViewPager.setCurrentItem(1);
+				
+//				curUpdatePager = 0;  
+//			    myFollowsHList.remove(0);  
+//			    myFollowsViewPager.getAdapter().notifyDataSetChanged();
+//				System.out.println(myFollowsHAdapter.getItemPosition(upPageView));
+//				System.out.println(myFollowsHList.indexOf(upPageView));
+//				myFollowsHList.remove(-1);
+//				myFollowsViewPager.removeViewAt(0);
+//				myFollowsHAdapter.notifyDataSetChanged();
+//				myFollowsViewPager.setCurrentItem(0);
+//				myFollowsHAdapter.notifyDataSetChanged();
+			}
+		});
+	}
+	
 	private void initPopupWindow(boolean isAdult, int parentWidth){
 		List<String> passengerAmountList = new ArrayList<String>();
 		passengerAmountList.add("1");
@@ -455,7 +531,6 @@ public class MainActivity extends FragmentActivity {
 			bundle.putBoolean(Constants.IS_FLY_TO_CITY_SELECTION, isFlyToCitySelection);
 			Intent intent = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
 			intent.setClass(MainActivity.this, CitySelectActivity.class);
-//			GlobalVariables.isFlyToCitySelection = isFlyToCitySelection;
 			intent.putExtras(bundle);
 			startActivityForResult(intent,IntentRequestCode.CITY_SELECTION.getRequestCode());
 		}
@@ -527,9 +602,9 @@ public class MainActivity extends FragmentActivity {
 	
 	private void initVerticalViewPager(){
 		vList = new ArrayList<View>();	
-		upPageView = mInflater.inflate(R.layout.layout_up, null);
 		downPageView = mInflater.inflate(R.layout.layout_down, null);
-		vList.add(upPageView);
+		vList.add(myFollowsViewPager);
+//		vList.add(upPageView);
 		vList.add(hpager);
 		vList.add(downPageView);
 		
@@ -538,6 +613,36 @@ public class MainActivity extends FragmentActivity {
 		vpager.setAdapter(vAdapter);	
 		vpager.setCurrentItem(1);
 		
+	}
+	
+	private void initMyFollowsViewPager(){
+		myFollowsHList = new ArrayList<View>();
+		upPageView = mInflater.inflate(R.layout.layout_up, null);
+		myFollowsHList.add(upPageView);
+		
+		myFollowsViewPager = (ViewPager)(mInflater.inflate(R.layout.layout_up_myfollows, null).findViewById(R.id.toppage_hpager));
+		myFollowsHAdapter = new MyFollowsPagerAdapter();
+		myFollowsViewPager.setAdapter(myFollowsHAdapter);
+		myFollowsViewPager.setCurrentItem(0);
+		
+//		myFollowsViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+//			@Override
+//			public void onPageSelected(int arg0) {
+//				if(arg0 != 1){
+//					vpager.SetCanScroll(false);
+//				}else{
+//					vpager.SetCanScroll(true);
+//				}
+//			}
+//			
+//			@Override
+//			public void onPageScrolled(int arg0, float arg1, int arg2) {
+//			}
+//			
+//			@Override
+//			public void onPageScrollStateChanged(int arg0) {
+//			}
+//		}); 
 	}
 	
 	@Override
@@ -607,4 +712,53 @@ public class MainActivity extends FragmentActivity {
 		
 	}
 
+	private class MyFollowsPagerAdapter extends android.support.v4.view.PagerAdapter{
+		@Override
+		public int getCount() {
+			return myFollowsHList.size();
+		}
+
+		@Override
+		public boolean isViewFromObject(View arg0, Object arg1) {
+			// TODO Auto-generated method stub
+			return arg0 == (arg1);
+		}
+		
+		@Override  
+	    public int getItemPosition(Object object) {  
+	        View view = (View)object;  
+	        if(curUpdatePager == (Integer)view.getTag()){  
+	            return POSITION_NONE;    
+	        }else{  
+	            return POSITION_UNCHANGED;  
+	        }  
+	    }
+		
+		@Override
+		public Object instantiateItem(ViewGroup collection, int position) {
+			myFollowsHList.get(position).setTag(position);
+			(collection).addView((View)(myFollowsHList.get(position)));
+			
+			return myFollowsHList.get(position);
+		}
+		
+		@Override
+		public void destroyItem(ViewGroup collection, int position, Object view) {
+			(collection).removeView((View)(myFollowsHList.get(position)));
+		}
+	}
+	
+	/** 
+	 * 更换pager的方法 
+	 * @param view   新的pager 
+	 * @param index  第几页 
+	 *  
+	 * 示例：updateViewPagerItem(fragment2_parentctrl_changepwd,1); 
+	 */  
+	private void updateViewPagerItem(View view,int index){  
+	    curUpdatePager = index;  
+	    myFollowsHList.remove(index);  
+	    myFollowsHList.add(index, view);  
+	    myFollowsViewPager.getAdapter().notifyDataSetChanged();  
+	}
 }

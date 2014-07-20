@@ -34,7 +34,8 @@ public enum IntentRequestCode {
 	SETTINGS(30),
 	MESSAGE_PUSH_SETTING(31),
 	MY_FOLLOWED_FLIGHTDYNAMICS(32),
-	FLIGHT_BOARD(33);
+	FLIGHT_BOARD(33),
+	ADD_LOWPRICESUBS(34);
 
 	private int requestCode;
 

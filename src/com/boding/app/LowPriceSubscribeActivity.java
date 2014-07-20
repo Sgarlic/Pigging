@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.boding.R;
 import com.boding.constants.HTTPAction;
+import com.boding.constants.IntentExtraAttribute;
 import com.boding.constants.IntentRequestCode;
 import com.boding.model.LowPriceSubscribe;
 import com.boding.task.LowPriceSubscribeTask;
@@ -13,6 +14,7 @@ import com.boding.view.dialog.WarningDialog;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -68,6 +70,20 @@ public class LowPriceSubscribeActivity extends Activity{
 		
 		lowPriceListView = (ListView) findViewById(R.id.lowpricesubscribe_listView);
 		addSubsribeLinearLayout = (LinearLayout) findViewById(R.id.lowpricesubscribe_addsubscribe_linearLayout);
+		
+		addSubsribeLinearLayout.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				if(adapter.getCount() == 2){
+					warningDialog.setContent("最多只能订阅两条航线");
+					warningDialog.show();
+					return;
+				}
+				Intent intent = new Intent();
+				intent.setClass(LowPriceSubscribeActivity.this, AddLowpriceSubsActivity.class);
+				startActivityForResult(intent, IntentRequestCode.ADD_LOWPRICESUBS.getRequestCode());
+			}
+		});
 	}
     
     private class LowPriceSubAdapter extends BaseAdapter{
@@ -89,11 +105,6 @@ public class LowPriceSubscribeActivity extends Activity{
 		@Override
 		public long getItemId(int position) {
 			return position;
-		}
-		
-		public void addSubscribe(LowPriceSubscribe subscribe){
-			subsList.add(subscribe);
-			notifyDataSetChanged();
 		}
 		
 		public void deleteSubscribe(){
@@ -125,7 +136,10 @@ public class LowPriceSubscribeActivity extends Activity{
 			
 			final LowPriceSubscribe subscribe = getItem(position);
 			holder.flyFromToTextView.setText(subscribe.getLeaveName()+" - "+subscribe.getArriveName());
-            holder.fromToDateTextView.setText(subscribe.getFlightBeginDate()+"至"+subscribe.getFlightEndDate());
+			if(subscribe.getFlightEndDate().equals(""))
+				holder.fromToDateTextView.setText(subscribe.getFlightBeginDate());
+			else
+				holder.fromToDateTextView.setText(subscribe.getFlightBeginDate()+"至"+subscribe.getFlightEndDate());
 //            holder.originPriceTextView.setText(subscribe.getPrice()+"");
 //            holder.subscribeDiscountTextView.setText(people.getCardNumber());
 //            holder.dateTextView.setText(text);
@@ -134,9 +148,8 @@ public class LowPriceSubscribeActivity extends Activity{
             holder.deleteSubscribeLinearLayout.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-//					subsList.remove(position);
-//					setInsusrance();
-//					notifyDataSetChanged();
+					deletedPos = position;
+					(new LowPriceSubscribeTask(LowPriceSubscribeActivity.this, HTTPAction.DELETE_LOWPRICESUB)).execute(subscribe.getId());
 				}
 			});
 	        return convertView;  
@@ -154,4 +167,28 @@ public class LowPriceSubscribeActivity extends Activity{
 			TextView discountTextView;
 		}
     }
+    
+    public void setDeleteResult(boolean isSuccess){
+    	progressBarDialog.dismiss();
+    	if(isSuccess){
+    		adapter.deleteSubscribe();
+    	}else{
+    		warningDialog.setContent("删除订阅失败");
+    		warningDialog.show();
+    	}
+    }
+    
+    @Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if(data == null)
+			return;
+		if(requestCode==IntentRequestCode.ADD_LOWPRICESUBS.getRequestCode()){
+			if(data.getExtras() == null)
+				return;
+			if(data.getExtras().containsKey(IntentExtraAttribute.ADD_LOWPRICESUB)){
+				setViewContent();
+			}
+		}
+	}
 }

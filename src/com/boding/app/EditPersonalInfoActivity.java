@@ -3,7 +3,6 @@ package com.boding.app;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-
 import com.boding.R;
 import com.boding.constants.Constants;
 import com.boding.constants.GlobalVariables;
@@ -16,7 +15,7 @@ import com.boding.view.dialog.ProgressBarDialog;
 import com.boding.view.dialog.SelectionDialog;
 import com.boding.view.dialog.WarningDialog;
 import com.boding.view.dialog.SelectionDialog.OnItemSelectedListener;
-
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
@@ -30,6 +29,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+@SuppressLint("NewApi")
 public class EditPersonalInfoActivity extends Activity {
 	private LinearLayout completeLinearLayout;
 	private TextView userNameTextView;
@@ -41,6 +41,8 @@ public class EditPersonalInfoActivity extends Activity {
 	
 	private ProgressBarDialog progressBarDialog;
 	
+	List<String> genderList = new ArrayList<String>();
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -50,7 +52,8 @@ public class EditPersonalInfoActivity extends Activity {
 //		Bundle arguments = getIntent().getExtras();
 //        if(arguments != null)
 //        	isReturnDateSelection = arguments.getBoolean(Constants.IS_RETURN_DATE_SELECTION);
-        
+		genderList.add("男");
+		genderList.add("女");
 		initView();
 		setViewContent();
 	}
@@ -124,10 +127,6 @@ public class EditPersonalInfoActivity extends Activity {
 		chooseGenderLinearLayout.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				final List<String> genderList = new ArrayList<String>();
-				genderList.add("男");
-				genderList.add("女");
-				
 				SelectionDialog chooseGenderDialog = new SelectionDialog(EditPersonalInfoActivity.this, "选择性别",genderList);
 				chooseGenderDialog.setOnItemSelectedListener(new OnItemSelectedListener() {
 					@Override
