@@ -48,7 +48,6 @@ import com.boding.view.dialog.ProgressBarDialog;
 import com.boding.view.dialog.WarningDialog;
 import com.boding.view.fragment.AddLowPriceDomesticFragment;
 import com.boding.view.fragment.AddLowPriceInternationalFragment;
-import com.boding.view.fragment.TestFragment;
 
 /**
  * Demonstrates combining a TabHost with a ViewPager to implement a tab UI

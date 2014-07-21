@@ -488,11 +488,10 @@
         android:paddingTop="10dp" >
 
 		<TextView
-	    	android:id="@+id/layoutflightboard_follow_textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="关注航班"
+            android:text="取消关注"
             android:textColor="@color/white"
             android:textSize="20sp"
             android:typeface="serif" />

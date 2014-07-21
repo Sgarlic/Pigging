@@ -9,15 +9,20 @@ import com.boding.adapter.VPagerAdapter;
 import com.boding.constants.ActivityNumber;
 import com.boding.constants.Constants;
 import com.boding.constants.GlobalVariables;
+import com.boding.constants.HTTPAction;
 import com.boding.constants.IntentExtraAttribute;
 import com.boding.constants.IntentRequestCode;
+import com.boding.task.FlightDynamicsTask;
+import com.boding.util.CityUtil;
 import com.boding.util.DateUtil;
 import com.boding.util.Util;
+import com.boding.view.dialog.ProgressBarDialog;
 import com.boding.view.dialog.SelectionDialog;
 import com.boding.view.dialog.VerticalViewPager;
-import com.boding.view.layout.FlightBoardLinearLayout;
+import com.boding.view.dialog.WarningDialog;
 import com.boding.R;
 import com.boding.model.City;
+import com.boding.model.FlightDynamics;
 import com.boding.model.FlightQuery;
 
 import android.support.v4.app.FragmentActivity;
@@ -27,6 +32,7 @@ import android.content.Intent;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,6 +60,7 @@ public class MainActivity extends FragmentActivity {
 	private VPagerAdapter vAdapter;
 	private HPagerAdapter hAdapter;
 
+	private List<FlightDynamics> myFollowsFlightList;
 	private List<View> myFollowsHList;
 	private ViewPager myFollowsViewPager;
 	private MyFollowsPagerAdapter myFollowsHAdapter;
@@ -130,10 +137,15 @@ public class MainActivity extends FragmentActivity {
 	private View downPageView;
 	private int curUpdatePager;
 	
+	private WarningDialog warningDialog;
+	private ProgressBarDialog progressBarDialog;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);	
+		
+		warningDialog = new WarningDialog(this);
+		progressBarDialog = new ProgressBarDialog(this);
 		
 		mInflater = getLayoutInflater();
 		
@@ -395,27 +407,38 @@ public class MainActivity extends FragmentActivity {
 		topPageMyFollowsLinearLayout.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				myFollowsHList.add(mInflater.inflate(R.layout.fragment_test, null));
-				myFollowsHList.add(mInflater.inflate(R.layout.layout_flightboard, null));
-				myFollowsHList.add(new FlightBoardLinearLayout(MainActivity.this, null));
-//				myFollowsHList.add(new FlightBoardLinearLayout(MainActivity.this, null));
-//				myFollowsHList.add(new FlightBoardLinearLayout(MainActivity.this, null));
-//				updateViewPagerItem(mInflater.inflate(R.layout.fragment_test, null), 0);
-				myFollowsHAdapter.notifyDataSetChanged();
-				myFollowsViewPager.setCurrentItem(1);
-				
-//				curUpdatePager = 0;  
-//			    myFollowsHList.remove(0);  
-//			    myFollowsViewPager.getAdapter().notifyDataSetChanged();
-//				System.out.println(myFollowsHAdapter.getItemPosition(upPageView));
-//				System.out.println(myFollowsHList.indexOf(upPageView));
-//				myFollowsHList.remove(-1);
-//				myFollowsViewPager.removeViewAt(0);
-//				myFollowsHAdapter.notifyDataSetChanged();
-//				myFollowsViewPager.setCurrentItem(0);
-//				myFollowsHAdapter.notifyDataSetChanged();
+				if(GlobalVariables.bodingUser == null){
+					Intent intent = new Intent();
+					intent.setClass(MainActivity.this, LoginActivity.class);
+					startActivityForResult(intent, IntentRequestCode.LOGIN.getRequestCode());
+					return;
+				}else if(!GlobalVariables.bodingUser.isActivated_state()){
+					Intent intent = new Intent();
+					intent.setClass(MainActivity.this, VerifyPhonenumActivity.class);
+					intent.putExtra(IntentExtraAttribute.VERIFY_PHONENUM_TYPE, "2");
+					startActivityForResult(intent, IntentRequestCode.VERIFY_PHONENUM.getRequestCode());
+					return;
+				}
+				progressBarDialog.show();
+				(new FlightDynamicsTask(MainActivity.this, HTTPAction.GET_MYFOLLOWED_FLIGHTDYNAMICS)).execute();
 			}
 		});
+	}
+	
+	public void setMyFollowsFlightList(List<FlightDynamics> dynamicsList){
+		progressBarDialog.dismiss();
+		if(dynamicsList.size() == 0)
+			return;
+		myFollowsFlightList = dynamicsList;
+		updateViewPagerItem(mInflater.inflate(R.layout.layout_flightboard, null), 0);
+		myFollowsHAdapter.notifyDataSetChanged();
+		
+		for(int i = 1; i < myFollowsFlightList.size(); i++){
+			myFollowsHList.add(mInflater.inflate(R.layout.layout_flightboard, null));
+		}
+		
+		myFollowsHAdapter.notifyDataSetChanged();
+		myFollowsViewPager.setCurrentItem(0);
 	}
 	
 	private void initPopupWindow(boolean isAdult, int parentWidth){
@@ -720,7 +743,6 @@ public class MainActivity extends FragmentActivity {
 
 		@Override
 		public boolean isViewFromObject(View arg0, Object arg1) {
-			// TODO Auto-generated method stub
 			return arg0 == (arg1);
 		}
 		
@@ -735,10 +757,88 @@ public class MainActivity extends FragmentActivity {
 	    }
 		
 		@Override
-		public Object instantiateItem(ViewGroup collection, int position) {
+		public Object instantiateItem(ViewGroup collection, final int position) {
 			myFollowsHList.get(position).setTag(position);
-			(collection).addView((View)(myFollowsHList.get(position)));
+			View view = (View)(myFollowsHList.get(position));
+			(collection).addView(view);
 			
+			if(view.findViewById(R.id.layoutflightboard_fromCity_textView) != null){
+				ImageView topLineImageView = (ImageView) view.findViewById(R.id.layoutflightboard_flightdynamics_topline_imageView);
+				LinearLayout searchLinearLayout = (LinearLayout) view.findViewById(R.id.layoutflightboard_flightdynamics_search_linearLayout);
+				TextView flightCompanyNumTextView = (TextView) view.findViewById(R.id.layoutflightboard_flightcompanyNumTextView);
+				TextView fromCityTextView = (TextView) view.findViewById(R.id.layoutflightboard_fromCity_textView);
+				TextView fromCityWeatherTextView = (TextView) view.findViewById(R.id.layoutflightboard_fromCityWeather_textView);
+				ImageView fromCityWeatherImageView = (ImageView) view.findViewById(R.id.layoutflightboard_fromCityWeather_imageView);
+				TextView fromTerminalTextView = (TextView) view.findViewById(R.id.layoutflightboard_fromTerminal_textView);
+				TextView planeFromTimeTextView = (TextView) view.findViewById(R.id.layoutflightboard_planFromTime_textView);
+				TextView actualFromTimeTextView = (TextView) view.findViewById(R.id.layoutflightboard_actualFromTime_textView);
+				TextView onTimeRateTextView = (TextView) view.findViewById(R.id.layoutflightboard_ontimeRate_textView);
+				TextView dateTextView = (TextView) view.findViewById(R.id.layoutflightboard_date_textView);
+				LinearLayout refreshLinearLayout = (LinearLayout) view.findViewById(R.id.layoutflightboard_refresh_linearLayout);
+				TextView toCityTextView = (TextView) view.findViewById(R.id.layoutflightboard_toCity_textView);
+				TextView toCityWeatherTextView = (TextView) view.findViewById(R.id.layoutflightboard_toCityWeather_textView);
+				ImageView toCityWeatherImageView = (ImageView) view.findViewById(R.id.layoutflightboard_toCityWeather_imageView);
+				TextView toTerminalTextView = (TextView) view.findViewById(R.id.layoutflightboard_toTerminal_textView);
+				TextView planToTimeTextView = (TextView) view.findViewById(R.id.layoutflightboard_planToTime_textView);
+				TextView actualToTimeTextView = (TextView) view.findViewById(R.id.layoutflightboard_actualToTime_textView);
+				ImageView flightStatusImageView = (ImageView) view.findViewById(R.id.layoutflightboard_flightStatus_imageView);
+				TextView fromAirportInfoTextView = (TextView) view.findViewById(R.id.layoutflightboard_fromAirportInfo_textView);
+				LinearLayout fromAirportInfoLinearLayout = (LinearLayout) view.findViewById(R.id.layoutflightboard_fromAirportInfo_linearLayout);
+				TextView toAirportInfoTextView = (TextView) view.findViewById(R.id.layoutflightboard_toAirportInfo_textView);
+				LinearLayout toAirportInfoLinearLayout = (LinearLayout) view.findViewById(R.id.layoutflightboard_toAirportInfo_linearLayout);
+				LinearLayout followLinearLayout = (LinearLayout) view.findViewById(R.id.layoutflightboard_follow_linearLayout);
+				ImageView pageIndicatorImageView = (ImageView) view.findViewById(R.id.layoutflightboard_pageIndicator_imageView);
+				
+				/**
+				 * set content
+				 */
+				FlightDynamics dyn = myFollowsFlightList.get(position);
+				
+				flightCompanyNumTextView.setText(dyn.getCar_name() + dyn.getCarrier() + dyn.getNum());
+				fromCityTextView.setText(CityUtil.getCityNameByCode(dyn.getDep_airport_code()));
+				if (dyn.getDep_weather() == null){
+					fromCityWeatherTextView.setVisibility(View.INVISIBLE);
+					fromCityWeatherImageView.setVisibility(View.INVISIBLE);
+				}else{
+					fromCityWeatherTextView.setText(dyn.getDep_weather().getWeatherName());
+				}
+				fromTerminalTextView.setText(dyn.getDep_airport_name() + dyn.getDep_terminal());
+				planeFromTimeTextView.setText(dyn.getPlan_dep_time());
+				if(!dyn.getActual_dep_time().equals(""))
+					actualFromTimeTextView.setText(dyn.getActual_dep_time());
+				onTimeRateTextView.setText(dyn.getPunctuality());
+				dateTextView.setText(dyn.getDate());
+				toCityTextView.setText(CityUtil.getCityNameByCode(dyn.getArr_airport_code()));
+				if(dyn.getArr_weather() == null){
+					toCityWeatherTextView.setVisibility(View.INVISIBLE);
+					toCityWeatherImageView.setVisibility(View.INVISIBLE);
+				}else{
+					toCityWeatherTextView.setText(dyn.getArr_weather().getWeatherName());
+				}
+				toTerminalTextView.setText(dyn.getArr_airport_name() + dyn.getArr_terminal());
+				planToTimeTextView.setText(dyn.getPlan_arr_time());
+				if(!dyn.getActual_arr_time().equals(""))
+					actualToTimeTextView.setText(dyn.getActual_arr_time());
+				fromAirportInfoTextView.setText(dyn.getDep_airport_name());
+				toAirportInfoTextView.setText(dyn.getArr_airport_name());
+				
+				/**
+				 * add listeners
+				 */
+				searchLinearLayout.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View arg0) {
+						returnToUpPage();
+					}
+				});
+				
+				followLinearLayout.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View arg0) {
+						unFollowFlight(position);
+					}
+				});
+			}
 			return myFollowsHList.get(position);
 		}
 		
@@ -746,6 +846,39 @@ public class MainActivity extends FragmentActivity {
 		public void destroyItem(ViewGroup collection, int position, Object view) {
 			(collection).removeView((View)(myFollowsHList.get(position)));
 		}
+	}
+	
+	private void unFollowFlight(int position){
+		if(myFollowsFlightList.size() == 1){
+			returnToUpPage();
+			return;
+		}
+		if(position == 0){
+			myFollowsViewPager.setCurrentItem(1);
+			removeViewPagerItem(0);
+		}else{
+			myFollowsViewPager.setCurrentItem(position - 1);
+			removeViewPagerItem(position);
+			myFollowsViewPager.setCurrentItem(position - 1);
+		}
+	}
+	
+	private void returnToUpPage(){
+		myFollowsViewPager.setCurrentItem(0);
+		updateViewPagerItem(upPageView, 0);
+		
+		myFollowsViewPager.setAdapter(null);
+		for(int i = 1; i < myFollowsFlightList.size(); i++){
+			myFollowsHList.remove(1);
+		}
+		myFollowsViewPager.setAdapter(myFollowsHAdapter);
+	}
+	
+	private void removeViewPagerItem(int position){
+		myFollowsViewPager.setAdapter(null);
+		myFollowsHList.remove(position);
+		myFollowsFlightList.remove(position); 
+		myFollowsViewPager.setAdapter(myFollowsHAdapter);
 	}
 	
 	/** 

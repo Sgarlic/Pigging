@@ -15,6 +15,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.boding.app.MainActivity;
 import com.boding.constants.Constants;
 import com.boding.constants.GlobalVariables;
 import com.boding.constants.HTTPAction;
@@ -131,6 +132,7 @@ public class FlightDynamicsTask extends AsyncTask<Object,Void,Object> {
 				flightDynamics.setExpect_arr_time(dynJson.getString("expect_arr_time"));
 				flightDynamics.setActual_arr_time(dynJson.getString("actual_arr_time"));
 				flightDynamics.setFlightStatusByCode(dynJson.getString("status"));
+				flightDynamicsList.add(flightDynamics);
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();
@@ -285,6 +287,8 @@ public class FlightDynamicsTask extends AsyncTask<Object,Void,Object> {
 	protected void onPostExecute(Object result) {
 		switch (action) {
 			case GET_MYFOLLOWED_FLIGHTDYNAMICS:
+				MainActivity mainActivity = (MainActivity) context;
+				mainActivity.setMyFollowsFlightList((List<FlightDynamics>) result);
 				break;
 			case FOLLOW_FLIGHTDYNAMICS:
 				break;

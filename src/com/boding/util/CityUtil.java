@@ -1,9 +1,14 @@
 package com.boding.util;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.boding.constants.GlobalVariables;
 import com.boding.model.City;
 
 public class CityUtil {
+	public static Map<String, String> allCitiesMap;
+	
 	public static boolean isDomesticCity(String cityname){
 		City city = new City();
 		city.setCityName(cityname);
@@ -23,15 +28,16 @@ public class CityUtil {
 	}
 	
 	public static String getCityNameByCode(String cityCode){
-		for(City city : GlobalVariables.domesticCitiesList){
-			if(city.getCityCode().equals(cityCode))
-				return city.getCityName();
+		if(allCitiesMap == null){
+			allCitiesMap = new HashMap<String, String>();
+			for(City city : GlobalVariables.domesticCitiesList){
+				allCitiesMap.put(city.getCityCode(), city.getCityName());
+			}
+			for(City city : GlobalVariables.interCitiesList){
+				allCitiesMap.put(city.getCityCode(), city.getCityName());
+			}
 		}
-		for(City city : GlobalVariables.interCitiesList){
-			if(city.getCityCode().equals(cityCode))
-				return city.getCityName();
-		}
-		return null;
+		return allCitiesMap.get(cityCode);
 	}
 	
 	public static City getCityByCode(String cityCode){
