@@ -3,22 +3,33 @@ package com.boding.constants;
 import com.boding.R;
 
 public enum FlightStatus {
-	TAKEOFF("takeoff","起飞",R.drawable.flightdynamic_status_takeoff,R.drawable.flightboard_takeoff),
-	PLAN("plan","计划",R.drawable.flightdynamic_status_plan,R.drawable.flightboard_plan),
-	ARRIVE("arrive","到达",R.drawable.flightdynamic_status_arrive,R.drawable.flightboard_arrive),
-	DELAY("delay","延误",R.drawable.flightdynamic_status_delay,R.drawable.flightboard_delay),
-	CANCEL("cancel","取消",R.drawable.flightdynamic_status_cancel,R.drawable.flightboard_cancel),
-	ALTERNATE("alternate","备降",R.drawable.flightdynamic_status_cancel,R.drawable.flightboard_cancel);
+	TAKEOFF("takeoff","起飞",R.drawable.flightdynamic_status_takeoff,R.drawable.flightboard_takeoff,
+		R.drawable.layoutflightboard_flightdynamicsline_takeoff,R.drawable.layoutflightboard_status_takeoff),
+	PLAN("plan","计划",R.drawable.flightdynamic_status_plan,R.drawable.flightboard_plan,
+		R.drawable.layoutflightboard_flightdynamicsline_plan,R.drawable.layoutflightboard_status_plan),
+	ARRIVE("arrive","到达",R.drawable.flightdynamic_status_arrive,R.drawable.flightboard_arrive,
+		R.drawable.layoutflightboard_flightdynamicsline_arrive,R.drawable.layoutflightboard_status_arrive),
+	DELAY("delay","延误",R.drawable.flightdynamic_status_delay,R.drawable.flightboard_delay,
+		R.drawable.layoutflightboard_flightdynamicsline_delay,R.drawable.layoutflightboard_status_delay),
+	CANCEL("cancel","取消",R.drawable.flightdynamic_status_cancel,R.drawable.flightboard_cancel,
+		R.drawable.layoutflightboard_flightdynamicsline_cancel,R.drawable.layoutflightboard_status_cancel),
+	ALTERNATE("alternate","备降",R.drawable.flightdynamic_status_cancel,R.drawable.flightboard_cancel,
+		R.drawable.layoutflightboard_flightdynamicsline_cancel,R.drawable.layoutflightboard_status_cancel);
 	
 	private String flightStatusCode;
+	private String flightStatusName;
 	private int flightStatusDrawable;
 	private int flightBoardDrawable;
-	private String flightStatusName;
-	private FlightStatus(String flightStatusCode, String flightStatusName, int flightStatusDrawable, int flightBoardDrawable){
+	private int flightStatusLine;
+	private int layoutFlightStatus;
+	private FlightStatus(String flightStatusCode, String flightStatusName, int flightStatusDrawable, 
+		int flightBoardDrawable, int flightStatusLine, int layoutFlightStatus){
 		this.flightStatusCode = flightStatusCode;
 		this.flightStatusName = flightStatusName;
 		this.flightStatusDrawable = flightStatusDrawable;
 		this.flightBoardDrawable = flightBoardDrawable;
+		this.flightStatusLine = flightStatusLine;
+		this.layoutFlightStatus = layoutFlightStatus;
 	}
 	
 	public static FlightStatus getFlightStatusFromCode(String flightStatusCode){
@@ -74,5 +85,21 @@ public enum FlightStatus {
 
 	public void setFlightBoardDrawable(int flightBoardDrawable) {
 		this.flightBoardDrawable = flightBoardDrawable;
+	}
+
+	public int getFlightStatusLine() {
+		return flightStatusLine;
+	}
+
+	public void setFlightStatusLine(int flightStatusLine) {
+		this.flightStatusLine = flightStatusLine;
+	}
+
+	public int getLayoutFlightStatus() {
+		return layoutFlightStatus;
+	}
+
+	public void setLayoutFlightStatus(int layoutFlightStatus) {
+		this.layoutFlightStatus = layoutFlightStatus;
 	}
 }

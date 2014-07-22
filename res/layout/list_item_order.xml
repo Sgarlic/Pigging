@@ -24,7 +24,7 @@
 			        android:id="@+id/listitemorder_flyFromCity_textView"
 			        android:layout_width="wrap_content"
 			        android:layout_height="30dp"
-			        android:text="北京（虹桥）"
+			        android:text="北京"
 			        android:textColor="@color/black"
 			        android:textSize="18sp"
 			        android:textStyle="bold"
@@ -188,15 +188,17 @@
 	
 					    <TextView
 					        android:id="@+id/listitemorder_orderStatus_textView"
-					        android:layout_width="50dp"
+					        android:layout_width="wrap_content"
 					        android:layout_height="wrap_content"
 					        android:layout_gravity="right"
-					        android:background="@color/classInfoPanelBgColor"
+					        android:background="@drawable/shape_border_orderlist_gray"
+					        android:gravity="center_horizontal"
+					        android:paddingLeft="5dp"
+					        android:paddingRight="3dp"
 					        android:text="已取消 "
 					        android:textColor="@color/priceGray"
 					        android:textSize="15sp"
 					        android:typeface="serif" />
-	
 					</LinearLayout>
 			    </LinearLayout>
 			</LinearLayout>

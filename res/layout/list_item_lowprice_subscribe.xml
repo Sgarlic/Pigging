@@ -172,7 +172,7 @@
 		            android:layout_height="wrap_content"
 		            android:text="￥341"
 		            android:textColor="@color/panelOrange"
-		            android:textSize="25sp"
+		            android:textSize="23sp"
 		            android:typeface="serif" />
 		        </LinearLayout>
 		</LinearLayout>

@@ -15,7 +15,7 @@ import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
-public class MyFollowedFlightDynamicsActivity extends Activity{
+public class FlightDynamicsListActivity extends Activity{
 	private ListView flightDynamicsListView;
 	private FlightDynamicsAdapter adapter;
 	
@@ -25,7 +25,7 @@ public class MyFollowedFlightDynamicsActivity extends Activity{
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_myfollowedflightdynamics);
+		setContentView(R.layout.activity_flightdynamicslist);
 		warningDialog = new WarningDialog(this);
 		progressBarDialog = new ProgressBarDialog(this);
 		initView();
@@ -36,7 +36,7 @@ public class MyFollowedFlightDynamicsActivity extends Activity{
 		returnLinearLayout.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View arg0) {
-				Util.returnToPreviousPage(MyFollowedFlightDynamicsActivity.this, IntentRequestCode.MY_FOLLOWED_FLIGHTDYNAMICS);
+				Util.returnToPreviousPage(FlightDynamicsListActivity.this, IntentRequestCode.MY_FOLLOWED_FLIGHTDYNAMICS);
 			}
 			
 		});

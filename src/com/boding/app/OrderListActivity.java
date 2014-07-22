@@ -298,6 +298,9 @@ public class OrderListActivity extends Activity{
 			holder.flyTypeTextView.setText(order.getAirlineType().getAirlineTypeName());
 			holder.flyPassengerTextView.setText(order.getDisplayPassengerName());
 			holder.orderStatusTextView.setText(order.getOrderStatus().getOrderStatusName());
+			holder.orderStatusTextView.setBackgroundResource(order.getOrderStatus().getOrderStatusBoarderBg());
+			holder.orderStatusTextView.setTextColor(
+				OrderListActivity.this.getResources().getColor(order.getOrderStatus().getOrderStatusColorId()));
 			
 			Util.setViewBackground(holder.airlineTypeLinearLayout, getResources().getDrawable(order.getAirlineType().getAirlineTypePicID()));
 			

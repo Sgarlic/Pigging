@@ -57,4 +57,9 @@
     <color name="boardDividerBlue">#629ac5</color>
     <color name="boardPanelBg">#f7f7f7</color>
     <color name="discountRed">#eb612a</color>
+    <color name="weatherColor">#9e9e9f</color>
+    <color name="flightDynamicFlightInfoBg">#05ffffff</color>
+    <color name="flightDynamicPlanInfoDivider">#20252b</color>
+    <color name="flightDynamicGray">#a1a0a0</color>
+    <color name="orderListBlue">#5591c0</color>
 </resources>
