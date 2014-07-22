@@ -62,4 +62,10 @@ public class IntentExtraAttribute {
 	 * Low price subscribe
 	 */
 	public static final String ADD_LOWPRICESUB = "addLowPriceSub";
+	
+	/**
+	 * Flight Dynamics
+	 */
+	public static final String IS_FOLLOWEDLIST = "isFollowedList";
+	public static final String FLIGHT_DYNAMIC = "flightDynamic";
 }

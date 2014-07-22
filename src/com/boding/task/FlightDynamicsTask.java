@@ -15,6 +15,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.boding.app.FlightDynamicsListActivity;
 import com.boding.app.MainActivity;
 import com.boding.constants.Constants;
 import com.boding.constants.GlobalVariables;
@@ -265,7 +266,8 @@ public class FlightDynamicsTask extends AsyncTask<Object,Void,Object> {
 	protected Object doInBackground(Object... params) {
 		Object result = new Object();
 		switch (action) {
-			case GET_MYFOLLOWED_FLIGHTDYNAMICS:
+			case GET_MYFOLLOWED_FROM_MAIN:
+			case GET_MYFOLLOWED_FROM_MYFAVOURITE:
 				result = getMyFollowedDynamics();
 				break;
 			case FOLLOW_FLIGHTDYNAMICS:
@@ -286,9 +288,13 @@ public class FlightDynamicsTask extends AsyncTask<Object,Void,Object> {
 	@Override  
 	protected void onPostExecute(Object result) {
 		switch (action) {
-			case GET_MYFOLLOWED_FLIGHTDYNAMICS:
+			case GET_MYFOLLOWED_FROM_MAIN:
 				MainActivity mainActivity = (MainActivity) context;
 				mainActivity.setMyFollowsFlightList((List<FlightDynamics>) result);
+				break;
+			case GET_MYFOLLOWED_FROM_MYFAVOURITE:
+				FlightDynamicsListActivity fListActivity = (FlightDynamicsListActivity) context;
+				fListActivity.setFlightDynamicsList((List<FlightDynamics>) result);
 				break;
 			case FOLLOW_FLIGHTDYNAMICS:
 				break;

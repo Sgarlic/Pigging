@@ -1,19 +1,34 @@
 package com.boding.app;
 
 
+import java.util.List;
+
 import com.boding.R;
-import com.boding.adapter.FlightDynamicsAdapter;
+import com.boding.constants.HTTPAction;
+import com.boding.constants.IntentExtraAttribute;
 import com.boding.constants.IntentRequestCode;
+import com.boding.model.DeliveryAddress;
+import com.boding.model.FlightDynamics;
+import com.boding.task.FlightDynamicsTask;
 import com.boding.util.Util;
 import com.boding.view.dialog.ProgressBarDialog;
 import com.boding.view.dialog.WarningDialog;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 public class FlightDynamicsListActivity extends Activity{
 	private ListView flightDynamicsListView;
@@ -22,13 +37,35 @@ public class FlightDynamicsListActivity extends Activity{
 	private WarningDialog warningDialog;
 	private ProgressBarDialog progressBarDialog;
 	
+	private boolean isFollowsList;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_flightdynamicslist);
+		Bundle arguments = getIntent().getExtras();
+        if(arguments != null){
+        	isFollowsList = arguments.getBoolean(IntentExtraAttribute.IS_FOLLOWEDLIST);
+        }
 		warningDialog = new WarningDialog(this);
 		progressBarDialog = new ProgressBarDialog(this);
 		initView();
+		setViewContent();
+	}
+	
+	public void setFlightDynamicsList(List<FlightDynamics> fdList){
+		adapter = new FlightDynamicsAdapter(this, fdList);
+		flightDynamicsListView.setAdapter(adapter);
+		progressBarDialog.dismiss();
+	}
+	
+	private void setViewContent(){
+		progressBarDialog.show();
+		if(isFollowsList){
+			(new FlightDynamicsTask(this, HTTPAction.GET_MYFOLLOWED_FROM_MYFAVOURITE)).execute();
+		}else{
+			
+		}
 	}
 	
     private void initView(){
@@ -36,11 +73,95 @@ public class FlightDynamicsListActivity extends Activity{
 		returnLinearLayout.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View arg0) {
-				Util.returnToPreviousPage(FlightDynamicsListActivity.this, IntentRequestCode.MY_FOLLOWED_FLIGHTDYNAMICS);
+				Util.returnToPreviousPage(FlightDynamicsListActivity.this, IntentRequestCode.FLIGHTDYNAMICS_LIST);
 			}
 			
 		});
 		
 		flightDynamicsListView = (ListView) findViewById(R.id.myfollowedflightdynamics_listView);
+		flightDynamicsListView.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int position,
+					long arg3) {
+				FlightDynamics dyn = adapter.getItem(position);
+				Intent intent = new Intent();
+				intent.setClass(FlightDynamicsListActivity.this, FlightBoardActivity.class);
+				intent.putExtra(IntentExtraAttribute.FLIGHT_DYNAMIC, dyn);
+				startActivityForResult(intent, IntentRequestCode.FLIGHT_BOARD.getRequestCode());
+			}
+		});
 	}
+    
+    public class FlightDynamicsAdapter extends BaseAdapter{
+    	private List<FlightDynamics> flightDynamicsList;
+        private Context context;
+        
+    	public FlightDynamicsAdapter(Context context,  List<FlightDynamics> flightDynamicsList) {
+    		this.context = context;
+    		this.flightDynamicsList = flightDynamicsList;
+    	}
+    	@Override
+    	public int getCount() {
+    		return flightDynamicsList.size();
+    	}
+    	@Override
+    	public FlightDynamics getItem(int position) {
+    		return flightDynamicsList.get(position);
+    	}
+    	@Override
+    	public long getItemId(int position) {
+    		return position;
+    	}
+    	
+    	public void addSubscribe(FlightDynamics dynamics){
+    		flightDynamicsList.add(dynamics);
+    		notifyDataSetChanged();
+    	}
+    	
+    	public void deleteSubscribe(int position){
+    		flightDynamicsList.remove(position);
+    		notifyDataSetChanged();
+    	}
+
+    	@Override
+    	public View getView(final int position, View convertView, ViewGroup parent) {
+    		final ViewHolder holder;
+    		if (convertView == null) {  
+                convertView = LayoutInflater.from(context).inflate(R.layout.list_item_flightdynamic, null);
+                holder = new ViewHolder();  
+                
+                holder.flightStatusImageView = (ImageView) convertView.findViewById(R.id.listitemflightdynamic_flightstatus_imageView);
+                holder.planeCodeTextView = (TextView) convertView.findViewById(R.id.listitemflightdynamic_planeCode_textView);
+                holder.fromTerminalTextView = (TextView) convertView.findViewById(R.id.listitemflightdynamic_fromTerminal_textView);
+                holder.fromTimeTextView = (TextView) convertView.findViewById(R.id.listitemflightdynamic_fromTime_textView);
+                holder.flightCompanyTextView = (TextView) convertView.findViewById(R.id.listitemflightdynamic_flightCompany_textView);
+                holder.toTerminalTextView = (TextView) convertView.findViewById(R.id.listitemflightdynamic_toTerminal_textView);
+                holder.toTimeTextView = (TextView) convertView.findViewById(R.id.listitemflightdynamic_toTime_textView);
+                
+                convertView.setTag(holder);  
+            } else {  
+                holder = (ViewHolder) convertView.getTag();  
+            }  
+    		
+    		final FlightDynamics dynamics = getItem(position);
+    		holder.flightStatusImageView.setImageResource(dynamics.getFlightStatus().getFlightStatusDrawable());
+    		holder.planeCodeTextView.setText(dynamics.getCarrier()+dynamics.getNum());
+    		holder.fromTerminalTextView.setText(dynamics.getDep_airport_name()+dynamics.getDep_terminal());
+    		holder.fromTimeTextView.setText(dynamics.getPlan_dep_time());
+    		holder.flightCompanyTextView.setText(dynamics.getCar_name());
+    		holder.toTerminalTextView.setText(dynamics.getArr_airport_name()+dynamics.getArr_terminal());
+    		holder.toTimeTextView.setText(dynamics.getPlan_arr_time());
+            return convertView;  
+    	}
+
+    	private class ViewHolder {
+    		ImageView flightStatusImageView;
+    		TextView planeCodeTextView;
+    		TextView fromTerminalTextView;
+    		TextView fromTimeTextView;
+    		TextView flightCompanyTextView;
+    		TextView toTerminalTextView;
+    		TextView toTimeTextView;
+    	}
+    }
 }

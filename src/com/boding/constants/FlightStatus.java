@@ -4,17 +4,23 @@ import com.boding.R;
 
 public enum FlightStatus {
 	TAKEOFF("takeoff","起飞",R.drawable.flightdynamic_status_takeoff,R.drawable.flightboard_takeoff,
-		R.drawable.layoutflightboard_flightdynamicsline_takeoff,R.drawable.layoutflightboard_status_takeoff),
+		R.drawable.layoutflightboard_flightdynamicsline_takeoff,R.drawable.layoutflightboard_status_takeoff,
+		R.color.textBlue),
 	PLAN("plan","计划",R.drawable.flightdynamic_status_plan,R.drawable.flightboard_plan,
-		R.drawable.layoutflightboard_flightdynamicsline_plan,R.drawable.layoutflightboard_status_plan),
+		R.drawable.layoutflightboard_flightdynamicsline_plan,R.drawable.layoutflightboard_status_plan,
+		R.color.textBlue),
 	ARRIVE("arrive","到达",R.drawable.flightdynamic_status_arrive,R.drawable.flightboard_arrive,
-		R.drawable.layoutflightboard_flightdynamicsline_arrive,R.drawable.layoutflightboard_status_arrive),
+		R.drawable.layoutflightboard_flightdynamicsline_arrive,R.drawable.layoutflightboard_status_arrive,
+		R.color.textBlue),
 	DELAY("delay","延误",R.drawable.flightdynamic_status_delay,R.drawable.flightboard_delay,
-		R.drawable.layoutflightboard_flightdynamicsline_delay,R.drawable.layoutflightboard_status_delay),
+		R.drawable.layoutflightboard_flightdynamicsline_delay,R.drawable.layoutflightboard_status_delay,
+		R.color.textBlue),
 	CANCEL("cancel","取消",R.drawable.flightdynamic_status_cancel,R.drawable.flightboard_cancel,
-		R.drawable.layoutflightboard_flightdynamicsline_cancel,R.drawable.layoutflightboard_status_cancel),
+		R.drawable.layoutflightboard_flightdynamicsline_cancel,R.drawable.layoutflightboard_status_cancel,
+		R.color.textBlue),
 	ALTERNATE("alternate","备降",R.drawable.flightdynamic_status_cancel,R.drawable.flightboard_cancel,
-		R.drawable.layoutflightboard_flightdynamicsline_cancel,R.drawable.layoutflightboard_status_cancel);
+		R.drawable.layoutflightboard_flightdynamicsline_cancel,R.drawable.layoutflightboard_status_cancel,
+		R.color.textBlue);
 	
 	private String flightStatusCode;
 	private String flightStatusName;
@@ -22,14 +28,17 @@ public enum FlightStatus {
 	private int flightBoardDrawable;
 	private int flightStatusLine;
 	private int layoutFlightStatus;
+	private int flightStatusColor;
+	
 	private FlightStatus(String flightStatusCode, String flightStatusName, int flightStatusDrawable, 
-		int flightBoardDrawable, int flightStatusLine, int layoutFlightStatus){
+		int flightBoardDrawable, int flightStatusLine, int layoutFlightStatus, int flightStatusColor){
 		this.flightStatusCode = flightStatusCode;
 		this.flightStatusName = flightStatusName;
 		this.flightStatusDrawable = flightStatusDrawable;
 		this.flightBoardDrawable = flightBoardDrawable;
 		this.flightStatusLine = flightStatusLine;
 		this.layoutFlightStatus = layoutFlightStatus;
+		this.flightStatusColor = flightStatusColor;
 	}
 	
 	public static FlightStatus getFlightStatusFromCode(String flightStatusCode){
@@ -101,5 +110,13 @@ public enum FlightStatus {
 
 	public void setLayoutFlightStatus(int layoutFlightStatus) {
 		this.layoutFlightStatus = layoutFlightStatus;
+	}
+
+	public int getFlightStatusColor() {
+		return flightStatusColor;
+	}
+
+	public void setFlightStatusColor(int flightStatusColor) {
+		this.flightStatusColor = flightStatusColor;
 	}
 }

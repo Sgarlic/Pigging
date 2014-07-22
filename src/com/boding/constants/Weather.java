@@ -26,8 +26,10 @@ public enum Weather {
 			return CLOUD;
 		if(weatherCode.equals("fog"))
 			return FOG;
+		if(weatherCode.equals("sun"))
+			return SUN;
 		
-		return SUN;
+		return null;
 	}
 	
 	public String getWeatherCode() {

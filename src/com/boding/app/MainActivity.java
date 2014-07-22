@@ -420,7 +420,7 @@ public class MainActivity extends FragmentActivity {
 					return;
 				}
 				progressBarDialog.show();
-				(new FlightDynamicsTask(MainActivity.this, HTTPAction.GET_MYFOLLOWED_FLIGHTDYNAMICS)).execute();
+				(new FlightDynamicsTask(MainActivity.this, HTTPAction.GET_MYFOLLOWED_FROM_MAIN)).execute();
 			}
 		});
 	}
@@ -772,6 +772,7 @@ public class MainActivity extends FragmentActivity {
 				TextView fromTerminalTextView = (TextView) view.findViewById(R.id.layoutflightboard_fromTerminal_textView);
 				TextView planeFromTimeTextView = (TextView) view.findViewById(R.id.layoutflightboard_planFromTime_textView);
 				TextView actualFromTimeTextView = (TextView) view.findViewById(R.id.layoutflightboard_actualFromTime_textView);
+				TextView onTimeRateTextTextView = (TextView) view.findViewById(R.id.layoutflightboard_ontimeRateText_textView);
 				TextView onTimeRateTextView = (TextView) view.findViewById(R.id.layoutflightboard_ontimeRate_textView);
 				TextView dateTextView = (TextView) view.findViewById(R.id.layoutflightboard_date_textView);
 				LinearLayout refreshLinearLayout = (LinearLayout) view.findViewById(R.id.layoutflightboard_refresh_linearLayout);
@@ -788,39 +789,71 @@ public class MainActivity extends FragmentActivity {
 				LinearLayout toAirportInfoLinearLayout = (LinearLayout) view.findViewById(R.id.layoutflightboard_toAirportInfo_linearLayout);
 				LinearLayout followLinearLayout = (LinearLayout) view.findViewById(R.id.layoutflightboard_follow_linearLayout);
 				ImageView pageIndicatorImageView = (ImageView) view.findViewById(R.id.layoutflightboard_pageIndicator_imageView);
-				
+				LinearLayout fromDividerLinearLayout = (LinearLayout) view.findViewById(R.id.layoutflightboard_fromDivider_linearLayout);
+				LinearLayout toDividerLinearLayout = (LinearLayout) view.findViewById(R.id.layoutflightboard_toDivider_linearLayout);
+						
 				/**
 				 * set content
 				 */
-				FlightDynamics dyn = myFollowsFlightList.get(position);
+				FlightDynamics dynamics = myFollowsFlightList.get(position);
+				topLineImageView.setImageResource(dynamics.getFlightStatus().getFlightStatusLine());
+				flightCompanyNumTextView.setText(dynamics.getCar_name() + dynamics.getCarrier() + dynamics.getNum());
+				fromCityTextView.setText(CityUtil.getCityNameByCode(dynamics.getDep_airport_code()));
+				if (dynamics.getDep_weather() == null){
+					fromCityWeatherTextView.setVisibility(View.GONE);
+					fromCityWeatherImageView.setVisibility(View.GONE);
+				}else{
+					fromCityWeatherTextView.setText(dynamics.getDep_weather().getWeatherName());
+					fromCityWeatherImageView.setImageResource(dynamics.getDep_weather().getWeatherDrawable());
+				}
+				int color = MainActivity.this.getResources().getColor(dynamics.getFlightStatus().getFlightStatusColor());
+				fromDividerLinearLayout.setBackgroundColor(color);
+				toDividerLinearLayout.setBackgroundColor(color);
 				
-				flightCompanyNumTextView.setText(dyn.getCar_name() + dyn.getCarrier() + dyn.getNum());
-				fromCityTextView.setText(CityUtil.getCityNameByCode(dyn.getDep_airport_code()));
-				if (dyn.getDep_weather() == null){
-					fromCityWeatherTextView.setVisibility(View.INVISIBLE);
-					fromCityWeatherImageView.setVisibility(View.INVISIBLE);
+				fromTerminalTextView.setText(dynamics.getDep_airport_name() + dynamics.getDep_terminal());
+				planeFromTimeTextView.setText(dynamics.getPlan_dep_time());
+				if(!dynamics.getActual_dep_time().equals(""))
+					actualFromTimeTextView.setText(dynamics.getActual_dep_time());
+				onTimeRateTextView.setText(dynamics.getPunctuality());
+				onTimeRateTextTextView.setTextColor(color);
+				onTimeRateTextView.setTextColor(color);
+				dateTextView.setText(dynamics.getDate());
+				toCityTextView.setText(CityUtil.getCityNameByCode(dynamics.getArr_airport_code()));
+				if(dynamics.getArr_weather() == null){
+					toCityWeatherTextView.setVisibility(View.GONE);
+					toCityWeatherImageView.setVisibility(View.GONE);
 				}else{
-					fromCityWeatherTextView.setText(dyn.getDep_weather().getWeatherName());
+					toCityWeatherTextView.setText(dynamics.getArr_weather().getWeatherName());
+					toCityWeatherImageView.setImageResource(dynamics.getArr_weather().getWeatherDrawable());
 				}
-				fromTerminalTextView.setText(dyn.getDep_airport_name() + dyn.getDep_terminal());
-				planeFromTimeTextView.setText(dyn.getPlan_dep_time());
-				if(!dyn.getActual_dep_time().equals(""))
-					actualFromTimeTextView.setText(dyn.getActual_dep_time());
-				onTimeRateTextView.setText(dyn.getPunctuality());
-				dateTextView.setText(dyn.getDate());
-				toCityTextView.setText(CityUtil.getCityNameByCode(dyn.getArr_airport_code()));
-				if(dyn.getArr_weather() == null){
-					toCityWeatherTextView.setVisibility(View.INVISIBLE);
-					toCityWeatherImageView.setVisibility(View.INVISIBLE);
-				}else{
-					toCityWeatherTextView.setText(dyn.getArr_weather().getWeatherName());
+				toTerminalTextView.setText(dynamics.getArr_airport_name() + dynamics.getArr_terminal());
+				planToTimeTextView.setText(dynamics.getPlan_arr_time());
+				if(!dynamics.getActual_arr_time().equals(""))
+					actualToTimeTextView.setText(dynamics.getActual_arr_time());
+				fromAirportInfoTextView.setText(dynamics.getDep_airport_name());
+				toAirportInfoTextView.setText(dynamics.getArr_airport_name());
+				flightStatusImageView.setImageResource(dynamics.getFlightStatus().getLayoutFlightStatus());
+				
+				int pageSize = myFollowsFlightList.size();
+				switch(pageSize){
+					case 1:
+						pageIndicatorImageView.setVisibility(View.INVISIBLE);
+					break;
+					case 2:
+						if(position == 0)
+							pageIndicatorImageView.setImageResource(R.drawable.twopages_first);
+						else
+							pageIndicatorImageView.setImageResource(R.drawable.twopages_second);
+					break;
+					default:
+						if(position == 0)
+							pageIndicatorImageView.setImageResource(R.drawable.threepages_first);
+						else if (position == pageSize - 1)
+							pageIndicatorImageView.setImageResource(R.drawable.threepages_second);
+						else
+							pageIndicatorImageView.setImageResource(R.drawable.threepages_third);
+					break;
 				}
-				toTerminalTextView.setText(dyn.getArr_airport_name() + dyn.getArr_terminal());
-				planToTimeTextView.setText(dyn.getPlan_arr_time());
-				if(!dyn.getActual_arr_time().equals(""))
-					actualToTimeTextView.setText(dyn.getActual_arr_time());
-				fromAirportInfoTextView.setText(dyn.getDep_airport_name());
-				toAirportInfoTextView.setText(dyn.getArr_airport_name());
 				
 				/**
 				 * add listeners

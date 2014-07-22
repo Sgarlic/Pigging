@@ -146,13 +146,13 @@
 		        android:typeface="serif" />
 
 		    <LinearLayout
+		        android:id="@+id/layoutflightboard_fromDivider_linearLayout"
 		        android:layout_width="80dp"
 		        android:layout_height="2dp"
 		        android:layout_gravity="right"
 		        android:layout_marginTop="3dp"
 		        android:background="@color/boardDividerBlue"
 		        android:orientation="horizontal" >
-
 		    </LinearLayout>
 
 		    <LinearLayout
@@ -229,6 +229,7 @@
 		    android:orientation="vertical" >
 
 			<TextView
+			    android:id="@+id/layoutflightboard_ontimeRateText_textView"
 			    android:layout_width="wrap_content"
 			    android:layout_height="wrap_content"
 			    android:layout_gravity="center_horizontal"
@@ -332,12 +333,12 @@
 		        android:typeface="serif" />
 
 		    <LinearLayout
+		        android:id="@+id/layoutflightboard_toDivider_linearLayout"
 		        android:layout_width="80dp"
 		        android:layout_height="2dp"
 		        android:layout_marginTop="3dp"
 		        android:background="@color/boardDividerBlue"
 		        android:orientation="horizontal" >
-
 		    </LinearLayout>
 
 		    <LinearLayout
@@ -474,7 +475,6 @@
 		    </LinearLayout>
 	    </LinearLayout>
     </LinearLayout>
-
     <LinearLayout
         android:id="@+id/layoutflightboard_follow_linearLayout"
         android:layout_width="match_parent"
@@ -504,7 +504,6 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
         android:src="@drawable/threepages_first" />
-    
     <LinearLayout
 	    android:layout_width="match_parent"
 	    android:layout_height="match_parent"

@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.boding.R;
 import com.boding.constants.GlobalVariables;
+import com.boding.constants.IntentExtraAttribute;
 import com.boding.constants.IntentRequestCode;
 import com.boding.model.BodingUser;
 import com.boding.model.Passenger;
@@ -103,6 +104,26 @@ public class MyBodingActivity extends Activity {
 				Intent intent = new Intent();
 				intent.setClass(MyBodingActivity.this, SettingsActivity.class);
 				startActivityForResult(intent, IntentRequestCode.SETTINGS.getRequestCode());
+			}
+		});
+		myFavoriteLinearLayout.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				Intent intent = new Intent();
+				if(GlobalVariables.bodingUser == null){
+					intent.setClass(MyBodingActivity.this, LoginActivity.class);
+					startActivityForResult(intent, IntentRequestCode.LOGIN.getRequestCode());
+					return;
+				}else if(!GlobalVariables.bodingUser.isActivated_state()){
+					intent.setClass(MyBodingActivity.this, VerifyPhonenumActivity.class);
+					intent.putExtra(IntentExtraAttribute.VERIFY_PHONENUM_TYPE, "2");
+					startActivityForResult(intent, IntentRequestCode.LOGIN.getRequestCode());
+					return;
+				}else{
+					intent.setClass(MyBodingActivity.this, FlightDynamicsListActivity.class);
+					intent.putExtra(IntentExtraAttribute.IS_FOLLOWEDLIST, true);
+					startActivityForResult(intent, IntentRequestCode.FLIGHTDYNAMICS_LIST.getRequestCode());
+				}
 			}
 		});
 	}

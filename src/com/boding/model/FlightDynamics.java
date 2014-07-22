@@ -1,9 +1,12 @@
 package com.boding.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.boding.constants.FlightStatus;
 import com.boding.constants.Weather;
 
-public class FlightDynamics {
+public class FlightDynamics implements Parcelable{
 	private String id;
 	private String date;
 	private String carrier;
@@ -155,8 +158,8 @@ public class FlightDynamics {
 	public Weather getDep_weather() {
 		return dep_weather;
 	}
-	public void setDep_weather(Weather dep_weather) {
-		this.dep_weather = dep_weather;
+	public void setDep_weatherFromCode(String code) {
+		this.dep_weather = Weather.getWeatherFromCode(code);
 	}
 	public String getDep_temperature() {
 		return dep_temperature;
@@ -172,8 +175,8 @@ public class FlightDynamics {
 	public Weather getArr_weather() {
 		return arr_weather;
 	}
-	public void setArr_weather(Weather arr_weather) {
-		this.arr_weather = arr_weather;
+	public void setArr_weatherFromCode(String code) {
+		this.arr_weather = Weather.getWeatherFromCode(code);
 	}
 	public String getArr_temperature() {
 		return arr_temperature;
@@ -187,4 +190,76 @@ public class FlightDynamics {
 	public void setDate(String date) {
 		this.date = date;
 	}
+	
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+	
+	public FlightDynamics(){}
+	
+	public FlightDynamics(Parcel in){
+		id = in.readString();
+		date = in.readString();
+		carrier = in.readString();
+		num = in.readString();
+		car_name = in.readString();
+		plan_dep_time = in.readString();
+		expect_dep_time = in.readString();
+		actual_dep_time = in.readString();
+		dep_airport_code = in.readString();
+		arr_airport_code = in.readString();
+		dep_airport_name = in.readString();
+		arr_airport_name = in.readString();
+		dep_terminal = in.readString();
+		arr_terminal = in.readString();
+		plan_arr_time = in.readString();
+		expect_arr_time = in.readString();
+		actual_arr_time = in.readString();
+		setFlightStatusByCode(in.readString());
+		punctuality = in.readString();
+		setDep_weatherFromCode(in.readString());
+		dep_temperature = in.readString();
+		setArr_weatherFromCode(in.readString());
+		arr_temperature = in.readString();
+	}
+	
+	@Override
+	public void writeToParcel(Parcel dest, int arg1) {
+		dest.writeString(id);
+		dest.writeString(date);
+		dest.writeString(carrier);
+		dest.writeString(num);
+		dest.writeString(car_name);
+		dest.writeString(plan_dep_time);
+		dest.writeString(expect_dep_time);
+		dest.writeString(actual_dep_time);
+		dest.writeString(dep_airport_code);
+		dest.writeString(arr_airport_code);
+		dest.writeString(dep_airport_name);
+		dest.writeString(arr_airport_name);
+		dest.writeString(dep_terminal);
+		dest.writeString(arr_terminal);
+		dest.writeString(plan_arr_time);
+		dest.writeString(expect_arr_time);
+		dest.writeString(actual_arr_time);
+		dest.writeString(flightStatus.getFlightStatusCode());
+		dest.writeString(punctuality);
+		dest.writeString(getDep_weatherCodeString());
+		dest.writeString(dep_temperature);
+		dest.writeString(getArr_weatherCodeString());
+		dest.writeString(arr_temperature);
+	}
+	
+	 public static final Parcelable.Creator<FlightDynamics> CREATOR = new Parcelable.Creator<FlightDynamics>() {   
+		//÷ÿ–¥Creator
+		  
+		 public FlightDynamics createFromParcel(Parcel in) {  
+	            return new FlightDynamics(in);  
+	        }  
+	          
+	        public FlightDynamics[] newArray(int size) {  
+	            return new FlightDynamics[size];  
+	        }  
+	 };
 }
