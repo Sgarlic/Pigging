@@ -425,7 +425,7 @@ public class OrderFormActivity extends Activity {
 		String flightInfo = "";
 		for(Segment segment : flightLine.getDeparture().getSegments()){
 			flightInfo += "|"+segment.getCarname()+"|"+segment.getCarrier()+"|"
-				+segment.getNum()+"|"+segment.getPlane()+"|"+"舱位名称"+"|"
+				+segment.getNum()+"|"+segment.getPlane()+"|"+flightLine.getSelectedClassName()+"|"
 				+"舱位类型"+"|"+"|"+"|"+segment.getLeadate()+"|"+segment.getArrdate()+"|"
 				+segment.getLeatime()+"|"+segment.getArrtime()+"|"+"|"+"|"
 				+segment.getLeacode()+"|"+segment.getArrcode()+"|"+segment.getLeaTerminal()
