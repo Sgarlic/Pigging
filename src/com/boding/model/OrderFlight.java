@@ -14,8 +14,8 @@ public class OrderFlight {
 	private String leave_time;
 	private String arrive_date;
 	private String arrive_time;
-	private String leaterminal;
-	private String arrterminal;
+	private String leaterminal = "";
+	private String arrterminal = "";
 	private String reles;
 	private String planetype;
 	private String duration;

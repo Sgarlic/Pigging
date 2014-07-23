@@ -142,8 +142,9 @@ public class Segment {
 	
 	
 	public String getEstimatedTime(){
-		return DateUtil.getTimeIntDiff(DateUtil.getDateFromString(arrdate, arrtime).getTime(),
-				DateUtil.getDateFromString(leadate, leatime).getTime());
+		return DateUtil.getTimeIntDiff(
+			DateUtil.getDateFromString(leadate, leatime).getTime(),
+			DateUtil.getDateFromString(arrdate, arrtime).getTime());
 	}
 	
 }

@@ -5,6 +5,7 @@ import com.boding.constants.Constants;
 import com.boding.constants.GlobalVariables;
 import com.boding.model.FlightLine;
 import com.boding.model.Segment;
+import com.boding.util.CityUtil;
 import com.boding.util.DateUtil;
 import com.boding.util.Util;
 import com.boding.view.dialog.SeatChangeBackDialog;
@@ -43,12 +44,16 @@ public class OrderFlightInfoISegmentLayout extends LinearLayout{
 	
 	private Segment segment;
 	
+	private String transitEstimateTime;
+	
 	// if init complete
 	private boolean flag = false;
-	public OrderFlightInfoISegmentLayout(Context context, Segment segment) {
+	public OrderFlightInfoISegmentLayout(Context context, Segment segment,
+			String transitEstimateTime) {
 		super(context);
 		this.context = context;
 		this.segment = segment;
+		this.transitEstimateTime = transitEstimateTime;
 	}
 	
 	public OrderFlightInfoISegmentLayout(Context context, AttributeSet attrs) {
@@ -81,8 +86,8 @@ public class OrderFlightInfoISegmentLayout extends LinearLayout{
 		arrivalDateTimeTextView.setText(DateUtil.getFormatedTime(segment.getArrtime()));
 		arrivalTerminalTextView.setText(segment.getArrTerminal());
 		fromEstimateTimeTextView.setText(segment.getEstimatedTime());
-		transitCityTextView.setText(segment.getArrname());
-		transitEstimateTimeTextView.setText("");
+		transitCityTextView.setText(CityUtil.getCityNameByCode(segment.getArrcode()));
+		transitEstimateTimeTextView.setText(transitEstimateTime);
 	}
 	
 	private void initView(){

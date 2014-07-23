@@ -209,6 +209,10 @@ public class OrderFormActivity extends Activity {
 		totalPriceTextView = (TextView) findViewById(R.id.orderform_totalPrice_textView);
 		nextStepLinearLayout = (LinearLayout) findViewById(R.id.orderform_nextStep_linearLayout); 
 		
+		
+		if(GlobalVariables.bodingUser != null){
+			phoneNumberEditText.setText(GlobalVariables.bodingUser.getMobile());
+		}
 //		insurancePopupParentWidth = insuranceLinearLayout.getWidth();
 		addListeners();
     }
@@ -237,11 +241,12 @@ public class OrderFormActivity extends Activity {
 					return;
 				}
 				Intent intent = new Intent();
+				Bundle bundle = new Bundle();
 				if(passengerList!=null){
-					Bundle bundle = new Bundle();
 					bundle.putParcelableArrayList(IntentExtraAttribute.CHOOSED_PASSENGERS_EXTRA, passengerList);
-					intent.putExtras(bundle);
 				}
+				bundle.putBoolean(IntentExtraAttribute.IS_INTERNATIONAL_CHOOSEPASSENGER, !isDomestic);
+				intent.putExtras(bundle);
 				intent.setClass(OrderFormActivity.this, ChoosePassengerActivity.class);
 				startActivityForResult(intent,IntentRequestCode.CHOOSE_PASSENGER.getRequestCode());
 			}

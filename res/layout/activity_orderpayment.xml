@@ -83,14 +83,16 @@
 	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"
 	        android:orientation="horizontal" >
+
 	        <TextView
 	            android:id="@+id/orderpayment_fromto_textView"
-			    android:layout_width="wrap_content"
-			    android:layout_height="wrap_content"
-			    android:layout_gravity="center_vertical"
-			    android:text="上海-东京"
-			    android:textColor="@color/priceGray"
-			    android:textSize="18sp"/>
+	            android:layout_width="100dp"
+	            android:layout_height="wrap_content"
+	            android:layout_gravity="center_vertical"
+	            android:text="上海-东京"
+	            android:textColor="@color/priceGray"
+	            android:textSize="18sp" />
+
 	        <TextView
 	            android:id="@+id/orderpayment_singleorroundway_textView"
 	            android:layout_width="wrap_content"

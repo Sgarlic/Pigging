@@ -95,8 +95,13 @@ public class OrderFlightInfoILayout extends LinearLayout{
 		
 		int segmentSize = flightLine.getDeparture().getSegments().size();
 		for(int i = 0; i<segmentSize - 1; i ++){
-			OrderFlightInfoISegmentLayout orderFlightInfoISegmentLinearLayout = new OrderFlightInfoISegmentLayout(context,
-					flightLine.getDeparture().getSegments().get(i));
+			Segment curSegment = flightLine.getDeparture().getSegments().get(i);
+			Segment nextSegment = flightLine.getDeparture().getSegments().get(i+1);
+			String transitEstimateTime = DateUtil.getTimeIntDiff(
+				DateUtil.getDateFromString(curSegment.getArrdate(), curSegment.getArrtime()).getTime(),
+				DateUtil.getDateFromString(nextSegment.getLeadate(), nextSegment.getLeatime()).getTime());
+			OrderFlightInfoISegmentLayout orderFlightInfoISegmentLinearLayout = new OrderFlightInfoISegmentLayout(
+					context,curSegment, transitEstimateTime);
 			segmentInfoLinearLayout.addView(orderFlightInfoISegmentLinearLayout);
 		}
 

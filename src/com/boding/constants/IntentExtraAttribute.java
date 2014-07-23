@@ -8,6 +8,7 @@ public class IntentExtraAttribute {
 	public static final String EDIT_PASSENGER_EXTRA = "editPassenger";
 	public static final String DELETE_PASSENGER_EXTRA = "deletePassenger";
 	public static final String CHOOSED_PASSENGERS_EXTRA = "choosedPassengers";
+	public static final String IS_INTERNATIONAL_CHOOSEPASSENGER = "isInternationalChoosePassenger";
 	
 	public static final String IS_MANAGE_DELIVERYADDR = "isManageDeliverAddr";
 	public static final String IS_EDIT_DELIVERYADDR = "isEditDeliverAddr";

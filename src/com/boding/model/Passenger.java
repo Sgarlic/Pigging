@@ -274,4 +274,8 @@ public class Passenger implements Parcelable{
 			 return false;
 		 return true;
 	 }
+	 
+	 public boolean isDomestic(){
+		 return identityType == IdentityType.NI;
+	 }
 }

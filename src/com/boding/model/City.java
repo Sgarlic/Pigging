@@ -16,6 +16,7 @@ public class City implements Serializable{
 	private String belongsToCountry;
 	private String pinyin = "";
 	private String initial="";
+	private String airportcode;
 	
 	public String getInitial() {
 		return initial;
@@ -93,4 +94,12 @@ public class City implements Serializable{
 		City c = (City) o;
         return this.cityName.equals(c.cityName);
     }
+
+	public String getAirportcode() {
+		return airportcode;
+	}
+
+	public void setAirportcode(String airportcode) {
+		this.airportcode = airportcode;
+	}
 }

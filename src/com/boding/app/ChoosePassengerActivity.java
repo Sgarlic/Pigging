@@ -45,6 +45,8 @@ public class ChoosePassengerActivity extends Activity {
 	private PassengerAdapter peopleAdapter;
 	
 	private Bundle bundle;
+	
+	private boolean isInternational = false;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -57,9 +59,13 @@ public class ChoosePassengerActivity extends Activity {
 	        	for(Passenger passenger : selectedPassengers)
 	        		selectedPassengerIds.add(passenger.getAuto_id());
         	}
+        	if(arguments.containsKey(IntentExtraAttribute.IS_INTERNATIONAL_CHOOSEPASSENGER)){
+        		isInternational = arguments.getBoolean(IntentExtraAttribute.IS_INTERNATIONAL_CHOOSEPASSENGER);
+        	}
         }
 		initView();
 		viewContentSetting();
+		System.out.println(isInternational + "ddddddddddddddddddddddddddddd");
 	}
 	
 	private void initView(){
@@ -219,10 +225,12 @@ public class ChoosePassengerActivity extends Activity {
             holder.choosePassengerLinearLayout.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					if (holder.choosePassengerCheckBox.isChecked())
+					if (holder.choosePassengerCheckBox.isChecked()){
 						holder.choosePassengerCheckBox.setChecked(false);
-					else
+					}
+					else{
 						holder.choosePassengerCheckBox.setChecked(true);
+					}
 				}
 			});
             holder.editLinearLayout.setOnClickListener(new View.OnClickListener() {
@@ -236,16 +244,18 @@ public class ChoosePassengerActivity extends Activity {
 					startActivityForResult(intent, IntentRequestCode.ADD_PASSENGERINFO.getRequestCode());
 				}
 			});
-            holder.choosePassengerCheckBox.setOnCheckedChangeListener(new OncheckchangeListner(holder));
+            holder.choosePassengerCheckBox.setOnCheckedChangeListener(new OncheckchangeListner(holder,people));
 	        return convertView;  
 		}
 		
 		class OncheckchangeListner implements OnCheckedChangeListener{
 
             ViewHolder viewHolder = null; 
-            public OncheckchangeListner(ViewHolder viHolder)
+            Passenger people;
+            public OncheckchangeListner(ViewHolder viHolder, Passenger people)
             {
                 viewHolder =  viHolder;  
+                this.people = people;
             }
             @Override 
             public void onCheckedChanged(CompoundButton buttonView,
@@ -258,6 +268,16 @@ public class ChoosePassengerActivity extends Activity {
 	                	selectedPassengerIds.remove(viewHolder.passengerId);
 	                }
 	                else{
+	                	System.out.println(isInternational + "ddssssssssss");
+						System.out.println(people.isDomestic() + "ddssssssssss");
+						
+						if(isInternational && people.isDomestic()){
+							WarningDialog warningDialog = new WarningDialog(ChoosePassengerActivity.this);
+							warningDialog.setContent("预定国际机票请使用英文姓名");
+							warningDialog.show();
+							viewHolder.choosePassengerCheckBox.setChecked(false);
+							return;
+						}
 	                	selectedPassengerIds.add(viewHolder.passengerId);
 	                }
             	}
