@@ -62,4 +62,6 @@
     <color name="flightDynamicPlanInfoDivider">#20252b</color>
     <color name="flightDynamicGray">#a1a0a0</color>
     <color name="orderListBlue">#5591c0</color>
+    <color name="takeOffTextColor">#129f9f</color>
+    <color name="cancelTextColor">#8497a4</color>
 </resources>

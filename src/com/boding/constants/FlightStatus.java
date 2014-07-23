@@ -5,7 +5,7 @@ import com.boding.R;
 public enum FlightStatus {
 	TAKEOFF("takeoff","起飞",R.drawable.flightdynamic_status_takeoff,R.drawable.flightboard_takeoff,
 		R.drawable.layoutflightboard_flightdynamicsline_takeoff,R.drawable.layoutflightboard_status_takeoff,
-		R.color.textBlue),
+		R.color.takeOffTextColor),
 	PLAN("plan","计划",R.drawable.flightdynamic_status_plan,R.drawable.flightboard_plan,
 		R.drawable.layoutflightboard_flightdynamicsline_plan,R.drawable.layoutflightboard_status_plan,
 		R.color.textBlue),
@@ -14,13 +14,13 @@ public enum FlightStatus {
 		R.color.textBlue),
 	DELAY("delay","延误",R.drawable.flightdynamic_status_delay,R.drawable.flightboard_delay,
 		R.drawable.layoutflightboard_flightdynamicsline_delay,R.drawable.layoutflightboard_status_delay,
-		R.color.textBlue),
+		R.color.panelOrange),
 	CANCEL("cancel","取消",R.drawable.flightdynamic_status_cancel,R.drawable.flightboard_cancel,
 		R.drawable.layoutflightboard_flightdynamicsline_cancel,R.drawable.layoutflightboard_status_cancel,
-		R.color.textBlue),
+		R.color.cancelTextColor),
 	ALTERNATE("alternate","备降",R.drawable.flightdynamic_status_cancel,R.drawable.flightboard_cancel,
 		R.drawable.layoutflightboard_flightdynamicsline_cancel,R.drawable.layoutflightboard_status_cancel,
-		R.color.textBlue);
+		R.color.cancelTextColor);
 	
 	private String flightStatusCode;
 	private String flightStatusName;
