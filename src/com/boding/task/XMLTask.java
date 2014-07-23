@@ -31,8 +31,8 @@ public class XMLTask extends AsyncTask<Object,Void,Object>{
 	
 	@Override
 	protected Object doInBackground(Object... params) {
-		//InputStream is = requestXML((String)params[0]);
-		InputStream is = requestFakeData((Integer)params[0]);
+		InputStream is = requestXML((String)params[0]);
+		//InputStream is = requestFakeData((Integer)params[0]);
 		AirlineView av = null;
 		try {
 			av = AvXmlParser.parse(is);

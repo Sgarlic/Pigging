@@ -12,6 +12,7 @@ import com.boding.constants.IdentityType;
 import com.boding.constants.IntentExtraAttribute;
 import com.boding.constants.IntentRequestCode;
 import com.boding.model.DeliveryAddress;
+import com.boding.model.FlightClass;
 import com.boding.model.FlightInterface;
 import com.boding.model.FlightLine;
 import com.boding.model.Passenger;
@@ -423,14 +424,16 @@ public class OrderFormActivity extends Activity {
 	private String getFlightInfoStringInternational(){
 		FlightLine flightLine = (FlightLine)selectedFlight;
 		String flightInfo = "";
+		FlightClass selectedClass = flightLine.getSelectedClass();
 		for(Segment segment : flightLine.getDeparture().getSegments()){
 			flightInfo += "|"+segment.getCarname()+"|"+segment.getCarrier()+"|"
 				+segment.getNum()+"|"+segment.getPlane()+"|"+flightLine.getSelectedClassName()+"|"
 				+"舱位类型"+"|"+"|"+"|"+segment.getLeadate()+"|"+segment.getArrdate()+"|"
 				+segment.getLeatime()+"|"+segment.getArrtime()+"|"+"|"+"|"
 				+segment.getLeacode()+"|"+segment.getArrcode()+"|"+segment.getLeaTerminal()
-				+"|"+segment.getArrTerminal()+"|"+"成人价"+"|"+"儿童价"
-				+"|"+"成人税收"+"|"+"儿童税收"+"||||"+"文件价"+"|"+"规则"+"|||0|0|0|0|"+"特价id"
+				+"|"+segment.getArrTerminal()+"|"+selectedClass.getPrice().getAdult()+"|"+selectedClass.getPrice().getChild()
+				+"|"+selectedClass.getTax().getAdult()+"|"+selectedClass.getTax().getChild()+"||||"+
+				selectedClass.getPrice().getFile()+"|"+selectedClass.getRule().getReturnRule()+"|||0|0|0|0|"+selectedClass.getPrice().getId()
 				+"||||0|0|0"+"@";
 		}
 		return flightInfo.substring(0,flightInfo.length()-1);

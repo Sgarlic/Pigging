@@ -187,10 +187,10 @@ public class AvXmlParser {
                     rule.setRemark(parser.nextText());
                     eventType = parser.next();
                 }else if(parser.getName().equals("returnlist")){
-                	returnlist = new ReturnList();
-                	frlist = new ArrayList<FlightReturn>();
+                	//returnlist = new ReturnList();
+                	//frlist = new ArrayList<FlightReturn>();
                 }else if(parser.getName().equals("return")){
-                	flightreturn = new FlightReturn();
+                	//flightreturn = new FlightReturn();
                 }  
                 break;  
             case XmlPullParser.END_TAG:  
@@ -204,12 +204,12 @@ public class AvXmlParser {
                     departure.setSegments(segments);
                     flight.setDeparture(departure);
                     departure = null;
-                    segments = null;
+                    //segments = null;
                 }else if (parser.getName().equals("returnlist")){  
-                    returnlist.setReturnlist(frlist);
-                    flight.setReturnlist(returnlist);
-                    returnlist = null;
-                    frlist = null;
+                    //returnlist.setReturnlist(frlist);
+                    //flight.setReturnlist(returnlist);
+                    //returnlist = null;
+                    //frlist = null;
                 }else if (parser.getName().equals("segment")){  
                     segment.setFclasslist(fclasslist);
                     segments.add(segment);
@@ -232,10 +232,10 @@ public class AvXmlParser {
                     flightClass.setRule(rule);
                     rule = null;
                 }else if (parser.getName().equals("return")){
-                	flightreturn.setSegments(segments);
-                	frlist.add(flightreturn);
-                	flightreturn = null;
-                	segments = null;
+                	//flightreturn.setSegments(segments);
+                	//frlist.add(flightreturn);
+                	//flightreturn = null;
+                	//segments = null;
                 }  
                 break;  
             }  

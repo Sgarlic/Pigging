@@ -415,7 +415,7 @@ public class TicketSearchResultActivity extends FragmentActivity {
 
 	  private void invokeXmlTask(String url, int whichday){
 		  	XMLTask xmltask = new XMLTask(this, whichday);
-			xmltask.execute(whichday);//To Change
+			xmltask.execute(url);//To Change
 	  }
 
 	  public void doFilter(List<String> timeConstraints, List<String> classConstraints, List<String> compConstrains){
@@ -450,7 +450,7 @@ public class TicketSearchResultActivity extends FragmentActivity {
 		  progressDialog.show();
 		  if(isInternational){//国际
 				//此处先使用同一个xml测试
-				String urlstr = "http://192.168.0.22:9404/FakeBodingServer/XMLServlet?day=today";
+				String urlstr = "http://115.231.73.25:1368/av.ashx?userid=boding&PassengerType=C001&fromcity=SHA&tocity=NYC&godate=2014-07-24&backdate=2014-07-26&sign=A3AF7E76AF44B0A2055D262C5329929E";
 				invokeXmlTask(urlstr, 2);
 				invokeXmlTask(urlstr, 1);
 				invokeXmlTask(urlstr, 3);
