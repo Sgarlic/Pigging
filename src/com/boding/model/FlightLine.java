@@ -23,6 +23,10 @@ public class FlightLine implements FlightInterface{
 	private Segment firstSegment = null;
 	private Segment lastSegment = null;
 	
+	public String getSelectedClassName(){
+		return this.selectedCabins.get(selectedClassPos).getFlightClassName();
+	}
+	
 	public String getCurrentClass(){
 		return this.selectedCabins.get(defaultShowedCabinPos).getClassType();
 	}
