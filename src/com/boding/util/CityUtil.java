@@ -31,10 +31,12 @@ public class CityUtil {
 		if(allCitiesMap == null){
 			allCitiesMap = new HashMap<String, String>();
 			for(City city : GlobalVariables.domesticCitiesList){
-				allCitiesMap.put(city.getCityCode(), city.getCityName());
+				if(!allCitiesMap.containsKey(city.getCityCode()))
+					allCitiesMap.put(city.getCityCode(), city.getCityName());
 			}
 			for(City city : GlobalVariables.interCitiesList){
-				allCitiesMap.put(city.getCityCode(), city.getCityName());
+				if(!allCitiesMap.containsKey(city.getCityCode()))
+					allCitiesMap.put(city.getCityCode(), city.getCityName());
 			}
 		}
 		return allCitiesMap.get(cityCode);

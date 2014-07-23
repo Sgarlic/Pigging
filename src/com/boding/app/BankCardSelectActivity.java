@@ -7,27 +7,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
 
 import com.boding.R;
 import com.boding.constants.Constants;
 import com.boding.constants.IntentRequestCode;
 import com.boding.model.BankCard;
-import com.boding.model.Country;
 import com.boding.util.Util;
 import com.boding.view.dialog.SearchBankcardDialog;
-import com.boding.view.dialog.SearchNationalityDialog;
-import com.boding.view.listview.LetterSelectListView;
-import com.boding.view.listview.LetterSelectListView.OnTouchingLetterChangedListener;
 public class BankCardSelectActivity extends FragmentActivity {
 	private ListView bankCardList;
 	private boolean isCreditCardSelection = false;
@@ -46,6 +41,7 @@ public class BankCardSelectActivity extends FragmentActivity {
         setContentView(R.layout.activity_bankcard_select);
        
         initView();
+        setTitle();
     }
 
     private void initView(){
@@ -84,18 +80,16 @@ public class BankCardSelectActivity extends FragmentActivity {
         
         bankCardList = (ListView) findViewById(R.id.bankcard_select_listView);
         
-        List<Country> hotCountryList = new ArrayList<Country>();
-        hotCountryList.add(new Country("中国大陆"));
-        hotCountryList.add(new Country("中国香港"));
-        hotCountryList.add(new Country("中国澳门"));
-        hotCountryList.add(new Country("中国台湾"));
-        hotCountryList.add(new Country("美国"));
-        hotCountryList.add(new Country("英国"));
-        hotCountryList.add(new Country("日本"));
-        hotCountryList.add(new Country(""));
-        hotCountryList.add(new Country(""));
         bankcardAdapter = new BankCardListAdapter(this,allBankCardList);
         bankCardList.setAdapter(bankcardAdapter);
+        
+        bankCardList.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int position,
+					long arg3) {
+				BankCard selectedBankCard = bankcardAdapter.getItem(position);
+			}
+		});
     }
     
     private void setTitle(){

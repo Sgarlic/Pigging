@@ -8,6 +8,7 @@ import com.boding.adapter.HPagerAdapter;
 import com.boding.adapter.VPagerAdapter;
 import com.boding.constants.ActivityNumber;
 import com.boding.constants.Constants;
+import com.boding.constants.FlightStatus;
 import com.boding.constants.GlobalVariables;
 import com.boding.constants.HTTPAction;
 import com.boding.constants.IntentExtraAttribute;
@@ -22,6 +23,7 @@ import com.boding.view.dialog.VerticalViewPager;
 import com.boding.view.dialog.WarningDialog;
 import com.boding.R;
 import com.boding.model.City;
+import com.boding.model.FlightDynamicQuery;
 import com.boding.model.FlightDynamics;
 import com.boding.model.FlightQuery;
 
@@ -32,14 +34,13 @@ import android.content.Intent;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnLayoutChangeListener;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -60,7 +61,7 @@ public class MainActivity extends FragmentActivity {
 	private VPagerAdapter vAdapter;
 	private HPagerAdapter hAdapter;
 
-	private List<FlightDynamics> myFollowsFlightList;
+	private List<FlightDynamics> myFollowsFlightList = new ArrayList<FlightDynamics>();
 	private List<View> myFollowsHList;
 	private ViewPager myFollowsViewPager;
 	private MyFollowsPagerAdapter myFollowsHAdapter;
@@ -113,7 +114,7 @@ public class MainActivity extends FragmentActivity {
 	/**
 	 * up page view
 	 */
-	
+	private boolean isSearchByNum = false;
 	private ImageView topPageSearchMethodImageView;
 	private LinearLayout topPageSearchByFlightNumLinearLayout;
 	private EditText topPageSearchByFlightNumEditText;
@@ -139,6 +140,8 @@ public class MainActivity extends FragmentActivity {
 	
 	private WarningDialog warningDialog;
 	private ProgressBarDialog progressBarDialog;
+	
+	private int unFollowFlightPost = -1; 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -187,7 +190,6 @@ public class MainActivity extends FragmentActivity {
 		
 		leftpageFlyFromDateTextView = (TextView)leftPageView.findViewById(R.id.fly_from_date_textView);
 		leftpageFlyToDateTextView = (TextView)leftPageView.findViewById(R.id.fly_to_date_textView);
-		setFlyFromReturnDate();
 		switchToSingleWay();
 		
 		leftpageFlyFromTextView = (TextView)leftPageView.findViewById(R.id.leftpage_fly_from_textView);
@@ -228,16 +230,12 @@ public class MainActivity extends FragmentActivity {
 			}
 		});
 		
-		setFlyFromToCity();
 		
 		leftpageSwitchCityImageView = (ImageView)leftPageView.findViewById(R.id.leftpage_swithcity_imageView);
 		leftpageSwitchCityImageView.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View arg0) {
-				City tempCity = GlobalVariables.Fly_From_City;
-				GlobalVariables.Fly_From_City = GlobalVariables.Fly_To_City;
-				GlobalVariables.Fly_To_City = tempCity;
-				setFlyFromToCity();
+				switchCity();
 			}
 		});
 		
@@ -316,6 +314,13 @@ public class MainActivity extends FragmentActivity {
 			}
 		});
 		
+	}
+	
+	private void switchCity(){
+		City tempCity = GlobalVariables.Fly_From_City;
+		GlobalVariables.Fly_From_City = GlobalVariables.Fly_To_City;
+		GlobalVariables.Fly_To_City = tempCity;
+		setFlyFromToCity();
 	}
 	
 	private void initDownPageView(){
@@ -400,10 +405,29 @@ public class MainActivity extends FragmentActivity {
 		topPageSearchLinearLayout = (LinearLayout) upPageView.findViewById(R.id.toppage_search_linearLayout);
 		topPageMyFollowsLinearLayout = (LinearLayout) upPageView.findViewById(R.id.toppage_myfollowed_linearLayout);
 		
+		setTopPageSearchMethod();
 		
+		setFlyFromReturnDate();
+		setFlyFromToCity();
 		/**
 		 * Listeners
 		 */
+		topPageSearchMethodImageView.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				isSearchByNum = !isSearchByNum;
+				setTopPageSearchMethod();
+			}
+		});
+		topPageFromLinearLayout.setOnClickListener(openCitySelectOnClickListener);
+		topPageToLinearLayout.setOnClickListener(openCitySelectOnClickListener);
+		topPageDateLinearLayout.setOnClickListener(openDateSelectOnClickListener);
+		topPageSwitchCityImageView.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				switchCity();
+			}
+		});
 		topPageMyFollowsLinearLayout.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
@@ -423,22 +447,82 @@ public class MainActivity extends FragmentActivity {
 				(new FlightDynamicsTask(MainActivity.this, HTTPAction.GET_MYFOLLOWED_FROM_MAIN)).execute();
 			}
 		});
+		topPageSearchLinearLayout.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				Intent intent = new Intent();
+				intent.setClass(MainActivity.this, FlightDynamicsListActivity.class);
+				FlightDynamicQuery fdq = new FlightDynamicQuery();
+				String fromCityCode = GlobalVariables.Fly_From_City.getCityCode();
+				String toCityCode = GlobalVariables.Fly_To_City.getCityCode();
+				fdq.setFromCityCode(fromCityCode);
+				fdq.setToCityCode(toCityCode);
+				fdq.setDate(GlobalVariables.Fly_From_Date);
+				Bundle bundle = new Bundle();
+				bundle.putBoolean(IntentExtraAttribute.IS_FOLLOWEDLIST, false);
+				bundle.putParcelable(IntentExtraAttribute.FLIGHT_DYNAMIC_QUERY, fdq);
+				intent.putExtras(bundle);
+				startActivityForResult(intent,IntentRequestCode.FLIGHTDYNAMICS_LIST.getRequestCode());				
+			}
+		});
+	}
+	
+	private void setTopPageSearchMethod(){
+		/**
+		 * set view content
+		 */
+		if(isSearchByNum){
+			topPageSearchByFlightNumLinearLayout.setVisibility(View.VISIBLE);
+			topPageSearchByFromToLinearLayout.setVisibility(View.GONE);
+			topPageSearchMethodImageView.setImageResource(R.drawable.toppage_searchmethod_flightnum);
+		}else{
+			topPageSearchByFlightNumLinearLayout.setVisibility(View.GONE);
+			topPageSearchByFromToLinearLayout.setVisibility(View.VISIBLE);
+			topPageSearchMethodImageView.setImageResource(R.drawable.toppage_searchmethod_flyfromto);
+		}
 	}
 	
 	public void setMyFollowsFlightList(List<FlightDynamics> dynamicsList){
 		progressBarDialog.dismiss();
-		if(dynamicsList.size() == 0)
-			return;
-		myFollowsFlightList = dynamicsList;
-		updateViewPagerItem(mInflater.inflate(R.layout.layout_flightboard, null), 0);
-		myFollowsHAdapter.notifyDataSetChanged();
+//		if(dynamicsList.size() == 0)
+//			return;
+		myFollowsFlightList.clear();
+		myFollowsFlightList.add(new FlightDynamics());
+//		updateViewPagerItem(mInflater.inflate(R.layout.layout_flightboard, null), 0);
+//		myFollowsHAdapter.notifyDataSetChanged();
 		
-		for(int i = 1; i < myFollowsFlightList.size(); i++){
+		for(int i = 0; i < 5; i++){
 			myFollowsHList.add(mInflater.inflate(R.layout.layout_flightboard, null));
+			FlightDynamics flightDynamics = new FlightDynamics();
+			flightDynamics.setId("12");
+			flightDynamics.setDate("2012-23-23");
+			flightDynamics.setCarrier("8c");
+			flightDynamics.setNum("dddd");
+			flightDynamics.setCar_name("东方航空");
+			flightDynamics.setPlan_dep_time("09:20");
+			flightDynamics.setExpect_dep_time("09:20");
+			flightDynamics.setActual_dep_time("");
+			flightDynamics.setDep_airport_code("SHA");
+			flightDynamics.setArr_airport_code("PEK");
+			flightDynamics.setDep_airport_name("上海");
+			flightDynamics.setArr_airport_name("北京");
+			flightDynamics.setDep_terminal("T1");
+			flightDynamics.setArr_terminal("T1");
+			flightDynamics.setPlan_arr_time("09:20");
+			flightDynamics.setExpect_arr_time("09:20");
+			flightDynamics.setActual_arr_time("09:20");
+			flightDynamics.setFlightStatusByCode(FlightStatus.values()[i].getFlightStatusCode());
+			flightDynamics.setFollowed(true);
+			myFollowsFlightList.add(flightDynamics);
 		}
-		
+//		for(int i = 0; i < dynamicsList.size(); i++){
+//			myFollowsHList.add(mInflater.inflate(R.layout.layout_flightboard, null));
+//			myFollowsFlightList.add(dynamicsList.get(i));
+//		}
 		myFollowsHAdapter.notifyDataSetChanged();
-		myFollowsViewPager.setCurrentItem(0);
+		
+		myFollowsViewPager.setCurrentItem(1);
+		removeViewPagerItem(0);
 	}
 	
 	private void initPopupWindow(boolean isAdult, int parentWidth){
@@ -508,6 +592,7 @@ public class MainActivity extends FragmentActivity {
 			GlobalVariables.Fly_From_Date = flyFromDate;
 		}
 		leftpageFlyFromDateTextView.setText(GlobalVariables.Fly_From_Date);
+		topPageDateTextView.setText(GlobalVariables.Fly_From_Date);
 		
 		if(GlobalVariables.Fly_Return_Date==null){
 			DateUtil.setRetunrnWayDate();
@@ -524,12 +609,16 @@ public class MainActivity extends FragmentActivity {
 		if(GlobalVariables.Fly_From_City!=null){
 			leftpageFlyFromTextView.setText(Util.getFourCharofString(GlobalVariables.Fly_From_City.getCityName()));
 			leftPageFlyFromCodeTextView.setText(Util.getFourCharofString(GlobalVariables.Fly_From_City.getCityCode()));
+			topPageFromTextView.setText(Util.getFourCharofString(GlobalVariables.Fly_From_City.getCityName()));
+			topPageFromCodeTextView.setText(Util.getFourCharofString(GlobalVariables.Fly_From_City.getCityCode()));
 		}else{
 			GlobalVariables.Fly_From_City = new City("上海","SHA",false,"中国");
 		}
 		if(GlobalVariables.Fly_To_City!=null){
 			leftpageFlyToTextView.setText(Util.getFourCharofString(GlobalVariables.Fly_To_City.getCityName()));
 			leftpageFlyToCodeTextView.setText(Util.getFourCharofString(GlobalVariables.Fly_To_City.getCityCode()));
+			topPageToTextView.setText(Util.getFourCharofString(GlobalVariables.Fly_To_City.getCityName()));
+			topPageToCodeTextView.setText(Util.getFourCharofString(GlobalVariables.Fly_To_City.getCityCode()));
 		}else{
 			GlobalVariables.Fly_To_City = new City("北京","PEK",false,"中国");
 		}
@@ -540,7 +629,7 @@ public class MainActivity extends FragmentActivity {
 		public void onClick(View arg0) {
 			int viewId = arg0.getId();
 			boolean isFlyToCitySelection = false;
-			if(viewId==R.id.leftpage_fly_to_linearlayout)
+			if(viewId==R.id.leftpage_fly_to_linearlayout || viewId == R.id.toppage_fly_to_linearlayout)
 				isFlyToCitySelection = true;
 			
 //			ViewGroup.LayoutParams flyToParams = leftpageFlyToTextView.getLayoutParams();
@@ -782,16 +871,25 @@ public class MainActivity extends FragmentActivity {
 				TextView toTerminalTextView = (TextView) view.findViewById(R.id.layoutflightboard_toTerminal_textView);
 				TextView planToTimeTextView = (TextView) view.findViewById(R.id.layoutflightboard_planToTime_textView);
 				TextView actualToTimeTextView = (TextView) view.findViewById(R.id.layoutflightboard_actualToTime_textView);
-				ImageView flightStatusImageView = (ImageView) view.findViewById(R.id.layoutflightboard_flightStatus_imageView);
 				TextView fromAirportInfoTextView = (TextView) view.findViewById(R.id.layoutflightboard_fromAirportInfo_textView);
 				LinearLayout fromAirportInfoLinearLayout = (LinearLayout) view.findViewById(R.id.layoutflightboard_fromAirportInfo_linearLayout);
 				TextView toAirportInfoTextView = (TextView) view.findViewById(R.id.layoutflightboard_toAirportInfo_textView);
 				LinearLayout toAirportInfoLinearLayout = (LinearLayout) view.findViewById(R.id.layoutflightboard_toAirportInfo_linearLayout);
-				LinearLayout followLinearLayout = (LinearLayout) view.findViewById(R.id.layoutflightboard_follow_linearLayout);
+				LinearLayout unFollowLinearLayout = (LinearLayout) view.findViewById(R.id.layoutflightboard_follow_linearLayout);
 				ImageView pageIndicatorImageView = (ImageView) view.findViewById(R.id.layoutflightboard_pageIndicator_imageView);
 				LinearLayout fromDividerLinearLayout = (LinearLayout) view.findViewById(R.id.layoutflightboard_fromDivider_linearLayout);
 				LinearLayout toDividerLinearLayout = (LinearLayout) view.findViewById(R.id.layoutflightboard_toDivider_linearLayout);
-						
+				
+				LinearLayout leftTopLinearLayout = (LinearLayout) view.findViewById(R.id.layoutflightboard_leftTop_lienarLayout);
+				LinearLayout leftTopLineLinearLayout = (LinearLayout) view.findViewById(R.id.layoutflightboard_leftTopLine_lienarLayout);
+				LinearLayout leftBottomLinearLayout = (LinearLayout) view.findViewById(R.id.layoutflightboard_leftBottom_lienarLayout);
+				LinearLayout leftBottomLineLinearLayout = (LinearLayout) view.findViewById(R.id.layoutflightboard_leftBottomLine_lienarLayout);
+				LinearLayout rightTopLinearLayout = (LinearLayout) view.findViewById(R.id.layoutflightboard_rightTop_lienarLayout);
+				LinearLayout rightTopLineLinearLayout = (LinearLayout) view.findViewById(R.id.layoutflightboard_rightTopLine_lienarLayout);
+				LinearLayout rightBottomLinearLayout = (LinearLayout) view.findViewById(R.id.layoutflightboard_rightBottom_lienarLayout);
+				LinearLayout rightBottomLineLinearLayout = (LinearLayout) view.findViewById(R.id.layoutflightboard_rightBottomLine_lienarLayout);
+				ImageView statusImageView = (ImageView) view.findViewById(R.id.layoutflightboard_status_imageView);
+				
 				/**
 				 * set content
 				 */
@@ -832,7 +930,7 @@ public class MainActivity extends FragmentActivity {
 					actualToTimeTextView.setText(dynamics.getActual_arr_time());
 				fromAirportInfoTextView.setText(dynamics.getDep_airport_name());
 				toAirportInfoTextView.setText(dynamics.getArr_airport_name());
-				flightStatusImageView.setImageResource(dynamics.getFlightStatus().getLayoutFlightStatus());
+				statusImageView.setImageResource(dynamics.getFlightStatus().getLayoutFlightStatus());
 				
 				int pageSize = myFollowsFlightList.size();
 				switch(pageSize){
@@ -849,11 +947,35 @@ public class MainActivity extends FragmentActivity {
 						if(position == 0)
 							pageIndicatorImageView.setImageResource(R.drawable.threepages_first);
 						else if (position == pageSize - 1)
-							pageIndicatorImageView.setImageResource(R.drawable.threepages_second);
-						else
 							pageIndicatorImageView.setImageResource(R.drawable.threepages_third);
+						else
+							pageIndicatorImageView.setImageResource(R.drawable.threepages_second);
 					break;
 				}
+				
+				BitmapDrawable bitmap = (BitmapDrawable)(MainActivity.this.getResources().getDrawable(R.drawable.layoutflightboard_arrive));
+				int picSize = bitmap.getBitmap().getHeight() /2;
+				LayoutParams params = (LayoutParams) leftTopLinearLayout.getLayoutParams();
+				params.height = picSize;
+				leftTopLinearLayout.setLayoutParams(params);
+
+				params = (LayoutParams) leftBottomLinearLayout.getLayoutParams();
+				params.height = picSize;
+				leftBottomLinearLayout.setLayoutParams(params);
+				
+				params = (LayoutParams) rightTopLinearLayout.getLayoutParams();
+				params.height = picSize;
+				rightTopLinearLayout.setLayoutParams(params);
+				
+				params = (LayoutParams) rightBottomLinearLayout.getLayoutParams();
+				params.height = picSize;
+				rightBottomLinearLayout.setLayoutParams(params);
+				
+				int lineColor = MainActivity.this.getResources().getColor(dynamics.getFlightStatus().getLayoutLineColor());
+				leftTopLineLinearLayout.setBackgroundColor(lineColor);
+				leftBottomLineLinearLayout.setBackgroundColor(lineColor);
+				rightTopLineLinearLayout.setBackgroundColor(lineColor);
+				rightBottomLineLinearLayout.setBackgroundColor(lineColor);
 				
 				/**
 				 * add listeners
@@ -865,10 +987,11 @@ public class MainActivity extends FragmentActivity {
 					}
 				});
 				
-				followLinearLayout.setOnClickListener(new OnClickListener() {
+				unFollowLinearLayout.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View arg0) {
-						unFollowFlight(position);
+						unFollowFlightPost = position;
+						unFollowFlight();
 					}
 				});
 			}
@@ -881,18 +1004,28 @@ public class MainActivity extends FragmentActivity {
 		}
 	}
 	
-	private void unFollowFlight(int position){
-		if(myFollowsFlightList.size() == 1){
-			returnToUpPage();
-			return;
-		}
-		if(position == 0){
-			myFollowsViewPager.setCurrentItem(1);
-			removeViewPagerItem(0);
+	private void unFollowFlight(){
+		progressBarDialog.show();
+		(new FlightDynamicsTask(this, HTTPAction.UNFOLLOW_FLIGHTDYNAMICS_FROM_MAIN)).execute(myFollowsFlightList.get(unFollowFlightPost).getId());
+	}
+	
+	public void setUnFollowFlightResult(boolean isSuccess){
+		progressBarDialog.dismiss();
+		if(isSuccess){
+			if(myFollowsFlightList.size() == 1){
+				returnToUpPage();
+				return;
+			}
+			if(unFollowFlightPost == 0){
+				myFollowsViewPager.setCurrentItem(1);
+				removeViewPagerItem(0);
+			}else{
+				myFollowsViewPager.setCurrentItem(unFollowFlightPost - 1);
+				removeViewPagerItem(unFollowFlightPost);
+				myFollowsViewPager.setCurrentItem(unFollowFlightPost - 1);
+			}
 		}else{
-			myFollowsViewPager.setCurrentItem(position - 1);
-			removeViewPagerItem(position);
-			myFollowsViewPager.setCurrentItem(position - 1);
+			Util.showToast(this, "取消关注失败");
 		}
 	}
 	

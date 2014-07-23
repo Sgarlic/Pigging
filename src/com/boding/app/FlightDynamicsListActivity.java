@@ -1,13 +1,16 @@
 package com.boding.app;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.boding.R;
+import com.boding.constants.GlobalVariables;
 import com.boding.constants.HTTPAction;
 import com.boding.constants.IntentExtraAttribute;
 import com.boding.constants.IntentRequestCode;
 import com.boding.model.DeliveryAddress;
+import com.boding.model.FlightDynamicQuery;
 import com.boding.model.FlightDynamics;
 import com.boding.task.FlightDynamicsTask;
 import com.boding.util.Util;
@@ -37,23 +40,35 @@ public class FlightDynamicsListActivity extends Activity{
 	private WarningDialog warningDialog;
 	private ProgressBarDialog progressBarDialog;
 	
+	
 	private boolean isFollowsList;
+	private FlightDynamicQuery fdq;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_flightdynamicslist);
 		Bundle arguments = getIntent().getExtras();
-        if(arguments != null){
-        	isFollowsList = arguments.getBoolean(IntentExtraAttribute.IS_FOLLOWEDLIST);
-        }
+    	isFollowsList = arguments.getBoolean(IntentExtraAttribute.IS_FOLLOWEDLIST);
+    	if(!isFollowsList){
+    		fdq = arguments.getParcelable(IntentExtraAttribute.FLIGHT_DYNAMIC_QUERY);
+    	}
 		warningDialog = new WarningDialog(this);
 		progressBarDialog = new ProgressBarDialog(this);
 		initView();
 		setViewContent();
 	}
 	
-	public void setFlightDynamicsList(List<FlightDynamics> fdList){
+	public void setMyFollowedFlightDynamicsList(List<FlightDynamics> fdList){
+		GlobalVariables.myFollowedFdList = fdList;
+		if(isFollowsList){
+			adapter = new FlightDynamicsAdapter(this, fdList);
+			flightDynamicsListView.setAdapter(adapter);
+		}
+		progressBarDialog.dismiss();
+	}
+	
+	public void setSearchedFlightDynamicsList(List<FlightDynamics> fdList){
 		adapter = new FlightDynamicsAdapter(this, fdList);
 		flightDynamicsListView.setAdapter(adapter);
 		progressBarDialog.dismiss();
@@ -61,10 +76,12 @@ public class FlightDynamicsListActivity extends Activity{
 	
 	private void setViewContent(){
 		progressBarDialog.show();
-		if(isFollowsList){
-			(new FlightDynamicsTask(this, HTTPAction.GET_MYFOLLOWED_FROM_MYFAVOURITE)).execute();
-		}else{
-			
+		if(GlobalVariables.bodingUser != null){
+			(new FlightDynamicsTask(this, HTTPAction.GET_MYFOLLOWED)).execute();
+		}
+		if(!isFollowsList){
+			(new FlightDynamicsTask(this, HTTPAction.SEARCH_FLIGHTDYNAMICS)).execute(
+				fdq.getFromCityCode(), fdq.getToCityCode(), fdq.getFlightNum(),fdq.getDate());
 		}
 	}
 	
@@ -84,6 +101,12 @@ public class FlightDynamicsListActivity extends Activity{
 			public void onItemClick(AdapterView<?> arg0, View arg1, int position,
 					long arg3) {
 				FlightDynamics dyn = adapter.getItem(position);
+				if(!isFollowsList){
+					int index = GlobalVariables.myFollowedFdList.indexOf(dyn);
+					if(index != -1){
+						dyn = GlobalVariables.myFollowedFdList.get(index);
+					}
+				}
 				Intent intent = new Intent();
 				intent.setClass(FlightDynamicsListActivity.this, FlightBoardActivity.class);
 				intent.putExtra(IntentExtraAttribute.FLIGHT_DYNAMIC, dyn);
@@ -113,12 +136,12 @@ public class FlightDynamicsListActivity extends Activity{
     		return position;
     	}
     	
-    	public void addSubscribe(FlightDynamics dynamics){
+    	public void addFlightDynamics(FlightDynamics dynamics){
     		flightDynamicsList.add(dynamics);
     		notifyDataSetChanged();
     	}
     	
-    	public void deleteSubscribe(int position){
+    	public void deleteFlightDynamics(int position){
     		flightDynamicsList.remove(position);
     		notifyDataSetChanged();
     	}
@@ -164,4 +187,14 @@ public class FlightDynamicsListActivity extends Activity{
     		TextView toTimeTextView;
     	}
     }
+    
+    @Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		  super.onActivityResult(requestCode, resultCode, data);
+		  if(data == null)
+			  return;
+		  if(GlobalVariables.bodingUser != null){
+				(new FlightDynamicsTask(this, HTTPAction.GET_MYFOLLOWED)).execute();
+		  }
+	 }
 }

@@ -187,11 +187,14 @@ public class AddLowpriceSubsActivity extends FragmentActivity {
     @Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		  super.onActivityResult(requestCode, resultCode, data);
-		  System.out.println("on result");
 		  GlobalVariables.currentSubscribe.setLeaveCode(GlobalVariables.Fly_From_City.getCityCode());
     	  GlobalVariables.currentSubscribe.setLeaveName(GlobalVariables.Fly_From_City.getCityName());
     	  GlobalVariables.currentSubscribe.setArriveCode(GlobalVariables.Fly_To_City.getCityCode());
     	  GlobalVariables.currentSubscribe.setArriveName(GlobalVariables.Fly_To_City.getCityName());
+    	  System.out.println(GlobalVariables.Fly_From_City.getCityCode());
+    	  System.out.println(GlobalVariables.Fly_From_City.getCityName());
+    	  System.out.println(GlobalVariables.Fly_To_City.getCityCode());
+    	  System.out.println(GlobalVariables.Fly_To_City.getCityName());
           setCurrentTab();
 	 }
     

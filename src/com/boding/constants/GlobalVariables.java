@@ -7,6 +7,7 @@ import java.util.List;
 import com.boding.model.BodingUser;
 import com.boding.model.City;
 import com.boding.model.Country;
+import com.boding.model.FlightDynamics;
 import com.boding.model.FlightLine;
 import com.boding.model.LowPriceSubscribe;
 import com.boding.model.Province;
@@ -49,6 +50,7 @@ public class GlobalVariables {
 	
 	public static FlightLine flightLine = null;
 	public static LowPriceSubscribe currentSubscribe = null;
+	public static List<FlightDynamics> myFollowedFdList = new ArrayList<FlightDynamics>();
 //	public static boolean isFlyToCitySelection = false;
 //	public static boolean isInternationCitySelection = false;
 }

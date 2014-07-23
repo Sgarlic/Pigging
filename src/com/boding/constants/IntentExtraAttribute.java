@@ -68,4 +68,5 @@ public class IntentExtraAttribute {
 	 */
 	public static final String IS_FOLLOWEDLIST = "isFollowedList";
 	public static final String FLIGHT_DYNAMIC = "flightDynamic";
+	public static final String FLIGHT_DYNAMIC_QUERY = "flightDynamicQuery";
 }

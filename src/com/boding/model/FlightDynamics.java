@@ -30,6 +30,7 @@ public class FlightDynamics implements Parcelable{
 	private String dep_temperature = "";
 	private Weather arr_weather = null;
 	private String arr_temperature = "";
+	private boolean isFollowed = false;
 	
 	public String getId() {
 		return id;
@@ -191,6 +192,12 @@ public class FlightDynamics implements Parcelable{
 		this.date = date;
 	}
 	
+	public boolean isFollowed() {
+		return isFollowed;
+	}
+	public void setFollowed(boolean isFollowed) {
+		this.isFollowed = isFollowed;
+	}
 	@Override
 	public int describeContents() {
 		return 0;
@@ -222,6 +229,7 @@ public class FlightDynamics implements Parcelable{
 		dep_temperature = in.readString();
 		setArr_weatherFromCode(in.readString());
 		arr_temperature = in.readString();
+		isFollowed = in.readInt() != 0;
 	}
 	
 	@Override
@@ -249,6 +257,7 @@ public class FlightDynamics implements Parcelable{
 		dest.writeString(dep_temperature);
 		dest.writeString(getArr_weatherCodeString());
 		dest.writeString(arr_temperature);
+		dest.writeInt(isFollowed? 1 : 0);
 	}
 	
 	 public static final Parcelable.Creator<FlightDynamics> CREATOR = new Parcelable.Creator<FlightDynamics>() {   
@@ -262,4 +271,17 @@ public class FlightDynamics implements Parcelable{
 	            return new FlightDynamics[size];  
 	        }  
 	 };
+	 
+	 @Override
+     public boolean equals(Object obj)
+     {
+		 if(obj == null)
+			 return false;
+	     if (!(obj instanceof FlightDynamics)) 
+	       return false;
+	     String curJudger = this.num + this.date;
+	     FlightDynamics dynamics = (FlightDynamics) obj;
+	     String newJudger = dynamics.num + dynamics.date;
+	     return curJudger.equals(newJudger);
+     } 
 }

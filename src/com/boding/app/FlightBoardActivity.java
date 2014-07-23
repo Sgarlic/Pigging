@@ -1,14 +1,20 @@
 package com.boding.app;
 
 import com.boding.R;
+import com.boding.constants.GlobalVariables;
+import com.boding.constants.HTTPAction;
 import com.boding.constants.IntentExtraAttribute;
 import com.boding.constants.IntentRequestCode;
 import com.boding.model.City;
 import com.boding.model.FlightDynamics;
+import com.boding.task.FlightDynamicsTask;
 import com.boding.util.CityUtil;
 import com.boding.util.Util;
+import com.boding.view.dialog.ProgressBarDialog;
+import com.boding.view.dialog.WarningDialog;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -45,15 +51,78 @@ public class FlightBoardActivity extends Activity {
 	private LinearLayout fromDividerLinearLayout;
 	private LinearLayout toDividerLinearLayout;
 	
+	private WarningDialog warningDialog;
+	private ProgressBarDialog progressBarDialog;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_flightboard);
+		warningDialog = new WarningDialog(this);
+		progressBarDialog = new ProgressBarDialog(this);
+		
 		Bundle arguments = getIntent().getExtras();
 		dynamics = arguments.getParcelable(IntentExtraAttribute.FLIGHT_DYNAMIC);
 		initView();
 		setViewContent();
+	}
+	
+	private void addListeners(){
+		followLinearLayout.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				Intent intent = new Intent();
+				if(GlobalVariables.bodingUser == null){
+					intent.setClass(FlightBoardActivity.this, LoginActivity.class);
+					startActivityForResult(intent, IntentRequestCode.LOGIN.getRequestCode());
+					return;
+				}else if(!GlobalVariables.bodingUser.isActivated_state()){
+					intent.setClass(FlightBoardActivity.this, VerifyPhonenumActivity.class);
+					intent.putExtra(IntentExtraAttribute.VERIFY_PHONENUM_TYPE, "2");
+					startActivityForResult(intent, IntentRequestCode.LOGIN.getRequestCode());
+					return;
+				}
+				
+				if(GlobalVariables.myFollowedFdList.size() == 5){
+					Util.showToast(FlightBoardActivity.this, "最多只能关注5个航班");
+					return;
+				}
+				
+				progressBarDialog.show();
+				if(dynamics.isFollowed()){
+					if(dynamics.getId() == null || dynamics.getId().equals("")){
+						Util.showToast(FlightBoardActivity.this, "取消关注失败");
+					}
+					(new FlightDynamicsTask(FlightBoardActivity.this, HTTPAction.UNFOLLOW_FLIGHTDYNAMICS))
+					.execute(dynamics.getId());
+				}else{
+					(new FlightDynamicsTask(FlightBoardActivity.this, HTTPAction.FOLLOW_FLIGHTDYNAMICS))
+					.execute(dynamics);
+				}
+			}
+		});
+	}
+	
+	public void setFollowFlightResult(boolean isSuccess){
+		progressBarDialog.dismiss();
+		if(isSuccess){
+			dynamics.setFollowed(true);
+			int index = GlobalVariables.myFollowedFdList.indexOf(dynamics);
+			if(index != -1){
+				dynamics = GlobalVariables.myFollowedFdList.get(index);
+			}
+		}else{
+			Util.showToast(this, "关注航班失败");
+		}
+	}
+	public void setUnFollowFlightResult(boolean isSuccess){
+		progressBarDialog.dismiss();
+		if(isSuccess){
+			dynamics.setFollowed(false);
+			dynamics.setId("");
+		}else{
+			Util.showToast(this, "取消关注失败");
+		}
 	}
 	
     private void initView(){
@@ -63,7 +132,6 @@ public class FlightBoardActivity extends Activity {
 			public void onClick(View arg0) {
 				Util.returnToPreviousPage(FlightBoardActivity.this, IntentRequestCode.ABOUT_BODING);
 			}
-			
 		});
 	
 		planeInfoTextView = (TextView) findViewById(R.id.flightboard_planeInfo_textView);
@@ -91,6 +159,8 @@ public class FlightBoardActivity extends Activity {
 		followTextView = (TextView) findViewById(R.id.flightboard_follow_textView);
 		fromDividerLinearLayout = (LinearLayout) findViewById(R.id.flightboard_fromDivider_linearLayout);
 		toDividerLinearLayout = (LinearLayout) findViewById(R.id.flightboard_toDivider_linearLayout);
+		
+		addListeners();
 	}
     
     private void setViewContent(){
@@ -131,12 +201,12 @@ public class FlightBoardActivity extends Activity {
 		toAirportInfoTextView.setText(dynamics.getArr_airport_name());
 		flightStatusImageView.setImageResource(dynamics.getFlightStatus().getFlightBoardDrawable());
 		
-		if(dynamics.getId() == null){
-			followTextView.setText("关注航班");
-			followLinearLayout.setBackgroundColor(this.getResources().getColor(R.color.textBlue));
-		}else{
+		if(dynamics.isFollowed()){
 			followTextView.setText("取消关注");
 			followLinearLayout.setBackgroundColor(this.getResources().getColor(R.color.priceGray));
+		}else{
+			followTextView.setText("关注航班");
+			followLinearLayout.setBackgroundColor(this.getResources().getColor(R.color.textBlue));
 		}
     }
 }

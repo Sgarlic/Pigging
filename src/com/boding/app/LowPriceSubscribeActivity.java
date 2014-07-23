@@ -3,11 +3,16 @@ package com.boding.app;
 import java.util.List;
 
 import com.boding.R;
+import com.boding.constants.ActivityNumber;
+import com.boding.constants.Constants;
+import com.boding.constants.GlobalVariables;
 import com.boding.constants.HTTPAction;
 import com.boding.constants.IntentExtraAttribute;
 import com.boding.constants.IntentRequestCode;
+import com.boding.model.FlightQuery;
 import com.boding.model.LowPriceSubscribe;
 import com.boding.task.LowPriceSubscribeTask;
+import com.boding.util.CityUtil;
 import com.boding.util.Util;
 import com.boding.view.dialog.ProgressBarDialog;
 import com.boding.view.dialog.WarningDialog;
@@ -135,7 +140,10 @@ public class LowPriceSubscribeActivity extends Activity{
 	        }  
 			
 			final LowPriceSubscribe subscribe = getItem(position);
-			holder.flyFromToTextView.setText(subscribe.getLeaveName()+" - "+subscribe.getArriveName());
+			final String fromCity = CityUtil.getCityNameByCode(subscribe.getLeaveCode());
+			final String toCity = CityUtil.getCityNameByCode(subscribe.getArriveCode()); 
+					
+			holder.flyFromToTextView.setText(fromCity+" - "+toCity);
 			if(subscribe.getFlightEndDate().equals(""))
 				holder.fromToDateTextView.setText(subscribe.getFlightBeginDate());
 			else
@@ -152,6 +160,34 @@ public class LowPriceSubscribeActivity extends Activity{
 					(new LowPriceSubscribeTask(LowPriceSubscribeActivity.this, HTTPAction.DELETE_LOWPRICESUB)).execute(subscribe.getId());
 				}
 			});
+            
+            holder.viewDetailLinearLayout.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View arg0) {
+					Intent intent = new Intent();
+					intent.setClass(LowPriceSubscribeActivity.this, TicketSearchResultActivity.class);
+					FlightQuery fq = new FlightQuery();
+					String fromcity =fromCity;
+					String tocity = toCity;
+					fq.setFromcity(fromcity);
+					fq.setTocity(tocity);
+					fq.setStartdate(subscribe.getFlightBeginDate());
+					boolean isSingleWay = subscribe.getTripType() == 1; 
+					if(!isSingleWay){
+						fq.setReturndate(subscribe.getFlightEndDate());
+					}
+					GlobalVariables.From_City = fromcity;
+					GlobalVariables.To_City = tocity;
+					Bundle bundle = new Bundle();
+					bundle.putParcelable(IntentExtraAttribute.FLIGHT_QUERY, fq);
+					bundle.putBoolean(Constants.IS_SINGLE_WAY, isSingleWay);
+					bundle.putInt(IntentExtraAttribute.PREVIOUS_ACTIVITY, ActivityNumber.MAIN.getActivityNum());
+					bundle.putString(IntentExtraAttribute.CLASS_INFO, Constants.COUCH_CLASS);
+					intent.putExtras(bundle);
+					startActivityForResult(intent,IntentRequestCode.TICKET_SEARCH.getRequestCode());
+				}
+			});
+            
 	        return convertView;  
 		}
 

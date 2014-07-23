@@ -15,6 +15,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.boding.app.FlightBoardActivity;
 import com.boding.app.FlightDynamicsListActivity;
 import com.boding.app.MainActivity;
 import com.boding.constants.Constants;
@@ -92,7 +93,7 @@ public class FlightDynamicsTask extends AsyncTask<Object,Void,Object> {
 	}
 	
 	public List<FlightDynamics> getMyFollowedDynamics(){
-		List<FlightDynamics> flightDynamicsList = new ArrayList<FlightDynamics>();
+		GlobalVariables.myFollowedFdList.clear();
 		
 		StringBuilder sb = new StringBuilder();
 		sb.append(Constants.BODINGACCOUNT);
@@ -133,12 +134,13 @@ public class FlightDynamicsTask extends AsyncTask<Object,Void,Object> {
 				flightDynamics.setExpect_arr_time(dynJson.getString("expect_arr_time"));
 				flightDynamics.setActual_arr_time(dynJson.getString("actual_arr_time"));
 				flightDynamics.setFlightStatusByCode(dynJson.getString("status"));
-				flightDynamicsList.add(flightDynamics);
+				flightDynamics.setFollowed(true);
+				GlobalVariables.myFollowedFdList.add(flightDynamics);
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		return flightDynamicsList;
+		return GlobalVariables.myFollowedFdList;
 	}
 	
 	public boolean unFollowFlightDynamic(String dynamicID){
@@ -267,12 +269,14 @@ public class FlightDynamicsTask extends AsyncTask<Object,Void,Object> {
 		Object result = new Object();
 		switch (action) {
 			case GET_MYFOLLOWED_FROM_MAIN:
-			case GET_MYFOLLOWED_FROM_MYFAVOURITE:
+			case GET_MYFOLLOWED:
 				result = getMyFollowedDynamics();
 				break;
 			case FOLLOW_FLIGHTDYNAMICS:
 				result = followFlightDynamic((FlightDynamics) params[0]);
+				getMyFollowedDynamics();
 				break;
+			case UNFOLLOW_FLIGHTDYNAMICS_FROM_MAIN:
 			case UNFOLLOW_FLIGHTDYNAMICS:
 				result = unFollowFlightDynamic((String) params[0]);
 				break;
@@ -292,15 +296,25 @@ public class FlightDynamicsTask extends AsyncTask<Object,Void,Object> {
 				MainActivity mainActivity = (MainActivity) context;
 				mainActivity.setMyFollowsFlightList((List<FlightDynamics>) result);
 				break;
-			case GET_MYFOLLOWED_FROM_MYFAVOURITE:
+			case GET_MYFOLLOWED:
 				FlightDynamicsListActivity fListActivity = (FlightDynamicsListActivity) context;
-				fListActivity.setFlightDynamicsList((List<FlightDynamics>) result);
+				fListActivity.setMyFollowedFlightDynamicsList((List<FlightDynamics>) result);
 				break;
 			case FOLLOW_FLIGHTDYNAMICS:
+				FlightBoardActivity flightBoardActivity = (FlightBoardActivity) context;
+				flightBoardActivity.setFollowFlightResult((Boolean) result);
+				break;
+			case UNFOLLOW_FLIGHTDYNAMICS_FROM_MAIN:
+				mainActivity = (MainActivity) context;
+				mainActivity.setUnFollowFlightResult((Boolean) result);
 				break;
 			case UNFOLLOW_FLIGHTDYNAMICS:
+				flightBoardActivity = (FlightBoardActivity) context;
+				flightBoardActivity.setUnFollowFlightResult((Boolean) result);
 				break;
 			case SEARCH_FLIGHTDYNAMICS:
+				fListActivity = (FlightDynamicsListActivity) context;
+				fListActivity.setSearchedFlightDynamicsList((List<FlightDynamics>) result);
 				break;
 			default:
 				break;
