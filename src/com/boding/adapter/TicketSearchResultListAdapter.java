@@ -107,7 +107,7 @@ public class TicketSearchResultListAdapter extends TicketSearchResultAdapter {
 		final Flight currentFlightLine = getGroup(groupPosition);
 		String leavetime = currentFlightLine.getDptTime();
 		String arrivetime = currentFlightLine.getArrTime();
-		String flyingtime = Util.calculateFlyingtime(currentFlightLine.getDptDate(), currentFlightLine.getArrDate(), leavetime, arrivetime);
+		String flyingtime = DateUtil.calculateFlyingtime(currentFlightLine.getDptDate(), currentFlightLine.getArrDate(), leavetime, arrivetime);
 		
 		holder.flightStartTimeTextView.setText(DateUtil.formatTime(leavetime)+" -");
 		holder.flightEndTimeTextView.setText(DateUtil.formatTime(arrivetime));
@@ -260,7 +260,7 @@ public class TicketSearchResultListAdapter extends TicketSearchResultAdapter {
 		        if(timeConstraint.size() >0)
 		        	for(String timeSeg : timeConstraint){
 		        	//System.out.println(flightline.getLeaveTime() +"   " +timeSeg);
-		        		if (Util.IsInTimeSegment(flightline.getDptTime(), (String)timeSeg)) {
+		        		if (DateUtil.IsInTimeSegment(flightline.getDptTime(), (String)timeSeg)) {
 				          //lines.add(flightline);
 				          tag = true;
 				          break;

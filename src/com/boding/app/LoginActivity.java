@@ -1,13 +1,13 @@
 package com.boding.app;
 
 import com.boding.R;
-import com.boding.constants.Constants;
 import com.boding.constants.GlobalVariables;
 import com.boding.constants.HTTPAction;
 import com.boding.constants.IntentExtraAttribute;
 import com.boding.constants.IntentRequestCode;
 import com.boding.task.BodingUserTask;
 import com.boding.util.Util;
+import com.boding.view.dialog.NetworkUnavaiableDialog;
 import com.boding.view.dialog.ProgressBarDialog;
 import com.boding.view.dialog.WarningDialog;
 
@@ -29,21 +29,18 @@ import android.widget.LinearLayout;
  *
  */
 
-public class LoginActivity extends Activity {
+public class LoginActivity extends BodingBaseActivity {
 	private LinearLayout forgetPasswordLinearLayout;
 	private EditText userNameEditText;
 	private EditText passwordEditText;
 	private LinearLayout loginLinearLayout;
 	private LinearLayout registerLinearLayout;
-	private ProgressBarDialog progressDialog;
+	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
-//		Bundle arguments = getIntent().getExtras();
-//        if(arguments != null)
-//        	isReturnDateSelection = arguments.getBoolean(Constants.IS_RETURN_DATE_SELECTION);
         
 		initView();
 	}
@@ -85,7 +82,6 @@ public class LoginActivity extends Activity {
 				userName = "13262763513";
 				password = "000000";
 				
-				WarningDialog warningDialog = new WarningDialog(LoginActivity.this);
 				if(userName.equals("")){
 					warningDialog.setContent("请输入用户名");
 					warningDialog.show();
@@ -97,9 +93,13 @@ public class LoginActivity extends Activity {
 					return;
 				}
 				
+				if(!Util.isNetworkAvailable(LoginActivity.this)){
+					networkUnavaiableDialog.show();
+					return;
+				}
+				
 				// Start logging in
-				progressDialog = new ProgressBarDialog(LoginActivity.this);
-				progressDialog.show();
+				progressBarDialog.show();
 				
 				BodingUserTask dfq = new BodingUserTask(LoginActivity.this, HTTPAction.LOGIN);
 				dfq.execute(userName,password);
@@ -118,7 +118,7 @@ public class LoginActivity extends Activity {
 	}
 	
 	public void loginSuccess(){
-		progressDialog.dismiss();
+		progressBarDialog.dismiss();
 		if(GlobalVariables.bodingUser.isActivated_state())
 			Util.returnToPreviousPage(LoginActivity.this, IntentRequestCode.LOGIN);
 		else{
@@ -131,7 +131,7 @@ public class LoginActivity extends Activity {
 	}
 	
 	public void loginFailed(){
-		progressDialog.dismiss();
+		progressBarDialog.dismiss();
 		WarningDialog warningDialog = new WarningDialog(this);
 		warningDialog.setContent("错误的用户名/密码");
 		warningDialog.show();

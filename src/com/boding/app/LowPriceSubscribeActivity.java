@@ -14,6 +14,7 @@ import com.boding.model.LowPriceSubscribe;
 import com.boding.task.LowPriceSubscribeTask;
 import com.boding.util.CityUtil;
 import com.boding.util.Util;
+import com.boding.view.dialog.NetworkUnavaiableDialog;
 import com.boding.view.dialog.ProgressBarDialog;
 import com.boding.view.dialog.WarningDialog;
 
@@ -30,21 +31,18 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class LowPriceSubscribeActivity extends Activity{
+public class LowPriceSubscribeActivity extends BodingBaseActivity{
 	private ListView lowPriceListView;
 	private LinearLayout addSubsribeLinearLayout;
 	private LowPriceSubAdapter adapter;
 	private int deletedPos;
-	
-	private WarningDialog warningDialog;
-	private ProgressBarDialog progressBarDialog;
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_lowprice_subscribe);
 		warningDialog = new WarningDialog(this);
 		progressBarDialog = new ProgressBarDialog(this);
+		networkUnavaiableDialog = new NetworkUnavaiableDialog (this);
 		initView();
 		
 		setViewContent();
@@ -57,6 +55,10 @@ public class LowPriceSubscribeActivity extends Activity{
 	}
 	
 	private void setViewContent(){
+		if(!Util.isNetworkAvailable(LowPriceSubscribeActivity.this)){
+			networkUnavaiableDialog.show();
+			return;
+		}
 		progressBarDialog = new ProgressBarDialog(this);
 		progressBarDialog.show();
 		

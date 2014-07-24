@@ -1,15 +1,14 @@
 package com.boding.view.dialog;
 
-import com.boding.R;
-import com.boding.constants.Constants;
-
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.view.View;
+
+import com.boding.R;
+import com.boding.constants.Constants;
 
 public class SeatChangeBackDialog extends Dialog{
 	private ImageView closedialogImageView;

@@ -10,6 +10,7 @@ import com.boding.model.DeliveryAddress;
 import com.boding.task.DeliveryAddrTask;
 import com.boding.util.Util;
 import com.boding.view.dialog.ProgressBarDialog;
+import com.boding.view.dialog.NetworkUnavaiableDialog;
 
 import android.app.Activity;
 import android.content.Context;
@@ -24,22 +25,20 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class CommonInfoMDeliverAddrActivity extends Activity {
+public class CommonInfoMDeliverAddrActivity extends BodingBaseActivity {
 	private LinearLayout addAddrLinearLayout;
 	private TextView noDeliverAddrTextView;
 	private ListView deliveryAddrListView;
 	
 	private Bundle bundle;
-	private ProgressBarDialog progressBarDialog;
 	
 	private DeliveryAddressAdapter addressAdapter;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_commoninfomanagement_deliveryaddress);
-//		Bundle arguments = getIntent().getExtras();
-//        if(arguments != null)
-//        	isReturnDateSelection = arguments.getBoolean(Constants.IS_RETURN_DATE_SELECTION);
+		progressBarDialog = new ProgressBarDialog(this);
+		networkUnavaiableDialog = new NetworkUnavaiableDialog(this);
         
 		initView();
 		
@@ -63,17 +62,14 @@ public class CommonInfoMDeliverAddrActivity extends Activity {
 		noDeliverAddrTextView = (TextView) findViewById(R.id.commoninfomanagement_deliveryAddr_noDeliverAddr_textView);
 		deliveryAddrListView = (ListView) findViewById(R.id.commoninfomanagement_deliveryAddr_deliveryAddresses_listView);
 		
-//		addressList.add(new DeliveryAddress("李大嘴","上海市","宝山区七宝","200000"));
-//		addressList.add(new DeliveryAddress("李大嘴1","上海市1","宝山区七宝1","202110"));
-//		addressList.add(new DeliveryAddress("李大嘴2","上海市2","宝山区七宝2","203300"));
-//		addressAdapter = new DeliveryAddressAdapter(this, addressList);
-//		deliveryAddrListView.setAdapter(addressAdapter);
-		
 		addListeners();
 	}
 	
 	private void viewContentSetting(){
-		progressBarDialog = new ProgressBarDialog(this);
+		if(!Util.isNetworkAvailable(CommonInfoMDeliverAddrActivity.this)){
+			networkUnavaiableDialog.show();
+			return;
+		}
 		progressBarDialog.show();
 		
 		DeliveryAddrTask deliverAddrTask = new DeliveryAddrTask(this, HTTPAction.GET_DELIVERYADDRLIST_MANAGEMENT);
@@ -136,11 +132,6 @@ public class CommonInfoMDeliverAddrActivity extends Activity {
 					addressList.set(i, deliverAddr);
 				}
 			}
-			notifyDataSetChanged();
-		}
-		
-		public void addNewAddr(DeliveryAddress addr){
-			addressList.add(addr);
 			notifyDataSetChanged();
 		}
 

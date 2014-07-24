@@ -263,4 +263,43 @@ public class DateUtil {
 			return 0;
 		return -1;
 	}
+	
+	/**
+	 * 
+	 * @param time like 0000
+	 * @param timeSegment like 00:00--06:00
+	 * @return
+	 */
+	public static boolean IsInTimeSegment(String time, String timeSegment){
+		if(timeSegment == null) return true; //时间段不存在返回true
+		if(time == null) return false;
+		//System.out.println(timeSegment.length());
+		if(timeSegment.length() != 12) return false; //格式不对，返回false
+		String left = timeSegment.substring(0, 5);
+		String right = timeSegment.substring(7);
+		String ftime = time.substring(0, 2) + ":" + time.substring(2); 
+		System.out.println("left: " +left);
+		System.out.println("right: " + right +" time: " + ftime);
+		if(ftime.compareTo(left) >= 0 && ftime.compareTo(right) <=0)
+			return true;
+		return false;
+	}
+	
+	public static String calculateFlyingtime(String leavedate, String arrivedate, String leavetime, String arrivetime){
+		int duration = 0; // unit is second.
+		
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		Date leaDate, arrDate;
+		try {
+			leaDate = sdf.parse(leavedate+" "+leavetime.substring(0, 2)+":"+leavetime.substring(2));
+			arrDate = sdf.parse(arrivedate+" "+arrivetime.substring(0, 2)+":"+arrivetime.substring(2));
+			duration = (int)(arrDate.getTime() - leaDate.getTime()) / 1000;
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		int dhour = (int)(duration/ 3600);
+		int dmin = (int)((duration % 3600) / 60);
+		
+		return "约" + dhour + "小时" + dmin + "分钟";
+	}
 }

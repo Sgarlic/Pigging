@@ -1,13 +1,7 @@
 package com.boding.view.calendar;
 
 import java.util.Calendar;
-import java.util.Currency;
 import java.util.Date;
-
-import com.boding.R;
-import com.boding.constants.GlobalVariables;
-import com.boding.util.DateUtil;
-import com.boding.util.Util;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -22,6 +16,10 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+
+import com.boding.R;
+import com.boding.constants.GlobalVariables;
+import com.boding.util.DateUtil;
 
 /**
  * 日历控件 功能：获得点选的日期区间

@@ -5,26 +5,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.boding.R;
-import com.boding.constants.Constants;
-import com.boding.constants.HTTPAction;
-import com.boding.constants.IdentityType;
-import com.boding.constants.IntentExtraAttribute;
-import com.boding.constants.IntentRequestCode;
-import com.boding.model.Passenger;
-import com.boding.task.PassengerTask;
-import com.boding.util.Util;
-import com.boding.view.dialog.ProgressBarDialog;
-import com.boding.view.dialog.WarningDialog;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -33,14 +21,23 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class ChoosePassengerActivity extends Activity {
+import com.boding.R;
+import com.boding.constants.HTTPAction;
+import com.boding.constants.IntentExtraAttribute;
+import com.boding.constants.IntentRequestCode;
+import com.boding.model.Passenger;
+import com.boding.task.PassengerTask;
+import com.boding.util.Util;
+import com.boding.view.dialog.ProgressBarDialog;
+import com.boding.view.dialog.NetworkUnavaiableDialog;
+import com.boding.view.dialog.WarningDialog;
+
+public class ChoosePassengerActivity extends BodingBaseActivity {
 	private LinearLayout completeLinearLayout;
 	private LinearLayout addPassengerLinearLayout;
 	private ListView passengerListView;
 	
 	private Set<String> selectedPassengerIds;
-	
-	private ProgressBarDialog progressBarDialog;
 	
 	private PassengerAdapter peopleAdapter;
 	
@@ -51,6 +48,8 @@ public class ChoosePassengerActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_choose_passenger);
+		progressBarDialog = new ProgressBarDialog(this);
+		networkUnavaiableDialog = new NetworkUnavaiableDialog(this);
 		selectedPassengerIds = new HashSet<String>();
 		Bundle arguments = getIntent().getExtras();
         if(arguments != null){
@@ -90,7 +89,10 @@ public class ChoosePassengerActivity extends Activity {
 	
 	
 	private void viewContentSetting(){
-		progressBarDialog = new ProgressBarDialog(this);
+		if(!Util.isNetworkAvailable(ChoosePassengerActivity.this)){
+			networkUnavaiableDialog.show();
+			return;
+		}
 		progressBarDialog.show();
 		
 		PassengerTask passengerTask = new PassengerTask(this, HTTPAction.GET_PASSENGERLIST);
@@ -119,9 +121,8 @@ public class ChoosePassengerActivity extends Activity {
 			@Override
 			public void onClick(View arg0) {
 				if(selectedPassengerIds.size() > 9){
-            		WarningDialog dialog = new WarningDialog(ChoosePassengerActivity.this);
-            		dialog.setContent("最多只能选择9位乘客");
-            		dialog.show();
+            		warningDialog.setContent("最多只能选择9位乘客");
+            		warningDialog.show();
             		return;
             	}
 				Intent intent=new Intent();
@@ -168,11 +169,6 @@ public class ChoosePassengerActivity extends Activity {
 					passengerList.set(i, passenger);
 				}
 			}
-			notifyDataSetChanged();
-		}
-		
-		public void addPassenger(Passenger passenger){
-			passengerList.add(passenger);
 			notifyDataSetChanged();
 		}
 		
@@ -272,7 +268,6 @@ public class ChoosePassengerActivity extends Activity {
 						System.out.println(people.isDomestic() + "ddssssssssss");
 						
 						if(isInternational && people.isDomestic()){
-							WarningDialog warningDialog = new WarningDialog(ChoosePassengerActivity.this);
 							warningDialog.setContent("预定国际机票请使用英文姓名");
 							warningDialog.show();
 							viewHolder.choosePassengerCheckBox.setChecked(false);

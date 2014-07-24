@@ -3,13 +3,21 @@ package com.boding.app;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.ExpandableListView;
+import android.widget.ExpandableListView.OnChildClickListener;
+import android.widget.ExpandableListView.OnGroupClickListener;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
 import com.boding.R;
-import com.boding.R.id;
-import com.boding.R.layout;
-import com.boding.R.menu;
 import com.boding.adapter.TicketSearchResultAdapter;
 import com.boding.adapter.TicketSearchResultListAdapter;
 import com.boding.adapter.TicketSearchResultListIAdapter;
@@ -26,7 +34,6 @@ import com.boding.model.FlightInterface;
 import com.boding.model.FlightLine;
 import com.boding.model.FlightQuery;
 import com.boding.model.domestic.Airlines;
-import com.boding.model.domestic.Cabin;
 import com.boding.model.domestic.Flight;
 import com.boding.task.DomeFlightQueryTask;
 import com.boding.task.XMLTask;
@@ -36,35 +43,10 @@ import com.boding.util.Util;
 import com.boding.view.dialog.CalendarDialog;
 import com.boding.view.dialog.CalendarDialog.OnItemClickListener;
 import com.boding.view.dialog.FilterDialog;
+import com.boding.view.dialog.NetworkUnavaiableDialog;
 import com.boding.view.dialog.ProgressBarDialog;
-import com.boding.view.dialog.SearchCityDialog;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentTransaction;
-import android.app.Activity;
-import android.app.ExpandableListActivity;
-import android.content.ContentValues;
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.ExpandableListView;
-import android.widget.ExpandableListView.OnChildClickListener;
-import android.widget.ExpandableListView.OnGroupClickListener;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.os.Build;
-
-public class TicketSearchResultActivity extends FragmentActivity {
+public class TicketSearchResultActivity extends BodingBaseActivity {
 	private TicketSearchResultAdapter adapter;
 	private ExpandableListView searchResultListView;
 	
@@ -101,8 +83,6 @@ public class TicketSearchResultActivity extends FragmentActivity {
     private int orderFlag;
     
     private FlightQuery flightQuery;
-    
-    private ProgressBarDialog progressDialog;
     
     //测试用
     private String tempurl = "http://192.168.0.22:9404/FakeBodingServer/XMLServlet?day=today"; 
@@ -157,8 +137,7 @@ public class TicketSearchResultActivity extends FragmentActivity {
 			startdate = GlobalVariables.Fly_Return_Date;
 		}	
 		
-		progressDialog = new ProgressBarDialog(TicketSearchResultActivity.this);
-		
+		networkUnavaiableDialog = new NetworkUnavaiableDialog (this);
 		loadData(isInternational);
 		
 		initView();
@@ -410,7 +389,7 @@ public class TicketSearchResultActivity extends FragmentActivity {
 				}
 	      });
 	      
-	      progressDialog.dismiss();
+	      progressBarDialog.dismiss();
 	  }
 
 	  private void invokeXmlTask(String url, int whichday){
@@ -447,7 +426,11 @@ public class TicketSearchResultActivity extends FragmentActivity {
 	  
 	  private void loadData(boolean isInternational){
 		  calendarDialog.dismiss();
-		  progressDialog.show();
+		  if(!Util.isNetworkAvailable(this)){
+				networkUnavaiableDialog.show();
+				return;
+		  }
+		  progressBarDialog.show();
 		  if(isInternational){//国际
 				//此处先使用同一个xml测试
 				String urlstr = "http://115.231.73.25:1368/av.ashx?userid=boding&PassengerType=C001&fromcity=SHA&tocity=NYC&godate=2014-07-24&backdate=2014-07-26&sign=A3AF7E76AF44B0A2055D262C5329929E";

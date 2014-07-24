@@ -1,6 +1,14 @@
 package com.boding.app;
 
 
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+
 import com.boding.R;
 import com.boding.constants.HTTPAction;
 import com.boding.constants.IntentExtraAttribute;
@@ -8,28 +16,16 @@ import com.boding.constants.IntentRequestCode;
 import com.boding.task.BodingUserTask;
 import com.boding.util.RegularExpressionsUtil;
 import com.boding.util.Util;
+import com.boding.view.dialog.NetworkUnavaiableDialog;
 import com.boding.view.dialog.ProgressBarDialog;
 import com.boding.view.dialog.WarningDialog;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.Gravity;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.Toast;
-
-public class RegisterActivity extends Activity {
+public class RegisterActivity extends BodingBaseActivity {
 	private EditText userNameEditText;
 	private EditText passwordEditText;
 	private EditText passwordConfirmEditText;
 	private LinearLayout loginLinearLayout;
 	private LinearLayout registerLinearLayout;
-	
-	private ProgressBarDialog progressBarDialog;
-	private WarningDialog warningDialog;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +33,7 @@ public class RegisterActivity extends Activity {
 		setContentView(R.layout.activity_register);
 		progressBarDialog = new ProgressBarDialog(this);
 		warningDialog = new WarningDialog(this);
+		networkUnavaiableDialog = new NetworkUnavaiableDialog (this);
 //		Bundle arguments = getIntent().getExtras();
 //        if(arguments != null)
 //        	isReturnDateSelection = arguments.getBoolean(Constants.IS_RETURN_DATE_SELECTION);
@@ -99,6 +96,10 @@ public class RegisterActivity extends Activity {
 				if(!password.equals(passwordConfirmEditText.getText().toString())){
 					warningDialog.setContent("两次输入的密码不一致！");
 					warningDialog.show();
+					return;
+				}
+				if(!Util.isNetworkAvailable(RegisterActivity.this)){
+					networkUnavaiableDialog.show();
 					return;
 				}
 				progressBarDialog.show();

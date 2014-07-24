@@ -1,6 +1,16 @@
 package com.boding.app;
 
 
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.KeyEvent;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.CheckBox;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
 import com.boding.R;
 import com.boding.constants.Constants;
 import com.boding.constants.HTTPAction;
@@ -9,20 +19,13 @@ import com.boding.constants.IntentRequestCode;
 import com.boding.model.PaymentMethod;
 import com.boding.task.OrderTask;
 import com.boding.util.Util;
+import com.boding.view.dialog.NetworkUnavaiableDialog;
 import com.boding.view.dialog.ProgressBarDialog;
+import com.boding.view.dialog.TwoOptionsDialog;
 import com.boding.view.dialog.WarningDialog;
+import com.hp.hpl.sparta.xpath.PositionEqualsExpr;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-
-public class OrderPaymentActivity extends Activity {
+public class OrderPaymentActivity extends BodingBaseActivity {
 	private TextView titleTextView;
 	private LinearLayout completeLinearLayout;
 	private TextView fromToTextView;
@@ -47,12 +50,19 @@ public class OrderPaymentActivity extends Activity {
 	private String flyFromToCity;
 	private int totalPrice;
 	
-	private ProgressBarDialog progressBarDialog;
+	private TwoOptionsDialog twoOptionsDialog;
+	
+	private boolean isOrderCreated;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		progressBarDialog = new ProgressBarDialog(this);
+		networkUnavaiableDialog = new NetworkUnavaiableDialog (this);
+		twoOptionsDialog = new TwoOptionsDialog(this);
+		twoOptionsDialog.setContent("订单支付尚未完成，返回将放弃支付，稍后可在“订单查询”中继续完成支付");
+		twoOptionsDialog.setLeftOption("返回航班列表");
+		twoOptionsDialog.setRightOption("继续支付");
 		setContentView(R.layout.activity_orderpayment);
 		Bundle arguments = getIntent().getExtras();
         if(arguments != null){
@@ -86,7 +96,7 @@ public class OrderPaymentActivity extends Activity {
 		returnLinearLayout.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View arg0) {
-				Util.returnToPreviousPage(OrderPaymentActivity.this, IntentRequestCode.ORDER_PAYEMNT);
+				returnToPreviousPage();
 			}
 			
 		});
@@ -130,13 +140,15 @@ public class OrderPaymentActivity extends Activity {
 		paybyAlipayLinearLayout.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				createOrder(PaymentMethod.Alipay);
+				if(!isOrderCreated)
+					createOrder(PaymentMethod.Alipay);
 			}
 		});
 		paybyTenpayLinearLayout.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				createOrder(PaymentMethod.WX);
+				if(!isOrderCreated)
+					createOrder(PaymentMethod.WX);
 			}
 		});
 		bodingDeductionLinearLayout.setOnClickListener(new View.OnClickListener() {
@@ -146,6 +158,17 @@ public class OrderPaymentActivity extends Activity {
 					useBodingDeductionCheckBox.setChecked(false);
 				else
 					useBodingDeductionCheckBox.setChecked(true);
+			}
+		});
+		twoOptionsDialog.setOnOptionSelectedListener(new TwoOptionsDialog.OnOptionSelectedListener() {
+			@Override
+			public void OnItemClick(int option) {
+				if(option == 0){
+					Intent intent=new Intent();
+					intent.putExtra(IntentExtraAttribute.IS_ORDER_CREATED, true);
+					setResult(IntentRequestCode.ORDER_PAYEMNT.getRequestCode(), intent);
+					finish();
+				}
 			}
 		});
 	}
@@ -161,6 +184,10 @@ public class OrderPaymentActivity extends Activity {
 	}
 	
 	private void createOrder(PaymentMethod paymentMethod){
+		if(!Util.isNetworkAvailable(this)){
+			networkUnavaiableDialog.show();
+			return;
+		}
 		progressBarDialog.show();
 		(new OrderTask(OrderPaymentActivity.this,HTTPAction.CREATE_ORDER_DOMESTIC))
 		.execute(flightInfo,passengerInfo,contactInfo,receiveInfo,
@@ -172,10 +199,21 @@ public class OrderPaymentActivity extends Activity {
 //		}
 	}
 	
+	 @Override  
+	    public boolean onKeyDown(int keyCode, KeyEvent event)  
+	    {  
+	        if (keyCode == KeyEvent.KEYCODE_BACK )  
+	        {  
+	        	returnToPreviousPage();
+	        }  
+	        return false;  
+	    }  
+	
 	public void setCreateOrderResult(String result){
 		progressBarDialog.dismiss();
 		if(result.equals("1")){
 			System.out.println("ordercreated     pending audit");
+			isOrderCreated = true;
 //			Intent intent = new Intent();
 //			intent.setClass(OrderPaymentActivity.this, OrderPaymentActivity.class);
 //			startActivityForResult(intent, IntentRequestCode.ORDER_PAYEMNT.getRequestCode());
@@ -186,11 +224,20 @@ public class OrderPaymentActivity extends Activity {
 //			intent.setClass(OrderFormActivity.this, OrderDetailActivity.class);
 //			startActivityForResult(intent,IntentRequestCode.ORDER_DETAIL.getRequestCode());
 		}else if(result.equals("0")){
+			isOrderCreated = true;
 			System.out.println("ordercreated     OKKKKKKKKKKKKKKKKK");
 		}else{
 			WarningDialog dialog = new WarningDialog(this);
 			dialog.setContent("请填写正确的信息");
 			dialog.show();
+		}
+	}
+	
+	private void returnToPreviousPage(){
+		if(isOrderCreated){
+			twoOptionsDialog.show();
+		}else{
+			Util.returnToPreviousPage(OrderPaymentActivity.this, IntentRequestCode.ORDER_PAYEMNT);
 		}
 	}
 }

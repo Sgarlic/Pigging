@@ -1,39 +1,35 @@
 package com.boding.app;
 
 
-import java.util.ArrayList;
 import java.util.List;
-
-import com.boding.R;
-import com.boding.constants.Constants;
-import com.boding.constants.HTTPAction;
-import com.boding.constants.IdentityType;
-import com.boding.constants.IntentExtraAttribute;
-import com.boding.constants.IntentRequestCode;
-import com.boding.constants.OrderStatus;
-import com.boding.model.Order;
-import com.boding.model.OrderFlight;
-import com.boding.model.Passenger;
-import com.boding.task.OrderTask;
-import com.boding.util.Util;
-import com.boding.view.dialog.ProgressBarDialog;
-import com.boding.view.layout.OrderDetailFlightInfoLayout;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class OrderDetailActivity extends Activity {
+import com.boding.R;
+import com.boding.constants.HTTPAction;
+import com.boding.constants.IntentExtraAttribute;
+import com.boding.constants.IntentRequestCode;
+import com.boding.constants.OrderStatus;
+import com.boding.model.Order;
+import com.boding.model.Passenger;
+import com.boding.task.OrderTask;
+import com.boding.util.Util;
+import com.boding.view.dialog.NetworkUnavaiableDialog;
+import com.boding.view.dialog.ProgressBarDialog;
+import com.boding.view.layout.OrderDetailFlightInfoLayout;
+
+public class OrderDetailActivity extends BodingBaseActivity {
 	private TextView orderStatusTextView;
 	private TextView orderIDTextView;
 	private TextView orderCreatedDateTextView;
@@ -61,13 +57,12 @@ public class OrderDetailActivity extends Activity {
 	private String orderCode;
 //	private Order order;
 	
-	private ProgressBarDialog progressBarDialog;
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_order_detail);
 		progressBarDialog = new ProgressBarDialog(this);
+		networkUnavaiableDialog = new NetworkUnavaiableDialog (this);
 		Bundle arguments = getIntent().getExtras();
         if(arguments != null){
         	if(arguments.containsKey(IntentExtraAttribute.CHOOSED_ORDER_ID))
@@ -122,6 +117,10 @@ public class OrderDetailActivity extends Activity {
 	}
 	
 	private void setViewContent(){
+		if(!Util.isNetworkAvailable(OrderDetailActivity.this)){
+			networkUnavaiableDialog.show();
+			return;
+		}
 		progressBarDialog.show();
 		(new OrderTask(this, HTTPAction.GET_ORDER_DETAIL)).execute(orderCode);
 	}

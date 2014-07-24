@@ -17,6 +17,7 @@ import com.boding.task.FlightDynamicsTask;
 import com.boding.util.CityUtil;
 import com.boding.util.DateUtil;
 import com.boding.util.Util;
+import com.boding.view.dialog.NetworkUnavaiableDialog;
 import com.boding.view.dialog.ProgressBarDialog;
 import com.boding.view.dialog.SelectionDialog;
 import com.boding.view.dialog.VerticalViewPager;
@@ -30,6 +31,7 @@ import com.boding.model.FlightQuery;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
@@ -50,7 +52,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 @SuppressLint("NewApi")
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends BodingBaseActivity {
 	private boolean isSingleWay = true;
 	
 	private List<View> hList;
@@ -138,9 +140,6 @@ public class MainActivity extends FragmentActivity {
 	private View downPageView;
 	private int curUpdatePager;
 	
-	private WarningDialog warningDialog;
-	private ProgressBarDialog progressBarDialog;
-	
 	private int unFollowFlightPost = -1; 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -149,6 +148,7 @@ public class MainActivity extends FragmentActivity {
 		
 		warningDialog = new WarningDialog(this);
 		progressBarDialog = new ProgressBarDialog(this);
+		networkUnavaiableDialog = new NetworkUnavaiableDialog (this);
 		
 		mInflater = getLayoutInflater();
 		
@@ -441,6 +441,10 @@ public class MainActivity extends FragmentActivity {
 					intent.setClass(MainActivity.this, VerifyPhonenumActivity.class);
 					intent.putExtra(IntentExtraAttribute.VERIFY_PHONENUM_TYPE, "2");
 					startActivityForResult(intent, IntentRequestCode.VERIFY_PHONENUM.getRequestCode());
+					return;
+				}
+				if(!Util.isNetworkAvailable(MainActivity.this)){
+					networkUnavaiableDialog.show();
 					return;
 				}
 				progressBarDialog.show();
@@ -860,7 +864,11 @@ public class MainActivity extends FragmentActivity {
 				ImageView fromCityWeatherImageView = (ImageView) view.findViewById(R.id.layoutflightboard_fromCityWeather_imageView);
 				TextView fromTerminalTextView = (TextView) view.findViewById(R.id.layoutflightboard_fromTerminal_textView);
 				TextView planeFromTimeTextView = (TextView) view.findViewById(R.id.layoutflightboard_planFromTime_textView);
+				LinearLayout leftTopLinearLayout = (LinearLayout) view.findViewById(R.id.layoutflightboard_leftTop_lienarLayout);
 				TextView actualFromTimeTextView = (TextView) view.findViewById(R.id.layoutflightboard_actualFromTime_textView);
+				LinearLayout leftTopLineLinearLayout = (LinearLayout) view.findViewById(R.id.layoutflightboard_leftTopLine_lienarLayout);
+				LinearLayout leftBottomLinearLayout = (LinearLayout) view.findViewById(R.id.layoutflightboard_leftBottom_lienarLayout);
+				LinearLayout leftBottomLineLinearLayout = (LinearLayout) view.findViewById(R.id.layoutflightboard_leftBottomLine_lienarLayout);
 				TextView onTimeRateTextTextView = (TextView) view.findViewById(R.id.layoutflightboard_ontimeRateText_textView);
 				TextView onTimeRateTextView = (TextView) view.findViewById(R.id.layoutflightboard_ontimeRate_textView);
 				TextView dateTextView = (TextView) view.findViewById(R.id.layoutflightboard_date_textView);
@@ -870,7 +878,11 @@ public class MainActivity extends FragmentActivity {
 				ImageView toCityWeatherImageView = (ImageView) view.findViewById(R.id.layoutflightboard_toCityWeather_imageView);
 				TextView toTerminalTextView = (TextView) view.findViewById(R.id.layoutflightboard_toTerminal_textView);
 				TextView planToTimeTextView = (TextView) view.findViewById(R.id.layoutflightboard_planToTime_textView);
+				LinearLayout rightTopLinearLayout = (LinearLayout) view.findViewById(R.id.layoutflightboard_rightTop_lienarLayout);
 				TextView actualToTimeTextView = (TextView) view.findViewById(R.id.layoutflightboard_actualToTime_textView);
+				LinearLayout rightTopLineLinearLayout = (LinearLayout) view.findViewById(R.id.layoutflightboard_rightTopLine_lienarLayout);
+				LinearLayout rightBottomLinearLayout = (LinearLayout) view.findViewById(R.id.layoutflightboard_rightBottom_lienarLayout);
+				LinearLayout rightBottomLineLinearLayout = (LinearLayout) view.findViewById(R.id.layoutflightboard_rightBottomLine_lienarLayout);
 				TextView fromAirportInfoTextView = (TextView) view.findViewById(R.id.layoutflightboard_fromAirportInfo_textView);
 				LinearLayout fromAirportInfoLinearLayout = (LinearLayout) view.findViewById(R.id.layoutflightboard_fromAirportInfo_linearLayout);
 				TextView toAirportInfoTextView = (TextView) view.findViewById(R.id.layoutflightboard_toAirportInfo_textView);
@@ -880,14 +892,6 @@ public class MainActivity extends FragmentActivity {
 				LinearLayout fromDividerLinearLayout = (LinearLayout) view.findViewById(R.id.layoutflightboard_fromDivider_linearLayout);
 				LinearLayout toDividerLinearLayout = (LinearLayout) view.findViewById(R.id.layoutflightboard_toDivider_linearLayout);
 				
-				LinearLayout leftTopLinearLayout = (LinearLayout) view.findViewById(R.id.layoutflightboard_leftTop_lienarLayout);
-				LinearLayout leftTopLineLinearLayout = (LinearLayout) view.findViewById(R.id.layoutflightboard_leftTopLine_lienarLayout);
-				LinearLayout leftBottomLinearLayout = (LinearLayout) view.findViewById(R.id.layoutflightboard_leftBottom_lienarLayout);
-				LinearLayout leftBottomLineLinearLayout = (LinearLayout) view.findViewById(R.id.layoutflightboard_leftBottomLine_lienarLayout);
-				LinearLayout rightTopLinearLayout = (LinearLayout) view.findViewById(R.id.layoutflightboard_rightTop_lienarLayout);
-				LinearLayout rightTopLineLinearLayout = (LinearLayout) view.findViewById(R.id.layoutflightboard_rightTopLine_lienarLayout);
-				LinearLayout rightBottomLinearLayout = (LinearLayout) view.findViewById(R.id.layoutflightboard_rightBottom_lienarLayout);
-				LinearLayout rightBottomLineLinearLayout = (LinearLayout) view.findViewById(R.id.layoutflightboard_rightBottomLine_lienarLayout);
 				ImageView statusImageView = (ImageView) view.findViewById(R.id.layoutflightboard_status_imageView);
 				
 				/**
@@ -1005,6 +1009,10 @@ public class MainActivity extends FragmentActivity {
 	}
 	
 	private void unFollowFlight(){
+		if(!Util.isNetworkAvailable(MainActivity.this)){
+			networkUnavaiableDialog.show();
+			return;
+		}
 		progressBarDialog.show();
 		(new FlightDynamicsTask(this, HTTPAction.UNFOLLOW_FLIGHTDYNAMICS_FROM_MAIN)).execute(myFollowsFlightList.get(unFollowFlightPost).getId());
 	}

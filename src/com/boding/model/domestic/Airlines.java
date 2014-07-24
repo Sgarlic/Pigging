@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.List;
 
 import com.boding.model.AirlineInterface;
-import com.boding.model.FlightLine;
 
 public class Airlines implements AirlineInterface{
 	private String dpt;

@@ -2,22 +2,20 @@ package com.boding.app;
 
 import java.util.Date;
 
-import com.boding.R;
-import com.boding.constants.Constants;
-import com.boding.constants.GlobalVariables;
-import com.boding.constants.IntentRequestCode;
-import com.boding.util.DateUtil;
-import com.boding.util.Util;
-import com.boding.view.calendar.DateSelectCalendarView;
-import com.boding.view.calendar.DateSelectCalendarView.OnItemClickListener;
-import com.boding.view.layout.CalendarLayout;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.boding.R;
+import com.boding.constants.Constants;
+import com.boding.constants.GlobalVariables;
+import com.boding.constants.IntentRequestCode;
+import com.boding.util.DateUtil;
+import com.boding.util.Util;
+import com.boding.view.layout.CalendarLayout;
 
 public class DateSelectActivity extends Activity {
 	private boolean isReturnDateSelection = false;
@@ -105,9 +103,4 @@ public class DateSelectActivity extends Activity {
     	else
     		dateSelectTitleTextView.setText("选择出发日期");
     }
-
-	private void setMonth(){
-//		String currentMonth = Util.getYearMonthString(Util.getDateFromString(GlobalVariables.Fly_From_Date));
-//		currentMonthTextView.setText(dateSelectCalendarView.getYearAndmonth());
-	}
 }

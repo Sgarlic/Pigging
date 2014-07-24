@@ -1,21 +1,7 @@
 package com.boding.app;
 
 
-import java.util.ArrayList;
 import java.util.List;
-
-import com.boding.R;
-import com.boding.constants.GlobalVariables;
-import com.boding.constants.HTTPAction;
-import com.boding.constants.IntentExtraAttribute;
-import com.boding.constants.IntentRequestCode;
-import com.boding.model.DeliveryAddress;
-import com.boding.model.FlightDynamicQuery;
-import com.boding.model.FlightDynamics;
-import com.boding.task.FlightDynamicsTask;
-import com.boding.util.Util;
-import com.boding.view.dialog.ProgressBarDialog;
-import com.boding.view.dialog.WarningDialog;
 
 import android.app.Activity;
 import android.content.Context;
@@ -23,8 +9,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
@@ -33,13 +19,22 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class FlightDynamicsListActivity extends Activity{
+import com.boding.R;
+import com.boding.constants.GlobalVariables;
+import com.boding.constants.HTTPAction;
+import com.boding.constants.IntentExtraAttribute;
+import com.boding.constants.IntentRequestCode;
+import com.boding.model.FlightDynamicQuery;
+import com.boding.model.FlightDynamics;
+import com.boding.task.FlightDynamicsTask;
+import com.boding.util.Util;
+import com.boding.view.dialog.NetworkUnavaiableDialog;
+import com.boding.view.dialog.ProgressBarDialog;
+import com.boding.view.dialog.WarningDialog;
+
+public class FlightDynamicsListActivity extends BodingBaseActivity{
 	private ListView flightDynamicsListView;
 	private FlightDynamicsAdapter adapter;
-	
-	private WarningDialog warningDialog;
-	private ProgressBarDialog progressBarDialog;
-	
 	
 	private boolean isFollowsList;
 	private FlightDynamicQuery fdq;
@@ -55,6 +50,7 @@ public class FlightDynamicsListActivity extends Activity{
     	}
 		warningDialog = new WarningDialog(this);
 		progressBarDialog = new ProgressBarDialog(this);
+		networkUnavaiableDialog = new NetworkUnavaiableDialog (this);
 		initView();
 		setViewContent();
 	}
@@ -75,6 +71,10 @@ public class FlightDynamicsListActivity extends Activity{
 	}
 	
 	private void setViewContent(){
+		if(!Util.isNetworkAvailable(FlightDynamicsListActivity.this)){
+			networkUnavaiableDialog.show();
+			return;
+		}
 		progressBarDialog.show();
 		if(GlobalVariables.bodingUser != null){
 			(new FlightDynamicsTask(this, HTTPAction.GET_MYFOLLOWED)).execute();

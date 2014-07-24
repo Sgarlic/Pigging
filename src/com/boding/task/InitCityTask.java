@@ -1,14 +1,9 @@
 package com.boding.task;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.StreamCorruptedException;
 import java.util.Collections;
 import java.util.List;
 
@@ -22,12 +17,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.boding.constants.GlobalVariables;
-import com.boding.model.City;
-import com.boding.util.Util;
-
 import android.content.Context;
 import android.os.AsyncTask;
+
+import com.boding.constants.GlobalVariables;
+import com.boding.model.City;
 
 public class InitCityTask extends AsyncTask<Object,Void,Object>{ 
 	private Context context;

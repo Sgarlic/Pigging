@@ -1,10 +1,12 @@
 package com.boding.task;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -14,21 +16,23 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Context;
+import android.os.AsyncTask;
+
+import com.boding.app.BodingBaseActivity;
 import com.boding.app.TicketSearchResultActivity;
-import com.boding.model.AirlineView;
+import com.boding.constants.Constants;
 import com.boding.model.domestic.Airlines;
 import com.boding.model.domestic.Cabin;
 import com.boding.model.domestic.Flight;
 import com.boding.util.DateUtil;
 import com.boding.util.Encryption;
 
-import android.content.Context;
-import android.os.AsyncTask;
-
 public class DomeFlightQueryTask extends AsyncTask<Object,Void,Object> {
 	private Airlines mAirlines;
 	private int whichday;
 	private Context context;
+	private boolean isTimeout;
 	
 	public DomeFlightQueryTask(Context context){
 		this.context = context;
@@ -78,6 +82,8 @@ public class DomeFlightQueryTask extends AsyncTask<Object,Void,Object> {
 		try {
 			url = new URL(urlStr);
 			HttpURLConnection httpc = (HttpURLConnection)url.openConnection();
+			httpc.setConnectTimeout(Constants.CONNECT_TIMEOUT);
+			httpc.setReadTimeout(Constants.READ_TIMEOUT);
 			httpc.connect();
 			InputStream is = httpc.getInputStream();
 			BufferedReader reader = new BufferedReader(new InputStreamReader(is));
@@ -88,7 +94,14 @@ public class DomeFlightQueryTask extends AsyncTask<Object,Void,Object> {
 			}
 			
 			mAirlines = parseBBCJson(sbr.toString());
-		} catch (Exception e) {
+		} catch (SocketTimeoutException e) {
+			isTimeout = true;
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -99,6 +112,10 @@ public class DomeFlightQueryTask extends AsyncTask<Object,Void,Object> {
 
 	@Override  
 	 protected void onPostExecute(Object result) {
+		if(isTimeout){
+			((BodingBaseActivity)context).handleTimeout();
+			return;
+		}
 		TicketSearchResultActivity tsri = (TicketSearchResultActivity) context;
 		if(whichday == 1){//last day
 			tsri.setLastdayAirlineView((Airlines)result);

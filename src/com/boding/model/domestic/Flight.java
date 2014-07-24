@@ -8,10 +8,7 @@ import java.util.List;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.boding.constants.Gender;
-import com.boding.constants.IdentityType;
 import com.boding.model.FlightInterface;
-import com.boding.model.Passenger;
 import com.boding.util.CityUtil;
 
 public class Flight implements FlightInterface, Parcelable{

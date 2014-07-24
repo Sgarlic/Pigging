@@ -10,6 +10,7 @@ import com.boding.model.Passenger;
 import com.boding.task.PassengerTask;
 import com.boding.util.Util;
 import com.boding.view.dialog.ProgressBarDialog;
+import com.boding.view.dialog.NetworkUnavaiableDialog;
 
 import android.app.Activity;
 import android.content.Context;
@@ -24,13 +25,10 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class CommonInfoMPassengerActivity extends Activity {
+public class CommonInfoMPassengerActivity extends BodingBaseActivity {
 	private LinearLayout addPassengerLinearLayout;
 	private TextView noPassengerTextView;
 	private ListView passengerListView;
-	
-	private ProgressBarDialog progressBarDialog;
-	
 	
 	private PassengerAdapter peopleAdapter;
 	
@@ -39,10 +37,8 @@ public class CommonInfoMPassengerActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_commoninfomanagement_passenger);
-//		Bundle arguments = getIntent().getExtras();
-//        if(arguments != null)
-//        	isReturnDateSelection = arguments.getBoolean(Constants.IS_RETURN_DATE_SELECTION);
-        
+		progressBarDialog = new ProgressBarDialog(this);
+		networkUnavaiableDialog = new NetworkUnavaiableDialog(this);
 		initView();
 		viewContentSetting();
 	}
@@ -68,7 +64,10 @@ public class CommonInfoMPassengerActivity extends Activity {
 	}
 	
 	private void viewContentSetting(){
-		progressBarDialog = new ProgressBarDialog(this);
+		if(!Util.isNetworkAvailable(CommonInfoMPassengerActivity.this)){
+			networkUnavaiableDialog.show();
+			return;
+		}
 		progressBarDialog.show();
 		
 		PassengerTask passengerTask = new PassengerTask(this, HTTPAction.GET_PASSENGERLIST_MANAGEMENT);
@@ -131,11 +130,6 @@ public class CommonInfoMPassengerActivity extends Activity {
 					passengerList.set(i, passenger);
 				}
 			}
-			notifyDataSetChanged();
-		}
-		
-		public void addPassenger(Passenger passenger){
-			passengerList.add(passenger);
 			notifyDataSetChanged();
 		}
 		

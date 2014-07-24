@@ -2,17 +2,8 @@ package com.boding.util;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.regex.Pattern;
-
-import com.boding.R;
-import com.boding.constants.GlobalVariables;
-import com.boding.constants.IntentRequestCode;
-import com.boding.model.City;
-import com.boding.view.dialog.WarningDialog;
 
 import net.sourceforge.pinyin4j.PinyinHelper;
 import net.sourceforge.pinyin4j.format.HanyuPinyinCaseType;
@@ -29,6 +20,9 @@ import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Build;
 import android.view.Gravity;
 import android.view.View;
@@ -40,6 +34,12 @@ import android.widget.DatePicker;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import com.boding.constants.Constants;
+import com.boding.constants.GlobalVariables;
+import com.boding.constants.IntentRequestCode;
+import com.boding.model.City;
+import com.boding.view.dialog.WarningDialog;
 
 public class Util {
 //	/**
@@ -108,7 +108,6 @@ public class Util {
 		// 隐藏状态栏，使内容全屏显示(必须要在setContentView方法执行前执行)
 		activity.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
 	}
-	
 	
 	
 	@SuppressLint("NewApi")
@@ -189,32 +188,9 @@ public class Util {
 	
 	public static void returnToPreviousPage(Activity activity, IntentRequestCode requestCode){
 		Intent intent=new Intent();
-//		if(citySelected)
-//			intent.putExtra("selectedDate", Util.getFormatedDate(year, month, dayOfMonth));
 		activity.setResult(requestCode.getRequestCode(), intent);
 		activity.finish();
 	}
-	
-	public static String calculateFlyingtime(String leavedate, String arrivedate, String leavetime, String arrivetime){
-		int duration = 0; // unit is second.
-		
-		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm");
-		Date leaDate, arrDate;
-		try {
-			leaDate = sdf.parse(leavedate+" "+leavetime.substring(0, 2)+":"+leavetime.substring(2));
-			arrDate = sdf.parse(arrivedate+" "+arrivetime.substring(0, 2)+":"+arrivetime.substring(2));
-			duration = (int)(arrDate.getTime() - leaDate.getTime()) / 1000;
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		int dhour = (int)(duration/ 3600);
-		int dmin = (int)((duration % 3600) / 60);
-		
-		return "约" + dhour + "小时" + dmin + "分钟";
-	}
-	
-	
-	
 	
 	public static String getFourCharofString(String string){
 		String newString = string;
@@ -260,12 +236,6 @@ public class Util {
 //		Log.d("poding");
 	}
 	
-	public static int getMonthNoFromString(String monthString){
-		String tempMonth = monthString.substring(0,monthString.length()-1);
-		int month = Integer.parseInt(tempMonth);
-		return month;
-	}
-	
 	public static void setListViewHeightBasedOnChildren(ListView listView) { 
 	    if(listView == null) return;
 
@@ -286,26 +256,6 @@ public class Util {
 	    listView.setLayoutParams(params); 
 	}
 	
-	/**
-	 * 
-	 * @param time like 0000
-	 * @param timeSegment like 00:00--06:00
-	 * @return
-	 */
-	public static boolean IsInTimeSegment(String time, String timeSegment){
-		if(timeSegment == null) return true; //时间段不存在返回true
-		if(time == null) return false;
-		//System.out.println(timeSegment.length());
-		if(timeSegment.length() != 12) return false; //格式不对，返回false
-		String left = timeSegment.substring(0, 5);
-		String right = timeSegment.substring(7);
-		String ftime = time.substring(0, 2) + ":" + time.substring(2); 
-		System.out.println("left: " +left);
-		System.out.println("right: " + right +" time: " + ftime);
-		if(ftime.compareTo(left) >= 0 && ftime.compareTo(right) <=0)
-			return true;
-		return false;
-	}
 	
 	public static Bitmap getFlightCompanyLogo(Context context, String companyCode){
 		AssetManager assetManager = context.getAssets();
@@ -329,5 +279,18 @@ public class Util {
 		Toast toast = Toast.makeText(context,toastContent, Toast.LENGTH_SHORT);
 	    toast.setGravity(Gravity.CENTER, 0, 0);
 	    toast.show();
+	}
+	
+	public static boolean isNetworkAvailable(Context context) {
+	    ConnectivityManager connectivityManager 
+	          = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+	    NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+	    return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+	}
+	
+	public static void dialPhone(Context context){
+		String number = Constants.BONDING_PHONENUM;
+	    Intent intent = new Intent(Intent.ACTION_DIAL,Uri.parse("tel:" +number));
+	    context.startActivity(intent);
 	}
 }

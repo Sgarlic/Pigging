@@ -2,8 +2,6 @@ package com.boding.task;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.zip.GZIPInputStream;
 
 import org.apache.http.HttpEntity;
@@ -12,13 +10,13 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 
-import com.boding.model.AirlineView;
-import com.boding.util.AvXmlParser;
-import com.boding.app.TicketSearchResultActivity;
-
 import android.content.res.AssetManager;
 import android.os.AsyncTask;
 import android.util.Log;
+
+import com.boding.app.TicketSearchResultActivity;
+import com.boding.model.AirlineView;
+import com.boding.util.AvXmlParser;
 
 public class XMLTask extends AsyncTask<Object,Void,Object>{
 	private TicketSearchResultActivity tsri;

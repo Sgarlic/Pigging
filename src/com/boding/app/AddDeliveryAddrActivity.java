@@ -6,7 +6,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.boding.R;
-import com.boding.constants.Constants;
 import com.boding.constants.GlobalVariables;
 import com.boding.constants.HTTPAction;
 import com.boding.constants.IntentExtraAttribute;
@@ -14,11 +13,11 @@ import com.boding.constants.IntentRequestCode;
 import com.boding.model.DeliveryAddress;
 import com.boding.model.Province;
 import com.boding.task.DeliveryAddrTask;
-import com.boding.task.PassengerTask;
 import com.boding.util.RegularExpressionsUtil;
 import com.boding.util.Util;
 import com.boding.view.dialog.ProgressBarDialog;
 import com.boding.view.dialog.SelectionDialog;
+import com.boding.view.dialog.NetworkUnavaiableDialog;
 import com.boding.view.dialog.WarningDialog;
 
 import android.app.Activity;
@@ -32,7 +31,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class AddDeliveryAddrActivity extends Activity {
+public class AddDeliveryAddrActivity extends BodingBaseActivity {
 	private TextView titleTextView;
 	private LinearLayout completeLinearLayout;
 	private EditText recipientNameEditText;
@@ -56,9 +55,6 @@ public class AddDeliveryAddrActivity extends Activity {
 	
 	private DeliveryAddress deliveryAddr;
 	
-	private WarningDialog warningDialog;
-	private ProgressBarDialog progressBarDialog;
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -79,6 +75,7 @@ public class AddDeliveryAddrActivity extends Activity {
 //        	isReturnDateSelection = arguments.getBoolean(Constants.IS_RETURN_DATE_SELECTION);
 		warningDialog = new WarningDialog(this);
 		progressBarDialog = new ProgressBarDialog(this);
+		networkUnavaiableDialog = new NetworkUnavaiableDialog(this);
 		initProvinceList();
 		initView();
 	}
@@ -254,6 +251,12 @@ public class AddDeliveryAddrActivity extends Activity {
 					warningDialog.show();
 					return;
 				}
+				
+				if(!Util.isNetworkAvailable(AddDeliveryAddrActivity.this)){
+					networkUnavaiableDialog.show();
+					return;
+				}
+				
 				progressBarDialog.show();
 				if(isEditing)
 					(new DeliveryAddrTask(AddDeliveryAddrActivity.this, HTTPAction.EDIT_DELIVERYADDR)).execute(deliveryAddr);
@@ -402,6 +405,10 @@ public class AddDeliveryAddrActivity extends Activity {
 		deleteDeliverAddrLinearLayout.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
+				if(!Util.isNetworkAvailable(AddDeliveryAddrActivity.this)){
+					networkUnavaiableDialog.show();
+					return;
+				}
 				progressBarDialog.show();
 				(new DeliveryAddrTask(AddDeliveryAddrActivity.this, HTTPAction.DELETE_DELIVERYADDR))
 				.execute(deliveryAddr.getAddrID());

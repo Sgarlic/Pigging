@@ -1,18 +1,6 @@
 package com.boding.app;
 
 
-import com.boding.R;
-import com.boding.constants.GlobalVariables;
-import com.boding.constants.HTTPAction;
-import com.boding.constants.IntentExtraAttribute;
-import com.boding.constants.IntentRequestCode;
-import com.boding.model.BodingUser;
-import com.boding.task.BodingUserTask;
-import com.boding.util.RegularExpressionsUtil;
-import com.boding.util.Util;
-import com.boding.view.dialog.ProgressBarDialog;
-import com.boding.view.dialog.WarningDialog;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
@@ -20,13 +8,21 @@ import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
-public class SetNewPasswordActivity extends Activity {
+import com.boding.R;
+import com.boding.constants.HTTPAction;
+import com.boding.constants.IntentExtraAttribute;
+import com.boding.constants.IntentRequestCode;
+import com.boding.task.BodingUserTask;
+import com.boding.util.RegularExpressionsUtil;
+import com.boding.util.Util;
+import com.boding.view.dialog.NetworkUnavaiableDialog;
+import com.boding.view.dialog.ProgressBarDialog;
+import com.boding.view.dialog.WarningDialog;
+
+public class SetNewPasswordActivity extends BodingBaseActivity {
 	private LinearLayout confirmLinearLayout;
 	private EditText newPasswordEditText;
 	private EditText confirmPasswordEditText;
-	
-	private ProgressBarDialog progressBarDialog;
-	private WarningDialog warningDialog;
 	
 	private String cardNo;
 	
@@ -36,6 +32,7 @@ public class SetNewPasswordActivity extends Activity {
 		setContentView(R.layout.activity_setnewpassword);
 		progressBarDialog = new ProgressBarDialog(this);
 		warningDialog = new WarningDialog(this);
+		networkUnavaiableDialog = new NetworkUnavaiableDialog (this);
 		Bundle arguments = getIntent().getExtras();
         if(arguments != null){
         	cardNo = arguments.getString(IntentExtraAttribute.FORGETPWD_USERCARDNO);
@@ -72,6 +69,10 @@ public class SetNewPasswordActivity extends Activity {
 				if(!newPwd.equals(confirmPasswordEditText.getText().toString())){
 					warningDialog.setContent("«Î»∑»œ–¬√‹¬Î£°");
 					warningDialog.show();
+					return;
+				}
+				if(!Util.isNetworkAvailable(SetNewPasswordActivity.this)){
+					networkUnavaiableDialog.show();
 					return;
 				}
 				progressBarDialog.show();

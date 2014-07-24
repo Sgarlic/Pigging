@@ -2,6 +2,7 @@ package com.boding.app;
 
 
 import com.boding.R;
+import com.boding.constants.Constants;
 import com.boding.constants.GlobalVariables;
 import com.boding.constants.IntentRequestCode;
 import com.boding.util.Util;
@@ -56,7 +57,7 @@ public class SettingsActivity extends Activity {
 	
 	private void setViewContent(){
 		customerServiceLinearLayout.setVisibility(View.INVISIBLE);
-		phoneNumTextView.setText(GlobalVariables.contact_boding_phonenum);
+		phoneNumTextView.setText(Constants.BONDING_PHONENUM);
 	}
 	
 	private void addListeners(){
@@ -78,9 +79,7 @@ public class SettingsActivity extends Activity {
 		callBodingLinearLayout.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				String number = GlobalVariables.contact_boding_phonenum;
-			    Intent intent = new Intent(Intent.ACTION_DIAL,Uri.parse("tel:" +number));
-			    startActivity(intent);
+				Util.dialPhone(SettingsActivity.this);
 			}
 		});
 		cancelLinearLayout.setOnClickListener(new OnClickListener() {

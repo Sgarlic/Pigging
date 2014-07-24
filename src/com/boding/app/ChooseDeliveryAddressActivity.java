@@ -1,21 +1,17 @@
 package com.boding.app;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import com.boding.R;
-import com.boding.constants.Constants;
 import com.boding.constants.HTTPAction;
 import com.boding.constants.IntentExtraAttribute;
 import com.boding.constants.IntentRequestCode;
 import com.boding.model.DeliveryAddress;
-import com.boding.model.Passenger;
 import com.boding.task.DeliveryAddrTask;
-import com.boding.task.PassengerTask;
 import com.boding.util.Util;
 import com.boding.view.dialog.ProgressBarDialog;
+import com.boding.view.dialog.NetworkUnavaiableDialog;
 import com.boding.view.dialog.WarningDialog;
 
 import android.app.Activity;
@@ -31,20 +27,15 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 
-public class ChooseDeliveryAddressActivity extends Activity {
+public class ChooseDeliveryAddressActivity extends BodingBaseActivity {
 	private LinearLayout completeLinearLayout;
 	private LinearLayout addNewAddrLinearLayout;
 	private ListView deliveryAddrListView;
 	
 	private DeliveryAddress selectedAddr;
-	
-	private ProgressBarDialog progressBarDialog;
-	
 	
 	private Bundle bundle;	
 	private DeliveryAddressAdapter addressAdapter;
@@ -52,6 +43,8 @@ public class ChooseDeliveryAddressActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_choose_deliveryaddress);
+		progressBarDialog = new ProgressBarDialog(this);
+		networkUnavaiableDialog = new NetworkUnavaiableDialog(this);
 		Bundle arguments = getIntent().getExtras();
         if(arguments != null){
         	if(arguments.containsKey(IntentExtraAttribute.CHOOSED_DELIVERADDR_EXTRA)){
@@ -83,9 +76,11 @@ public class ChooseDeliveryAddressActivity extends Activity {
 	}
 
 	private void viewContentSetting(){
-		progressBarDialog = new ProgressBarDialog(this);
+		if(!Util.isNetworkAvailable(ChooseDeliveryAddressActivity.this)){
+			networkUnavaiableDialog.show();
+			return;
+		}
 		progressBarDialog.show();
-		
 		DeliveryAddrTask deliveryAddrTask = new DeliveryAddrTask(this, HTTPAction.GET_DELIVERYADDRLIST);
 		deliveryAddrTask.execute();
 	}
@@ -111,9 +106,8 @@ public class ChooseDeliveryAddressActivity extends Activity {
 			@Override
 			public void onClick(View arg0) {
 				if(selectedAddr == null){
-            		WarningDialog dialog = new WarningDialog(ChooseDeliveryAddressActivity.this);
-            		dialog.setContent("请选择一个配送地址");
-            		dialog.show();
+            		warningDialog.setContent("请选择一个配送地址");
+            		warningDialog.show();
             		return;
             	}
 				Intent intent=new Intent();
@@ -156,11 +150,6 @@ public class ChooseDeliveryAddressActivity extends Activity {
 					addressList.set(i, deliverAddr);
 				}
 			}
-			notifyDataSetChanged();
-		}
-		
-		public void addNewAddr(DeliveryAddress addr){
-			addressList.add(addr);
 			notifyDataSetChanged();
 		}
 

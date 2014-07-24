@@ -41,6 +41,7 @@ public class IntentExtraAttribute {
 	
 	public static final String CHOOSED_ORDER_ID = "choosedOrderId";
 	public static final String NEW_CREATED_ORDER = "newCreatedOrder";
+	public static final String IS_ORDER_CREATED = "isOrderCreated";
 	
 	/**
 	 * Payment

@@ -27,7 +27,6 @@ import com.boding.app.CitySelectActivity;
 import com.boding.constants.Constants;
 import com.boding.constants.GlobalVariables;
 import com.boding.constants.IntentRequestCode;
-import com.boding.model.City;
 import com.boding.util.DateUtil;
 import com.boding.view.dialog.SelectionDialog;
 import com.boding.view.dialog.SelectionDialog.OnItemSelectedListener;
@@ -54,8 +53,6 @@ public class AddLowPriceDomesticFragment extends Fragment {
     List<String> subsWayList = new ArrayList<String>();
     List<String> discountList = new ArrayList<String>();
     
-    private City firstHotDomesticCity;
-    private City secondHotDomesticCity;
     /**
      * When creating, retrieve this instance's number from its arguments.
      */

@@ -18,9 +18,6 @@ package com.boding.app;
 import java.util.ArrayList;
 
 import android.content.Context;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -29,20 +26,18 @@ import android.support.v4.app.FragmentTabHost;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TabHost;
 import android.widget.TabWidget;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.boding.R;
 import com.boding.constants.Constants;
 import com.boding.constants.GlobalVariables;
 import com.boding.constants.IntentRequestCode;
 import com.boding.util.Util;
-import com.boding.view.dialog.ProgressBarDialog;
 import com.boding.view.dialog.SearchCityDialog;
 import com.boding.view.fragment.CitySelectFragment;
 
@@ -56,12 +51,10 @@ public class CitySelectActivity extends FragmentActivity {
 	private static final String NATIONAL_CITY = "国内城市";
 	private static final String INTERNATIONAL_CITY = "国际城市";
 	FragmentTabHost mTabHost;
-	ProgressBarDialog progressBarDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        progressBarDialog = new ProgressBarDialog(this);
         
         Bundle arguments = getIntent().getExtras();
         if(arguments != null)
@@ -107,71 +100,6 @@ public class CitySelectActivity extends FragmentActivity {
     }
     
 
-    private void getLocatedCity(){
-    	progressBarDialog.show();
-    	final LocationManager lm = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-    	System.out.println(lm.getAllProviders());
-//    	boolean isGPSEnabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
-    	boolean isNetWorkEnabled = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-    	Location location = null;
-    	if(!isNetWorkEnabled){
-    		progressBarDialog.dismiss(); 
-        	Toast.makeText(this, "请打开gps来定位城市！", Toast.LENGTH_SHORT).show();
-        	return;
-    	}
-//    	if(isGPSEnabled)
-//    		location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-//    	else if(isNetWorkEnabled)
-		location = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-		lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 2000, 0, new LocationListener() {
-			@Override
-			public void onStatusChanged(String provider, int status, Bundle extras) {
-				
-			}
-			
-			@Override
-			public void onProviderEnabled(String provider) {
-				
-			}
-			
-			@Override
-			public void onProviderDisabled(String provider) {
-				
-			}
-			
-			@Override
-			public void onLocationChanged(Location location) {
-				if(location==null){
-					location = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-				}
-			}
-		});
-    		
-//        Criteria criteria = new Criteria();
-//        criteria.setAccuracy(Criteria.ACCURACY_FINE);
-//        criteria.setAltitudeRequired(false);
-//        criteria.setBearingRequired(false);
-//        criteria.setCostAllowed(true);
-//        criteria.setPowerRequirement(Criteria.POWER_LOW);
-//        
-//    	Geocoder geoCoder = new Geocoder(getBaseContext(), Locale.getDefault());
-//    	try {
-//    	   List<Address> addresses = geoCoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-//
-//    	   String add = "";
-//    	   if (addresses.size() > 0) 
-//    	   {
-//    	      for (int i=0; i<addresses.get(0).getMaxAddressLineIndex();i++)
-//    	     add += addresses.get(0).getAddressLine(i) + "\n";
-//    	   }
-//
-//    	}
-//    	catch (IOException e1) {                
-//    	   e1.printStackTrace();
-//    	}   
-//    	progressBarDialog.dismiss();; 
-    }
-    
     private void initView(){
     	setTitle();
         
@@ -226,12 +154,10 @@ public class CitySelectActivity extends FragmentActivity {
         private final ArrayList<TabInfo> mTabs = new ArrayList<TabInfo>();
 
         static final class TabInfo {
-            private final String tag;
             private final Class<?> clss;
             private final Bundle args;
 
             TabInfo(String _tag, Class<?> _class, Bundle _args) {
-                tag = _tag;
                 clss = _class;
                 args = _args;
             }

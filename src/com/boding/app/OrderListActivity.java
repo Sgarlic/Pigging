@@ -13,6 +13,7 @@ import com.boding.constants.OrderFilterStatus;
 import com.boding.model.Order;
 import com.boding.task.OrderTask;
 import com.boding.util.Util;
+import com.boding.view.dialog.NetworkUnavaiableDialog;
 import com.boding.view.dialog.ProgressBarDialog;
 import com.boding.view.listview.DragListView;
 import com.boding.view.listview.DragListView.OnRefreshLoadingMoreListener;
@@ -43,12 +44,11 @@ import android.widget.TextView;
  * @author shiyge
  *
  */
-public class OrderListActivity extends Activity{
+public class OrderListActivity extends BodingBaseActivity{
 	private LinearLayout orderFilterLinearLayout;
 	private TextView orderFilterTypeTextView;
 	private DragListView ordersListView;
 	
-	private ProgressBarDialog progressBarDialog;
 	private int currentPage = 0;
 	private List<Order> ordersList = new ArrayList<Order>();
 	
@@ -76,6 +76,7 @@ public class OrderListActivity extends Activity{
 //        if(arguments != null)
 //        	isReturnDateSelection = arguments.getBoolean(Constants.IS_RETURN_DATE_SELECTION);
         progressBarDialog = new ProgressBarDialog(this);
+        networkUnavaiableDialog = new NetworkUnavaiableDialog (this);
 		initView();
 		
 		
@@ -85,6 +86,10 @@ public class OrderListActivity extends Activity{
 	private void setOrdersView(){
 		currentPage++;
 		if(currentPage == 1){
+			if(!Util.isNetworkAvailable(this)){
+				networkUnavaiableDialog.show();
+				return;
+			}
 			progressBarDialog.show();
 		}
 		if(currentFilterStatus == OrderFilterStatus.TICKET_ALREADY_GENERATED){

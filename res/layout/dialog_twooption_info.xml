@@ -6,13 +6,15 @@
     android:minWidth="280dp"
     android:orientation="vertical"
     tools:ignore="MergeRootFrame" >
+
 	<TextView
-	    android:id="@+id/warning_content_textView"
-	    android:layout_width="match_parent"
-	    android:layout_height="70dp"
+	    android:id="@+id/twooption_content_textView"
+	    android:layout_width="210dp"
+	    android:layout_height="80dp"
+	    android:layout_gravity="center_horizontal"
 	    android:gravity="center"
 	    android:padding="5dip"
-	    android:text="出发和到达不能为同一城市"
+	    android:text="未连接到互联网，请检查网络配置。您也可以拨打波丁客服电话咨询。"
 	    android:textColor="@color/black"
 	    android:textSize="18sp" />
 
@@ -21,17 +23,40 @@
 	    android:layout_height="1dp"
 	    android:background="@color/tabDivider"
 	    android:orientation="vertical" >
-
     </LinearLayout>
 
-	<TextView
-	    android:id="@+id/warning_known_textView"
+	<LinearLayout
 	    android:layout_width="match_parent"
-	    android:layout_height="50dp"
-	    android:gravity="center"
-	    android:padding="5dip"
-	    android:text="知道了"
-	    android:textColor="@color/black"
-	    android:textSize="18sp" />
+	    android:layout_height="wrap_content"
+	    android:layout_weight="1"
+	    android:orientation="horizontal" >
+
+		<TextView
+		    android:id="@+id/twooption_leftOption_textView"
+		    android:layout_width="wrap_content"
+		    android:layout_height="50dp"
+		    android:layout_weight="1"
+		    android:gravity="center"
+		    android:padding="5dip"
+		    android:text="知道了"
+		    android:textColor="@color/black"
+		    android:textSize="18sp" />
+		<LinearLayout
+		    android:layout_width="1dp"
+		    android:layout_height="match_parent"
+		    android:background="@color/tabDivider"
+		    android:orientation="vertical" >
+	    </LinearLayout>
+	    <TextView
+	        android:id="@+id/twooption_rightOption_textView"
+	        android:layout_width="wrap_content"
+	        android:layout_height="50dp"
+	        android:layout_weight="1"
+	        android:gravity="center"
+	        android:padding="5dip"
+	        android:text="拨打电话"
+	        android:textColor="@color/black"
+	        android:textSize="18sp" />
+	</LinearLayout>
 </LinearLayout>
 

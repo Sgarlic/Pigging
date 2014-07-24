@@ -7,6 +7,7 @@ import com.boding.task.BodingUserTask;
 import com.boding.util.RegularExpressionsUtil;
 import com.boding.util.Util;
 import com.boding.view.dialog.ProgressBarDialog;
+import com.boding.view.dialog.NetworkUnavaiableDialog;
 import com.boding.view.dialog.WarningDialog;
 
 import android.app.Activity;
@@ -18,15 +19,12 @@ import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
-public class ChangePhonenumActivity extends Activity {
+public class ChangePhonenumActivity extends BodingBaseActivity {
 	private EditText currentPhonenumEditText;
 	private EditText newPhonenumEditText;
 	private EditText verificationNumEditText;
 	private LinearLayout sendVerificationNumLinearLayout;
 	private LinearLayout confirmLinearLayout;
-	
-	private ProgressBarDialog progressBarDialog;
-	private WarningDialog warningDialog;
 	
 	private String verifyCode = "";
 	@Override
@@ -36,6 +34,7 @@ public class ChangePhonenumActivity extends Activity {
 	
 		progressBarDialog = new ProgressBarDialog(this);
 		warningDialog = new WarningDialog(this);
+		networkUnavaiableDialog = new NetworkUnavaiableDialog(this);
 //		selectedIDType = IdentityType.values()[0];
 //		Bundle arguments = getIntent().getExtras();
 //        if(arguments != null)
@@ -76,6 +75,12 @@ public class ChangePhonenumActivity extends Activity {
 					warningDialog.show();
 					return;
 				}
+				
+				if(!Util.isNetworkAvailable(ChangePhonenumActivity.this)){
+					networkUnavaiableDialog.show();
+					return;
+				}
+				
 				progressBarDialog.show();
 				(new BodingUserTask(ChangePhonenumActivity.this, HTTPAction.VERIFY_OLD_PHONENUM_CHANGEPHONEACTIVITY))
 				.execute(currentPhoneNum);
@@ -108,6 +113,10 @@ public class ChangePhonenumActivity extends Activity {
 					return;
 				}
 				
+				if(!Util.isNetworkAvailable(ChangePhonenumActivity.this)){
+					networkUnavaiableDialog.show();
+					return;
+				}
 				progressBarDialog.show();
 				(new BodingUserTask(ChangePhonenumActivity.this, HTTPAction.BIND_NEW_PHONENUM))
 					.execute(newPhoneNum);

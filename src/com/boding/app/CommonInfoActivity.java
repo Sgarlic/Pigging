@@ -1,20 +1,18 @@
 package com.boding.app;
 
 
-import com.boding.R;
-import com.boding.constants.GlobalVariables;
-import com.boding.constants.IntentExtraAttribute;
-import com.boding.constants.IntentRequestCode;
-import com.boding.util.Util;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.TextView;
+
+import com.boding.R;
+import com.boding.constants.GlobalVariables;
+import com.boding.constants.IntentExtraAttribute;
+import com.boding.constants.IntentRequestCode;
+import com.boding.util.Util;
 
 public class CommonInfoActivity extends Activity {
 	private LinearLayout commonPassengersLinearLayout;

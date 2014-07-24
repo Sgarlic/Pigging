@@ -1,10 +1,13 @@
 package com.boding.task;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.security.NoSuchAlgorithmException;
@@ -16,32 +19,21 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
-import android.os.AsyncTask;
-import android.util.Log;
 
 import com.boding.app.AddPassengerInfoActivity;
+import com.boding.app.BodingBaseActivity;
 import com.boding.app.ChoosePassengerActivity;
 import com.boding.app.CommonInfoMPassengerActivity;
-import com.boding.app.LoginActivity;
-import com.boding.app.TicketSearchResultActivity;
 import com.boding.constants.Constants;
 import com.boding.constants.GlobalVariables;
 import com.boding.constants.HTTPAction;
 import com.boding.constants.IdentityType;
-import com.boding.model.BodingUser;
-import com.boding.model.Country;
 import com.boding.model.Passenger;
-import com.boding.model.domestic.Airlines;
 import com.boding.util.Encryption;
-import com.boding.util.Util;
 
-public class PassengerTask extends AsyncTask<Object,Void,Object>{
-	private Context context;
-	private HTTPAction action;
-
+public class PassengerTask extends BodingBaseAsyncTask{
 	public PassengerTask(Context context, HTTPAction action){
-		this.context = context;
-		this.action = action;
+		super(context, action);
 	}
 	
 	public boolean addPassenger(Passenger passenger){
@@ -238,28 +230,6 @@ public class PassengerTask extends AsyncTask<Object,Void,Object>{
 		
 		return passengers;
 	}
-	
-
-	public String connectingServer(String urlStr){
-		System.out.println(urlStr);
-		StringBuilder sbr = new StringBuilder();
-		URL url;
-		try {
-			url = new URL(urlStr);
-			HttpURLConnection httpc = (HttpURLConnection)url.openConnection();
-			httpc.connect();
-			
-			InputStream is = httpc.getInputStream();
-			BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-			String lines;
-			while((lines = reader.readLine()) != null){
-				sbr.append(lines);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return sbr.toString();
-	}
 
 	@Override
 	protected Object doInBackground(Object... params) {
@@ -286,6 +256,10 @@ public class PassengerTask extends AsyncTask<Object,Void,Object>{
 	
 	@Override  
 	 protected void onPostExecute(Object result) {
+		if(isTimeout){
+			((BodingBaseActivity)context).handleTimeout();
+			return;
+		}
 		switch (action) {
 			case GET_PASSENGERLIST:
 				ChoosePassengerActivity passengerActivity = (ChoosePassengerActivity)context;

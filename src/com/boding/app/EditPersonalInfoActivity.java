@@ -3,18 +3,7 @@ package com.boding.app;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import com.boding.R;
-import com.boding.constants.Constants;
-import com.boding.constants.GlobalVariables;
-import com.boding.constants.HTTPAction;
-import com.boding.constants.IntentRequestCode;
-import com.boding.task.BodingUserTask;
-import com.boding.util.DateUtil;
-import com.boding.util.Util;
-import com.boding.view.dialog.ProgressBarDialog;
-import com.boding.view.dialog.SelectionDialog;
-import com.boding.view.dialog.WarningDialog;
-import com.boding.view.dialog.SelectionDialog.OnItemSelectedListener;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.DatePickerDialog;
@@ -29,17 +18,27 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.boding.R;
+import com.boding.constants.GlobalVariables;
+import com.boding.constants.HTTPAction;
+import com.boding.constants.IntentRequestCode;
+import com.boding.task.BodingUserTask;
+import com.boding.util.DateUtil;
+import com.boding.util.Util;
+import com.boding.view.dialog.ProgressBarDialog;
+import com.boding.view.dialog.SelectionDialog;
+import com.boding.view.dialog.SelectionDialog.OnItemSelectedListener;
+import com.boding.view.dialog.NetworkUnavaiableDialog;
+import com.boding.view.dialog.WarningDialog;
+
 @SuppressLint("NewApi")
-public class EditPersonalInfoActivity extends Activity {
+public class EditPersonalInfoActivity extends BodingBaseActivity {
 	private LinearLayout completeLinearLayout;
-	private TextView userNameTextView;
 	private EditText userNameEditText;
 	private LinearLayout chooseGenderLinearLayout;
 	private TextView choosedGenderTextView;
 	private LinearLayout chooseBirthdayLinearLayout;
 	private TextView choosedBirthdayTextView;
-	
-	private ProgressBarDialog progressBarDialog;
 	
 	List<String> genderList = new ArrayList<String>();
 	
@@ -48,6 +47,8 @@ public class EditPersonalInfoActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_edit_personalinfo);
 		progressBarDialog = new ProgressBarDialog(this);
+		networkUnavaiableDialog = new NetworkUnavaiableDialog(this);
+		warningDialog = new WarningDialog(this);
 //		selectedIDType = IdentityType.values()[0];
 //		Bundle arguments = getIntent().getExtras();
 //        if(arguments != null)
@@ -83,7 +84,6 @@ public class EditPersonalInfoActivity extends Activity {
 		});
 		completeLinearLayout = (LinearLayout) findViewById(R.id.editpersonalinfo_complete_linearLayout);
 
-		userNameTextView = (TextView) findViewById(R.id.editpersonalinfo_userName_textView);
 		userNameEditText = (EditText) findViewById(R.id.editpersonalinfo_input_userName_editText);
 		chooseGenderLinearLayout = (LinearLayout) findViewById(R.id.editpersonalinfo_chooseGenderlinearLayout);
 		choosedGenderTextView = (TextView) findViewById(R.id.editpersonalinfo_choosedGender_textView);
@@ -156,6 +156,10 @@ public class EditPersonalInfoActivity extends Activity {
 		completeLinearLayout.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
+				if(!Util.isNetworkAvailable(EditPersonalInfoActivity.this)){
+					networkUnavaiableDialog.show();
+					return;
+				}
 				progressBarDialog.show();
 				(new BodingUserTask(EditPersonalInfoActivity.this, HTTPAction.EDIT_PERSONAL_INFO)).execute();
 			}
@@ -170,7 +174,6 @@ public class EditPersonalInfoActivity extends Activity {
 			finish();
 		}
 		else{
-			WarningDialog warningDialog = new WarningDialog(this);
 			warningDialog.setContent("请填写正确的信息");
 		}
 	}

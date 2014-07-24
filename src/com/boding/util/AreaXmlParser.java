@@ -2,25 +2,13 @@ package com.boding.util;
 
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.List;
 
 import org.xmlpull.v1.XmlPullParser;
 
 import android.util.Xml;
 
 import com.boding.constants.GlobalVariables;
-import com.boding.model.AirlineView;
-import com.boding.model.Bind;
-import com.boding.model.Departure;
-import com.boding.model.FlightClass;
-import com.boding.model.FlightLine;
-import com.boding.model.FlightReturn;
-import com.boding.model.Price;
 import com.boding.model.Province;
-import com.boding.model.ReturnList;
-import com.boding.model.Rule;
-import com.boding.model.Segment;
-import com.boding.model.Tax;
 
 public class AreaXmlParser {
 	

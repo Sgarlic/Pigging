@@ -3,11 +3,24 @@ package com.boding.app;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.database.DataSetObserver;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.TextView;
+
 import com.boding.R;
-import com.boding.constants.Constants;
 import com.boding.constants.Gender;
 import com.boding.constants.GlobalVariables;
-import com.boding.constants.HTTPAction;
 import com.boding.constants.IdentityType;
 import com.boding.constants.IntentExtraAttribute;
 import com.boding.constants.IntentRequestCode;
@@ -19,29 +32,11 @@ import com.boding.model.Passenger;
 import com.boding.model.Segment;
 import com.boding.model.domestic.Cabin;
 import com.boding.model.domestic.Flight;
-import com.boding.util.CityUtil;
 import com.boding.util.RegularExpressionsUtil;
 import com.boding.util.Util;
-import com.boding.view.dialog.ProgressBarDialog;
 import com.boding.view.dialog.WarningDialog;
 import com.boding.view.layout.OrderFlightInfoILayout;
 import com.boding.view.layout.OrderFlightInfoLayout;
-import com.boding.task.OrderTask;
-
-import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.database.DataSetObserver;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.View.OnClickListener;
-import android.widget.BaseAdapter;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.TextView;
 
 public class OrderFormActivity extends Activity {
 	private LinearLayout flightInfoLinearLayout;
@@ -374,11 +369,6 @@ public class OrderFormActivity extends Activity {
 		public long getItemId(int position) {
 			return position;
 		}
-		
-		public void addPassenger(Passenger passenger){
-			passengerList.add(passenger);
-			notifyDataSetChanged();
-		}
 
 		@Override
 		public View getView(final int position, View convertView, ViewGroup parent) {
@@ -582,6 +572,13 @@ public class OrderFormActivity extends Activity {
 			}else
 				needInsurance = false;
 			setInsusrance();
+		}
+		if(requestCode==IntentRequestCode.ORDER_PAYEMNT.getRequestCode()){
+			if(data.getExtras() == null)
+				return;
+			if(data.getExtras().containsKey(IntentExtraAttribute.IS_ORDER_CREATED)){
+				Util.returnToPreviousPage(this, IntentRequestCode.ORDER_FORM);
+			}
 		}
 	}
 }

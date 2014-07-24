@@ -3,15 +3,13 @@ package com.boding.util;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Set;
-
-import com.boding.constants.GlobalVariables;
-import com.boding.model.BodingUser;
-import com.boding.model.City;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+
+import com.boding.constants.GlobalVariables;
+import com.boding.model.City;
 
 public class SharedPreferenceUtil {
 	public static final String IS_FIRSTRUN = "isFirstRun";

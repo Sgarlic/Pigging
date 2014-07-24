@@ -7,7 +7,9 @@ import com.boding.constants.IntentRequestCode;
 import com.boding.task.BodingUserTask;
 import com.boding.util.SharedPreferenceUtil;
 import com.boding.util.Util;
+import com.boding.view.dialog.NetworkUnavaiableDialog;
 import com.boding.view.dialog.ProgressBarDialog;
+import com.boding.view.dialog.WarningDialog;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -17,7 +19,7 @@ import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class MyPersonalInfoActivity extends Activity {
+public class MyPersonalInfoActivity extends BodingBaseActivity {
 	private TextView userNameTextView;
 	private LinearLayout uploadPortraitLinearLayout;
 	private LinearLayout editInfoLinearLayout;
@@ -28,13 +30,12 @@ public class MyPersonalInfoActivity extends Activity {
 	private LinearLayout changePhoneNumLinearLayout;
 	private LinearLayout exitLinearLayout;
 	
-	private ProgressBarDialog progressBarDialog;
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_mypersonalinfo);
 		progressBarDialog = new ProgressBarDialog(this);
+		networkUnavaiableDialog = new NetworkUnavaiableDialog (this);
 //		Bundle arguments = getIntent().getExtras();
 //        if(arguments != null)
 //        	isReturnDateSelection = arguments.getBoolean(Constants.IS_RETURN_DATE_SELECTION);
@@ -52,6 +53,10 @@ public class MyPersonalInfoActivity extends Activity {
 	}
 	
 	private void getPersonalInfo(){
+		if(!Util.isNetworkAvailable(MyPersonalInfoActivity.this)){
+			networkUnavaiableDialog.show();
+			return;
+		}
 		progressBarDialog.show();
 		(new BodingUserTask(this, HTTPAction.GET_PERSONAL_INFO)).execute();
 	}

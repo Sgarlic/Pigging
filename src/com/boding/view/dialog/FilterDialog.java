@@ -3,40 +3,25 @@ package com.boding.view.dialog;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.boding.R;
-import com.boding.app.TicketSearchResultActivity;
-import com.boding.constants.Constants;
-import com.boding.constants.GlobalVariables;
-import com.boding.model.AirlineView;
-import com.boding.model.FlightLine;
-import com.boding.util.Util;
-import com.boding.view.fragment.CitySelectFragment;
-
-import android.animation.TimeAnimator;
-import android.annotation.SuppressLint;
-import android.app.ActionBar.LayoutParams;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.graphics.Point;
-import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
-import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RadioGroup;
 import android.widget.TabHost;
 import android.widget.TextView;
+
+import com.boding.R;
+import com.boding.app.TicketSearchResultActivity;
+import com.boding.constants.Constants;
+import com.boding.constants.GlobalVariables;
 
 public class FilterDialog extends Dialog{
 	private Context context;

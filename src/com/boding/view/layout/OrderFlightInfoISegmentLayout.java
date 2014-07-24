@@ -1,27 +1,19 @@
 package com.boding.view.layout;
 
+import android.content.Context;
+import android.util.AttributeSet;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
 import com.boding.R;
-import com.boding.constants.Constants;
 import com.boding.constants.GlobalVariables;
-import com.boding.model.FlightLine;
 import com.boding.model.Segment;
 import com.boding.util.CityUtil;
 import com.boding.util.DateUtil;
 import com.boding.util.Util;
-import com.boding.view.dialog.SeatChangeBackDialog;
-
-import android.content.Context;
-import android.graphics.Color;
-import android.util.AttributeSet;
-import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.WindowManager;
-import android.view.View.OnClickListener;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 public class OrderFlightInfoISegmentLayout extends LinearLayout{
 	private Context context;

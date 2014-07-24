@@ -9,6 +9,7 @@ import com.boding.constants.IntentRequestCode;
 import com.boding.task.BodingUserTask;
 import com.boding.util.RegularExpressionsUtil;
 import com.boding.util.Util;
+import com.boding.view.dialog.NetworkUnavaiableDialog;
 import com.boding.view.dialog.ProgressBarDialog;
 import com.boding.view.dialog.WarningDialog;
 
@@ -23,7 +24,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class VerifyPhonenumActivity extends Activity {
+public class VerifyPhonenumActivity extends BodingBaseActivity {
 	private TextView titleTextView;
 	private EditText phoneNumEditText;
 	private EditText verificationNumEditText;
@@ -34,15 +35,13 @@ public class VerifyPhonenumActivity extends Activity {
 	private String verifyCode = "";
 	private String cardNo = "";
 	
-	private ProgressBarDialog progressBarDialog;
-	private WarningDialog warningDialog;
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_verfiy_phonenum);
 		warningDialog = new WarningDialog(this);
 		progressBarDialog = new ProgressBarDialog(this);
+		networkUnavaiableDialog = new NetworkUnavaiableDialog (this);
 		Bundle arguments = getIntent().getExtras();
         if(arguments != null)
         	verifyPhonenumType = arguments.getString(IntentExtraAttribute.VERIFY_PHONENUM_TYPE);
@@ -101,6 +100,10 @@ public class VerifyPhonenumActivity extends Activity {
 					warningDialog.show();
 					return;
 				}
+				if(!Util.isNetworkAvailable(VerifyPhonenumActivity.this)){
+					networkUnavaiableDialog.show();
+					return;
+				}
 				progressBarDialog.show();
 				if(verifyPhonenumType.equals("4")){
 					(new BodingUserTask(VerifyPhonenumActivity.this, HTTPAction.FORGETPASSWORD_GETCARDNO))
@@ -142,6 +145,10 @@ public class VerifyPhonenumActivity extends Activity {
 					startActivity(intent);
 					VerifyPhonenumActivity.this.finish();
 				}else{
+					if(!Util.isNetworkAvailable(VerifyPhonenumActivity.this)){
+						networkUnavaiableDialog.show();
+						return;
+					}
 					progressBarDialog.show();
 					(new BodingUserTask(VerifyPhonenumActivity.this, HTTPAction.ACTIVIATE)).execute(phoneNum);
 				}

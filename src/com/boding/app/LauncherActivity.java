@@ -19,6 +19,8 @@ import com.boding.util.AreaXmlParser;
 import com.boding.util.CityUtil;
 import com.boding.util.DateUtil;
 import com.boding.util.SharedPreferenceUtil;
+import com.boding.util.Util;
+import com.boding.view.dialog.NetworkUnavaiableDialog;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -32,11 +34,18 @@ public class LauncherActivity extends Activity {
 	private final int SPLASH_DISPLAY_LENGHT = 3000; //—”≥Ÿ»˝√Î   
 	public LocationClient mLocationClient;
 	public MyLocationListener mMyLocationListener;
+	private NetworkUnavaiableDialog networkUnavaiableDialog;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_launcher);
+		networkUnavaiableDialog = new NetworkUnavaiableDialog (this);
+
+		if(!Util.isNetworkAvailable(this)){
+			networkUnavaiableDialog.show();
+			return;
+		}
 		
 		mLocationClient = new LocationClient(this.getApplicationContext());
 		mMyLocationListener = new MyLocationListener();

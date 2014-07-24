@@ -1,23 +1,16 @@
 package com.boding.view.layout;
 
-import java.util.List;
-
-import com.boding.R;
-import com.boding.constants.GlobalVariables;
-import com.boding.model.OrderFlight;
-import com.boding.model.domestic.Flight;
-import com.boding.util.DateUtil;
-import com.boding.util.Util;
-import com.boding.view.dialog.SelectionDialog;
-import com.boding.view.dialog.SeatChangeBackDialog;
-
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.boding.R;
+import com.boding.constants.GlobalVariables;
+import com.boding.model.OrderFlight;
+import com.boding.view.dialog.SeatChangeBackDialog;
 
 public class OrderDetailFlightInfoLayout extends LinearLayout{
 	private Context context;

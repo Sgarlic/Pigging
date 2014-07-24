@@ -8,6 +8,7 @@ import com.boding.task.BodingUserTask;
 import com.boding.util.RegularExpressionsUtil;
 import com.boding.util.Util;
 import com.boding.view.dialog.ProgressBarDialog;
+import com.boding.view.dialog.NetworkUnavaiableDialog;
 import com.boding.view.dialog.WarningDialog;
 
 import android.app.Activity;
@@ -17,7 +18,7 @@ import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
-public class ChangePasswordActivity extends Activity {
+public class ChangePasswordActivity extends BodingBaseActivity {
 	private LinearLayout completeLinearLayout;
 	private EditText currentPasswordEditText;
 	private EditText newPasswordEditText;
@@ -25,6 +26,7 @@ public class ChangePasswordActivity extends Activity {
 	
 	private ProgressBarDialog progressBarDialog;
 	private WarningDialog warningDialog;
+	private NetworkUnavaiableDialog networkUnavaiableDialog;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +34,7 @@ public class ChangePasswordActivity extends Activity {
 		setContentView(R.layout.activity_changepassword);
 		progressBarDialog = new ProgressBarDialog(this);
 		warningDialog = new WarningDialog(this);
+		networkUnavaiableDialog = new NetworkUnavaiableDialog(this);
 //		Bundle arguments = getIntent().getExtras();
 //        if(arguments != null)
 //        	isReturnDateSelection = arguments.getBoolean(Constants.IS_RETURN_DATE_SELECTION);
@@ -71,6 +74,10 @@ public class ChangePasswordActivity extends Activity {
 				if(!newPwd.equals(confirmPasswordEditText.getText().toString())){
 					warningDialog.setContent("«Î»∑»œ–¬√‹¬Î£°");
 					warningDialog.show();
+					return;
+				}
+				if(!Util.isNetworkAvailable(ChangePasswordActivity.this)){
+					networkUnavaiableDialog.show();
 					return;
 				}
 				progressBarDialog.show();

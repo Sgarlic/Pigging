@@ -1,18 +1,17 @@
 package com.boding.app;
 
-import com.boding.R;
-import com.boding.constants.GlobalVariables;
-import com.boding.constants.IntentRequestCode;
-import com.boding.util.Util;
-
 import android.app.Activity;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.boding.R;
+import com.boding.constants.Constants;
+import com.boding.constants.GlobalVariables;
+import com.boding.constants.IntentRequestCode;
+import com.boding.util.Util;
 
 public class ContactBodingActivity extends Activity {
 	private TextView phoneNumTextView;
@@ -44,16 +43,14 @@ public class ContactBodingActivity extends Activity {
 	}
     
     private void setViewContent(){
-    	phoneNumTextView.setText(GlobalVariables.contact_boding_phonenum);
+    	phoneNumTextView.setText(Constants.BONDING_PHONENUM);
     }
     
     private void addListeners(){
     	contactPhoneLinearLayout.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				String number = GlobalVariables.contact_boding_phonenum;
-			    Intent intent = new Intent(Intent.ACTION_DIAL,Uri.parse("tel:" +number));
-			    startActivity(intent);
+				Util.dialPhone(ContactBodingActivity.this);
 			}
 		});
     }

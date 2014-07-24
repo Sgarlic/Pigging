@@ -1,36 +1,29 @@
 package com.boding.view.dialog;
 
 import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
 
-import com.boding.R;
-import com.boding.constants.Constants;
-import com.boding.constants.GlobalVariables;
-import com.boding.model.Country;
-import com.boding.util.Util;
-
 import android.app.Dialog;
-import android.content.ContentValues;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.widget.AdapterView;
-import android.widget.BaseAdapter;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.BaseAdapter;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import com.boding.R;
+import com.boding.constants.Constants;
+import com.boding.constants.GlobalVariables;
+import com.boding.model.Country;
 
 public class SearchNationalityDialog extends Dialog{
 	private EditText citySearchEditText;

@@ -15,24 +15,15 @@
  */
 package com.boding.app;
 
-import java.util.ArrayList;
-
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTabHost;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
-import android.widget.TabHost;
 import android.widget.TabHost.OnTabChangeListener;
-import android.widget.TabWidget;
 import android.widget.TextView;
 
 import com.boding.R;
@@ -45,6 +36,7 @@ import com.boding.task.LowPriceSubscribeTask;
 import com.boding.util.RegularExpressionsUtil;
 import com.boding.util.Util;
 import com.boding.view.dialog.ProgressBarDialog;
+import com.boding.view.dialog.NetworkUnavaiableDialog;
 import com.boding.view.dialog.WarningDialog;
 import com.boding.view.fragment.AddLowPriceDomesticFragment;
 import com.boding.view.fragment.AddLowPriceInternationalFragment;
@@ -54,21 +46,18 @@ import com.boding.view.fragment.AddLowPriceInternationalFragment;
  * that switches between tabs and also allows the user to perform horizontal
  * flicks to move between the tabs.
  */
-public class AddLowpriceSubsActivity extends FragmentActivity {
+public class AddLowpriceSubsActivity extends BodingBaseActivity {
 	private LinearLayout completeLinearLayout;
 	
 	private static final String LOWPRICE_DOMESTIC = "国内";
 	private static final String lOWPRICE_INTERNATIONAL = "国际";
 	FragmentTabHost mTabHost;
-	ProgressBarDialog progressBarDialog;
-
-	WarningDialog warningDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         progressBarDialog = new ProgressBarDialog(this);
         warningDialog = new WarningDialog(this);
-        
+        networkUnavaiableDialog = new NetworkUnavaiableDialog(this);
         setContentView(R.layout.activity_add_lowpricesubscribe);
         
 
@@ -165,6 +154,11 @@ public class AddLowpriceSubsActivity extends FragmentActivity {
 					warningDialog.show();
 					return;
 				}
+				if(!Util.isNetworkAvailable(AddLowpriceSubsActivity.this)){
+					networkUnavaiableDialog.show();
+					return;
+				}
+				
 				progressBarDialog.show();
 				(new LowPriceSubscribeTask(AddLowpriceSubsActivity.this, HTTPAction.ADD_LOWPRICESUB)).execute(GlobalVariables.currentSubscribe);
 			}

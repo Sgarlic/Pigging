@@ -5,12 +5,12 @@ import com.boding.constants.GlobalVariables;
 import com.boding.constants.HTTPAction;
 import com.boding.constants.IntentExtraAttribute;
 import com.boding.constants.IntentRequestCode;
-import com.boding.model.City;
 import com.boding.model.FlightDynamics;
 import com.boding.task.FlightDynamicsTask;
 import com.boding.util.CityUtil;
 import com.boding.util.Util;
 import com.boding.view.dialog.ProgressBarDialog;
+import com.boding.view.dialog.NetworkUnavaiableDialog;
 import com.boding.view.dialog.WarningDialog;
 
 import android.app.Activity;
@@ -22,7 +22,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class FlightBoardActivity extends Activity {
+public class FlightBoardActivity extends BodingBaseActivity {
 	private FlightDynamics dynamics;
 	
 	private TextView planeInfoTextView;
@@ -51,15 +51,13 @@ public class FlightBoardActivity extends Activity {
 	private LinearLayout fromDividerLinearLayout;
 	private LinearLayout toDividerLinearLayout;
 	
-	private WarningDialog warningDialog;
-	private ProgressBarDialog progressBarDialog;
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_flightboard);
 		warningDialog = new WarningDialog(this);
 		progressBarDialog = new ProgressBarDialog(this);
+		networkUnavaiableDialog = new NetworkUnavaiableDialog(this);
 		
 		Bundle arguments = getIntent().getExtras();
 		dynamics = arguments.getParcelable(IntentExtraAttribute.FLIGHT_DYNAMIC);
@@ -87,7 +85,10 @@ public class FlightBoardActivity extends Activity {
 					Util.showToast(FlightBoardActivity.this, "最多只能关注5个航班");
 					return;
 				}
-				
+				if(!Util.isNetworkAvailable(FlightBoardActivity.this)){
+					networkUnavaiableDialog.show();
+					return;
+				}
 				progressBarDialog.show();
 				if(dynamics.isFollowed()){
 					if(dynamics.getId() == null || dynamics.getId().equals("")){

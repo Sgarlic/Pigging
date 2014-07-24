@@ -4,12 +4,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
-import com.boding.R;
-import com.boding.util.Util;
-import com.boding.view.calendar.DateSelectCalendarView;
-import com.boding.view.calendar.DateSelectCalendarView.OnItemClickListener;
-
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.drawable.BitmapDrawable;
 import android.util.AttributeSet;
@@ -17,16 +12,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.View.OnLayoutChangeListener;
-import android.view.ViewGroup.LayoutParams;
-import android.view.ViewTreeObserver;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import com.boding.R;
+import com.boding.view.calendar.DateSelectCalendarView;
 
+@SuppressLint("NewApi")
 public class CalendarLayout extends LinearLayout{
 	private TextView currYearTextView;
 	private TextView currMonthTextView;

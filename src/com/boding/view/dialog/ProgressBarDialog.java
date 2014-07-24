@@ -1,13 +1,11 @@
 package com.boding.view.dialog;
 
-import java.util.List;
-
-import com.boding.R;
-import com.boding.constants.Constants;
-
 import android.app.Dialog;
 import android.content.Context;
 import android.widget.ProgressBar;
+
+import com.boding.R;
+import com.boding.constants.Constants;
 
 public class ProgressBarDialog extends Dialog{
 	private Context context;

@@ -14,8 +14,8 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -26,7 +26,6 @@ import com.boding.app.CitySelectActivity;
 import com.boding.constants.Constants;
 import com.boding.constants.GlobalVariables;
 import com.boding.constants.IntentRequestCode;
-import com.boding.model.City;
 import com.boding.util.DateUtil;
 import com.boding.view.dialog.SelectionDialog;
 import com.boding.view.dialog.SelectionDialog.OnItemSelectedListener;
@@ -61,8 +60,6 @@ public class AddLowPriceInternationalFragment extends Fragment {
     List<String> discountList = new ArrayList<String>();
     List<String> beforeAfterDayList = new ArrayList<String>();
 
-    private City firstHotInternationalCity;
-    private City secondHotInternationalCity;
     /**
      * When creating, retrieve this instance's number from its arguments.
      */
