@@ -145,10 +145,10 @@ public class OrderListActivity extends BodingBaseActivity{
 	public void setOrderList(List<Order> orderList){
 		ordersList.addAll(orderList);
 		adapter.notifyDataSetChanged();
-		boolean hasMoreInfo = true;
+		boolean isComplete = false;
 		if(orderList.size() == 0)
-			hasMoreInfo = false;
-		ordersListView.onLoadMoreComplete(hasMoreInfo);
+			isComplete = true;
+		ordersListView.onLoadMoreComplete(isComplete);
 		progressBarDialog.dismiss();
 	}
 	

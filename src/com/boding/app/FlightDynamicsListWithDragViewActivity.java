@@ -1,6 +1,7 @@
 package com.boding.app;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
@@ -16,7 +17,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.boding.R;
@@ -31,14 +31,21 @@ import com.boding.util.Util;
 import com.boding.view.dialog.NetworkUnavaiableDialog;
 import com.boding.view.dialog.ProgressBarDialog;
 import com.boding.view.dialog.WarningDialog;
+import com.boding.view.listview.DragListView;
+import com.boding.view.listview.DragListView.OnRefreshLoadingMoreListener;
 
-public class FlightDynamicsListActivity extends BodingBaseActivity{
+public class FlightDynamicsListWithDragViewActivity extends BodingBaseActivity{
 	private TextView titleTextView;
-	private ListView flightDynamicsListView;
+	private DragListView flightDynamicsListView;
 	private FlightDynamicsAdapter adapter;
 	
 	private boolean isFollowsList;
 	private FlightDynamicQuery fdq;
+	
+	private List<FlightDynamics> allFlightDynamics;
+	private int allFlightSize = 0;
+	private List<FlightDynamics> listedFlightDynamics = new ArrayList<FlightDynamics>();
+	private int pointer = 0;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +69,19 @@ public class FlightDynamicsListActivity extends BodingBaseActivity{
 			adapter = new FlightDynamicsAdapter(this, fdList);
 			flightDynamicsListView.setAdapter(adapter);
 		}
+		flightDynamicsListView.onLoadMoreComplete(true);
+		flightDynamicsListView.hideOnLoadMoreTextView();
 		progressBarDialog.dismiss();
+	}
+	
+	public void loadMoreFlightDynamics(){
+		for(int i = pointer; i <10 && pointer<allFlightSize; i++){
+			listedFlightDynamics.add(allFlightDynamics.get(pointer++));
+		}
+		adapter.notifyDataSetChanged();
+		if(pointer == allFlightSize){
+			flightDynamicsListView.onLoadMoreComplete(true);
+		}
 	}
 	
 	public void setSearchedFlightDynamicsList(List<FlightDynamics> fdList){
@@ -71,13 +90,17 @@ public class FlightDynamicsListActivity extends BodingBaseActivity{
 			Util.showToast(this, "无法查询到航班");
 			return;
 		}
-		adapter = new FlightDynamicsAdapter(this, fdList);
+		allFlightDynamics = fdList;
+		allFlightSize = allFlightDynamics.size();
+		adapter = new FlightDynamicsAdapter(this, listedFlightDynamics);
 		flightDynamicsListView.setAdapter(adapter);
+		flightDynamicsListView.setOnLoadMoreText("加载更多航班");
+		loadMoreFlightDynamics();
 		progressBarDialog.dismiss();
 	}
 	
 	private void setViewContent(){
-		if(!Util.isNetworkAvailable(FlightDynamicsListActivity.this)){
+		if(!Util.isNetworkAvailable(FlightDynamicsListWithDragViewActivity.this)){
 			networkUnavaiableDialog.show();
 			return;
 		}
@@ -101,14 +124,14 @@ public class FlightDynamicsListActivity extends BodingBaseActivity{
 		returnLinearLayout.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View arg0) {
-				Util.returnToPreviousPage(FlightDynamicsListActivity.this, IntentRequestCode.FLIGHTDYNAMICS_LIST);
+				Util.returnToPreviousPage(FlightDynamicsListWithDragViewActivity.this, IntentRequestCode.FLIGHTDYNAMICS_LIST);
 			}
 			
 		});
 		
 		titleTextView = (TextView) findViewById(R.id.myfollowedflightdynamics_titleTextView);
 		
-		flightDynamicsListView = (ListView) findViewById(R.id.myfollowedflightdynamics_listView);
+		flightDynamicsListView = (DragListView) findViewById(R.id.myfollowedflightdynamics_listView);
 		flightDynamicsListView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int position,
@@ -121,9 +144,15 @@ public class FlightDynamicsListActivity extends BodingBaseActivity{
 					}
 				}
 				Intent intent = new Intent();
-				intent.setClass(FlightDynamicsListActivity.this, FlightBoardActivity.class);
+				intent.setClass(FlightDynamicsListWithDragViewActivity.this, FlightBoardActivity.class);
 				intent.putExtra(IntentExtraAttribute.FLIGHT_DYNAMIC, dyn);
 				startActivityForResult(intent, IntentRequestCode.FLIGHT_BOARD.getRequestCode());
+			}
+		});
+		flightDynamicsListView.setOnRefreshListener(new OnRefreshLoadingMoreListener() {
+			@Override
+			public void onLoadMore() {
+				loadMoreFlightDynamics();
 			}
 		});
 	}

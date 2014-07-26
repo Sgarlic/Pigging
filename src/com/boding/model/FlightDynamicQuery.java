@@ -8,6 +8,8 @@ public class FlightDynamicQuery implements Parcelable{
 	private String fromCityCode = "";
 	private String toCityCode = "";
 	private String flightNum = "";
+	private String fromCityName = "";
+	private String toCityName = "";
 	
 	public FlightDynamicQuery(){}
 	
@@ -16,6 +18,8 @@ public class FlightDynamicQuery implements Parcelable{
 		fromCityCode = in.readString();
 		toCityCode = in.readString();
 		flightNum = in.readString();
+		fromCityName = in.readString();
+		toCityName = in.readString();
 	}
 	
 	@Override
@@ -28,6 +32,8 @@ public class FlightDynamicQuery implements Parcelable{
 		dest.writeString(fromCityCode);
 		dest.writeString(toCityCode);
 		dest.writeString(flightNum);
+		dest.writeString(fromCityName);
+		dest.writeString(toCityName);
 	}
 	
 	 public static final Parcelable.Creator<FlightDynamicQuery> CREATOR = new Parcelable.Creator<FlightDynamicQuery>() {   
@@ -72,6 +78,22 @@ public class FlightDynamicQuery implements Parcelable{
 
 	public void setFlightNum(String flightNum) {
 		this.flightNum = flightNum;
+	}
+
+	public String getFromCityName() {
+		return fromCityName;
+	}
+
+	public void setFromCityName(String fromCityName) {
+		this.fromCityName = fromCityName;
+	}
+
+	public String getToCityName() {
+		return toCityName;
+	}
+
+	public void setToCityName(String toCityName) {
+		this.toCityName = toCityName;
 	}   
 	
 }

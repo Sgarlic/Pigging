@@ -156,15 +156,22 @@ public class DragListView extends ListView implements OnScrollListener{
 	 *            true:加载完毕
 	 *            false:正在加载
 	 */
-	public void onLoadMoreComplete(boolean hasMoreInfo) {
-		if (hasMoreInfo) {
-			updateLoadMoreViewState(DListViewLoadingMore.LV_NORMAL);
-		} else {
+	public void onLoadMoreComplete(boolean isComplete) {
+		if (isComplete) {
 			updateLoadMoreViewState(DListViewLoadingMore.LV_NOMOREINFO);
+		} else {
+			updateLoadMoreViewState(DListViewLoadingMore.LV_NORMAL);
 		}
 
 	}
+	
+	public void setOnLoadMoreText(String text){
+		mLoadMoreTextView.setText(text);
+	}
 
+	public void hideOnLoadMoreTextView(){
+		mLoadMoreTextView.setVisibility(View.GONE);
+	}
 	// 更新Footview视图
 	private void updateLoadMoreViewState(DListViewLoadingMore state) {
 		System.out.println(state);

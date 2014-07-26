@@ -457,10 +457,16 @@ public class MainActivity extends BodingBaseActivity {
 				Intent intent = new Intent();
 				intent.setClass(MainActivity.this, FlightDynamicsListActivity.class);
 				FlightDynamicQuery fdq = new FlightDynamicQuery();
-				String fromCityCode = GlobalVariables.Fly_From_City.getCityCode();
-				String toCityCode = GlobalVariables.Fly_To_City.getCityCode();
-				fdq.setFromCityCode(fromCityCode);
-				fdq.setToCityCode(toCityCode);
+				if(isSearchByNum){
+					fdq.setFlightNum(topPageSearchByFlightNumEditText.getText().toString().toUpperCase());
+				}else{
+					String fromCityCode = GlobalVariables.Fly_From_City.getCityCode();
+					String toCityCode = GlobalVariables.Fly_To_City.getCityCode();
+					fdq.setFromCityCode(fromCityCode);
+					fdq.setToCityCode(toCityCode);
+					fdq.setFromCityName(GlobalVariables.Fly_From_City.getCityName());
+					fdq.setToCityName(GlobalVariables.Fly_To_City.getCityName());
+				}
 				fdq.setDate(GlobalVariables.Fly_From_Date);
 				Bundle bundle = new Bundle();
 				bundle.putBoolean(IntentExtraAttribute.IS_FOLLOWEDLIST, false);
@@ -488,41 +494,41 @@ public class MainActivity extends BodingBaseActivity {
 	
 	public void setMyFollowsFlightList(List<FlightDynamics> dynamicsList){
 		progressBarDialog.dismiss();
-//		if(dynamicsList.size() == 0)
-//			return;
+		if(dynamicsList.size() == 0){
+			Util.showToast(this, "暂无已关注的航班");
+			return;
+		}
 		myFollowsFlightList.clear();
 		myFollowsFlightList.add(new FlightDynamics());
-//		updateViewPagerItem(mInflater.inflate(R.layout.layout_flightboard, null), 0);
-//		myFollowsHAdapter.notifyDataSetChanged();
 		
-		for(int i = 0; i < 5; i++){
-			myFollowsHList.add(mInflater.inflate(R.layout.layout_flightboard, null));
-			FlightDynamics flightDynamics = new FlightDynamics();
-			flightDynamics.setId("12");
-			flightDynamics.setDate("2012-23-23");
-			flightDynamics.setCarrier("8c");
-			flightDynamics.setNum("dddd");
-			flightDynamics.setCar_name("东方航空");
-			flightDynamics.setPlan_dep_time("09:20");
-			flightDynamics.setExpect_dep_time("09:20");
-			flightDynamics.setActual_dep_time("");
-			flightDynamics.setDep_airport_code("SHA");
-			flightDynamics.setArr_airport_code("PEK");
-			flightDynamics.setDep_airport_name("上海");
-			flightDynamics.setArr_airport_name("北京");
-			flightDynamics.setDep_terminal("T1");
-			flightDynamics.setArr_terminal("T1");
-			flightDynamics.setPlan_arr_time("09:20");
-			flightDynamics.setExpect_arr_time("09:20");
-			flightDynamics.setActual_arr_time("09:20");
-			flightDynamics.setFlightStatusByCode(FlightStatus.values()[i].getFlightStatusCode());
-			flightDynamics.setFollowed(true);
-			myFollowsFlightList.add(flightDynamics);
-		}
-//		for(int i = 0; i < dynamicsList.size(); i++){
+//		for(int i = 0; i < 5; i++){
 //			myFollowsHList.add(mInflater.inflate(R.layout.layout_flightboard, null));
-//			myFollowsFlightList.add(dynamicsList.get(i));
+//			FlightDynamics flightDynamics = new FlightDynamics();
+//			flightDynamics.setId("12");
+//			flightDynamics.setDate("2012-23-23");
+//			flightDynamics.setCarrier("8c");
+//			flightDynamics.setNum("dddd");
+//			flightDynamics.setCar_name("东方航空");
+//			flightDynamics.setPlan_dep_time("09:20");
+//			flightDynamics.setExpect_dep_time("09:20");
+//			flightDynamics.setActual_dep_time("");
+//			flightDynamics.setDep_airport_code("SHA");
+//			flightDynamics.setArr_airport_code("PEK");
+//			flightDynamics.setDep_airport_name("上海");
+//			flightDynamics.setArr_airport_name("北京");
+//			flightDynamics.setDep_terminal("T1");
+//			flightDynamics.setArr_terminal("T1");
+//			flightDynamics.setPlan_arr_time("09:20");
+//			flightDynamics.setExpect_arr_time("09:20");
+//			flightDynamics.setActual_arr_time("09:20");
+//			flightDynamics.setFlightStatusByCode(FlightStatus.values()[i].getFlightStatusCode());
+//			flightDynamics.setFollowed(true);
+//			myFollowsFlightList.add(flightDynamics);
 //		}
+		for(int i = 0; i < dynamicsList.size(); i++){
+			myFollowsHList.add(mInflater.inflate(R.layout.layout_flightboard, null));
+			myFollowsFlightList.add(dynamicsList.get(i));
+		}
 		myFollowsHAdapter.notifyDataSetChanged();
 		
 		myFollowsViewPager.setCurrentItem(1);

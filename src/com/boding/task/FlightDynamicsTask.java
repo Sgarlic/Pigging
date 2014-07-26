@@ -56,7 +56,7 @@ public class FlightDynamicsTask extends BodingBaseAsyncTask {
 			e.printStackTrace();
 		}
 		
-		String urlFormat = "http://user.iboarding.cn/API/DataInterface/FlightDynamic.ashx?userid=%s&dpt=%s&arr=%s&flightNo=%s&date=%s&source_flag=%s&sign=%s";
+		String urlFormat = "http://user.iboarding.cn/API/DataInterface/FlightDynamic.ashx?userid=%s&dep=%s&arr=%s&flightNo=%s&date=%s&source_flag=%s&sign=%s";
 		String urlStr =  String.format(urlFormat,Constants.BODINGACCOUNT,
 			dpt,arr,flightNo,date,source_flag,sign);
 		String result = connectingServer(urlStr);
@@ -64,7 +64,7 @@ public class FlightDynamicsTask extends BodingBaseAsyncTask {
 			JSONObject resultJson = new JSONObject(result);
 			if (resultJson.getString("result").equals("0")){
 				String dateS = resultJson.getString("date");
-				JSONArray jsonArray = resultJson.getJSONArray("data");
+				JSONArray jsonArray = resultJson.getJSONArray("list");
 				for(int i = 0;i<jsonArray.length();i++){
 					JSONObject dynJson = jsonArray.getJSONObject(i);
 					FlightDynamics flightDynamics = new FlightDynamics();
@@ -83,7 +83,8 @@ public class FlightDynamicsTask extends BodingBaseAsyncTask {
 					flightDynamics.setPlan_arr_time(dynJson.getString("plan_arr_time"));
 					flightDynamics.setActual_arr_time(dynJson.getString("actual_arr_time"));
 					flightDynamics.setFlightStatusByCode(dynJson.getString("status"));
-				}			
+					flightDynamicsList.add(flightDynamics);
+				}
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();

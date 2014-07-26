@@ -438,11 +438,11 @@
 		    </LinearLayout>
 	    </LinearLayout>
     </LinearLayout>
+
 	<LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="15dp"
-        android:orientation="horizontal">
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    android:orientation="horizontal" >
 
 	    <LinearLayout
 	        android:id="@+id/flightboard_follow_linearLayout"

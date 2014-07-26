@@ -81,22 +81,24 @@ public class FlightBoardActivity extends BodingBaseActivity {
 					return;
 				}
 				
-				if(GlobalVariables.myFollowedFdList.size() == 5){
-					Util.showToast(FlightBoardActivity.this, "最多只能关注5个航班");
-					return;
-				}
 				if(!Util.isNetworkAvailable(FlightBoardActivity.this)){
 					networkUnavaiableDialog.show();
 					return;
 				}
-				progressBarDialog.show();
+				
 				if(dynamics.isFollowed()){
 					if(dynamics.getId() == null || dynamics.getId().equals("")){
 						Util.showToast(FlightBoardActivity.this, "取消关注失败");
 					}
+					progressBarDialog.show();
 					(new FlightDynamicsTask(FlightBoardActivity.this, HTTPAction.UNFOLLOW_FLIGHTDYNAMICS))
 					.execute(dynamics.getId());
 				}else{
+					if(GlobalVariables.myFollowedFdList.size() == 5){
+						Util.showToast(FlightBoardActivity.this, "最多只能关注5个航班");
+						return;
+					}
+					progressBarDialog.show();
 					(new FlightDynamicsTask(FlightBoardActivity.this, HTTPAction.FOLLOW_FLIGHTDYNAMICS))
 					.execute(dynamics);
 				}
@@ -112,6 +114,7 @@ public class FlightBoardActivity extends BodingBaseActivity {
 			if(index != -1){
 				dynamics = GlobalVariables.myFollowedFdList.get(index);
 			}
+			setFollowUnFollow();
 		}else{
 			Util.showToast(this, "关注航班失败");
 		}
@@ -121,6 +124,7 @@ public class FlightBoardActivity extends BodingBaseActivity {
 		if(isSuccess){
 			dynamics.setFollowed(false);
 			dynamics.setId("");
+			setFollowUnFollow();
 		}else{
 			Util.showToast(this, "取消关注失败");
 		}
@@ -202,12 +206,17 @@ public class FlightBoardActivity extends BodingBaseActivity {
 		toAirportInfoTextView.setText(dynamics.getArr_airport_name());
 		flightStatusImageView.setImageResource(dynamics.getFlightStatus().getFlightBoardDrawable());
 		
-		if(dynamics.isFollowed()){
+		setFollowUnFollow();
+    }
+    
+    private void setFollowUnFollow(){
+    	if(dynamics.isFollowed()){
 			followTextView.setText("取消关注");
 			followLinearLayout.setBackgroundColor(this.getResources().getColor(R.color.priceGray));
 		}else{
 			followTextView.setText("关注航班");
-			followLinearLayout.setBackgroundColor(this.getResources().getColor(R.color.textBlue));
+			followLinearLayout.setBackgroundColor(this.getResources().getColor(
+				dynamics.getFlightStatus().getLayoutLineColor()));
 		}
     }
 }

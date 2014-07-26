@@ -25,7 +25,7 @@ public class Constants {
 	public static final String FIRST_CLASS = "头等舱";
 	public static final String BUSINESS_CLASS = "商务舱";
 	
-	public static int CONNECT_TIMEOUT = 3000;
-	public static int READ_TIMEOUT = 3000;
+	public static int CONNECT_TIMEOUT = 6000;
+	public static int READ_TIMEOUT = 6000;
 	public static String BONDING_PHONENUM = "021-54738327";
 }
