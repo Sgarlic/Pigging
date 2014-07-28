@@ -64,8 +64,11 @@
     <color name="orderListBlue">#5591c0</color>
     <color name="takeOffTextColor">#129f9f</color>
     <color name="cancelTextColor">#8497a4</color>
+    <color name="alternateTextColor">#f18282</color>
     <color name="arriveLineColor">#416f93</color>
     <color name="takeoffLineColor">#177c7e</color>
     <color name="cancelLineColor">#677681</color>
     <color name="delayLineColor">#bd6d0e</color>
+    <color name="textGray1">#4e4e4e</color>
+    <color name="textDarkGray1">#362e2b</color>
 </resources>

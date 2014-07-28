@@ -23,6 +23,7 @@ import com.boding.view.dialog.SelectionDialog;
 import com.boding.view.dialog.VerticalViewPager;
 import com.boding.view.dialog.WarningDialog;
 import com.boding.R;
+import com.boding.model.Airport;
 import com.boding.model.City;
 import com.boding.model.FlightDynamicQuery;
 import com.boding.model.FlightDynamics;
@@ -133,6 +134,16 @@ public class MainActivity extends BodingBaseActivity {
 	private LinearLayout topPageSearchLinearLayout;
 	private LinearLayout topPageMyFollowsLinearLayout;
 	
+	/**
+	 * right page view
+	 */
+	private LinearLayout rightPageChooseAirportLinearLayout;
+	private TextView rightPageChoosedAirportTextView;
+	private LinearLayout rightPageAirportWeatherLinearLayout;
+	private LinearLayout rightPageAirportTransportLinearLayout;
+	private LinearLayout rightPageAirportPhoneNumLinearLayout;
+	private LinearLayout rightPageAirlineCompanyPhoneNumLinearLayout;
+	
 	private View leftPageView;
 	private View rightPageView;
 	private View middlePageView;
@@ -161,6 +172,7 @@ public class MainActivity extends BodingBaseActivity {
 		initLeftPageView();
 		initDownPageView();
 		initTopPageView();
+		initRightPageView();
 	}
 	
 	@Override
@@ -477,6 +489,35 @@ public class MainActivity extends BodingBaseActivity {
 		});
 	}
 	
+	private void initRightPageView(){
+		rightPageChooseAirportLinearLayout = (LinearLayout) rightPageView.findViewById(R.id.rightpage_chooseairport_linearLayout);
+		rightPageChoosedAirportTextView = (TextView) rightPageView.findViewById(R.id.rightpage_choosedairport_textView);
+		rightPageAirportWeatherLinearLayout = (LinearLayout) rightPageView.findViewById(R.id.rightpage_airportweather_linearLayout);
+		rightPageAirportTransportLinearLayout = (LinearLayout) rightPageView.findViewById(R.id.rightpage_airporttransport_linearLayout);
+		rightPageAirportPhoneNumLinearLayout = (LinearLayout) rightPageView.findViewById(R.id.rightpage_airportphonenum_linearLayout);
+		rightPageAirportPhoneNumLinearLayout = (LinearLayout) rightPageView.findViewById(R.id.rightpage_airlinecompanyPhoneNum_linearLayout);
+		
+		rightPageChooseAirportLinearLayout.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				Intent intent = new Intent();
+				intent.setClass(MainActivity.this, AirportSelectActivity.class);
+				startActivityForResult(intent, IntentRequestCode.AIRPORT_SELECT.getRequestCode());
+			}
+		});
+		
+		setSelectedAirport();
+	}
+	
+	private void setSelectedAirport(){
+		if(GlobalVariables.SELECTED_AIRPORT == null){
+			GlobalVariables.SELECTED_AIRPORT = new Airport();
+			GlobalVariables.SELECTED_AIRPORT.setAirportcode("SHA");
+			GlobalVariables.SELECTED_AIRPORT.setAirportname("上海虹桥机场");
+		}
+		rightPageChoosedAirportTextView.setText(GlobalVariables.SELECTED_AIRPORT.getAirportname());
+	}
+	
 	private void setTopPageSearchMethod(){
 		/**
 		 * set view content
@@ -777,6 +818,8 @@ public class MainActivity extends BodingBaseActivity {
 		  }
 		  if(requestCode == IntentRequestCode.CITY_SELECTION.getRequestCode())
 			  setFlyFromToCity();
+		  if(requestCode == IntentRequestCode.AIRPORT_SELECT.getRequestCode())
+			  setSelectedAirport();
 	 }
 	
 	private class PassengerAmountAdapter extends BaseAdapter{

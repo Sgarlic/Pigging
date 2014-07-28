@@ -31,15 +31,23 @@ import android.os.Handler;
 import android.util.Log;
 
 public class LauncherActivity extends Activity {
-	private final int SPLASH_DISPLAY_LENGHT = 3000; //延迟三秒   
+	private int SPLASH_DISPLAY_LENGHT = 3000; //延迟三秒   
 	public LocationClient mLocationClient;
 	public MyLocationListener mMyLocationListener;
 	private NetworkUnavaiableDialog networkUnavaiableDialog;
+	private boolean isFirstRun;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_launcher);
+		
+		SharedPreferences sharedPreferences = SharedPreferenceUtil.getSharedPreferences(this);  
+		isFirstRun = sharedPreferences.getBoolean(SharedPreferenceUtil.IS_FIRSTRUN, true);
+		if(isFirstRun){
+			SPLASH_DISPLAY_LENGHT = 6000;
+		}
+		
 		networkUnavaiableDialog = new NetworkUnavaiableDialog (this);
 
 		if(!Util.isNetworkAvailable(this)){
@@ -87,9 +95,7 @@ public class LauncherActivity extends Activity {
 	private void something(){
 		initCityList();
 		new InitCountryTask(this).execute();
-		SharedPreferences sharedPreferences = SharedPreferenceUtil.getSharedPreferences(this);  
-        
-	    boolean isFirstRun = sharedPreferences.getBoolean(SharedPreferenceUtil.IS_FIRSTRUN, true);  
+		
 	    if (isFirstRun)  
 	    {  
 	        Log.d("debug", "第一次运行");  
@@ -97,13 +103,13 @@ public class LauncherActivity extends Activity {
 	    } else  
 	    {  
 	        Log.d("debug", "不是第一次运行");
-	        boolean isAutoLogin = sharedPreferences.getBoolean(SharedPreferenceUtil.IS_AUTOLOGIN, true);
+	        boolean isAutoLogin = SharedPreferenceUtil.getBooleanSharedPreferences(this, SharedPreferenceUtil.IS_AUTOLOGIN, true);
 	        if(isAutoLogin){
-	        	String expireDate = sharedPreferences.getString(SharedPreferenceUtil.LOGIN_EXPIREDATE,"1991-01-01");
+	        	String expireDate = SharedPreferenceUtil.getStringSharedPreferences(this,SharedPreferenceUtil.LOGIN_EXPIREDATE,"1991-01-01");
 	        	String nowDate = DateUtil.getFormatedDate(Calendar.getInstance());
 	        	if(expireDate.compareTo(nowDate) > -1 ){
-	        		String userName = sharedPreferences.getString(SharedPreferenceUtil.LOGIN_USERNAME,"");
-	        		String password = sharedPreferences.getString(SharedPreferenceUtil.LOGIN_PASSWORD,"");
+	        		String userName = SharedPreferenceUtil.getStringSharedPreferences(this,SharedPreferenceUtil.LOGIN_USERNAME,"");
+	        		String password = SharedPreferenceUtil.getStringSharedPreferences(this,SharedPreferenceUtil.LOGIN_PASSWORD,"");
 	        		BodingUserTask httpConnector = new BodingUserTask(this,HTTPAction.LAUNCHER_LOGIN);
 	        		httpConnector.execute(userName,password);
 	        	}

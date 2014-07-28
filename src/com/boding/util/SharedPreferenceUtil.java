@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 
 import com.boding.constants.GlobalVariables;
+import com.boding.model.Airport;
 import com.boding.model.City;
 
 public class SharedPreferenceUtil {
@@ -19,6 +20,7 @@ public class SharedPreferenceUtil {
 	public static final String LOGIN_PASSWORD = "loginPassword";
 	public static final String HISTORYCITY_DOMESTIC= "historyCityDomestic";
 	public static final String HISTORYCITY_INTERNATIONAL = "historyCityInternational";
+	public static final String HISTORYCITY_DOMESTIC_AIRPORT = "historyDomesticAirport";
 	public static final String NEED_NOTIFICATION_TONE = "needNotificationTone";
 	public static final String NEED_NOTIFICATION_VIBRATE = "needNotificationVibrate";
 	
@@ -109,11 +111,58 @@ public class SharedPreferenceUtil {
 		return newCities;
 	}
 	
+	public static void addDomesticHistoryAirport(String airportCode, Context context){
+		String airportsString = getStringSharedPreferences(context, HISTORYCITY_DOMESTIC_AIRPORT, "");
+		String newAirports = "";
+		if(airportsString.equals("")){
+			newAirports = airportCode;
+		}else{
+			String[] tempArray = airportsString.split(",");
+			newAirports += airportCode;
+			boolean alreadyInHistory = false;
+			if(tempArray.length == 3){
+				for(int i = 0; i < tempArray.length - 1;i++){
+					if(tempArray[i].equals(airportCode)){
+						alreadyInHistory = true;
+						continue;
+					}
+					newAirports += "," + tempArray[i];
+				}
+				if(alreadyInHistory)
+					newAirports += "," + tempArray[tempArray.length - 1];
+			}else{
+				for(int i = 0; i < tempArray.length;i++){
+					if(tempArray[i].equals(airportCode)){
+						alreadyInHistory = true;
+						continue;
+					}
+					newAirports += "," + tempArray[i];
+				}
+			}
+		}
+		setStringSharedPreferences(context, HISTORYCITY_DOMESTIC_AIRPORT, newAirports);
+	}
+	
 	public static void addInternationalHistoryCity(String cityCode,Context context){
 		String citiesString = getStringSharedPreferences(context, HISTORYCITY_INTERNATIONAL, "");
 		setStringSharedPreferences(context, HISTORYCITY_INTERNATIONAL, generateAddHistoryCity(citiesString, cityCode));
 	}
 	
+	public static List<Airport> getDomesticHistoryAirport(Context context){
+		String airportsString = getStringSharedPreferences(context, HISTORYCITY_DOMESTIC_AIRPORT, "");
+		List<Airport> airports = new ArrayList<Airport>();
+		if(airportsString.equals("")){
+			return airports;
+		}
+		String[] tempArray = airportsString.split(",");
+		for(String airportCode: tempArray){
+			Airport airport = new Airport();
+			airport.setAirportcode(airportCode);
+			airport.setAirportname(CityUtil.getAirportNameByCode(airportCode));
+			airports.add(airport);
+		}
+		return airports;
+	}
 	
 	public static List<City> getDomesticHistoryCity(Context context){
 		String citiesString = getStringSharedPreferences(context, HISTORYCITY_DOMESTIC, "");

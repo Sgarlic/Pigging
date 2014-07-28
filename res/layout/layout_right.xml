@@ -23,6 +23,7 @@
 	    android:orientation="vertical" >
 
 	    <LinearLayout
+	        android:id="@+id/rightpage_chooseairport_linearLayout"
 	        android:layout_width="match_parent"
 	        android:layout_height="45dp"
 	        android:layout_gravity="right"
@@ -49,6 +50,7 @@
 			    android:typeface="serif" />
 			
 			<TextView
+			    android:id="@+id/rightpage_choosedairport_textView"
 			    android:layout_width="wrap_content"
 			    android:layout_height="wrap_content"
 			    android:layout_gravity="center_vertical"
@@ -71,6 +73,7 @@
 		</LinearLayout>
 
 		<LinearLayout
+		    android:id="@+id/rightpage_airportweather_linearLayout"
 		    android:layout_width="match_parent"
 		    android:layout_height="45dp"
 		    android:layout_gravity="right"
@@ -109,6 +112,7 @@
 		</LinearLayout>
 
 		<LinearLayout
+		    android:id="@+id/rightpage_airporttransport_linearLayout"
 		    android:layout_width="match_parent"
 		    android:layout_height="45dp"
 		    android:layout_gravity="right"
@@ -146,6 +150,7 @@
 		    </LinearLayout>
 		</LinearLayout>
 		<LinearLayout
+		    android:id="@+id/rightpage_airportphonenum_linearLayout"
 		    android:layout_width="match_parent"
 		    android:layout_height="45dp"
 		    android:layout_gravity="right"
@@ -183,6 +188,7 @@
 		    </LinearLayout>
 		</LinearLayout>
 		<LinearLayout
+		    android:id="@+id/rightpage_airlinecompanyPhoneNum_linearLayout"
 		    android:layout_width="match_parent"
 		    android:layout_height="45dp"
 		    android:layout_gravity="right"

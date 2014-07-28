@@ -1,0 +1,227 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:ignore="MergeRootFrame" >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp" >
+
+		<LinearLayout
+		    android:id="@+id/return_logo_linearLayout"
+		    android:layout_width="150dp"
+		    android:layout_height="match_parent"
+		    android:layout_weight="1"
+		    android:orientation="horizontal" >
+
+	        <ImageView
+	            android:id="@+id/return_logo_imageView"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_gravity="center_vertical"
+	            android:src="@drawable/arrow_left_returntoprepage" />
+        </LinearLayout>
+
+	    <LinearLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent"
+	        android:layout_weight="1"
+	        android:orientation="vertical" >
+
+	        <LinearLayout
+		        android:layout_width="wrap_content"
+			    android:layout_height="match_parent"
+			    android:layout_gravity="center_horizontal"
+			    android:orientation="horizontal">
+		        <TextView
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_gravity="center_vertical"
+		            android:text="机场交通"
+		            android:textColor="@color/textOrange"
+		            android:textSize="20sp"
+		            android:typeface="serif" />
+	        </LinearLayout>
+		</LinearLayout>
+
+		<LinearLayout
+		    android:layout_width="150dp"
+		    android:layout_height="match_parent"
+		    android:layout_weight="1"
+		    android:orientation="horizontal" >
+
+	    </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/panelOrange"
+        android:orientation="horizontal" >
+	</LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingTop="20dp" >
+		<LinearLayout
+		    android:id="@+id/airporttransport_airportbus_linearLayout"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:layout_marginBottom="15dp"
+		    android:orientation="horizontal"
+		    android:paddingBottom="5dp"
+		    android:paddingTop="5dp" >
+			<LinearLayout
+			    android:layout_width="wrap_content"
+			    android:layout_height="match_parent"
+			    android:orientation="horizontal" >
+		        <ImageView
+				    android:layout_width="wrap_content"
+				    android:layout_height="wrap_content"
+				    android:layout_gravity="center_vertical"
+				    android:src="@drawable/airport_bus_logo" />
+
+			    <TextView
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:layout_gravity="center_vertical"
+			        android:layout_marginLeft="10dp"
+			        android:gravity="center_vertical"
+			        android:text="机场大巴"
+			        android:textColor="@color/myAccountGray"
+			        android:textSize="19sp"
+			        android:typeface="serif" />
+
+			</LinearLayout>
+			<LinearLayout
+			    android:layout_width="wrap_content"
+			    android:layout_height="match_parent"
+			    android:layout_gravity="top"
+			    android:layout_weight="1"
+			    android:orientation="vertical" >
+		        <LinearLayout
+		            android:layout_width="wrap_content"
+		            android:layout_height="match_parent"
+		            android:layout_gravity="right"
+		            android:layout_weight="1"
+		            android:orientation="horizontal" >
+					<ImageView
+					    android:layout_width="wrap_content"
+					    android:layout_height="wrap_content"
+					    android:layout_gravity="center_vertical"
+					    android:src="@drawable/arrow_right_orange_medium" />
+				</LinearLayout>
+		    </LinearLayout>
+		</LinearLayout>
+		<LinearLayout
+		    android:id="@+id/airporttransport_taxi_linearLayout"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:layout_marginBottom="15dp"
+		    android:orientation="horizontal"
+		    android:paddingBottom="5dp"
+		    android:paddingTop="5dp" >
+			<LinearLayout
+			    android:layout_width="wrap_content"
+			    android:layout_height="match_parent"
+			    android:orientation="horizontal" >
+		        <ImageView
+				    android:layout_width="wrap_content"
+				    android:layout_height="wrap_content"
+				    android:layout_gravity="center_vertical"
+				    android:src="@drawable/taxiinfo_chargingmode" />
+
+			    <TextView
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:layout_gravity="center_vertical"
+			        android:layout_marginLeft="10dp"
+			        android:gravity="center_vertical"
+			        android:text="出租车"
+			        android:textColor="@color/priceGray"
+			        android:textSize="19sp"
+			        android:typeface="serif" />
+
+			</LinearLayout>
+			<LinearLayout
+			    android:layout_width="wrap_content"
+			    android:layout_height="match_parent"
+			    android:layout_gravity="top"
+			    android:layout_weight="1"
+			    android:orientation="vertical" >
+		        <LinearLayout
+		            android:layout_width="wrap_content"
+		            android:layout_height="match_parent"
+		            android:layout_gravity="right"
+		            android:layout_weight="1"
+		            android:orientation="horizontal" >
+					<ImageView
+					    android:layout_width="wrap_content"
+					    android:layout_height="wrap_content"
+					    android:layout_gravity="center_vertical"
+					    android:src="@drawable/arrow_right_orange_medium" />
+				</LinearLayout>
+		    </LinearLayout>
+		</LinearLayout>
+		<LinearLayout
+		    android:id="@+id/airporttransport_metro_linearLayout"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:layout_marginBottom="15dp"
+		    android:orientation="horizontal"
+		    android:paddingBottom="5dp"
+		    android:paddingTop="5dp" >
+			<LinearLayout
+			    android:layout_width="wrap_content"
+			    android:layout_height="match_parent"
+			    android:orientation="horizontal" >
+		        <ImageView
+				    android:layout_width="wrap_content"
+				    android:layout_height="wrap_content"
+				    android:layout_gravity="center_vertical"
+				    android:src="@drawable/metro_logo" />
+
+			    <TextView
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:layout_gravity="center_vertical"
+			        android:layout_marginLeft="10dp"
+			        android:gravity="center_vertical"
+			        android:text="地铁"
+			        android:textColor="@color/myAccountGray"
+			        android:textSize="19sp"
+			        android:typeface="serif" />
+
+			</LinearLayout>
+			<LinearLayout
+			    android:layout_width="wrap_content"
+			    android:layout_height="match_parent"
+			    android:layout_gravity="top"
+			    android:layout_weight="1"
+			    android:orientation="vertical" >
+		        <LinearLayout
+		            android:layout_width="wrap_content"
+		            android:layout_height="match_parent"
+		            android:layout_gravity="right"
+		            android:layout_weight="1"
+		            android:orientation="horizontal" >
+					<ImageView
+					    android:layout_width="wrap_content"
+					    android:layout_height="wrap_content"
+					    android:layout_gravity="center_vertical"
+					    android:src="@drawable/arrow_right_orange_medium" />
+				</LinearLayout>
+		    </LinearLayout>
+		</LinearLayout>
+    </LinearLayout>
+</LinearLayout>
+

@@ -18,9 +18,9 @@ public enum FlightStatus {
 	CANCEL("cancel","取消",R.drawable.flightdynamic_status_cancel,R.drawable.flightboard_cancel,
 		R.drawable.layoutflightboard_flightdynamicsline_cancel,R.drawable.layoutflightboard_cancel,
 		R.color.cancelTextColor, R.color.cancelLineColor),
-	ALTERNATE("alternate","备降",R.drawable.flightdynamic_status_cancel,R.drawable.flightboard_cancel,
-		R.drawable.layoutflightboard_flightdynamicsline_cancel,R.drawable.layoutflightboard_cancel,
-		R.color.cancelTextColor, R.color.cancelLineColor);
+	ALTERNATE("alternate","备降",R.drawable.flightdynamic_status_alternate,R.drawable.flightboard_alternate,
+		R.drawable.layoutflightboard_flightdynamicsline_alternate,R.drawable.layoutflightboard_alternate,
+		R.color.alternateTextColor, R.color.alternateTextColor);
 	
 	private String flightStatusCode;
 	private String flightStatusName;

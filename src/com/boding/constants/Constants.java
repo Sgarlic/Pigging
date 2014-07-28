@@ -26,6 +26,6 @@ public class Constants {
 	public static final String BUSINESS_CLASS = "ЩЬЮёВе";
 	
 	public static int CONNECT_TIMEOUT = 6000;
-	public static int READ_TIMEOUT = 6000;
+	public static int READ_TIMEOUT = 12000;
 	public static String BONDING_PHONENUM = "021-54738327";
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.boding.model.Airport;
 import com.boding.model.BodingUser;
 import com.boding.model.City;
 import com.boding.model.Country;
@@ -16,6 +17,7 @@ import com.boding.util.DateUtil;
 public class GlobalVariables {
 	public static City Fly_From_City = null;
 	public static City Fly_To_City = null;
+	public static Airport SELECTED_AIRPORT = null;
 	public static String From_City;
 	public static String To_City;
 	public static String Fly_From_Date = DateUtil.getFormatedDate(new Date());
@@ -27,12 +29,15 @@ public class GlobalVariables {
 	public static int App_Height = 0;
 	
 	public static City CurrentCity = null;
+	public static Airport currentAirport = null;
 	
 	public static List<City> allCitiesList = new ArrayList<City>();
 	public static List<City> domesticCitiesList = new ArrayList<City>();
 	public static List<City> interCitiesList = new ArrayList<City>();
 	public static List<City> domHotCitiesList = new ArrayList<City>();
 	public static List<City> interHotCitiesList = new ArrayList<City>();
+	public static List<Airport> domHotAirportsList = new ArrayList<Airport>();
+	public static List<Airport> domAirportList = new ArrayList<Airport>();
 //	public static List<City> domHistoryCitiesList = new ArrayList<City>();
 //	public static List<City> interHistoryCitiesList = new ArrayList<City>();
 	public static List<Country> allCountriesList = new ArrayList<Country>();
@@ -44,6 +49,8 @@ public class GlobalVariables {
 	public static String interCityFile ="interCities";
 	public static String interHotCityFile ="interHotCities";
 	public static String allCountriesFile = "allCountries";
+	public static String domHotAirportsFile = "domHotAirports";
+	public static String domAirportsFile = "domAirports";
 	
 	public static BodingUser bodingUser = null;
 	

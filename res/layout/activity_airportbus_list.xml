@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:ignore="MergeRootFrame" >  
+
+	<LinearLayout
+	    android:layout_width="match_parent"
+	    android:layout_height="50dp"
+	    android:layout_marginLeft="15dp"
+	    android:layout_marginRight="15dp"
+	    android:orientation="horizontal" >
+
+		<LinearLayout
+		    android:id="@+id/return_logo_linearLayout"
+		    android:layout_width="150dp"
+		    android:layout_height="match_parent"
+		    android:layout_weight="1"
+		    android:orientation="horizontal" >
+
+	        <ImageView
+	            android:id="@+id/return_logo_imageView"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_gravity="center_vertical"
+	            android:src="@drawable/arrow_left_returntoprepage" />
+        </LinearLayout>
+	    <LinearLayout
+	        android:layout_width="match_parent"
+		    android:layout_height="match_parent"
+		    android:layout_weight="1"
+		    android:orientation="vertical">
+	        <LinearLayout
+	            android:id="@+id/airportbuslist_busFilter_linearLayout"
+	            android:layout_width="wrap_content"
+	            android:layout_height="match_parent"
+	            android:layout_gravity="center_horizontal"
+	            android:orientation="horizontal" >
+
+		        <TextView
+		            android:id="@+id/airportbuslist_busFilterType_textView"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_gravity="center_vertical"
+		            android:text="机场大巴（T1）"
+		            android:textColor="@color/textOrange"
+		            android:textSize="20sp"
+		            android:typeface="serif" />
+				<ImageView
+				    android:layout_width="wrap_content"
+				    android:layout_height="wrap_content"
+				    android:layout_gravity="center_vertical"
+				    android:layout_marginLeft="5dp"
+				    android:src="@drawable/arrow_down_orange_small" />
+
+	        </LinearLayout>
+		</LinearLayout>
+		<LinearLayout
+	        android:layout_width="150dp"
+		    android:layout_height="match_parent"
+		    android:layout_weight="1"
+		    android:orientation="vertical">
+	    </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+	    android:layout_width="match_parent"
+	    android:layout_height="2dp"
+	    android:background="@color/panelOrange"
+	    android:orientation="horizontal">
+	</LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+        <android.support.v4.app.FragmentTabHost
+		    android:id="@android:id/tabhost"
+		    android:layout_width="match_parent"
+		    android:layout_height="match_parent">
+
+		    <LinearLayout
+		        android:orientation="vertical"
+		        android:layout_width="match_parent"
+		        android:layout_height="match_parent">
+
+		        <TabWidget
+		            android:id="@android:id/tabs"
+		            android:layout_width="match_parent"
+		            android:layout_height="50dp"
+		            android:layout_weight="0"
+		            android:background="@color/white"
+		            android:orientation="horizontal" />
+
+		        <FrameLayout
+		            android:id="@android:id/tabcontent"
+		            android:layout_width="0dp"
+		            android:layout_height="0dp"
+		            android:layout_gravity="center_vertical"
+		            android:layout_weight="0"
+		            android:background="@color/white" />
+
+		        <LinearLayout
+		            android:layout_width="match_parent"
+		            android:layout_height="1dp"
+		            android:layout_gravity="center_vertical"
+		            android:background="@color/tabDivider" />
+		        
+		        <FrameLayout
+		            android:id="@+id/realtabcontent"
+		            android:layout_width="match_parent"
+		            android:layout_height="0dp"
+		            android:layout_weight="1"/>
+		        
+		    </LinearLayout>
+		</android.support.v4.app.FragmentTabHost>
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,357 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:ignore="MergeRootFrame" >
+
+    <LinearLayout
+	    android:layout_width="match_parent"
+	    android:layout_height="50dp"
+	    android:layout_marginLeft="15dp"
+	    android:layout_marginRight="15dp"
+	    android:orientation="horizontal" >
+
+		<LinearLayout
+		    android:id="@+id/return_logo_linearLayout"
+		    android:layout_width="150dp"
+		    android:layout_height="match_parent"
+		    android:layout_weight="1"
+		    android:orientation="horizontal" >
+
+	        <ImageView
+	            android:id="@+id/return_logo_imageView"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_gravity="center_vertical"
+	            android:src="@drawable/arrow_left_returntoprepage" />
+        </LinearLayout>
+
+	    <LinearLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent"
+	        android:layout_weight="1"
+	        android:orientation="vertical" >
+
+	        <LinearLayout
+		        android:layout_width="wrap_content"
+			    android:layout_height="match_parent"
+			    android:layout_gravity="center_horizontal"
+			    android:orientation="horizontal">
+		        <TextView
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_gravity="center_vertical"
+		            android:text="机场天气"
+		            android:textColor="@color/textOrange"
+		            android:textSize="20sp"
+		            android:typeface="serif" />
+	        </LinearLayout>
+		</LinearLayout>
+
+		<LinearLayout
+		    android:layout_width="150dp"
+		    android:layout_height="match_parent"
+		    android:layout_weight="1"
+		    android:orientation="horizontal" >
+
+	    </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+	    android:layout_width="match_parent"
+	    android:layout_height="2dp"
+	    android:background="@color/panelOrange"
+	    android:orientation="horizontal">
+	</LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="15dp"
+	    android:layout_marginRight="15dp"
+        android:orientation="vertical" >
+
+		<LinearLayout
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:orientation="vertical"
+		    android:paddingLeft="20dp"
+		    android:paddingRight="20dp" >
+
+	        <LinearLayout
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_gravity="center_horizontal"
+	            android:orientation="horizontal" >
+
+		        <ImageView
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_gravity="center_vertical"
+		            android:src="@drawable/weather_cloud_large" />
+
+		        <LinearLayout
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_gravity="bottom"
+		            android:layout_marginLeft="5dp"
+		            android:orientation="vertical" >
+
+			        <TextView
+			            android:layout_width="wrap_content"
+			            android:layout_height="wrap_content"
+			            android:text="上海，虹桥机场"
+			            android:textColor="@color/textOrange"
+			            android:textSize="18sp"
+			            android:typeface="serif" />
+			        <TextView
+			            android:layout_width="wrap_content"
+			            android:layout_height="wrap_content"
+			            android:text="11月9日，星期一"
+			            android:textColor="@color/textOrange"
+			            android:textSize="18sp"
+			            android:typeface="serif" />
+			    </LinearLayout>
+		    </LinearLayout>
+
+		    <LinearLayout
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_gravity="center_horizontal"
+		        android:orientation="horizontal" >
+
+		        <TextView
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_gravity="top"
+		            android:text="17°"
+		            android:textColor="@color/textOrange"
+		            android:textSize="160sp"
+		            android:typeface="serif" />
+		    </LinearLayout>
+
+		    <LinearLayout
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:layout_gravity="center_horizontal"
+		        android:orientation="horizontal"
+		        android:paddingLeft="20dp"
+		        android:paddingRight="20dp" >
+
+ 				<TextView
+ 				    android:layout_width="wrap_content"
+ 				    android:layout_height="wrap_content"
+ 				    android:layout_weight="1"
+ 				    android:text="4kph"
+ 				    android:textColor="@color/textOrange"
+ 				    android:textSize="15sp"
+ 				    android:typeface="serif" />
+
+		        <LinearLayout
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_weight="1"
+		            android:orientation="horizontal" >
+
+			        <ImageView
+			            android:layout_width="wrap_content"
+			            android:layout_height="wrap_content"
+			            android:layout_gravity="center_vertical"
+			            android:src="@drawable/rainfall_logo" />
+			        <TextView
+			            android:layout_width="wrap_content"
+			            android:layout_height="wrap_content"
+			            android:text="%35"
+			            android:textColor="@color/textOrange"
+			            android:textSize="15sp"
+			            android:typeface="serif" />
+			    </LinearLayout>
+		        <LinearLayout
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:orientation="horizontal" >
+			        <ImageView
+			            android:layout_width="wrap_content"
+			            android:layout_height="wrap_content"
+			            android:layout_gravity="center_vertical"
+			            android:src="@drawable/humidity_logo" />
+			        <TextView
+			            android:layout_width="wrap_content"
+			            android:layout_height="wrap_content"
+			            android:text="%72"
+			            android:textColor="@color/textOrange"
+			            android:textSize="15sp"
+			            android:typeface="serif" />
+			    </LinearLayout>
+		    </LinearLayout>
+	    </LinearLayout>
+		<LinearLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent"
+	        android:orientation="horizontal" >
+			<LinearLayout
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:layout_gravity="bottom"
+		        android:layout_marginTop="5dp"
+		        android:layout_marginBottom="10dp"
+		        android:orientation="horizontal" >
+
+		        <LinearLayout
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_gravity="bottom"
+		            android:layout_weight="1"
+		            android:orientation="vertical" >
+			        <LinearLayout
+			            android:layout_width="wrap_content"
+			            android:layout_height="wrap_content"
+			            android:orientation="vertical" >
+
+				        <TextView
+				            android:layout_width="wrap_content"
+				            android:layout_height="wrap_content"
+				            android:layout_gravity="center_horizontal"
+				            android:text="星期一"
+				            android:textColor="@color/textOrange"
+				            android:textSize="15sp"
+				            android:typeface="serif" />
+
+				        <ImageView
+				            android:layout_width="wrap_content"
+				            android:layout_height="wrap_content"
+				            android:layout_gravity="center_horizontal"
+				            android:src="@drawable/weather_cloud_medium" />
+
+				        <TextView
+				            android:layout_width="wrap_content"
+				            android:layout_height="wrap_content"
+				            android:layout_gravity="center_horizontal"
+				            android:text="21°"
+				            android:textColor="@color/textOrange"
+				            android:textSize="25sp"
+				            android:typeface="serif" />
+
+			        </LinearLayout>
+			    </LinearLayout>
+
+			    <LinearLayout
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_gravity="bottom"
+		            android:layout_weight="1"
+		            android:orientation="vertical" >
+			        <LinearLayout
+			            android:layout_width="wrap_content"
+			            android:layout_height="wrap_content"
+			            android:orientation="vertical" >
+
+				        <TextView
+				            android:layout_width="wrap_content"
+				            android:layout_height="wrap_content"
+				            android:layout_gravity="center_horizontal"
+				            android:text="星期二"
+				            android:textColor="@color/textOrange"
+				            android:textSize="15sp"
+				            android:typeface="serif" />
+
+				        <ImageView
+				            android:layout_width="wrap_content"
+				            android:layout_height="wrap_content"
+				            android:layout_gravity="center_horizontal"
+				            android:src="@drawable/weather_flog_medium" />
+
+				        <TextView
+				            android:layout_width="wrap_content"
+				            android:layout_height="wrap_content"
+				            android:layout_gravity="center_horizontal"
+				            android:text="21°"
+				            android:textColor="@color/textOrange"
+				            android:textSize="25sp"
+				            android:typeface="serif" />
+
+			        </LinearLayout>
+			    </LinearLayout>
+
+			    <LinearLayout
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_gravity="bottom"
+		            android:layout_weight="1"
+		            android:orientation="vertical" >
+			        <LinearLayout
+			            android:layout_width="wrap_content"
+			            android:layout_height="wrap_content"
+			            android:orientation="vertical" >
+
+				        <TextView
+				            android:layout_width="wrap_content"
+				            android:layout_height="wrap_content"
+				            android:layout_gravity="center_horizontal"
+				            android:text="星期三"
+				            android:textColor="@color/textOrange"
+				            android:textSize="15sp"
+				            android:typeface="serif" />
+
+				        <ImageView
+				            android:layout_width="wrap_content"
+				            android:layout_height="wrap_content"
+				            android:layout_gravity="center_horizontal"
+				            android:src="@drawable/weather_srain_medium"/>
+
+				        <TextView
+				            android:layout_width="wrap_content"
+				            android:layout_height="wrap_content"
+				            android:layout_gravity="center_horizontal"
+				            android:text="21°"
+				            android:textColor="@color/textOrange"
+				            android:textSize="25sp"
+				            android:typeface="serif" />
+
+			        </LinearLayout>
+			    </LinearLayout>
+			    <LinearLayout
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_gravity="bottom"
+		            android:orientation="vertical" >
+			        <LinearLayout
+			            android:layout_width="wrap_content"
+			            android:layout_height="wrap_content"
+			            android:orientation="vertical" >
+
+				        <TextView
+				            android:layout_width="wrap_content"
+				            android:layout_height="wrap_content"
+				            android:layout_gravity="center_horizontal"
+				            android:text="星期四"
+				            android:textColor="@color/textOrange"
+				            android:textSize="15sp"
+				            android:typeface="serif" />
+
+				        <ImageView
+				            android:layout_width="wrap_content"
+				            android:layout_height="wrap_content"
+				            android:layout_gravity="center_horizontal"
+				            android:src="@drawable/weather_sun_medium" />
+
+				        <TextView
+				            android:layout_width="wrap_content"
+				            android:layout_height="wrap_content"
+				            android:layout_gravity="center_horizontal"
+				            android:text="21°"
+				            android:textColor="@color/textOrange"
+				            android:textSize="25sp"
+				            android:typeface="serif" />
+
+			        </LinearLayout>
+			    </LinearLayout>
+		    </LinearLayout>
+	    </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>
+
