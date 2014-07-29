@@ -34,7 +34,7 @@ public class CityUtil {
 		if(allAirportsMap == null){
 			allAirportsMap = new HashMap<String, String>();
 			for(Airport airport : GlobalVariables.domAirportList){
-				if(!allAirportsMap.containsKey(airportCode))
+				if(!allAirportsMap.containsKey(airport.getAirportcode()))
 					allAirportsMap.put(airport.getAirportcode(), airport.getAirportname());
 			}
 		}

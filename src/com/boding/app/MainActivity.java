@@ -495,7 +495,7 @@ public class MainActivity extends BodingBaseActivity {
 		rightPageAirportWeatherLinearLayout = (LinearLayout) rightPageView.findViewById(R.id.rightpage_airportweather_linearLayout);
 		rightPageAirportTransportLinearLayout = (LinearLayout) rightPageView.findViewById(R.id.rightpage_airporttransport_linearLayout);
 		rightPageAirportPhoneNumLinearLayout = (LinearLayout) rightPageView.findViewById(R.id.rightpage_airportphonenum_linearLayout);
-		rightPageAirportPhoneNumLinearLayout = (LinearLayout) rightPageView.findViewById(R.id.rightpage_airlinecompanyPhoneNum_linearLayout);
+		rightPageAirlineCompanyPhoneNumLinearLayout = (LinearLayout) rightPageView.findViewById(R.id.rightpage_airlinecompanyPhoneNum_linearLayout);
 		
 		rightPageChooseAirportLinearLayout.setOnClickListener(new OnClickListener() {
 			@Override
@@ -503,6 +503,42 @@ public class MainActivity extends BodingBaseActivity {
 				Intent intent = new Intent();
 				intent.setClass(MainActivity.this, AirportSelectActivity.class);
 				startActivityForResult(intent, IntentRequestCode.AIRPORT_SELECT.getRequestCode());
+			}
+		});
+		
+		rightPageAirportWeatherLinearLayout.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				Intent intent = new Intent();
+				intent.setClass(MainActivity.this, AirportWeatherActivity.class);
+				startActivityForResult(intent, IntentRequestCode.AIRPORT_WEATHER.getRequestCode());
+			}
+		});
+		
+		rightPageAirportTransportLinearLayout.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				Intent intent = new Intent();
+				intent.setClass(MainActivity.this, AirportTransportActivity.class);
+				startActivityForResult(intent, IntentRequestCode.AIRPORT_TRANSPORT.getRequestCode());
+			}
+		});
+		
+		rightPageAirportPhoneNumLinearLayout.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				Intent intent = new Intent();
+				intent.setClass(MainActivity.this, AirportPhoneNumActivity.class);
+				startActivityForResult(intent, IntentRequestCode.AIRPORT_PHONENUM.getRequestCode());
+			}
+		});
+		
+		rightPageAirlineCompanyPhoneNumLinearLayout.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				Intent intent = new Intent();
+				intent.setClass(MainActivity.this, AirlineCompanyPhoneNumActivity.class);
+				startActivityForResult(intent, IntentRequestCode.AIRLINECOMPANY_PHONENUM.getRequestCode());
 			}
 		});
 		
