@@ -51,6 +51,10 @@ public class AvXmlParser {
             	if(parser.getName().equals("av")){
                 	av = new AirlineView();
                 	av.setResult(parser.getAttributeValue(null, "result"));
+                	if(!av.getResult().equals("0")){
+                		is.close();
+                		return new AirlineView();
+                	}
                 	av.setGoDate(parser.getAttributeValue(null, "godate"));
                 	av.setBackDate(parser.getAttributeValue(null, "backdate"));
                 	av.setFromCity(parser.getAttributeValue(null, "from"));

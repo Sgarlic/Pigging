@@ -4,6 +4,8 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import com.boding.constants.Constants;
+
 public class Encryption {
 	public static String getMD5(String string) throws NoSuchAlgorithmException {
 		byte[] hash;
@@ -22,5 +24,16 @@ public class Encryption {
 			hex.append(Integer.toHexString(b & 0xFF));
 		}
 		return hex.toString();
+	}
+	
+	public static String getSign(String ...args) throws NoSuchAlgorithmException{
+		String sign = null;
+		StringBuilder sb = new StringBuilder();
+		for(String s : args){
+			sb.append(s);
+		}
+		sb.append(getMD5(Constants.BODINGKEY).toUpperCase());
+		sign = getMD5(sb.toString()).toUpperCase();
+		return sign;
 	}
 }

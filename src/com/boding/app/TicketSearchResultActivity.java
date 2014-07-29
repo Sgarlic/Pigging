@@ -1,5 +1,6 @@
 package com.boding.app;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -39,6 +40,7 @@ import com.boding.task.DomeFlightQueryTask;
 import com.boding.task.XMLTask;
 import com.boding.util.CityUtil;
 import com.boding.util.DateUtil;
+import com.boding.util.Encryption;
 import com.boding.util.Util;
 import com.boding.view.dialog.CalendarDialog;
 import com.boding.view.dialog.CalendarDialog.OnItemClickListener;
@@ -431,26 +433,43 @@ public class TicketSearchResultActivity extends BodingBaseActivity {
 				return;
 		  }
 		  progressBarDialog.show();
+		  String fromcode = from.getCityCode();
+		  String tocode = to.getCityCode();
 		  if(isInternational){//国际
 				//此处先使用同一个xml测试
-				String urlstr = "http://115.231.73.25:1368/av.ashx?userid=boding&PassengerType=C001&fromcity=SHA&tocity=NYC&godate=2014-07-24&backdate=2014-07-26&sign=A3AF7E76AF44B0A2055D262C5329929E";
-				invokeXmlTask(urlstr, 2);
-				invokeXmlTask(urlstr, 1);
-				invokeXmlTask(urlstr, 3);
+				//String urlstr = "http://115.231.73.25:1368/av.ashx?userid=boding&PassengerType=C001&fromcity=SHA&tocity=NYC&godate=2014-07-24&backdate=2014-07-26&sign=A3AF7E76AF44B0A2055D262C5329929E";
+				//invokeXmlTask(urlstr, 2);
+				//invokeXmlTask(urlstr, 1);
+				//invokeXmlTask(urlstr, 3);
+				queryInternationalFlight(startdate, fromcode, tocode, 2);
+				queryInternationalFlight(startdate, fromcode, tocode, 1);
+				queryInternationalFlight(startdate, fromcode, tocode, 3);
 			}else{//国内
 				//setDomesticAdapter();
-				String fromcode = from.getCityCode();
-				String tocode = to.getCityCode();
+				
 				queryDomesticFlight(startdate, fromcode, tocode, 2);
 				queryDomesticFlight(DateUtil.getLastDay(startdate), fromcode, tocode, 1);
 				queryDomesticFlight(DateUtil.getNextDay(startdate), fromcode, tocode, 3);
 			}
 	  }
 	  
+	  private void queryInternationalFlight(String startdate, String fromcode, String tocode, int whichday){
+		  String passengerType = "C001";
+		  String urlformat = "http://115.231.73.25:1368/av.ashx?userid=%s&PassengerType=%s&fromcity=%s&tocity=%s&godate=%s&sign=%s";
+		  String sign = null;
+		  try {
+			  sign = Encryption.getSign(Constants.BODINGACCOUNT, passengerType, fromcode, tocode, startdate);
+		  } catch (NoSuchAlgorithmException e) {
+			  e.printStackTrace();
+		  }
+		  String url = String.format(urlformat, Constants.BODINGACCOUNT, passengerType, fromcode, tocode, startdate, sign);
+		  invokeXmlTask(url, whichday);
+	  }
+	  
 	  private void loadDataOfDay(int whichday){
 		  if(isInternational){
-			  String urlstr = "http://192.168.0.22:9404/FakeBodingServer/XMLServlet?day=today";
-			  invokeXmlTask(urlstr, whichday);
+			  //String urlstr = "http://192.168.0.22:9404/FakeBodingServer/XMLServlet?day=today";
+			  queryInternationalFlight(startdate, from.getCityCode(), to.getCityCode(), whichday);
 		  }else{
 			  queryDomesticFlight(startdate, from.getCityCode(), to.getCityCode(), whichday);
 		  }
