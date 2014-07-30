@@ -23,6 +23,7 @@ import com.boding.constants.IntentRequestCode;
 import com.boding.model.AirlineView;
 import com.boding.model.FlightClass;
 import com.boding.model.FlightLine;
+import com.boding.model.domestic.Flight;
 import com.boding.util.DateUtil;
 import com.boding.util.Util;
 
@@ -300,9 +301,14 @@ public class TicketSearchResultListIAdapter extends TicketSearchResultAdapter {
 		protected void publishResults(CharSequence constraint,
 				FilterResults results) {
 			flightLineList = (List<FlightLine>)results.values;
-		    if (results.count > 0) {
+			
+			int size = (flightLineList != null) ? flightLineList.size() : 0;
+		    if (size > 0) {
 		        notifyDataSetChanged();
-		    } else {
+		        ((TicketSearchResultActivity)context).hideNoResult();
+		    }else if(size == 0){
+		    	((TicketSearchResultActivity)context).showNoResult();
+		    }else {
 		        notifyDataSetInvalidated();
 		    }
 			
@@ -312,9 +318,11 @@ public class TicketSearchResultListIAdapter extends TicketSearchResultAdapter {
 	
 	public void orderLinesByLeatime(boolean isAsc){
 		Collections.sort(flightLineList, new FlightLine.LeatimeComp(isAsc));
+		notifyDataSetChanged();
 	}
 	
 	public void orderLinesByPrice(boolean isAsc){
 		Collections.sort(flightLineList, new FlightLine.PriceComp(isAsc));
+		notifyDataSetChanged();
 	}
 }

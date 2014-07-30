@@ -1,5 +1,6 @@
 package com.boding.model;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -10,7 +11,7 @@ public class AirlineView implements AirlineInterface{
 	private String backDate;
 	private String result;
 	private int isInternational;
-	private List<FlightLine> lines;
+	private List<FlightLine> lines = new ArrayList<FlightLine>();
 	
 	public String getFromCity() {
 		return fromCity;

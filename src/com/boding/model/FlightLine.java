@@ -93,7 +93,7 @@ public class FlightLine implements FlightInterface{
 	
 	public String getFlightPrice(){
 		System.out.println(this.getClass().toString() + "  " + this.selectedCabins.size());
-		return this.selectedCabins.get(defaultShowedCabinPos).getPrice().getAdult();
+		return this.selectedCabins.get(this.selectedClassPos).getPrice().getAdult();
 	}
 	
 	public String getLeaveDate(){
@@ -169,7 +169,9 @@ public class FlightLine implements FlightInterface{
 	}
 	
 	public int getFlightPriceInt(){
-		return Integer.parseInt(firstSegment.getFclasslist().get(0).getPrice().getFile());
+		if(selectedCabins.size() > 0)
+			return Integer.parseInt(selectedCabins.get(0).getPrice().getAdult());
+		return 0;
 	}
 	
 	public int getSelectedClassLeftTicket(){
@@ -241,6 +243,7 @@ public class FlightLine implements FlightInterface{
 		public int compare(FlightLine lhs, FlightLine rhs) {
 			int lhsprice = lhs.getFlightPriceInt();
 			int rhsprice = rhs.getFlightPriceInt();
+			System.out.println(lhsprice + "  " + rhsprice);
 			int result = 0;
 			if( lhsprice < rhsprice)
 				result = -1;

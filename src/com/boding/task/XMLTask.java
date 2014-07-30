@@ -34,11 +34,12 @@ public class XMLTask extends AsyncTask<Object,Void,Object>{
 		InputStream is = requestXML((String)params[0]);
 		//InputStream is = requestFakeData((Integer)params[0]);
 		
-		AirlineView av = null;
+		AirlineView av = new AirlineView();
 		try {
-			av = AvXmlParser.parse(is);
-			System.out.println("------" + av.getFromCity());
-			
+			if(is != null){
+				av = AvXmlParser.parse(is);
+				System.out.println("------" + av.getFromCity());
+			}
 		}catch (Exception e) {
 		
 			e.printStackTrace();
@@ -89,9 +90,9 @@ public class XMLTask extends AsyncTask<Object,Void,Object>{
             System.out.println(mHttpEntity.getContentEncoding());
             //.get
             
-            System.out.println(mHttpEntity.getContentEncoding().getValue());
-            Log.i("Boding", mHttpEntity.getContentEncoding().getValue());
-            if(mHttpEntity.getContentEncoding().getValue().contains("gzip")){
+            //System.out.println(mHttpEntity.getContentEncoding().getValue());
+            //Log.i("Boding", mHttpEntity.getContentEncoding().getValue());
+            if(mHttpEntity.getContentEncoding() != null && mHttpEntity.getContentEncoding().getValue().contains("gzip")){
             	inputStream = new GZIPInputStream(inputStream);
             }
             
