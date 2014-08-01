@@ -46,12 +46,15 @@ public class CityUtil {
 			allCitiesMap = new HashMap<String, String>();
 			allAirportCityMap = new HashMap<String, String>();
 			for(City city : GlobalVariables.domesticCitiesList){
-				if(!allCitiesMap.containsKey(city.getCityCode()))
+				if(!allCitiesMap.containsKey(city.getCityCode())){
 					allCitiesMap.put(city.getCityCode(), city.getCityName());
+				}
 				if(!allAirportCityMap.containsKey(city.getAirportcode()))
 					allAirportCityMap.put(city.getAirportcode(), city.getCityName());
 			}
 			for(City city : GlobalVariables.interCitiesList){
+				if(city.getCityName().contains("纽约拉瓜迪亚"))
+					continue;
 				if(!allCitiesMap.containsKey(city.getCityCode()))
 					allCitiesMap.put(city.getCityCode(), city.getCityName());
 				if(!allAirportCityMap.containsKey(city.getAirportcode()))
@@ -70,8 +73,11 @@ public class CityUtil {
 				return city;
 		}
 		for(City city : GlobalVariables.interCitiesList){
-			if(city.getCityCode().equals(cityCode))
+			if(city.getCityCode().equals(cityCode)){
+				if(city.getCityName().contains("纽约拉瓜迪亚"))
+					continue;
 				return city;
+			}
 		}
 		return null;
 	}

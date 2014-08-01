@@ -488,6 +488,7 @@ public class TicketSearchResultActivity extends BodingBaseActivity {
 					  bundle.putParcelable(IntentExtraAttribute.FLIGHT_LINE_INFO_ROUNDWAY, 
 							  (Flight)flightInterface);
 				  }else{
+					  GlobalVariables.roundWayFlightLine = (FlightLine)flightInterface;
 //					  bundle.putParcelable(IntentExtraAttribute.FLIGHT_LINE_INFO, 
 //							  (FlightLine)choosedGoFlight);
 //					  bundle.putParcelable(IntentExtraAttribute.FLIGHT_LINE_INFO_ROUNDWAY, 
@@ -512,6 +513,9 @@ public class TicketSearchResultActivity extends BodingBaseActivity {
 			  bundle.putParcelable(IntentExtraAttribute.FLIGHT_QUERY, flightQuery);
 			  if(!isInternational)
 				  bundle.putParcelable(IntentExtraAttribute.CHOOSED_ROUNDWAY_GOFLIGHT, (Flight)flightInterface);
+			  else{
+				  GlobalVariables.flightLine = (FlightLine)flightInterface;
+			  }
 			  bundle.putString(IntentExtraAttribute.CLASS_INFO, classInfo);
 			  intent.putExtras(bundle);
 		  }

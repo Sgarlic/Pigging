@@ -114,6 +114,7 @@ public class OrderFlightInfoILayout extends LinearLayout{
 		arrivalTerminalTextView.setText(segment.getArrTerminal());
 		fromEstimateTimeTextView.setText(segment.getEstimatedTime());
 		ticketPricePriceTextView.setText(flightLine.getFlightPrice());
+		ticketTaxPriceTextView.setText(flightLine.getSelectedClass().getTax().getAdult());
 	}
 	
 	private void initView(){

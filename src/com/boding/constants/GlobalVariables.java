@@ -55,6 +55,7 @@ public class GlobalVariables {
 	public static BodingUser bodingUser = null;
 	
 	public static FlightLine flightLine = null;
+	public static FlightLine roundWayFlightLine = null;
 	public static LowPriceSubscribe currentSubscribe = null;
 	public static List<FlightDynamics> myFollowedFdList = new ArrayList<FlightDynamics>();
 //	public static boolean isFlyToCitySelection = false;

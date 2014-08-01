@@ -93,8 +93,12 @@ public class OrderFormActivity extends Activity {
         		selectedRoundwayFlight = arguments.getParcelable(IntentExtraAttribute.FLIGHT_LINE_INFO_ROUNDWAY);
         	}
         }
-        if(!isDomestic)
+        if(!isDomestic){
         	selectedFlight = GlobalVariables.flightLine;
+        	if(isRoundWay){
+        		selectedRoundwayFlight = GlobalVariables.roundWayFlightLine;
+        	}
+        }
 	}
 	
 	private void setDeliveryAddr(){
@@ -127,6 +131,50 @@ public class OrderFormActivity extends Activity {
 					}else{
 						ticketPrice += (cabin.getChildPrice() +
 							cabin.getChildAirportFee() + cabin.getChildFuelFee());
+					}
+				}
+			}
+			if(isRoundWay){
+				flight = (Flight)selectedRoundwayFlight;
+				cabin = flight.getCabins().get(flight.getSelectedClassPos());
+				if(passengerList != null){
+			        for(Passenger passenger : passengerList){
+						if(passenger.isAdult()){
+							ticketPrice += (cabin.getAdultPrice() + 
+								Integer.parseInt(flight.getAdultAirportFee()) + Integer.parseInt(flight.getAdultFuelFee()));
+						}else{
+							ticketPrice += (cabin.getChildPrice() +
+								cabin.getChildAirportFee() + cabin.getChildFuelFee());
+						}
+					}
+				}
+			}
+		}else{
+			FlightLine flightLine = (FlightLine) selectedFlight;
+			FlightClass flightClass = flightLine.getSelectedClass();
+			if(passengerList != null){
+		        for(Passenger passenger : passengerList){
+					if(passenger.isAdult()){
+						ticketPrice += (Integer.parseInt(flightClass.getPrice().getAdult())+ 
+							Integer.parseInt(flightClass.getTax().getAdult()));
+					}else{
+						ticketPrice += (Integer.parseInt(flightClass.getPrice().getChild())+ 
+							Integer.parseInt(flightClass.getTax().getChild()));
+					}
+				}
+			}
+			if(isRoundWay){
+				flightLine = (FlightLine) selectedRoundwayFlight;
+				flightClass = flightLine.getSelectedClass();
+				if(passengerList != null){
+			        for(Passenger passenger : passengerList){
+						if(passenger.isAdult()){
+							ticketPrice += (Integer.parseInt(flightClass.getPrice().getAdult())+ 
+								Integer.parseInt(flightClass.getTax().getAdult()));
+						}else{
+							ticketPrice += (Integer.parseInt(flightClass.getPrice().getChild())+ 
+								Integer.parseInt(flightClass.getTax().getChild()));
+						}
 					}
 				}
 			}
@@ -186,7 +234,7 @@ public class OrderFormActivity extends Activity {
 			flightInfoLinearLayout.addView(orderFlightInfoILinearLayout);
 			if(isRoundWay){
 				OrderFlightInfoILayout orderFlightInfoIRLinearLayout = new OrderFlightInfoILayout(this,
-					(FlightLine)selectedFlight, true);
+					(FlightLine)selectedRoundwayFlight, true);
 				flightInfoLinearLayout.addView(orderFlightInfoIRLinearLayout);
 			}
 		}
@@ -430,6 +478,24 @@ public class OrderFormActivity extends Activity {
 				+"|"+selectedClass.getTax().getAdult()+"|"+selectedClass.getTax().getChild()+"||||"+
 				selectedClass.getPrice().getFile()+"|"+selectedClass.getRule().getReturnRule()+"|||0|0|0|0|"+selectedClass.getPrice().getId()
 				+"||||0|0|0"+"@";
+		}
+		
+		flightInfo = flightInfo.substring(0,flightInfo.length()-1);
+		if(isRoundWay){
+			flightLine = (FlightLine)selectedRoundwayFlight;
+			flightInfo += "$";
+			selectedClass = flightLine.getSelectedClass();
+			for(Segment segment : flightLine.getDeparture().getSegments()){
+				flightInfo += "|"+segment.getCarname()+"|"+segment.getCarrier()+"|"
+					+segment.getNum()+"|"+segment.getPlane()+"|"+flightLine.getSelectedClassName()+"|"
+					+"≤’Œª¿‡–Õ"+"|"+"|"+"|"+segment.getLeadate()+"|"+segment.getArrdate()+"|"
+					+segment.getLeatime()+"|"+segment.getArrtime()+"|"+"|"+"|"
+					+segment.getLeacode()+"|"+segment.getArrcode()+"|"+segment.getLeaTerminal()
+					+"|"+segment.getArrTerminal()+"|"+selectedClass.getPrice().getAdult()+"|"+selectedClass.getPrice().getChild()
+					+"|"+selectedClass.getTax().getAdult()+"|"+selectedClass.getTax().getChild()+"||||"+
+					selectedClass.getPrice().getFile()+"|"+selectedClass.getRule().getReturnRule()+"|||0|0|0|0|"+selectedClass.getPrice().getId()
+					+"||||0|0|0"+"@";
+			}
 		}
 		return flightInfo.substring(0,flightInfo.length()-1);
 	}
