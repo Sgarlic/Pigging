@@ -6,7 +6,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -46,7 +45,6 @@ import com.boding.view.dialog.CalendarDialog;
 import com.boding.view.dialog.CalendarDialog.OnItemClickListener;
 import com.boding.view.dialog.FilterDialog;
 import com.boding.view.dialog.NetworkUnavaiableDialog;
-import com.boding.view.dialog.ProgressBarDialog;
 
 public class TicketSearchResultActivity extends BodingBaseActivity {
 	private TicketSearchResultAdapter adapter;
@@ -195,13 +193,16 @@ public class TicketSearchResultActivity extends BodingBaseActivity {
 		searchResultListView.setOnGroupClickListener(new OnGroupClickListener() { 
 			@Override 
 			public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-				if(adapter.isGgroupExpandable(groupPosition)){
-					return false;
-				}
-				return true; 
+//				if(adapter.isGgroupExpandable(groupPosition)){
+//					return false;
+//				}
+//				return true;
+				FlightInterface currentFlightLine = (FlightInterface) adapter.getGroup(groupPosition);
+				currentFlightLine.setSelectedClassPos(0);
+				goToNextActivity(currentFlightLine);
+				return true;
 			} 
 		});
-		
 		todayLinearLayout.setOnClickListener(new OnClickListener(){
             @Override
             public void onClick(View arg0) {
@@ -371,6 +372,16 @@ public class TicketSearchResultActivity extends BodingBaseActivity {
 			  adapter = new TicketSearchResultListIAdapter(this, (AirlineView)todayAirline);
 		  else
 			  adapter = new TicketSearchResultListAdapter(this, (Airlines)todayAirline);
+		  adapter.setOnColExpClickListener(new TicketSearchResultAdapter.OnColExpClickListener() {
+				@Override
+				public void ColExp(int position) {
+					if(searchResultListView.isGroupExpanded(position)){
+						searchResultListView.collapseGroup(position);
+					}else{
+						searchResultListView.expandGroup(position);
+					}
+				}
+			});
 		  doDefaultFilter();
 		  
 		  if(adapter.getGroupCount() > 0){
@@ -385,7 +396,7 @@ public class TicketSearchResultActivity extends BodingBaseActivity {
 			public boolean onChildClick(ExpandableListView parent, View v, 
 					int groupPosition, int childPosition, long id) {
 				FlightInterface flight = (FlightInterface) adapter.getGroup(groupPosition);
-				flight.setSelectedClassPos(childPosition);
+				flight.setSelectedClassPos(childPosition +1);
 				goToNextActivity(flight);
 				return false;
 				}

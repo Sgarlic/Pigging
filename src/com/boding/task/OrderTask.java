@@ -152,20 +152,23 @@ public class OrderTask extends BodingBaseAsyncTask{
 		try {
 			JSONObject resultJson = new JSONObject(result);
 			order.setOrderCode(orderCode);
-			order.setOrderStatus(resultJson.getString("flag"));
+			String flag = resultJson.getString("flag");
+			if(flag.equals(""))
+				return null;
+			order.setOrderStatus(flag);
 			order.setInternalFlag(Boolean.getBoolean(resultJson.getString("internal_flag")));
 			order.setBookingDate(resultJson.getString("booking_date"));
 			order.setSourceFlag(resultJson.getString("source_flag"));
 			order.setLinkMan(resultJson.getString("linkman"));
 			order.setContactPhone(resultJson.getString("contactphone"));
 			order.setPayMode(resultJson.getString("pay_mode"));
-			order.setShouldRecvMoney(Util.getIntStringFromDoubleString(resultJson.getString("should_recv_money")));
+			order.setShouldRecvMoney(resultJson.getString("should_recv_money"));
 			order.setTicketPrice(Util.getIntStringFromDoubleString(resultJson.getString("ticketprice")));
 			order.setTax(Util.getIntStringFromDoubleString(resultJson.getString("tax")));
 			order.setInsurance(Util.getIntStringFromDoubleString(resultJson.getString("insurance")));
 			order.setInsuranceNum(Util.getIntStringFromDoubleString(resultJson.getString("insure_num")));
-			order.setPayAmount(Util.getIntStringFromDoubleString(resultJson.getString("pay_amount")));
-			order.setPrePayment(Util.getIntStringFromDoubleString(resultJson.getString("prepayment")));
+			order.setPayAmount(resultJson.getString("pay_amount"));
+			order.setPrePayment(resultJson.getString("prepayment"));
 			order.setLeaveCity(resultJson.getString("leave_city"));
 			order.setArriveCity(resultJson.getString("arrive_city"));
 			order.setFlightDateTime(resultJson.getString("flight_datetime"));
@@ -193,6 +196,7 @@ public class OrderTask extends BodingBaseAsyncTask{
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();
+			return null;
 		}
 		return order;
 	}

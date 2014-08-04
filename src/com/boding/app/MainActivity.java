@@ -466,8 +466,6 @@ public class MainActivity extends BodingBaseActivity {
 		topPageSearchLinearLayout.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				Intent intent = new Intent();
-				intent.setClass(MainActivity.this, FlightDynamicsListActivity.class);
 				FlightDynamicQuery fdq = new FlightDynamicQuery();
 				if(isSearchByNum){
 					fdq.setFlightNum(topPageSearchByFlightNumEditText.getText().toString().toUpperCase());
@@ -480,11 +478,19 @@ public class MainActivity extends BodingBaseActivity {
 					fdq.setToCityName(GlobalVariables.Fly_To_City.getCityName());
 				}
 				fdq.setDate(GlobalVariables.Fly_From_Date);
+				Intent intent = new Intent();
+				if(isSearchByNum)
+					intent.setClass(MainActivity.this, FlightBoardActivity.class);
+				else
+					intent.setClass(MainActivity.this, FlightDynamicsListActivity.class);
 				Bundle bundle = new Bundle();
 				bundle.putBoolean(IntentExtraAttribute.IS_FOLLOWEDLIST, false);
 				bundle.putParcelable(IntentExtraAttribute.FLIGHT_DYNAMIC_QUERY, fdq);
 				intent.putExtras(bundle);
-				startActivityForResult(intent,IntentRequestCode.FLIGHTDYNAMICS_LIST.getRequestCode());				
+				if(isSearchByNum)
+					startActivityForResult(intent,IntentRequestCode.FLIGHT_BOARD.getRequestCode());				
+				else
+					startActivityForResult(intent,IntentRequestCode.FLIGHTDYNAMICS_LIST.getRequestCode());
 			}
 		});
 	}

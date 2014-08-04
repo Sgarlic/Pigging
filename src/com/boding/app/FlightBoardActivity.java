@@ -5,6 +5,7 @@ import com.boding.constants.GlobalVariables;
 import com.boding.constants.HTTPAction;
 import com.boding.constants.IntentExtraAttribute;
 import com.boding.constants.IntentRequestCode;
+import com.boding.model.FlightDynamicQuery;
 import com.boding.model.FlightDynamics;
 import com.boding.task.FlightDynamicsTask;
 import com.boding.util.CityUtil;
@@ -13,7 +14,6 @@ import com.boding.view.dialog.ProgressBarDialog;
 import com.boding.view.dialog.NetworkUnavaiableDialog;
 import com.boding.view.dialog.WarningDialog;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -51,6 +51,8 @@ public class FlightBoardActivity extends BodingBaseActivity {
 	private LinearLayout fromDividerLinearLayout;
 	private LinearLayout toDividerLinearLayout;
 	
+	private FlightDynamicQuery fdq;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -60,7 +62,8 @@ public class FlightBoardActivity extends BodingBaseActivity {
 		networkUnavaiableDialog = new NetworkUnavaiableDialog(this);
 		
 		Bundle arguments = getIntent().getExtras();
-		dynamics = arguments.getParcelable(IntentExtraAttribute.FLIGHT_DYNAMIC);
+		fdq = arguments.getParcelable(IntentExtraAttribute.FLIGHT_DYNAMIC_QUERY);
+//		dynamics = arguments.getParcelable(IntentExtraAttribute.FLIGHT_DYNAMIC);
 		initView();
 		setViewContent();
 	}
@@ -168,7 +171,14 @@ public class FlightBoardActivity extends BodingBaseActivity {
 		addListeners();
 	}
     
-    private void setViewContent(){
+    public void setFlightDynamics(FlightDynamics flightDynamics){
+    	progressBarDialog.dismiss();
+    	if(flightDynamics == null){
+    		Util.showToast(this, "对不起，没有查到对应的航班动态");
+    		Util.returnToPreviousPage(this, IntentRequestCode.FLIGHT_BOARD);
+    		return;
+    	}
+    	this.dynamics = flightDynamics;
     	planeInfoTextView.setText(dynamics.getCar_name() + dynamics.getCarrier() + dynamics.getNum());
     	dateTextView.setText(dynamics.getDate());
     	fromCityTextView.setText(CityUtil.getCityNameByCode(dynamics.getDep_airport_code()));
@@ -206,7 +216,17 @@ public class FlightBoardActivity extends BodingBaseActivity {
 		toAirportInfoTextView.setText(dynamics.getArr_airport_name());
 		flightStatusImageView.setImageResource(dynamics.getFlightStatus().getFlightBoardDrawable());
 		
+		int index = GlobalVariables.myFollowedFdList.indexOf(dynamics);
+		if(index != -1){
+			dynamics.setFollowed(true);
+		}
 		setFollowUnFollow();
+    }
+    
+    private void setViewContent(){
+    	progressBarDialog.show();
+    	(new FlightDynamicsTask(this, HTTPAction.SEARCH_FLIGHTDYNAMICS_BYNO)).execute(
+				fdq.getFlightNum(), fdq.getDate());
     }
     
     private void setFollowUnFollow(){

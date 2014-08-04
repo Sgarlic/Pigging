@@ -43,14 +43,14 @@ public class TicketSearchResultListIAdapter extends TicketSearchResultAdapter {
 	}
 	
 	public boolean isGgroupExpandable(int groupPosition){
-		if(getChildrenCount(groupPosition) == 1)
+		if(getChildrenCount(groupPosition) <1)
 			return false;
 		return true;
 	}
 	
 	@Override
 	public FlightClass getChild(int groupPosition, int childPosition) {
-		return getGroup(groupPosition).getSelectedCabins().get(childPosition);
+		return getGroup(groupPosition).getSelectedCabins().get(childPosition+1);
 	}
 
 	@Override
@@ -60,7 +60,7 @@ public class TicketSearchResultListIAdapter extends TicketSearchResultAdapter {
  
     @Override
     public int getChildrenCount(int groupPosition) { 
-            return getGroup(groupPosition).getSelectedCabins().size();
+            return getGroup(groupPosition).getSelectedCabins().size() -1;
     } 
  
     @Override
@@ -78,7 +78,7 @@ public class TicketSearchResultListIAdapter extends TicketSearchResultAdapter {
     } 
 	
     @Override
-    public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) { 
+    public View getGroupView(final int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) { 
     	// 实例化布局文件
     	GroupViewHolder holder;
 		if (convertView == null) {  
@@ -139,17 +139,25 @@ public class TicketSearchResultListIAdapter extends TicketSearchResultAdapter {
 		if(!isGgroupExpandable(groupPosition)){
 			holder.moreClassInfoLinearLayout.setVisibility(View.GONE);		
 		}else{
-			holder.moreClassInfoLinearLayout.setVisibility(View.VISIBLE);	
+			holder.moreClassInfoLinearLayout.setVisibility(View.VISIBLE);
+			holder.moreClassInfoLinearLayout.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View arg0) {
+					if(onColExpClickListener!=null){
+						onColExpClickListener.ColExp(groupPosition);
+					}
+				}
+			});
 		}
 		
-		holder.toOrderLinearLayout.setOnClickListener(new OnClickListener(){
-			@Override
-			public void onClick(View v) {
-				((TicketSearchResultActivity)context).goToNextActivity(currentFlightLine);
-			}
-		});
-		
-		
+//		holder.toOrderLinearLayout.setOnClickListener(new OnClickListener(){
+//			@Override
+//			public void onClick(View v) {
+//				((TicketSearchResultActivity)context).goToNextActivity(currentFlightLine);
+//			}
+//		});
+//		
+//		
 		
         return convertView;  
 	}
@@ -205,14 +213,20 @@ public class TicketSearchResultListIAdapter extends TicketSearchResultAdapter {
         holder.priceTextView.setText(flightClass.getPrice().getAdult());
 //        discountTextView.setTextij");
 //        priceTextView.setText(flightClass.getPrice()+"");
+        final FlightLine currentFlightLine = getGroup(groupPosition);
+        
+        final int pos = childPosition;
+//        holder.buyImageView.setOnClickListener(new OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				currentFlightLine.setSelectedClassPos(pos+1);
+//				System.out.println("HEEELOO" + currentFlightLine.getSelectedCabins().size());
+//				((TicketSearchResultActivity)context).goToNextActivity(currentFlightLine);
+//			}
+//		});
         
         return convertView; 
     }
-    
-    @Override
-	public boolean isChildSelectable(int arg0, int arg1) {
-		return false;
-	}
 
 	@Override
     public long getChildId(int groupPosition, int childPosition) { 

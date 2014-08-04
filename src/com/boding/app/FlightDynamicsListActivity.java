@@ -92,7 +92,7 @@ public class FlightDynamicsListActivity extends BodingBaseActivity{
 				titleTextView.setText(fdq.getFlightNum());
 			
 			(new FlightDynamicsTask(this, HTTPAction.SEARCH_FLIGHTDYNAMICS)).execute(
-				fdq.getFromCityCode(), fdq.getToCityCode(), fdq.getFlightNum(),fdq.getDate());
+				fdq.getFromCityCode(), fdq.getToCityCode(), fdq.getDate());
 		}
 	}
 	
@@ -114,16 +114,26 @@ public class FlightDynamicsListActivity extends BodingBaseActivity{
 			public void onItemClick(AdapterView<?> arg0, View arg1, int position,
 					long arg3) {
 				FlightDynamics dyn = adapter.getItem(position);
-				if(!isFollowsList){
-					int index = GlobalVariables.myFollowedFdList.indexOf(dyn);
-					if(index != -1){
-						dyn = GlobalVariables.myFollowedFdList.get(index);
-					}
-				}
+//				if(!isFollowsList){
+//					int index = GlobalVariables.myFollowedFdList.indexOf(dyn);
+//					if(index != -1){
+//						dyn = GlobalVariables.myFollowedFdList.get(index);
+//					}
+//				}
+//				Intent intent = new Intent();
+//				intent.setClass(FlightDynamicsListActivity.this, FlightBoardActivity.class);
+//				intent.putExtra(IntentExtraAttribute.FLIGHT_DYNAMIC, dyn);
+//				startActivityForResult(intent, IntentRequestCode.FLIGHT_BOARD.getRequestCode());
+				FlightDynamicQuery fdq = new FlightDynamicQuery();
+				fdq.setFlightNum(dyn.getCarrier()+dyn.getNum());
+				fdq.setDate(dyn.getDate());
 				Intent intent = new Intent();
 				intent.setClass(FlightDynamicsListActivity.this, FlightBoardActivity.class);
-				intent.putExtra(IntentExtraAttribute.FLIGHT_DYNAMIC, dyn);
-				startActivityForResult(intent, IntentRequestCode.FLIGHT_BOARD.getRequestCode());
+				Bundle bundle = new Bundle();
+				bundle.putParcelable(IntentExtraAttribute.FLIGHT_DYNAMIC_QUERY, fdq);
+				intent.putExtras(bundle);
+				startActivityForResult(intent,IntentRequestCode.FLIGHT_BOARD.getRequestCode());				
+			
 			}
 		});
 	}

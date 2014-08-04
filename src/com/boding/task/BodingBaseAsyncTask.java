@@ -45,6 +45,7 @@ public abstract class BodingBaseAsyncTask extends AsyncTask<Object,Void,Object> 
 			while((lines = reader.readLine()) != null){
 				sbr.append(lines);
 			}
+			System.out.println(sbr.toString());
 		} catch (SocketTimeoutException e) {
 			isTimeout = true;
 		} catch (MalformedURLException e) {

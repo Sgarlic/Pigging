@@ -74,6 +74,12 @@ public class OrderDetailActivity extends BodingBaseActivity {
 	}
 	
 	public void setOrderInfo(Order order){
+		progressBarDialog.dismiss();
+		if(order == null){
+			Util.showToast(this, "无法获取订单信息");
+			Util.returnToPreviousPage(this, IntentRequestCode.ORDER_DETAIL);
+			return;
+		}
 //		this.order = order;
 		orderStatusTextView.setText(order.getOrderStatus().getOrderDetailStatusName());
 		orderIDTextView.setText(order.getOrderCode());
@@ -105,15 +111,13 @@ public class OrderDetailActivity extends BodingBaseActivity {
 		insuranceAmountTextView.setText(order.getInsuranceNum()+"份");
 		insuranceTotalTextView.setText("共"+order.getInsurance()+"元");
 //		deliveryMethodTextView
-		totalPriceTextView.setText(order.getPayAmount());
+		totalPriceTextView.setText(order.getShouldRecvMoney());
 		
 		if(order.getOrderStatus() == OrderStatus.PENDING_PAYMENT){
 			confirmPayLinearLayout.setVisibility(View.VISIBLE);
 		}else{
 			confirmPayLinearLayout.setVisibility(View.GONE);
 		}
-		
-		progressBarDialog.dismiss();
 	}
 	
 	private void setViewContent(){
@@ -157,7 +161,7 @@ public class OrderDetailActivity extends BodingBaseActivity {
 		totalPriceTextView = (TextView)findViewById(R.id.orderdetail_totalPrice_textView);
 		confirmPayLinearLayout = (LinearLayout)findViewById(R.id.orderdetail_confirmPay_linearLayout);
 		paymentButtonTextView = (TextView) findViewById(R.id.orderdetail_paymentButton_textView);
-		
+
 		addListeners();
 	}
 	

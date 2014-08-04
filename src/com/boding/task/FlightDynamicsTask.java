@@ -36,8 +36,7 @@ public class FlightDynamicsTask extends BodingBaseAsyncTask {
 		super(context, action);
 	}
 	
-	public List<FlightDynamics> searchDynamics(String dpt, String arr,
-			String flightNo, String date){
+	public List<FlightDynamics> searchDynamics(String dpt, String arr,String date){
 		String source_flag = "android";
 		List<FlightDynamics> flightDynamicsList = new ArrayList<FlightDynamics>();
 		
@@ -45,7 +44,6 @@ public class FlightDynamicsTask extends BodingBaseAsyncTask {
 		sb.append(Constants.BODINGACCOUNT);
 		sb.append(dpt);
 		sb.append(arr);
-		sb.append(flightNo);
 		sb.append(date);
 		sb.append(source_flag);
 		String sign = "";
@@ -56,9 +54,9 @@ public class FlightDynamicsTask extends BodingBaseAsyncTask {
 			e.printStackTrace();
 		}
 		
-		String urlFormat = "http://user.iboarding.cn/API/DataInterface/FlightDynamic.ashx?userid=%s&dep=%s&arr=%s&flightNo=%s&date=%s&source_flag=%s&sign=%s";
+		String urlFormat = "http://user.iboarding.cn/API/DataInterface/FlightDynamic.ashx?userid=%s&dep=%s&arr=%s&date=%s&source_flag=%s&sign=%s";
 		String urlStr =  String.format(urlFormat,Constants.BODINGACCOUNT,
-			dpt,arr,flightNo,date,source_flag,sign);
+			dpt,arr,date,source_flag,sign);
 		String result = connectingServer(urlStr);
 		try {
 			JSONObject resultJson = new JSONObject(result);
@@ -93,6 +91,65 @@ public class FlightDynamicsTask extends BodingBaseAsyncTask {
 		return flightDynamicsList;
 	}
 	
+	public FlightDynamics searchFlightDynamicByNo(String flightNo, String date){
+		String source_flag = "android";
+		
+		StringBuilder sb = new StringBuilder();
+		sb.append(Constants.BODINGACCOUNT);
+		sb.append(flightNo);
+		sb.append(date);
+		sb.append(source_flag);
+		String sign = "";
+		try {
+			sb.append(Encryption.getMD5(Constants.BODINGKEY).toUpperCase());
+			sign = Encryption.getMD5(sb.toString()).toUpperCase();
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
+		
+		String urlFormat = "http://user.iboarding.cn/API/DataInterface/FlightDynamic.ashx?userid=%s&flightNo=%s&date=%s&source_flag=%s&sign=%s";
+		String urlStr =  String.format(urlFormat,Constants.BODINGACCOUNT,flightNo,date,source_flag,sign);
+		String result = connectingServer(urlStr);
+		try {
+			JSONObject resultJson = new JSONObject(result);
+			if (resultJson.getString("result").equals("0")){
+				String dateS = resultJson.getString("date");
+				JSONArray jsonArray = resultJson.getJSONArray("list");
+				for(int i = 0;i<jsonArray.length();i++){
+					JSONObject dynJson = jsonArray.getJSONObject(i);
+					FlightDynamics flightDynamics = new FlightDynamics();
+					flightDynamics.setDate(dateS);
+					flightDynamics.setCarrier(dynJson.getString("carrier"));
+					flightDynamics.setNum(dynJson.getString("num"));
+					flightDynamics.setCar_name(dynJson.getString("car_name"));
+					flightDynamics.setPunctuality(dynJson.getString("punctuality"));
+					flightDynamics.setPlan_dep_time(dynJson.getString("plan_dep_time"));
+					flightDynamics.setExpect_dep_time(dynJson.getString("expect_dep_time"));
+					flightDynamics.setActual_dep_time(dynJson.getString("actual_dep_time"));
+					flightDynamics.setDep_airport_code(dynJson.getString("dep_airport_code"));
+					flightDynamics.setArr_airport_code(dynJson.getString("arr_airport_code"));
+					flightDynamics.setDep_airport_name(dynJson.getString("dep_airport_name"));
+					flightDynamics.setArr_airport_name(dynJson.getString("arr_airport_name"));
+					flightDynamics.setDep_terminal(dynJson.getString("dep_terminal"));
+					flightDynamics.setArr_terminal(dynJson.getString("arr_terminal"));
+					flightDynamics.setPlan_arr_time(dynJson.getString("plan_arr_time"));
+					flightDynamics.setExpect_arr_time(dynJson.getString("expect_arr_time"));
+					flightDynamics.setActual_arr_time(dynJson.getString("actual_arr_time"));
+					flightDynamics.setFlightStatusByCode(dynJson.getString("status"));
+					flightDynamics.setDep_weatherFromCode(dynJson.getString("dep_weather"));
+					flightDynamics.setDep_temperature(dynJson.getString("dep_temperature"));
+					flightDynamics.setArr_weatherFromCode(dynJson.getString("arr_weather"));
+					flightDynamics.setArr_temperature(dynJson.getString("arr_temperature"));
+					return flightDynamics;
+				}
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+	
 	public List<FlightDynamics> getMyFollowedDynamics(){
 		GlobalVariables.myFollowedFdList.clear();
 		
@@ -116,25 +173,33 @@ public class FlightDynamicsTask extends BodingBaseAsyncTask {
 			JSONArray jsonArray = resultJson.getJSONArray("data");
 			for(int i = 0;i<jsonArray.length();i++){
 				JSONObject dynJson = jsonArray.getJSONObject(i);
-				FlightDynamics flightDynamics = new FlightDynamics();
+//				FlightDynamics flightDynamics = new FlightDynamics();
+				String date = dynJson.getString("date");
+				String num = dynJson.getString("num");
+				String carrier = dynJson.getString("carrier");
+				FlightDynamics flightDynamics  = searchFlightDynamicByNo(carrier+num, date);
+				if(flightDynamics == null){
+					flightDynamics = new FlightDynamics();
+					flightDynamics.setDate(date);
+					flightDynamics.setCarrier(carrier);
+					flightDynamics.setNum(num);
+					flightDynamics.setCar_name(dynJson.getString("car_name"));
+					flightDynamics.setPlan_dep_time(dynJson.getString("plan_dep_time"));
+					flightDynamics.setExpect_dep_time(dynJson.getString("expect_dep_time"));
+					flightDynamics.setActual_dep_time(dynJson.getString("actual_dep_time"));
+					flightDynamics.setDep_airport_code(dynJson.getString("dep_airport_code"));
+					flightDynamics.setArr_airport_code(dynJson.getString("arr_airport_code"));
+					flightDynamics.setDep_airport_name(dynJson.getString("dep_airport_name"));
+					flightDynamics.setArr_airport_name(dynJson.getString("arr_airport_name"));
+					flightDynamics.setDep_terminal(dynJson.getString("dep_terminal"));
+					flightDynamics.setArr_terminal(dynJson.getString("arr_terminal"));
+					flightDynamics.setPlan_arr_time(dynJson.getString("plan_arr_time"));
+					flightDynamics.setExpect_arr_time(dynJson.getString("expect_arr_time"));
+					flightDynamics.setActual_arr_time(dynJson.getString("actual_arr_time"));
+					flightDynamics.setFlightStatusByCode(dynJson.getString("status"));
+				}
+				
 				flightDynamics.setId(dynJson.getString("id"));
-				flightDynamics.setDate(dynJson.getString("date"));
-				flightDynamics.setCarrier(dynJson.getString("carrier"));
-				flightDynamics.setNum(dynJson.getString("num"));
-				flightDynamics.setCar_name(dynJson.getString("car_name"));
-				flightDynamics.setPlan_dep_time(dynJson.getString("plan_dep_time"));
-				flightDynamics.setExpect_dep_time(dynJson.getString("expect_dep_time"));
-				flightDynamics.setActual_dep_time(dynJson.getString("actual_dep_time"));
-				flightDynamics.setDep_airport_code(dynJson.getString("dep_airport_code"));
-				flightDynamics.setArr_airport_code(dynJson.getString("arr_airport_code"));
-				flightDynamics.setDep_airport_name(dynJson.getString("dep_airport_name"));
-				flightDynamics.setArr_airport_name(dynJson.getString("arr_airport_name"));
-				flightDynamics.setDep_terminal(dynJson.getString("dep_terminal"));
-				flightDynamics.setArr_terminal(dynJson.getString("arr_terminal"));
-				flightDynamics.setPlan_arr_time(dynJson.getString("plan_arr_time"));
-				flightDynamics.setExpect_arr_time(dynJson.getString("expect_arr_time"));
-				flightDynamics.setActual_arr_time(dynJson.getString("actual_arr_time"));
-				flightDynamics.setFlightStatusByCode(dynJson.getString("status"));
 				flightDynamics.setFollowed(true);
 				GlobalVariables.myFollowedFdList.add(flightDynamics);
 			}
@@ -261,7 +326,11 @@ public class FlightDynamicsTask extends BodingBaseAsyncTask {
 				break;
 			case SEARCH_FLIGHTDYNAMICS:
 				result = searchDynamics((String)params[0], (String)params[1],
-					(String)params[2], (String)params[3]);
+					(String)params[2]);
+				break;
+			case SEARCH_FLIGHTDYNAMICS_BYNO:
+				result = searchFlightDynamicByNo((String)params[0], (String)params[1]);
+				getMyFollowedDynamics();
 				break;
 			default:
 				break;
@@ -298,6 +367,10 @@ public class FlightDynamicsTask extends BodingBaseAsyncTask {
 			case SEARCH_FLIGHTDYNAMICS:
 				fListActivity = (FlightDynamicsListActivity) context;
 				fListActivity.setSearchedFlightDynamicsList((List<FlightDynamics>) result);
+				break;
+			case SEARCH_FLIGHTDYNAMICS_BYNO:
+				flightBoardActivity = (FlightBoardActivity) context;
+				flightBoardActivity.setFlightDynamics((FlightDynamics) result);
 				break;
 			default:
 				break;

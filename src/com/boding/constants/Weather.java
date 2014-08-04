@@ -4,19 +4,21 @@ import com.boding.R;
 
 
 public enum Weather {
-	SRAIN("srain","小雷雨",R.drawable.weather_sun),
-	CLOUD("cloud","多云",R.drawable.weather_cloud),
-	FOG("fog","霾",R.drawable.weather_sun),
-	SUN("sun","晴天",R.drawable.weather_sun);
+	SRAIN("srain","小雷雨",R.drawable.weather_thunder, R.drawable.weather_srain_medium),
+	CLOUD("cloud","多云",R.drawable.weather_cloud, R.drawable.weather_cloud_medium),
+	FOG("fog","霾",R.drawable.weather_fog, R.drawable.weather_flog_medium),
+	SUN("sun","晴天",R.drawable.weather_sun, R.drawable.weather_sun_medium);
 	
 	private String weatherCode;
 	private String weatherName;
 	private int weatherDrawable;
+	private int weatherDrawableMedium;
 	
-	private Weather(String weatherCode, String weatherName, int weatherDrawable){
+	private Weather(String weatherCode, String weatherName, int weatherDrawable, int weatherDrawableMedium){
 		this.weatherCode = weatherCode;
 		this.weatherName = weatherName;
 		this.weatherDrawable = weatherDrawable;
+		this.weatherDrawableMedium = weatherDrawableMedium;
 	}
 	
 	public static Weather getWeatherFromCode(String weatherCode){
@@ -46,5 +48,13 @@ public enum Weather {
 
 	public void setWeatherDrawable(int weatherDrawable) {
 		this.weatherDrawable = weatherDrawable;
+	}
+
+	public int getWeatherDrawableMedium() {
+		return weatherDrawableMedium;
+	}
+
+	public void setWeatherDrawableMedium(int weatherDrawableMedium) {
+		this.weatherDrawableMedium = weatherDrawableMedium;
 	}
 }

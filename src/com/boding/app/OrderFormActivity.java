@@ -47,10 +47,15 @@ public class OrderFormActivity extends Activity {
 	private LinearLayout insuranceLinearLayout;
 	private TextView insurancePriceTextView;
 	private TextView insuranceAmountTextView;
-	private LinearLayout journeySheetLinearLayout; 
 	private TextView journeySheetTextView;
 	private TextView totalPriceTextView;
 	private LinearLayout nextStepLinearLayout; 
+	
+	private LinearLayout journeySheetLinearLayout;
+	private LinearLayout noJourneySheetLinearLayout;
+	private LinearLayout needJourneySheetLinearLayout;
+	private TextView journeySheetPersonTextView;
+	private TextView journeySheetAddrTextView;
 	
 	private PassengerAdapter peopleAdapter;
 	
@@ -103,8 +108,14 @@ public class OrderFormActivity extends Activity {
 	
 	private void setDeliveryAddr(){
 		if(selectedAddr == null){
-			journeySheetTextView.setText("不需要行程单");
+			noJourneySheetLinearLayout.setVisibility(View.VISIBLE);;
+			needJourneySheetLinearLayout.setVisibility(View.GONE);
 		}else{
+			noJourneySheetLinearLayout.setVisibility(View.GONE);
+			needJourneySheetLinearLayout.setVisibility(View.VISIBLE);
+			journeySheetPersonTextView.setText(selectedAddr.getRecipientName() + "  "+selectedAddr.getMobile());
+			journeySheetAddrTextView.setText(selectedAddr.getProvince().getProvinceName()
+				+ "  " +selectedAddr.getCity() + "  "+selectedAddr.getDistrict() + "  " + selectedAddr.getDetailedAddr());
 			journeySheetTextView.setText(selectedAddr.getRecipientName());
 		}
 		calculateTotalPrice();
@@ -247,12 +258,15 @@ public class OrderFormActivity extends Activity {
 		insuranceLinearLayout = (LinearLayout) findViewById(R.id.orderform_insurance_linearLayout);
 		insurancePriceTextView = (TextView) findViewById(R.id.orderform_insurance_price_textView);
 		insuranceAmountTextView = (TextView) findViewById(R.id.orderform_insurance_amount_textView);
-		journeySheetLinearLayout = (LinearLayout) findViewById(R.id.orderform_journeySheet_linearLayout); 
 		journeySheetTextView = (TextView) findViewById(R.id.orderform_journeySheet_textView);
 		totalPriceTextView = (TextView) findViewById(R.id.orderform_totalPrice_textView);
 		nextStepLinearLayout = (LinearLayout) findViewById(R.id.orderform_nextStep_linearLayout); 
 		
-		
+		journeySheetLinearLayout = (LinearLayout)findViewById(R.id.orderform_journeySheet_linearLayout);
+		noJourneySheetLinearLayout = (LinearLayout)findViewById(R.id.orderform_nojourneySheet_linearLayout);
+		needJourneySheetLinearLayout = (LinearLayout)findViewById(R.id.orderform_needJourneySheet_linearLayout);
+		journeySheetPersonTextView = (TextView) findViewById(R.id.orderform_journeySheetPerson_textView);
+		journeySheetAddrTextView = (TextView) findViewById(R.id.orderform_journeySheetAddr_textView);
 		if(GlobalVariables.bodingUser != null){
 			phoneNumberEditText.setText(GlobalVariables.bodingUser.getMobile());
 		}
