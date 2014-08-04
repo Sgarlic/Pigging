@@ -50,32 +50,6 @@
 		                android:layout_marginRight="5dp"
 		                android:textSize="15dp"
 		                android:typeface="serif" />
-		            <TextView
-		                android:layout_width="wrap_content"
-		                android:layout_height="wrap_content"
-		                android:layout_gravity="bottom|left"
-		                android:text="准点率"
-		                android:textColor="@color/priceGray"
-		                android:textSize="13dp"
-		                android:typeface="serif" />
-		            <TextView
-		                android:id="@+id/ticket_search_ontimeRate_textView"
-		                android:layout_width="wrap_content"
-		                android:layout_height="wrap_content"
-		                android:layout_gravity="bottom|left"
-		                android:text="100"
-		                android:textColor="@color/priceGray"
-		                android:textSize="13dp"
-		                android:textStyle="bold"
-		                android:typeface="serif" />
-		            <TextView
-		                android:layout_width="wrap_content"
-		                android:layout_height="wrap_content"
-		                android:layout_gravity="bottom|left"
-		                android:text="%"
-		                android:textColor="@color/priceGray"
-		                android:textSize="13dp"
-		                android:typeface="serif" />
 		
 		        </LinearLayout>
 		        <LinearLayout

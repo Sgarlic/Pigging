@@ -79,8 +79,8 @@ public class LoginActivity extends BodingBaseActivity {
 				String userName = userNameEditText.getText().toString();
 				String password = passwordEditText.getText().toString();
 				
-//				userName = "13262763513";
-//				password = "000000";
+				userName = "13262763513";
+				password = "000000";
 				
 				if(userName.equals("")){
 					warningDialog.setContent("请输入用户名");

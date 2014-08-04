@@ -366,8 +366,9 @@ public class Order {
 	}
 
 	public String getPayAmount() {
-		double amount = Double.parseDouble(this.payAmount);
-		return (int)amount+"";
+//		double amount = Double.parseDouble(this.payAmount);
+//		return (int)amount+"";
+		return this.payAmount;
 	}
 
 	public void setPayAmount(String payAmount) {

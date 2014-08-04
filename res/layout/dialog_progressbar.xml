@@ -11,5 +11,12 @@
 	    android:layout_gravity="center_horizontal"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content" />
+
+	<com.boding.view.dialog.GIFView
+	    android:id="@+id/progressbardialog_loadingPic"
+	    android:layout_gravity="center_horizontal"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"/>
+	
 </LinearLayout>
 

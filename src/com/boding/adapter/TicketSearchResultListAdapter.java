@@ -86,7 +86,6 @@ public class TicketSearchResultListAdapter extends TicketSearchResultAdapter {
             holder = new GroupViewHolder();
             holder.flightStartTimeTextView = (TextView) convertView.findViewById(R.id.ticket_search_flightstarttime_textView);
             holder.flightEndTimeTextView = (TextView) convertView.findViewById(R.id.ticket_search_flightendtime_textView);
-            holder.onTimeRateTextView = (TextView) convertView.findViewById(R.id.ticket_search_ontimeRate_textView);
             holder.flightPriceTextView = (TextView) convertView.findViewById(R.id.ticket_search_flightprice_textView);
             holder.ticketLeftTextView = (TextView) convertView.findViewById(R.id.ticket_search_flightticketleft_textView);
             holder.airlineCompanyTextView = (TextView) convertView.findViewById(R.id.ticket_search_airlinecompany_textView);
@@ -133,7 +132,7 @@ public class TicketSearchResultListAdapter extends TicketSearchResultAdapter {
 		if(!isGgroupExpandable(groupPosition)){
 			holder.moreClassInfoLinearLayout.setVisibility(View.GONE);		
 		}else{
-			holder.moreClassInfoLinearLayout.setVisibility(View.VISIBLE);	
+			holder.moreClassInfoLinearLayout.setVisibility(View.VISIBLE);
 		}
 		holder.toOrderLinearLayout.setOnClickListener(new OnClickListener(){
 			@Override
@@ -149,7 +148,6 @@ public class TicketSearchResultListAdapter extends TicketSearchResultAdapter {
     private class GroupViewHolder{
         TextView flightStartTimeTextView;
         TextView flightEndTimeTextView;
-        TextView onTimeRateTextView;
         TextView flightPriceTextView;
         TextView ticketLeftTextView;
         TextView airlineCompanyTextView;
