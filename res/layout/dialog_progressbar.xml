@@ -3,20 +3,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:minWidth="280dip"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     tools:ignore="MergeRootFrame" >
-	<ProgressBar
-	    android:id="@+id/progressbardialog_progresBar"
-	    style="?android:attr/progressBarStyle"
-	    android:layout_gravity="center_horizontal"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content" />
-
-	<com.boding.view.dialog.GIFView
-	    android:id="@+id/progressbardialog_loadingPic"
-	    android:layout_gravity="center_horizontal"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"/>
-	
+    <LinearLayout
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_gravity="center_vertical"
+	    android:orientation="vertical" >
+		<com.ant.liao.GifView
+			android:id="@+id/progressbardialog_loadingPic"
+			android:layout_gravity="center_horizontal"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:enabled="false" />
+	</LinearLayout>
 </LinearLayout>
 

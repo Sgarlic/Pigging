@@ -1,14 +1,6 @@
 package com.boding.task;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.SocketTimeoutException;
-import java.net.URL;
 import java.net.URLEncoder;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -177,9 +169,9 @@ public class FlightDynamicsTask extends BodingBaseAsyncTask {
 				String date = dynJson.getString("date");
 				String num = dynJson.getString("num");
 				String carrier = dynJson.getString("carrier");
-				FlightDynamics flightDynamics  = searchFlightDynamicByNo(carrier+num, date);
-				if(flightDynamics == null){
-					flightDynamics = new FlightDynamics();
+//				FlightDynamics flightDynamics  = searchFlightDynamicByNo(carrier+num, date);
+//				if(flightDynamics == null){
+				FlightDynamics flightDynamics = new FlightDynamics();
 					flightDynamics.setDate(date);
 					flightDynamics.setCarrier(carrier);
 					flightDynamics.setNum(num);
@@ -197,10 +189,10 @@ public class FlightDynamicsTask extends BodingBaseAsyncTask {
 					flightDynamics.setExpect_arr_time(dynJson.getString("expect_arr_time"));
 					flightDynamics.setActual_arr_time(dynJson.getString("actual_arr_time"));
 					flightDynamics.setFlightStatusByCode(dynJson.getString("status"));
-				}
+//				}
 				
 				flightDynamics.setId(dynJson.getString("id"));
-				flightDynamics.setFollowed(true);
+//				flightDynamics.setFollowed(true);
 				GlobalVariables.myFollowedFdList.add(flightDynamics);
 			}
 		} catch (JSONException e) {
@@ -327,10 +319,17 @@ public class FlightDynamicsTask extends BodingBaseAsyncTask {
 			case SEARCH_FLIGHTDYNAMICS:
 				result = searchDynamics((String)params[0], (String)params[1],
 					(String)params[2]);
+				if(GlobalVariables.myFollowedFdList == null){
+					getMyFollowedDynamics();
+				}
 				break;
 			case SEARCH_FLIGHTDYNAMICS_BYNO:
+			case GET_FLIGHTBOARD:
+			case REFRESH_FLIGHT_DYNAMICS:
 				result = searchFlightDynamicByNo((String)params[0], (String)params[1]);
-				getMyFollowedDynamics();
+				if(GlobalVariables.myFollowedFdList == null){
+					getMyFollowedDynamics();
+				}
 				break;
 			default:
 				break;
@@ -368,9 +367,17 @@ public class FlightDynamicsTask extends BodingBaseAsyncTask {
 				fListActivity = (FlightDynamicsListActivity) context;
 				fListActivity.setSearchedFlightDynamicsList((List<FlightDynamics>) result);
 				break;
+			case GET_FLIGHTBOARD:
+				fListActivity = (FlightDynamicsListActivity) context;
+				fListActivity.setGetFlightDynamicResult((FlightDynamics) result);
+				break;
 			case SEARCH_FLIGHTDYNAMICS_BYNO:
-				flightBoardActivity = (FlightBoardActivity) context;
-				flightBoardActivity.setFlightDynamics((FlightDynamics) result);
+				mainActivity = (MainActivity) context;
+				mainActivity.setGetFlightDynamicResult((FlightDynamics) result);
+				break;
+			case REFRESH_FLIGHT_DYNAMICS:
+				mainActivity = (MainActivity) context;
+				mainActivity.setRefreshFlightDynamicResult((FlightDynamics) result);
 				break;
 			default:
 				break;

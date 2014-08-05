@@ -62,8 +62,7 @@ public class FlightBoardActivity extends BodingBaseActivity {
 		networkUnavaiableDialog = new NetworkUnavaiableDialog(this);
 		
 		Bundle arguments = getIntent().getExtras();
-		fdq = arguments.getParcelable(IntentExtraAttribute.FLIGHT_DYNAMIC_QUERY);
-//		dynamics = arguments.getParcelable(IntentExtraAttribute.FLIGHT_DYNAMIC);
+		dynamics = arguments.getParcelable(IntentExtraAttribute.FLIGHT_DYNAMIC);
 		initView();
 		setViewContent();
 	}
@@ -170,15 +169,7 @@ public class FlightBoardActivity extends BodingBaseActivity {
 		
 		addListeners();
 	}
-    
-    public void setFlightDynamics(FlightDynamics flightDynamics){
-    	progressBarDialog.dismiss();
-    	if(flightDynamics == null){
-    		Util.showToast(this, "对不起，没有查到对应的航班动态");
-    		Util.returnToPreviousPage(this, IntentRequestCode.FLIGHT_BOARD);
-    		return;
-    	}
-    	this.dynamics = flightDynamics;
+    private void setViewContent(){
     	planeInfoTextView.setText(dynamics.getCar_name() + dynamics.getCarrier() + dynamics.getNum());
     	dateTextView.setText(dynamics.getDate());
     	fromCityTextView.setText(CityUtil.getCityNameByCode(dynamics.getDep_airport_code()));
@@ -219,14 +210,9 @@ public class FlightBoardActivity extends BodingBaseActivity {
 		int index = GlobalVariables.myFollowedFdList.indexOf(dynamics);
 		if(index != -1){
 			dynamics.setFollowed(true);
+			dynamics.setId(GlobalVariables.myFollowedFdList.get(index).getId());
 		}
 		setFollowUnFollow();
-    }
-    
-    private void setViewContent(){
-    	progressBarDialog.show();
-    	(new FlightDynamicsTask(this, HTTPAction.SEARCH_FLIGHTDYNAMICS_BYNO)).execute(
-				fdq.getFlightNum(), fdq.getDate());
     }
     
     private void setFollowUnFollow(){

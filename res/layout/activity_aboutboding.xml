@@ -42,6 +42,7 @@
 			    android:orientation="horizontal">
 
 		        <TextView
+		            android:id="@+id/aboutboding_aboutbodingText"
 		            android:layout_width="wrap_content"
 		            android:layout_height="wrap_content"
 		            android:layout_gravity="center_vertical"
@@ -86,6 +87,7 @@
 	     	    android:layout_gravity="center_horizontal"
 	     	    android:src="@drawable/aboutboding_logo" />
      	   <TextView
+     	       android:id="@+id/aboutboding_bodingtravel"
      	       android:layout_width="wrap_content"
      	       android:layout_height="wrap_content"
      	       android:layout_gravity="center_horizontal"
@@ -96,6 +98,7 @@
      	       android:typeface="serif" />
 
      	   <TextView
+     	       android:id="@+id/aboutboding_version"
      	       android:layout_width="wrap_content"
      	       android:layout_height="wrap_content"
      	       android:layout_gravity="center_horizontal"
@@ -105,6 +108,7 @@
      	       android:typeface="serif" />
 
      	   <TextView
+     	       android:id="@+id/aboutboding_bodingcompany"
      	       android:layout_width="wrap_content"
      	       android:layout_height="wrap_content"
      	       android:layout_gravity="center_horizontal"

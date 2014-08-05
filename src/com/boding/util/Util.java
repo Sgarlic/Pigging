@@ -19,6 +19,7 @@ import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -33,6 +34,7 @@ import android.widget.CalendarView;
 import android.widget.DatePicker;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.boding.constants.Constants;
@@ -92,6 +94,10 @@ public class Util {
 //		   	view.setBackgroundDrawable(imagebakground);
 //		}
 //	}
+	
+	private static Typeface chineseTypeface = null;
+	private static Typeface englishTypeface = null;
+	
 	
 	@SuppressLint("NewApi")
 	public static void setViewBackground(View view, Drawable drawable){
@@ -292,5 +298,19 @@ public class Util {
 		String number = Constants.BONDING_PHONENUM;
 	    Intent intent = new Intent(Intent.ACTION_DIAL,Uri.parse("tel:" +number));
 	    context.startActivity(intent);
+	}
+	
+	public static void setChineseFont(Context context, TextView textView){
+		if(chineseTypeface == null)
+			chineseTypeface = Typeface.createFromAsset(context.getAssets(),
+                "fonts/simhei.ttf");
+		textView.setTypeface(chineseTypeface);
+	}
+	
+	public static void setEnglishFont(Context context, TextView textView){
+		if(englishTypeface == null)
+			englishTypeface = Typeface.createFromAsset(context.getAssets(),
+				"fonts/arial.ttf");
+		textView.setTypeface(englishTypeface);
 	}
 }

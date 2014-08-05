@@ -124,19 +124,24 @@ public class FlightDynamicsListActivity extends BodingBaseActivity{
 //				intent.setClass(FlightDynamicsListActivity.this, FlightBoardActivity.class);
 //				intent.putExtra(IntentExtraAttribute.FLIGHT_DYNAMIC, dyn);
 //				startActivityForResult(intent, IntentRequestCode.FLIGHT_BOARD.getRequestCode());
-				FlightDynamicQuery fdq = new FlightDynamicQuery();
-				fdq.setFlightNum(dyn.getCarrier()+dyn.getNum());
-				fdq.setDate(dyn.getDate());
-				Intent intent = new Intent();
-				intent.setClass(FlightDynamicsListActivity.this, FlightBoardActivity.class);
-				Bundle bundle = new Bundle();
-				bundle.putParcelable(IntentExtraAttribute.FLIGHT_DYNAMIC_QUERY, fdq);
-				intent.putExtras(bundle);
-				startActivityForResult(intent,IntentRequestCode.FLIGHT_BOARD.getRequestCode());				
-			
+				progressBarDialog.show();
+		    	(new FlightDynamicsTask(FlightDynamicsListActivity.this, HTTPAction.GET_FLIGHTBOARD)).execute(
+		    		dyn.getCarrier()+dyn.getNum(), dyn.getDate());		
 			}
 		});
 	}
+    
+    public void setGetFlightDynamicResult(FlightDynamics flightDynamics){
+    	progressBarDialog.dismiss();
+    	if(flightDynamics == null){
+    		Util.showToast(this, "对不起，没有查到对应的航班动态");
+    		return;
+    	}
+    	Intent intent = new Intent();
+		intent.setClass(FlightDynamicsListActivity.this, FlightBoardActivity.class);
+		intent.putExtra(IntentExtraAttribute.FLIGHT_DYNAMIC, flightDynamics);
+		startActivityForResult(intent, IntentRequestCode.FLIGHT_BOARD.getRequestCode());
+    }
     
     public class FlightDynamicsAdapter extends BaseAdapter{
     	private List<FlightDynamics> flightDynamicsList;

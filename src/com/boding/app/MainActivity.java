@@ -151,7 +151,7 @@ public class MainActivity extends BodingBaseActivity {
 	private View downPageView;
 	private int curUpdatePager;
 	
-	private int unFollowFlightPost = -1; 
+	private int unFollowFlightPos = -1; 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -478,22 +478,36 @@ public class MainActivity extends BodingBaseActivity {
 					fdq.setToCityName(GlobalVariables.Fly_To_City.getCityName());
 				}
 				fdq.setDate(GlobalVariables.Fly_From_Date);
-				Intent intent = new Intent();
-				if(isSearchByNum)
-					intent.setClass(MainActivity.this, FlightBoardActivity.class);
-				else
+				
+				if(isSearchByNum){
+					progressBarDialog.show();
+			    	(new FlightDynamicsTask(MainActivity.this, HTTPAction.SEARCH_FLIGHTDYNAMICS_BYNO)).execute(
+			    			fdq.getFlightNum(), fdq.getDate());		
+				}
+				else{
+					Intent intent = new Intent();
 					intent.setClass(MainActivity.this, FlightDynamicsListActivity.class);
-				Bundle bundle = new Bundle();
-				bundle.putBoolean(IntentExtraAttribute.IS_FOLLOWEDLIST, false);
-				bundle.putParcelable(IntentExtraAttribute.FLIGHT_DYNAMIC_QUERY, fdq);
-				intent.putExtras(bundle);
-				if(isSearchByNum)
-					startActivityForResult(intent,IntentRequestCode.FLIGHT_BOARD.getRequestCode());				
-				else
+					Bundle bundle = new Bundle();
+					bundle.putBoolean(IntentExtraAttribute.IS_FOLLOWEDLIST, false);
+					bundle.putParcelable(IntentExtraAttribute.FLIGHT_DYNAMIC_QUERY, fdq);
+					intent.putExtras(bundle);
 					startActivityForResult(intent,IntentRequestCode.FLIGHTDYNAMICS_LIST.getRequestCode());
+				}
 			}
 		});
 	}
+	
+	public void setGetFlightDynamicResult(FlightDynamics flightDynamics){
+    	progressBarDialog.dismiss();
+    	if(flightDynamics == null){
+    		Util.showToast(this, "对不起，没有查到对应的航班动态");
+    		return;
+    	}
+    	Intent intent = new Intent();
+		intent.setClass(this, FlightBoardActivity.class);
+		intent.putExtra(IntentExtraAttribute.FLIGHT_DYNAMIC, flightDynamics);
+		startActivityForResult(intent, IntentRequestCode.FLIGHT_BOARD.getRequestCode());
+    }
 	
 	private void initRightPageView(){
 		rightPageChooseAirportLinearLayout = (LinearLayout) rightPageView.findViewById(R.id.rightpage_chooseairport_linearLayout);
@@ -919,6 +933,27 @@ public class MainActivity extends BodingBaseActivity {
 		
 	}
 
+	public void setRefreshFlightDynamicResult(FlightDynamics flightDynamics){
+		progressBarDialog.dismiss();
+		if(flightDynamics == null)
+			return;
+		flightDynamics.setId(myFollowsFlightList.get(unFollowFlightPos).getId());
+		flightDynamics.setFollowed(true);
+		myFollowsFlightList.set(unFollowFlightPos,flightDynamics);
+		myFollowsViewPager.getAdapter().notifyDataSetChanged();  
+	}
+	
+	private void refreshFlight(){
+		if(!Util.isNetworkAvailable(MainActivity.this)){
+			networkUnavaiableDialog.show();
+			return;
+		}
+		progressBarDialog.show();
+		FlightDynamics flightDynamics = myFollowsFlightList.get(unFollowFlightPos); 
+		(new FlightDynamicsTask(this, HTTPAction.REFRESH_FLIGHT_DYNAMICS)).execute(
+			flightDynamics.getCarrier()+flightDynamics.getNum(),flightDynamics.getDate());
+	
+	}
 	private class MyFollowsPagerAdapter extends android.support.v4.view.PagerAdapter{
 		@Override
 		public int getCount() {
@@ -1085,10 +1120,27 @@ public class MainActivity extends BodingBaseActivity {
 				unFollowLinearLayout.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View arg0) {
-						unFollowFlightPost = position;
+						unFollowFlightPos = position;
 						unFollowFlight();
 					}
 				});
+				refreshLinearLayout.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View arg0) {
+						unFollowFlightPos = position;
+						refreshFlight();
+					}
+				});
+				if(!dynamics.isFollowed()){
+					if(!Util.isNetworkAvailable(MainActivity.this)){
+						networkUnavaiableDialog.show();
+						return myFollowsHList.get(position);
+					}
+					progressBarDialog.show();
+					unFollowFlightPos = position;
+					(new FlightDynamicsTask(MainActivity.this, HTTPAction.REFRESH_FLIGHT_DYNAMICS)).execute(
+						dynamics.getCarrier()+dynamics.getNum(),dynamics.getDate());
+				}
 			}
 			return myFollowsHList.get(position);
 		}
@@ -1098,14 +1150,13 @@ public class MainActivity extends BodingBaseActivity {
 			(collection).removeView((View)(myFollowsHList.get(position)));
 		}
 	}
-	
 	private void unFollowFlight(){
 		if(!Util.isNetworkAvailable(MainActivity.this)){
 			networkUnavaiableDialog.show();
 			return;
 		}
 		progressBarDialog.show();
-		(new FlightDynamicsTask(this, HTTPAction.UNFOLLOW_FLIGHTDYNAMICS_FROM_MAIN)).execute(myFollowsFlightList.get(unFollowFlightPost).getId());
+		(new FlightDynamicsTask(this, HTTPAction.UNFOLLOW_FLIGHTDYNAMICS_FROM_MAIN)).execute(myFollowsFlightList.get(unFollowFlightPos).getId());
 	}
 	
 	public void setUnFollowFlightResult(boolean isSuccess){
@@ -1115,13 +1166,13 @@ public class MainActivity extends BodingBaseActivity {
 				returnToUpPage();
 				return;
 			}
-			if(unFollowFlightPost == 0){
+			if(unFollowFlightPos == 0){
 				myFollowsViewPager.setCurrentItem(1);
 				removeViewPagerItem(0);
 			}else{
-				myFollowsViewPager.setCurrentItem(unFollowFlightPost - 1);
-				removeViewPagerItem(unFollowFlightPost);
-				myFollowsViewPager.setCurrentItem(unFollowFlightPost - 1);
+				myFollowsViewPager.setCurrentItem(unFollowFlightPos - 1);
+				removeViewPagerItem(unFollowFlightPos);
+				myFollowsViewPager.setCurrentItem(unFollowFlightPos - 1);
 			}
 		}else{
 			Util.showToast(this, "取消关注失败");

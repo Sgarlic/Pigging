@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 public class AboutBodingActivity extends Activity {
 
@@ -29,5 +30,10 @@ public class AboutBodingActivity extends Activity {
 			
 		});
 		
+		
+//		Util.setChineseFont(this, (TextView) findViewById(R.id.aboutboding_aboutbodingText));
+//		Util.setChineseFont(this, (TextView) findViewById(R.id.aboutboding_bodingtravel));
+//		Util.setEnglishFont(this, (TextView) findViewById(R.id.aboutboding_version));
+//		Util.setChineseFont(this, (TextView) findViewById(R.id.aboutboding_bodingcompany));
 	}
 }

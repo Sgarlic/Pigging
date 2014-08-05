@@ -279,9 +279,9 @@ public class FlightDynamics implements Parcelable{
 			 return false;
 	     if (!(obj instanceof FlightDynamics)) 
 	       return false;
-	     String curJudger = this.num + this.date;
+	     String curJudger = this.carrier + this.num + this.date;
 	     FlightDynamics dynamics = (FlightDynamics) obj;
-	     String newJudger = dynamics.num + dynamics.date;
+	     String newJudger = dynamics.carrier + dynamics.num + dynamics.date;
 	     return curJudger.equals(newJudger);
      } 
 }
