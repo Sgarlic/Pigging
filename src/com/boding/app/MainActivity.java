@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import com.boding.adapter.HPagerAdapter;
+import com.boding.adapter.MyViewPager;
 import com.boding.adapter.VPagerAdapter;
 import com.boding.constants.ActivityNumber;
 import com.boding.constants.Constants;
@@ -31,6 +32,7 @@ import com.boding.model.FlightQuery;
 
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
@@ -58,7 +60,7 @@ public class MainActivity extends BodingBaseActivity {
 	
 	private List<View> hList;
 	private List<View> vList;
-	private ViewPager hpager;
+	private MyViewPager hpager;
 	private VerticalViewPager vpager;
 	private LayoutInflater mInflater;
 	private VPagerAdapter vAdapter;
@@ -794,14 +796,17 @@ public class MainActivity extends BodingBaseActivity {
 		hList.add(middlePageView);
 		hList.add(rightPageView);
 		
-		hpager = (ViewPager)(mInflater.inflate(R.layout.activity_main, null).findViewById(R.id.hpager));
+		hpager = (MyViewPager)(mInflater.inflate(R.layout.activity_main, null).findViewById(R.id.hpager));
+		hpager.setpagerCount(3);
 		hAdapter = new HPagerAdapter(hList);
 		hpager.setAdapter(hAdapter);
 		hpager.setCurrentItem(1);
+		hpager.setCurrentIndex(1);
 		
 		hpager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 			@Override
 			public void onPageSelected(int arg0) {
+				hpager.setCurrentIndex(arg0);
 				if(arg0 != 1){
 					vpager.SetCanScroll(false);
 				}else{

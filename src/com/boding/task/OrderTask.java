@@ -40,6 +40,10 @@ public class OrderTask extends BodingBaseAsyncTask{
 	
 	public String createOrder(String flightInfo, String passengerInfo, 
 		String contactInfo, String receiveInfo, boolean internalFlag, PaymentMethod payMethod){
+		System.out.println(flightInfo);
+		System.out.println(passengerInfo);
+		System.out.println(contactInfo);
+		System.out.println(receiveInfo);
 		int flag = 0;
 		if(internalFlag)
 			flag = 1;

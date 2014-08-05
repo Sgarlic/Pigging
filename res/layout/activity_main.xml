@@ -6,11 +6,10 @@
     tools:context="com.boding.app.MainActivity"
     tools:ignore="MergeRootFrame">
     
-    <android.support.v4.view.ViewPager
+    <com.boding.adapter.MyViewPager
    	    android:id="@+id/hpager"
    	    android:layout_width="match_parent"
    	    android:layout_height="match_parent"
-   	    >
-   	</android.support.v4.view.ViewPager>
+   	    />
 </FrameLayout>
 
