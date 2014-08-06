@@ -10,6 +10,7 @@ import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
+import android.view.View;
 import android.view.animation.TranslateAnimation;
 
 public class MyViewPager extends ViewPager {  
@@ -68,9 +69,10 @@ public class MyViewPager extends ViewPager {
                 if (currentItem == 0) {  
                     if (offset > SCROLL_WIDTH) {//手指滑动的距离大于设定值  
                         whetherConditionIsRight(offset);  
+                    	
                     } else if (!handleDefault) {//这种情况是已经出现缓冲区域了，手指慢慢恢复的情况  
                         if (getLeft() + (int) (offset * RATIO) >= mRect.left) {  
-                            layout(getLeft() + (int) (offset * RATIO), getTop(), getRight() + (int) (offset * RATIO), getBottom());  
+                            layout(getLeft() + (int) (offset * RATIO), getTop(), getRight() + (int) (offset * RATIO), getBottom());
                         }  
                     }  
                 } else {  
@@ -78,7 +80,7 @@ public class MyViewPager extends ViewPager {
                         whetherConditionIsRight(offset);  
                     } else if (!handleDefault) {  
                         if (getRight() + (int) (offset * RATIO) <= mRect.right) {  
-                            layout(getLeft() + (int) (offset * RATIO), getTop(), getRight() + (int) (offset * RATIO), getBottom());  
+                            layout(getLeft() + (int) (offset * RATIO), getTop(), getRight() + (int) (offset * RATIO), getBottom());
                         }  
                     }  
                 }  
@@ -95,9 +97,14 @@ public class MyViewPager extends ViewPager {
             break;  
         }  
         return super.onTouchEvent(arg0);  
-    }  
+    } 
     
-    private boolean isDraw = false;
+    @Override
+    protected void onLayout(boolean changed, int l, int t, int r, int b){
+    	super.onLayout(changed, l, t, r, b);
+    	System.out.println("onlayout");
+	}
+    
   //存在canvas对象，即存在默认的显示区域  
     @Override  
     public void onDraw(Canvas canvas) {  
@@ -113,10 +120,12 @@ public class MyViewPager extends ViewPager {
   
     private void whetherConditionIsRight(float offset) {  
         if (mRect.isEmpty()) {  
+        	System.out.println(getLeft() + "   "+getTop() + "   "+getRight() + "    "+getBottom());
             mRect.set(getLeft(), getTop(), getRight(), getBottom());  
         }  
         handleDefault = false;  
-        layout(getLeft() + (int) (offset * RATIO), getTop(), getRight() + (int) (offset * RATIO), getBottom());  
+        System.out.println("wheter right:  "+getLeft() + (int) (offset * RATIO) + "   "+getTop() + "   "+getRight() + (int) (offset * RATIO) + "    "+getBottom());
+        layout(getLeft() + (int) (offset * RATIO), getTop(), getRight() + (int) (offset * RATIO), getBottom());
     }  
   
     private void onTouchActionUp() {  
@@ -130,10 +139,10 @@ public class MyViewPager extends ViewPager {
         ta = new TranslateAnimation(getLeft(), mRect.left, 0, 0);
         ta.setDuration(300);  
         startAnimation(ta);  
+        System.out.println("recoveryPosition:  "+mRect.left + "   "+ mRect.top + "   "+mRect.right + "    "+mRect.bottom);
         layout(mRect.left, mRect.top, mRect.right, mRect.bottom);  
         mRect.setEmpty();  
         handleDefault = true;  
-        isDraw = false;
     }  
   
 }  

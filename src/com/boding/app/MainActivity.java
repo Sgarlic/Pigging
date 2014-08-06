@@ -60,7 +60,7 @@ public class MainActivity extends BodingBaseActivity {
 	
 	private List<View> hList;
 	private List<View> vList;
-	private MyViewPager hpager;
+	private ViewPager hpager;
 	private VerticalViewPager vpager;
 	private LayoutInflater mInflater;
 	private VPagerAdapter vAdapter;
@@ -787,6 +787,8 @@ public class MainActivity extends BodingBaseActivity {
 		GlobalVariables.Screen_Width = screenSize.x;
 	}
 	
+	private int lastPosition = -1;
+	
 	private void initHorizontalViewPager(){
 		leftPageView = mInflater.inflate(R.layout.layout_left, null);
 		middlePageView = mInflater.inflate(R.layout.layout_middle, null);
@@ -796,18 +798,25 @@ public class MainActivity extends BodingBaseActivity {
 		hList.add(middlePageView);
 		hList.add(rightPageView);
 		
-		hpager = (MyViewPager)(mInflater.inflate(R.layout.activity_main, null).findViewById(R.id.hpager));
-		hpager.setpagerCount(3);
+		hpager = (ViewPager)(mInflater.inflate(R.layout.activity_main, null).findViewById(R.id.hpager));
+//		hpager.setPageMarginDrawable(R.drawable.arrowdown_notransit);
+//		hpager.setpagerCount(3);
 		hAdapter = new HPagerAdapter(hList);
 		hpager.setAdapter(hAdapter);
 		hpager.setCurrentItem(1);
-		hpager.setCurrentIndex(1);
+		hpager.setPageMargin(0);
+//		hpager.setCurrentIndex(1);
 		
+		final int maxOffset = GlobalVariables.Screen_Width / 5;
+		System.out.println("maxOffset:            "+maxOffset);
 		hpager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 			@Override
-			public void onPageSelected(int arg0) {
-				hpager.setCurrentIndex(arg0);
-				if(arg0 != 1){
+			public void onPageSelected(int position) {
+//				hpager.setCurrentIndex(position);
+//				if (position > 2) {
+//					hpager.setCurrentItem(2);
+//				}
+				if(position != 1){
 					vpager.SetCanScroll(false);
 				}else{
 					vpager.SetCanScroll(true);
@@ -815,11 +824,54 @@ public class MainActivity extends BodingBaseActivity {
 			}
 			
 			@Override
-			public void onPageScrolled(int arg0, float arg1, int arg2) {
+			public void onPageScrolled(int position, float positionOffset,
+                    int positionOffsetPixels) {
+//				int offset = GlobalVariables.Screen_Width - positionOffsetPixels;
+//				System.out.println(position + "           " + positionOffsetPixels + "           " + hpager.getCurrentItem());
+//				if(lastPosition == -1){
+//					lastPosition = positionOffsetPixels;
+//					return;
+//				}
+////				if(position == 0){
+////					hpager.setCurrentItem(1);
+////				}
+//				if (position == 0)
+//                {
+//					if((lastPosition - positionOffsetPixels) >= 0 && hpager.getCurrentItem() == 0){
+//						System.out.println("left");
+////						hpager.setPageMargin(50);
+//					}else
+//						hpager.setPageMargin(0);
+////					hpager.setCurrentItem(1);
+////					
+////					System.out.println("positionOffsetPixels          "+positionOffsetPixels);
+////					System.out.println("offset          "+offset);
+////					if(offset > maxOffset){
+////						hpager.layout(0,0,GlobalVariables.Screen_Width,GlobalVariables.Screen_Height);
+////						hpager.setCurrentItem(1);
+////					}
+//                } 
+//				else if (position == 2){
+//					if((lastPosition - positionOffsetPixels) <= 0  && hpager.getCurrentItem() == 2){
+//						System.out.println("right");
+////						hpager.setPageMargin(50);
+//					}
+//					else
+//						hpager.setPageMargin(0);
+////					hpager.setCurrentItem(2);
+////					System.out.println("positionOffsetPixels          "+positionOffsetPixels);
+////					if(positionOffsetPixels > maxOffset){
+////						
+////					}
+//				}else{
+//					hpager.setPageMargin(0);
+//				}
+//				lastPosition = positionOffsetPixels;
 			}
 			
 			@Override
 			public void onPageScrollStateChanged(int arg0) {
+				
 			}
 		});
 	}
