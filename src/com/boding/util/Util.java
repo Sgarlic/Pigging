@@ -18,7 +18,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
@@ -94,6 +96,16 @@ public class Util {
 //		   	view.setBackgroundDrawable(imagebakground);
 //		}
 //	}
+	
+	public static Bitmap add2Bitmap(Bitmap first, Bitmap second) {
+        int width =first.getWidth() + second.getWidth();
+        int height = Math.max(first.getHeight(), second.getHeight());
+		Bitmap result = Bitmap.createBitmap(width, height, Config.ARGB_8888);
+		Canvas canvas = new Canvas(result);
+		canvas.drawBitmap(first, 0, 0, null);
+		canvas.drawBitmap(second, first.getWidth(), 0, null);
+		return result;
+	}
 	
 	private static Typeface chineseTypeface = null;
 	private static Typeface englishTypeface = null;

@@ -76,6 +76,7 @@ public class MainActivity extends BodingBaseActivity {
 	/**
 	 * Left page widgets
 	 */
+	private LinearLayout leftpageLinearLayout;
 	private TextView leftpageFlyFromTextView;
 	private TextView leftPageFlyFromCodeTextView;
 	private TextView leftpageFlyToTextView;
@@ -139,6 +140,7 @@ public class MainActivity extends BodingBaseActivity {
 	/**
 	 * right page view
 	 */
+	private LinearLayout rightPageLinearLayout;
 	private LinearLayout rightPageChooseAirportLinearLayout;
 	private TextView rightPageChoosedAirportTextView;
 	private LinearLayout rightPageAirportWeatherLinearLayout;
@@ -183,8 +185,17 @@ public class MainActivity extends BodingBaseActivity {
 		setFlyFromReturnDate();
 	}
 	
+	public LinearLayout getLeftPageLinearLayout(){
+		return leftpageLinearLayout;
+	}
+	
+	public LinearLayout getRightPageLinearLayout(){
+		return rightPageLinearLayout;
+	}
+	
 	
 	private void initLeftPageView(){
+		leftpageLinearLayout = (LinearLayout)leftPageView.findViewById(R.id.ticket_search_linearlayout);
 		leftpageFlightWayChooseImageView = (ImageView)leftPageView.findViewById(R.id.left_page_flight_way_choose);
 		leftpageFlightWayChooseImageView.setOnClickListener(new OnClickListener(){
 			@Override
@@ -512,6 +523,7 @@ public class MainActivity extends BodingBaseActivity {
     }
 	
 	private void initRightPageView(){
+		rightPageLinearLayout = (LinearLayout) rightPageView.findViewById(R.id.right_page_linearlayout);
 		rightPageChooseAirportLinearLayout = (LinearLayout) rightPageView.findViewById(R.id.rightpage_chooseairport_linearLayout);
 		rightPageChoosedAirportTextView = (TextView) rightPageView.findViewById(R.id.rightpage_choosedairport_textView);
 		rightPageAirportWeatherLinearLayout = (LinearLayout) rightPageView.findViewById(R.id.rightpage_airportweather_linearLayout);
@@ -787,16 +799,17 @@ public class MainActivity extends BodingBaseActivity {
 		GlobalVariables.Screen_Width = screenSize.x;
 	}
 	
-	private int lastPosition = -1;
 	
 	private void initHorizontalViewPager(){
 		leftPageView = mInflater.inflate(R.layout.layout_left, null);
 		middlePageView = mInflater.inflate(R.layout.layout_middle, null);
 		rightPageView = mInflater.inflate(R.layout.layout_right, null);
 		hList = new ArrayList<View>();
+//		hList.add(mInflater.inflate(R.layout.layout_left, null));
 		hList.add(leftPageView);
 		hList.add(middlePageView);
 		hList.add(rightPageView);
+//		hList.add(mInflater.inflate(R.layout.layout_right, null));
 		
 		hpager = (ViewPager)(mInflater.inflate(R.layout.activity_main, null).findViewById(R.id.hpager));
 //		hpager.setPageMarginDrawable(R.drawable.arrowdown_notransit);

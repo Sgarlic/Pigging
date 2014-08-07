@@ -1,25 +1,42 @@
 package com.boding.adapter;
 
 import com.boding.R;
+import com.boding.app.MainActivity;
+import com.boding.constants.GlobalVariables;
+import com.boding.util.Util;
+
 import android.animation.Animator;
 import android.animation.Animator.AnimatorListener;
+import android.animation.Animator.AnimatorPauseListener;
 import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Camera;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Rect;
+import android.graphics.Bitmap.Config;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.support.v4.view.MotionEventCompat;
 import android.support.v4.view.ViewConfigurationCompat;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.util.FloatMath;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Transformation;
+import android.widget.LinearLayout;
 
+@SuppressLint("NewApi")
 public class ViewPager3D extends ViewPager {
 
 	/**
@@ -45,7 +62,7 @@ public class ViewPager3D extends ViewPager {
 	/**
 	 * duration of overscroll animation in ms
 	 */
-	final private static int DEFAULT_OVERSCROLL_ANIMATION_DURATION = 400;
+	final private static int DEFAULT_OVERSCROLL_ANIMATION_DURATION = 0;
 
 	/**
 	 * if true alpha of children gets animated during swipe and overscroll
@@ -56,7 +73,7 @@ public class ViewPager3D extends ViewPager {
 	private final static String DEBUG_TAG = ViewPager.class.getSimpleName();
 	private final static int INVALID_POINTER_ID = -1;
 	private final static double RADIANS = 180f / Math.PI;
-
+	
 	/**
 	 * @author renard
 	 */
@@ -84,19 +101,23 @@ public class ViewPager3D extends ViewPager {
 
 					@Override
 					public void onAnimationStart(Animator animation) {
+						System.out.println("animation Start.............");
 					}
 
 					@Override
 					public void onAnimationRepeat(Animator animation) {
+						System.out.println("animationRepeat.............");
 					}
 
 					@Override
 					public void onAnimationEnd(Animator animation) {
+						System.out.println("animation end.............");
 						startAnimation(0);
 					}
 
 					@Override
 					public void onAnimationCancel(Animator animation) {
+						System.out.println("animation v............");
 					}
 				});
 				mAnimator.cancel();
@@ -266,6 +287,16 @@ public class ViewPager3D extends ViewPager {
 			if (mScrollListener != null) {
 				mScrollListener.onPageSelected(position);
 			}
+			System.out.println("go");
+			if(position == 0){
+				MainActivity parentActivity = (MainActivity) ViewPager3D.this.getContext();
+				ViewPager3D.this.setBackgroundResource(R.drawable.leftpage_background);
+				parentActivity.getLeftPageLinearLayout().setBackgroundColor(getResources().getColor(R.color.transparent));
+			}else if (position == getAdapter().getCount() - 1){
+				MainActivity parentActivity = (MainActivity) ViewPager3D.this.getContext();
+				ViewPager3D.this.setBackgroundResource(R.drawable.rightpage_background);
+				parentActivity.getRightPageLinearLayout().setBackgroundColor(getResources().getColor(R.color.transparent));
+			}
 		}
 
 		@Override
@@ -357,6 +388,15 @@ public class ViewPager3D extends ViewPager {
 				callSuper = true;
 				mActivePointerId = INVALID_POINTER_ID;
 				mOverscrollEffect.onRelease();
+//				if(getCurrentItem() == 0){
+//					MainActivity parentActivity = (MainActivity) ViewPager3D.this.getContext();
+//					ViewPager3D.this.setBackgroundResource(R.drawable.leftpage_background);
+//					parentActivity.getLeftPageLinearLayout().setBackgroundColor(getResources().getColor(R.color.transparent));
+//				}else if (getCurrentItem() == getAdapter().getCount() - 1){
+//					MainActivity parentActivity = (MainActivity) ViewPager3D.this.getContext();
+//					ViewPager3D.this.setBackgroundResource(R.drawable.rightpage_background);
+//					parentActivity.getRightPageLinearLayout().setBackgroundColor(getResources().getColor(R.color.transparent));
+//				}
 				break;
 			}
 			case MotionEvent.ACTION_POINTER_UP: {
@@ -386,7 +426,7 @@ public class ViewPager3D extends ViewPager {
 		}
 	}
 
-
+	
 	@Override
 	protected boolean getChildStaticTransformation(View child, Transformation t) {
 		if (child.getWidth() == 0) {
@@ -399,12 +439,60 @@ public class ViewPager3D extends ViewPager {
 			final float dx = getWidth() / 2;
 			final int dy = getHeight() / 2;
 			t.getMatrix().reset();
-			final float translateZ = (float) (mOverscrollTranslation * Math.sin(Math.PI * Math.abs(mOverscrollEffect.mOverscroll)));
+			final int translateZ = (int) (mOverscrollTranslation * Math.sin(Math.PI * Math.abs(mOverscrollEffect.mOverscroll)))/2;
 			final float degrees = 90 / mOverscrollRotation - (float) ((RADIANS * Math.acos(mOverscrollEffect.mOverscroll)) / mOverscrollRotation);
 
+			System.out.println(translateZ);
 			mCamera.save();
-			mCamera.rotateY(degrees);
-			mCamera.translate(0, 0, translateZ);
+//			mCamera.rotateY(degrees);
+			if(mScrollPosition == 0){
+				mCamera.translate(translateZ, 0, 0);
+//				MainActivity parentActivity = (MainActivity) this.getContext();
+//				if(translateZ != 0 && !alreadyChanged){
+//					this.setBackgroundResource(R.drawable.leftpage_background);
+//					parentActivity.getLeftPageLinearLayout().setBackgroundColor(getResources().getColor(R.color.transparent));
+//					alreadyChanged = true;
+//				}
+//				if(translateZ != 0){
+//					Bitmap bitmap=BitmapFactory.decodeResource( getContext().getResources(),R.drawable.leftpage_left);
+//					int width = bitmap.getWidth();
+//					int height = bitmap.getHeight();
+//					float scaleHeight = ((float) GlobalVariables.Screen_Height) / height;
+//					float scaleWidth = scaleHeight; 
+//	
+//					Matrix matrix = new Matrix();
+//				    matrix.postScale(scaleWidth, scaleHeight); 
+//				    Bitmap backgroudBitmap = Bitmap.createBitmap(bitmap, 0, 0,width, height, matrix, true);
+//				    Bitmap newBitmap = Bitmap.createBitmap(backgroudBitmap, backgroudBitmap.getWidth() - translateZ, 0, translateZ, height);
+//				    
+//				    
+//				    Bitmap leftBackground=BitmapFactory.decodeResource( getContext().getResources(),R.drawable.leftpage_background);
+//				    int leftBgWidth = leftBackground.getWidth();
+//					int leftBgHeight = leftBackground.getHeight();
+//					float leftBgScaleHeight = ((float) GlobalVariables.Screen_Height) / leftBgHeight;
+//					Matrix leftBgMatrix = new Matrix();
+//					leftBgMatrix.postScale(leftBgScaleHeight, leftBgScaleHeight); 
+//				    Bitmap leftBgScaleBitmap = Bitmap.createBitmap(leftBackground, 0, 0,leftBgWidth, leftBgHeight, leftBgMatrix, true);
+//				    Bitmap fillBitMap = Bitmap.createBitmap(leftBgScaleBitmap, 0, 0, GlobalVariables.Screen_Width - translateZ, height);
+//				    
+//				    
+//				    Drawable imagebakground = new BitmapDrawable( getContext().getResources(), Util.add2Bitmap(newBitmap, fillBitMap));
+//					if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+//					 	this.setBackground(imagebakground);
+//					} else {
+//						this.setBackgroundDrawable(imagebakground);
+//					}
+//				}
+			}
+			else{
+				mCamera.translate(-translateZ, 0, 0);
+//				MainActivity parentActivity = (MainActivity) this.getContext();
+//				if(translateZ != 0 && !alreadyChanged){
+//					this.setBackgroundResource(R.drawable.rightpage_background);
+//					parentActivity.getRightPageLinearLayout().setBackgroundColor(getResources().getColor(R.color.transparent));
+//					alreadyChanged = true;
+//				}
+			}
 			mCamera.getMatrix(t.getMatrix());
 			mCamera.restore();
 			t.getMatrix().preTranslate(-dx, -dy);
@@ -412,52 +500,64 @@ public class ViewPager3D extends ViewPager {
 
 			if (mAnimateAlpha) {
 				t.setTransformationType(Transformation.TYPE_BOTH);
-				t.setAlpha((FloatMath.sin((float) ((1 - Math.abs(mOverscrollEffect.mOverscroll)) * Math.PI / 2))));
+//				t.setAlpha((FloatMath.sin((float) ((1 - Math.abs(mOverscrollEffect.mOverscroll)) * Math.PI / 2))));
 			}
 			return true;
-		} else if (mScrollPositionOffset > 0) {
-
-
-			final float dx = getWidth() / 2;
-			final float dy = getHeight() / 2;
-
-			double degrees = 0;
-			child.getLocalVisibleRect(mTempTect);
-
-			if (mTempTect.left >= mScrollPositionOffsetPixels) {
-				if (mAnimateAlpha) {
-					t.setTransformationType(Transformation.TYPE_BOTH);
-					t.setAlpha((FloatMath.sin((float) (mScrollPositionOffset
-							* Math.PI / 2))));
-				}
-				// right side
-				degrees = (90 / mSwipeRotation) - (RADIANS * Math.acos(mScrollPositionOffset)) / mSwipeRotation;
-			} else if (mTempTect.left == 0) {
-				if (mAnimateAlpha) {
-					t.setTransformationType(Transformation.TYPE_BOTH);
-					t.setAlpha((FloatMath.sin((float) (mScrollPositionOffset
-							* Math.PI / 2 + Math.PI / 2))));
-				}
-				// left side
-				degrees = -(90 / mSwipeRotation) + (RADIANS * Math.acos(1 - mScrollPositionOffset)) / mSwipeRotation;
+		}else if(mScrollPositionOffset > 0){
+			System.out.println("return");
+			MainActivity parentActivity = (MainActivity) this.getContext();
+			if(getCurrentItem() == 0){
+				parentActivity.getLeftPageLinearLayout().setBackgroundResource(R.drawable.leftpage_background);
+				this.setBackgroundColor(getResources().getColor(R.color.transparent));
+			}else if(getCurrentItem() == getAdapter().getCount() - 1){
+				parentActivity.getRightPageLinearLayout().setBackgroundResource(R.drawable.rightpage_background);
+				this.setBackgroundColor(getResources().getColor(R.color.transparent));
 			}
-
-
-			final float translateZ = (mSwipeTranslation * FloatMath.sin((float) ((Math.PI) * mScrollPositionOffset)));
-			//Log.i(DEBUG_TAG, visibleRect.left+ ", " + mScrollPositionOffsetPixels + ", degress = "+ String.format("%f.2", degrees));
-
-			t.getMatrix().reset();
-			mCamera.save();
-			mCamera.rotateY((float) degrees);
-			mCamera.translate(0, 0, translateZ);
-			mCamera.getMatrix(t.getMatrix());
-			mCamera.restore();
-			// pivot point is center of child
-			t.getMatrix().preTranslate(-dx, -dy);
-			t.getMatrix().postTranslate(dx, dy);
-			//child.invalidate();
 			return true;
 		}
+//		else if (mScrollPositionOffset > 0) {
+
+
+//			final float dx = getWidth() / 2;
+//			final float dy = getHeight() / 2;
+//
+//			double degrees = 0;
+//			child.getLocalVisibleRect(mTempTect);
+//
+//			if (mTempTect.left >= mScrollPositionOffsetPixels) {
+//				if (mAnimateAlpha) {
+//					t.setTransformationType(Transformation.TYPE_BOTH);
+//					t.setAlpha((FloatMath.sin((float) (mScrollPositionOffset
+//							* Math.PI / 2))));
+//				}
+//				// right side
+//				degrees = (90 / mSwipeRotation) - (RADIANS * Math.acos(mScrollPositionOffset)) / mSwipeRotation;
+//			} else if (mTempTect.left == 0) {
+//				if (mAnimateAlpha) {
+//					t.setTransformationType(Transformation.TYPE_BOTH);
+//					t.setAlpha((FloatMath.sin((float) (mScrollPositionOffset
+//							* Math.PI / 2 + Math.PI / 2))));
+//				}
+//				// left side
+//				degrees = -(90 / mSwipeRotation) + (RADIANS * Math.acos(1 - mScrollPositionOffset)) / mSwipeRotation;
+//			}
+//
+//
+//			final float translateZ = (mSwipeTranslation * FloatMath.sin((float) ((Math.PI) * mScrollPositionOffset)));
+//			//Log.i(DEBUG_TAG, visibleRect.left+ ", " + mScrollPositionOffsetPixels + ", degress = "+ String.format("%f.2", degrees));
+//
+//			t.getMatrix().reset();
+////			mCamera.save();
+////			mCamera.rotateY((float) degrees);
+////			mCamera.translate(0, 0, translateZ);
+////			mCamera.getMatrix(t.getMatrix());
+////			mCamera.restore();
+//			// pivot point is center of child
+//			t.getMatrix().preTranslate(-dx, -dy);
+//			t.getMatrix().postTranslate(dx, dy);
+//			//child.invalidate();
+//			return true;
+//		}
 		return false;
 	}
 }
