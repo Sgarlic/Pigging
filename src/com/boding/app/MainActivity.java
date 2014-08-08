@@ -5,7 +5,6 @@ import java.util.Calendar;
 import java.util.List;
 
 import com.boding.adapter.HPagerAdapter;
-import com.boding.adapter.MyViewPager;
 import com.boding.adapter.VPagerAdapter;
 import com.boding.constants.ActivityNumber;
 import com.boding.constants.Constants;

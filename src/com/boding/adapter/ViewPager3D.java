@@ -21,6 +21,7 @@ import android.graphics.Matrix;
 import android.graphics.Rect;
 import android.graphics.Bitmap.Config;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.v4.view.MotionEventCompat;
@@ -287,15 +288,12 @@ public class ViewPager3D extends ViewPager {
 			if (mScrollListener != null) {
 				mScrollListener.onPageSelected(position);
 			}
-			System.out.println("go");
 			if(position == 0){
-				MainActivity parentActivity = (MainActivity) ViewPager3D.this.getContext();
 				ViewPager3D.this.setBackgroundResource(R.drawable.leftpage_background);
-				parentActivity.getLeftPageLinearLayout().setBackgroundColor(getResources().getColor(R.color.transparent));
 			}else if (position == getAdapter().getCount() - 1){
-				MainActivity parentActivity = (MainActivity) ViewPager3D.this.getContext();
 				ViewPager3D.this.setBackgroundResource(R.drawable.rightpage_background);
-				parentActivity.getRightPageLinearLayout().setBackgroundColor(getResources().getColor(R.color.transparent));
+			}else{
+				ViewPager3D.this.setBackgroundColor(getResources().getColor(R.color.transparent));
 			}
 		}
 
@@ -388,15 +386,15 @@ public class ViewPager3D extends ViewPager {
 				callSuper = true;
 				mActivePointerId = INVALID_POINTER_ID;
 				mOverscrollEffect.onRelease();
-//				if(getCurrentItem() == 0){
-//					MainActivity parentActivity = (MainActivity) ViewPager3D.this.getContext();
-//					ViewPager3D.this.setBackgroundResource(R.drawable.leftpage_background);
-//					parentActivity.getLeftPageLinearLayout().setBackgroundColor(getResources().getColor(R.color.transparent));
-//				}else if (getCurrentItem() == getAdapter().getCount() - 1){
-//					MainActivity parentActivity = (MainActivity) ViewPager3D.this.getContext();
-//					ViewPager3D.this.setBackgroundResource(R.drawable.rightpage_background);
-//					parentActivity.getRightPageLinearLayout().setBackgroundColor(getResources().getColor(R.color.transparent));
-//				}
+				System.out.println("action cancel");
+				if(getCurrentItem() == 0){
+					MainActivity parentActivity = (MainActivity) ViewPager3D.this.getContext();
+					parentActivity.getLeftPageLinearLayout().setBackgroundResource(R.drawable.leftpage_background);
+				}else if (getCurrentItem() == getAdapter().getCount() - 1){
+					MainActivity parentActivity = (MainActivity) ViewPager3D.this.getContext();
+					parentActivity.getRightPageLinearLayout().setBackgroundResource(R.drawable.rightpage_background);
+				}
+				alreadSetBg = false;
 				break;
 			}
 			case MotionEvent.ACTION_POINTER_UP: {
@@ -426,6 +424,7 @@ public class ViewPager3D extends ViewPager {
 		}
 	}
 
+	private boolean alreadSetBg = false;
 	
 	@Override
 	protected boolean getChildStaticTransformation(View child, Transformation t) {
@@ -447,12 +446,12 @@ public class ViewPager3D extends ViewPager {
 //			mCamera.rotateY(degrees);
 			if(mScrollPosition == 0){
 				mCamera.translate(translateZ, 0, 0);
-//				MainActivity parentActivity = (MainActivity) this.getContext();
-//				if(translateZ != 0 && !alreadyChanged){
+				MainActivity parentActivity = (MainActivity) this.getContext();
+				if(translateZ != 0 && !alreadSetBg){
 //					this.setBackgroundResource(R.drawable.leftpage_background);
-//					parentActivity.getLeftPageLinearLayout().setBackgroundColor(getResources().getColor(R.color.transparent));
-//					alreadyChanged = true;
-//				}
+					parentActivity.getLeftPageLinearLayout().setBackgroundColor(getResources().getColor(R.color.transparent));
+					alreadSetBg = true;
+				}
 //				if(translateZ != 0){
 //					Bitmap bitmap=BitmapFactory.decodeResource( getContext().getResources(),R.drawable.leftpage_left);
 //					int width = bitmap.getWidth();
@@ -486,12 +485,17 @@ public class ViewPager3D extends ViewPager {
 			}
 			else{
 				mCamera.translate(-translateZ, 0, 0);
-//				MainActivity parentActivity = (MainActivity) this.getContext();
-//				if(translateZ != 0 && !alreadyChanged){
+				MainActivity parentActivity = (MainActivity) this.getContext();
+				if(translateZ != 0 && !alreadSetBg){
 //					this.setBackgroundResource(R.drawable.rightpage_background);
-//					parentActivity.getRightPageLinearLayout().setBackgroundColor(getResources().getColor(R.color.transparent));
-//					alreadyChanged = true;
-//				}
+//					parentActivity.getRightPageLinearLayout().setBackgroundResource(R.drawable.rightpage_background);
+					parentActivity.getRightPageLinearLayout().setBackgroundColor(getResources().getColor(R.color.transparent));
+//					parentActivity.getRightPageLinearLayout().setBackgroundResource(0);
+					
+//					parentActivity.getRightPageLinearLayout().setBackground(new ColorDrawable(0));
+//					parentActivity.getRightPageLinearLayout().setAlpha(0);
+					alreadSetBg = true;
+				}
 			}
 			mCamera.getMatrix(t.getMatrix());
 			mCamera.restore();
@@ -503,18 +507,37 @@ public class ViewPager3D extends ViewPager {
 //				t.setAlpha((FloatMath.sin((float) ((1 - Math.abs(mOverscrollEffect.mOverscroll)) * Math.PI / 2))));
 			}
 			return true;
-		}else if(mScrollPositionOffset > 0){
-			System.out.println("return");
-			MainActivity parentActivity = (MainActivity) this.getContext();
-			if(getCurrentItem() == 0){
-				parentActivity.getLeftPageLinearLayout().setBackgroundResource(R.drawable.leftpage_background);
-				this.setBackgroundColor(getResources().getColor(R.color.transparent));
-			}else if(getCurrentItem() == getAdapter().getCount() - 1){
-				parentActivity.getRightPageLinearLayout().setBackgroundResource(R.drawable.rightpage_background);
-				this.setBackgroundColor(getResources().getColor(R.color.transparent));
-			}
-			return true;
 		}
+//		else if(mScrollPositionOffset > 0){
+//			final int translateZ = (int) (mSwipeTranslation * FloatMath.sin((float) ((Math.PI) * mScrollPositionOffset)));
+//			MainActivity parentActivity = (MainActivity) this.getContext();
+//			if(translateZ == 0){
+//				if(getCurrentItem() == 0){
+//					System.out.println(translateZ);
+//					System.out.println("in left page but stop overscroll");
+//					parentActivity.getLeftPageLinearLayout().setBackgroundColor(getResources().getColor(R.color.transparent));
+//					this.setBackgroundResource(R.drawable.leftpage_background);
+//				}else if(getCurrentItem() == getAdapter().getCount() - 1){
+//					System.out.println("in right page but stop overscroll");
+//					parentActivity.getRightPageLinearLayout().setBackgroundColor(getResources().getColor(R.color.transparent));
+//					this.setBackgroundResource(R.drawable.rightpage_background);
+//				}
+//				alreadSetBg = false;
+//			}else{
+//				if(getCurrentItem() == 0 && !alreadSetBg){
+//					System.out.println(translateZ);
+//					System.out.println("in left page but not overscroll");
+//					parentActivity.getLeftPageLinearLayout().setBackgroundResource(R.drawable.leftpage_background);
+//					this.setBackgroundColor(getResources().getColor(R.color.transparent));
+//				}else if(getCurrentItem() == getAdapter().getCount() - 1 && !alreadSetBg){
+//					System.out.println("in right page but not overscroll");
+//					parentActivity.getRightPageLinearLayout().setBackgroundResource(R.drawable.rightpage_background);
+//					this.setBackgroundColor(getResources().getColor(R.color.transparent));
+//				}
+//				alreadSetBg = true;
+//			}
+//			return true;
+//		}
 //		else if (mScrollPositionOffset > 0) {
 
 
