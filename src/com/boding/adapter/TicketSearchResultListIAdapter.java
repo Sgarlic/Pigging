@@ -60,21 +60,21 @@ public class TicketSearchResultListIAdapter extends TicketSearchResultAdapter {
  
     @Override
     public int getChildrenCount(int groupPosition) { 
-            return getGroup(groupPosition).getSelectedCabins().size() -1;
+        return getGroup(groupPosition).getSelectedCabins().size() -1;
     } 
  
     @Override
     public FlightLine getGroup(int groupPosition) { 
-            return flightLineList.get(groupPosition); 
+        return flightLineList.get(groupPosition); 
     } 
  
     @Override
     public long getGroupId(int groupPosition) { 
-            return groupPosition; 
+        return groupPosition; 
     } 
     @Override
     public boolean hasStableIds() { 
-            return true; 
+        return true; 
     } 
 	
     @Override

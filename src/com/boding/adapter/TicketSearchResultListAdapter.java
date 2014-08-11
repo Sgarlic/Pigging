@@ -41,7 +41,6 @@ public class TicketSearchResultListAdapter extends TicketSearchResultAdapter {
 	}
 	
 	public boolean isGgroupExpandable(int groupPosition){
-		System.out.println("^^^^^^^^^^" + groupPosition + " " +getChildrenCount(groupPosition));
 		if(getChildrenCount(groupPosition) < 1)
 			return false;
 		return true;
@@ -59,22 +58,21 @@ public class TicketSearchResultListAdapter extends TicketSearchResultAdapter {
  
     @Override
     public int getChildrenCount(int groupPosition) { 
-    	System.out.println("&&&&&&&&&&&&" + getGroup(groupPosition).getSelectedCabins().size());
-            return getGroup(groupPosition).getSelectedCabins().size()-1; 
+        return getGroup(groupPosition).getSelectedCabins().size()-1; 
     } 
  
     @Override
     public Flight getGroup(int groupPosition) { 
-            return flightLineList.get(groupPosition); 
+        return flightLineList.get(groupPosition); 
     } 
  
     @Override
     public long getGroupId(int groupPosition) { 
-            return groupPosition; 
+        return groupPosition; 
     } 
     @Override
     public boolean hasStableIds() { 
-            return true; 
+        return true; 
     } 
 	
     @Override
