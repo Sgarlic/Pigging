@@ -25,6 +25,8 @@ import com.boding.view.dialog.TwoOptionsDialog;
 import com.boding.view.dialog.WarningDialog;
 import com.hp.hpl.sparta.xpath.PositionEqualsExpr;
 
+import com.boding.pay.alipay.Payment;
+
 public class OrderPaymentActivity extends BodingBaseActivity {
 	private TextView titleTextView;
 	private LinearLayout completeLinearLayout;
@@ -142,6 +144,19 @@ public class OrderPaymentActivity extends BodingBaseActivity {
 			public void onClick(View arg0) {
 				if(!isOrderCreated)
 					createOrder(PaymentMethod.Alipay);
+				else{
+					System.out.println("FlightInfo: " + flightInfo);
+					System.out.println("CityInfo: " + flyFromToCity);
+					System.out.println("PriceInfo: " + totalPrice);
+					
+					String[] infos = flightInfo.split("\\|");
+					
+					String subject = "机票购买： " + flyFromToCity + "  出发日期： " + infos[9];
+					System.out.println(subject);
+					String body = flightInfo + " "+ flyFromToCity + " "+passengerInfo;
+					
+					new Payment(OrderPaymentActivity.this).doPay("机票购买", "机票购买", "0.01");
+				}
 			}
 		});
 		paybyTenpayLinearLayout.setOnClickListener(new View.OnClickListener() {
@@ -149,6 +164,7 @@ public class OrderPaymentActivity extends BodingBaseActivity {
 			public void onClick(View arg0) {
 				if(!isOrderCreated)
 					createOrder(PaymentMethod.WX);
+				
 			}
 		});
 		bodingDeductionLinearLayout.setOnClickListener(new View.OnClickListener() {
