@@ -15,6 +15,7 @@ import com.boding.constants.HTTPAction;
 import com.boding.task.BodingUserTask;
 import com.boding.task.InitCityTask;
 import com.boding.task.InitCountryTask;
+import com.boding.task.UpdateAppTask;
 import com.boding.util.AreaXmlParser;
 import com.boding.util.CityUtil;
 import com.boding.util.DateUtil;
@@ -25,6 +26,7 @@ import com.boding.view.dialog.NetworkUnavaiableDialog;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -55,6 +57,8 @@ public class LauncherActivity extends Activity {
 			return;
 		}
 		
+		getLatesetVersion();
+		
 		mLocationClient = new LocationClient(this.getApplicationContext());
 		mMyLocationListener = new MyLocationListener();
 		mLocationClient.registerLocationListener(mMyLocationListener);
@@ -74,6 +78,18 @@ public class LauncherActivity extends Activity {
 	            LauncherActivity.this.finish();    
 	        }    
        }, SPLASH_DISPLAY_LENGHT); 
+	}
+	
+	private void getLatesetVersion(){
+		try {
+			GlobalVariables.Version_Code = getPackageManager().getPackageInfo(getPackageName(), 0).versionCode;
+			GlobalVariables.Version_Name = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
+			System.out.println(GlobalVariables.Version_Code);
+			System.out.println(GlobalVariables.Version_Name);
+			(new UpdateAppTask(this, HTTPAction.CHECK_UPDATES)).execute();
+		} catch (NameNotFoundException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void initLocation(){

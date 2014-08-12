@@ -1,6 +1,7 @@
 package com.boding.app;
 
 import com.boding.R;
+import com.boding.constants.GlobalVariables;
 import com.boding.constants.IntentRequestCode;
 import com.boding.util.Util;
 
@@ -12,7 +13,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class AboutBodingActivity extends Activity {
-
+	private TextView versionTextView; 
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -29,7 +31,8 @@ public class AboutBodingActivity extends Activity {
 			}
 			
 		});
-		
+		versionTextView = (TextView) findViewById(R.id.aboutboding_version);
+		versionTextView.setText(GlobalVariables.Version_Name);
 		
 //		Util.setChineseFont(this, (TextView) findViewById(R.id.aboutboding_aboutbodingText));
 //		Util.setChineseFont(this, (TextView) findViewById(R.id.aboutboding_bodingtravel));

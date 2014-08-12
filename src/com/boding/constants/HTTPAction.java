@@ -1,6 +1,8 @@
 package com.boding.constants;
 
 public enum HTTPAction {
+	CHECK_UPDATES,
+	
 	LOGIN,
 	LAUNCHER_LOGIN,
 	SETNEWPWD_LOGIN,

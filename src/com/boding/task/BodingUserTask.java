@@ -456,7 +456,7 @@ public class BodingUserTask extends BodingBaseAsyncTask  {
 	}
 	
 	@Override  
-	 protected void onPostExecute(Object result) {
+	protected void onPostExecute(Object result) {
 		if(isTimeout){
 			if(action != HTTPAction.LAUNCHER_LOGIN){
 				((BodingBaseActivity)context).handleTimeout();
