@@ -212,7 +212,7 @@ public class OrderPaymentActivity extends BodingBaseActivity {
 	public void setCreateOrderResult(String result){
 		progressBarDialog.dismiss();
 		if(result.equals("1")){
-			System.out.println("ordercreated     pending audit");
+			Util.showToast(this, "订单创建成功");
 			isOrderCreated = true;
 //			Intent intent = new Intent();
 //			intent.setClass(OrderPaymentActivity.this, OrderPaymentActivity.class);
@@ -224,8 +224,8 @@ public class OrderPaymentActivity extends BodingBaseActivity {
 //			intent.setClass(OrderFormActivity.this, OrderDetailActivity.class);
 //			startActivityForResult(intent,IntentRequestCode.ORDER_DETAIL.getRequestCode());
 		}else if(result.equals("0")){
+			Util.showToast(this, "订单创建成功");
 			isOrderCreated = true;
-			System.out.println("ordercreated     OKKKKKKKKKKKKKKKKK");
 		}else{
 			WarningDialog dialog = new WarningDialog(this);
 			dialog.setContent("请填写正确的信息");
