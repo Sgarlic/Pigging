@@ -13,15 +13,19 @@ import com.boding.constants.GlobalVariables;
 import com.boding.constants.HTTPAction;
 import com.boding.constants.IntentExtraAttribute;
 import com.boding.constants.IntentRequestCode;
+import com.boding.task.DownloadApkService;
 import com.boding.task.FlightDynamicsTask;
+import com.boding.task.UpdateAppTask;
 import com.boding.util.CityUtil;
 import com.boding.util.DateUtil;
 import com.boding.util.Util;
 import com.boding.view.dialog.NetworkUnavaiableDialog;
 import com.boding.view.dialog.ProgressBarDialog;
 import com.boding.view.dialog.SelectionDialog;
+import com.boding.view.dialog.TwoOptionsDialog;
 import com.boding.view.dialog.VerticalViewPager;
 import com.boding.view.dialog.WarningDialog;
+import com.boding.view.dialog.TwoOptionsDialog.OnOptionSelectedListener;
 import com.boding.R;
 import com.boding.model.Airport;
 import com.boding.model.City;
@@ -176,6 +180,27 @@ public class MainActivity extends BodingBaseActivity {
 		initDownPageView();
 		initTopPageView();
 		initRightPageView();
+		
+		if(!GlobalVariables.Latest_Version_Name.equals("")){
+			final TwoOptionsDialog dialog = new TwoOptionsDialog(this);
+			dialog.setContent("发现新版本V"+GlobalVariables.Latest_Version_Name+",建议立即更新使用");
+			dialog.setLeftOption("更新");
+			dialog.setRightOption("取消");
+			dialog.setOnOptionSelectedListener(new OnOptionSelectedListener() {
+				@Override
+				public void OnItemClick(int option) {
+					if(option == 0){
+						System.out.println("update..............");
+						Intent updateIntent =new Intent(MainActivity.this, DownloadApkService.class);
+	                    updateIntent.putExtra("titleId",R.string.app_name);
+	                    startService(updateIntent);
+	//					(new UpdateAppTask(MainActivity.this, HTTPAction.DOWNLOAD_APK)).execute();
+	//					downloadApk();
+					}
+				}
+			});
+			dialog.show();
+		}
 	}
 	
 	@Override

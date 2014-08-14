@@ -15,6 +15,7 @@ import com.boding.constants.HTTPAction;
 import com.boding.task.BodingUserTask;
 import com.boding.task.InitCityTask;
 import com.boding.task.InitCountryTask;
+import com.boding.task.UpdateAppTask;
 import com.boding.util.AreaXmlParser;
 import com.boding.util.CityUtil;
 import com.boding.util.DateUtil;
@@ -85,7 +86,7 @@ public class LauncherActivity extends Activity {
 			GlobalVariables.Version_Name = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
 			System.out.println(GlobalVariables.Version_Code);
 			System.out.println(GlobalVariables.Version_Name);
-			//(new UpdateAppTask(this, HTTPAction.CHECK_UPDATES)).execute();
+			(new UpdateAppTask(this, HTTPAction.CHECK_UPDATES)).execute();
 		} catch (NameNotFoundException e) {
 			e.printStackTrace();
 		}

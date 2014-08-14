@@ -40,6 +40,7 @@ public class OrderTask extends BodingBaseAsyncTask{
 	
 	public String createOrder(String flightInfo, String passengerInfo, 
 		String contactInfo, String receiveInfo, boolean internalFlag, PaymentMethod payMethod){
+		String orderCode = "";
 		System.out.println(flightInfo);
 		System.out.println(passengerInfo);
 		System.out.println(contactInfo);
@@ -118,6 +119,9 @@ public class OrderTask extends BodingBaseAsyncTask{
             
 			JSONObject resultJson = new JSONObject(result);
 			resultCode = resultJson.getString("result");
+			if(resultCode.equals("0") || resultCode.equals("1")){
+				orderCode = resultJson.getString("order_code");
+			}
 			System.out.println(resultCode);
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
@@ -132,7 +136,7 @@ public class OrderTask extends BodingBaseAsyncTask{
 			e.printStackTrace();
 		}
 		
-		return resultCode;
+		return orderCode;
 	}
 	
 	public Order getOrderDetail(String orderCode){

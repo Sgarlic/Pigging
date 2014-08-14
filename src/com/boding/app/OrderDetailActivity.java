@@ -17,12 +17,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.boding.R;
+import com.boding.constants.Constants;
 import com.boding.constants.HTTPAction;
 import com.boding.constants.IntentExtraAttribute;
 import com.boding.constants.IntentRequestCode;
 import com.boding.constants.OrderStatus;
 import com.boding.model.Order;
 import com.boding.model.Passenger;
+import com.boding.pay.alipay.Payment;
 import com.boding.task.OrderTask;
 import com.boding.util.Util;
 import com.boding.view.dialog.NetworkUnavaiableDialog;
@@ -73,7 +75,7 @@ public class OrderDetailActivity extends BodingBaseActivity {
 		setViewContent();
 	}
 	
-	public void setOrderInfo(Order order){
+	public void setOrderInfo(final Order order){
 		progressBarDialog.dismiss();
 		if(order == null){
 			Util.showToast(this, "无法获取订单信息");
@@ -115,6 +117,13 @@ public class OrderDetailActivity extends BodingBaseActivity {
 		
 		if(order.getOrderStatus() == OrderStatus.PENDING_PAYMENT){
 			confirmPayLinearLayout.setVisibility(View.VISIBLE);
+			confirmPayLinearLayout.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View arg0) {
+					new Payment(OrderDetailActivity.this).doPay(Constants.AliPay_Subject, 
+						order.getOrderCode(), order.getShouldRecvMoney());
+				}
+			});
 		}else{
 			confirmPayLinearLayout.setVisibility(View.GONE);
 		}

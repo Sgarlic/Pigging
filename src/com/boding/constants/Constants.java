@@ -28,4 +28,6 @@ public class Constants {
 	public static int CONNECT_TIMEOUT = 6000;
 	public static int READ_TIMEOUT = 12000;
 	public static String BONDING_PHONENUM = "021-54738327";
+	
+	public static String AliPay_Subject = "»úÆ±Æ±¿î";
 }

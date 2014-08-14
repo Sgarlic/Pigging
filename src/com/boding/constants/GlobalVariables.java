@@ -17,6 +17,7 @@ import com.boding.util.DateUtil;
 public class GlobalVariables {
 	public static int Version_Code = 1;
 	public static String Version_Name = "";
+	public static String Latest_Version_Name = "";
 	public static City Fly_From_City = null;
 	public static City Fly_To_City = null;
 	public static Airport SELECTED_AIRPORT = null;

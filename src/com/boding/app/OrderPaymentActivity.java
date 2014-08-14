@@ -55,6 +55,7 @@ public class OrderPaymentActivity extends BodingBaseActivity {
 	private TwoOptionsDialog twoOptionsDialog;
 	
 	private boolean isOrderCreated;
+	private PaymentMethod selecPaymentMethod = null;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -142,8 +143,9 @@ public class OrderPaymentActivity extends BodingBaseActivity {
 		paybyAlipayLinearLayout.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
+				selecPaymentMethod = PaymentMethod.Alipay;
 				if(!isOrderCreated)
-					createOrder(PaymentMethod.Alipay);
+					createOrder();
 				else{
 					System.out.println("FlightInfo: " + flightInfo);
 					System.out.println("CityInfo: " + flyFromToCity);
@@ -155,15 +157,16 @@ public class OrderPaymentActivity extends BodingBaseActivity {
 					System.out.println(subject);
 					String body = flightInfo + " "+ flyFromToCity + " "+passengerInfo;
 					
-					new Payment(OrderPaymentActivity.this).doPay("机票购买", "机票购买", "0.01");
+					new Payment(OrderPaymentActivity.this).doPay(Constants.AliPay_Subject, "机票购买", "0.01");
 				}
 			}
 		});
 		paybyTenpayLinearLayout.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
+				selecPaymentMethod = PaymentMethod.WX;
 				if(!isOrderCreated)
-					createOrder(PaymentMethod.WX);
+					createOrder();
 				
 			}
 		});
@@ -199,7 +202,7 @@ public class OrderPaymentActivity extends BodingBaseActivity {
 		startActivityForResult(intent,IntentRequestCode.BANKCARD_SELECTION.getRequestCode());
 	}
 	
-	private void createOrder(PaymentMethod paymentMethod){
+	private void createOrder(){
 		if(!Util.isNetworkAvailable(this)){
 			networkUnavaiableDialog.show();
 			return;
@@ -207,7 +210,7 @@ public class OrderPaymentActivity extends BodingBaseActivity {
 		progressBarDialog.show();
 		(new OrderTask(OrderPaymentActivity.this,HTTPAction.CREATE_ORDER_DOMESTIC))
 		.execute(flightInfo,passengerInfo,contactInfo,receiveInfo,
-				internalFlag, paymentMethod);
+				internalFlag, selecPaymentMethod);
 //		if(isDomestic){
 //			(new OrderTask(OrderFormActivity.this,HTTPAction.CREATE_ORDER_DOMESTIC))
 //			.execute(getFlightInfoStringDomestic(),"1|饶礼仁|NI|350783199011156575|0|0",
@@ -215,37 +218,42 @@ public class OrderPaymentActivity extends BodingBaseActivity {
 //		}
 	}
 	
-	 @Override  
-	    public boolean onKeyDown(int keyCode, KeyEvent event)  
-	    {  
-	        if (keyCode == KeyEvent.KEYCODE_BACK )  
-	        {  
-	        	returnToPreviousPage();
-	        }  
-	        return false;  
-	    }  
+	@Override  
+    public boolean onKeyDown(int keyCode, KeyEvent event)  
+    {  
+        if (keyCode == KeyEvent.KEYCODE_BACK )  
+        {  
+        	returnToPreviousPage();
+        }  
+        return false;  
+    }  
 	
 	public void setCreateOrderResult(String result){
 		progressBarDialog.dismiss();
-		if(result.equals("1")){
-			Util.showToast(this, "订单创建成功");
-			isOrderCreated = true;
-//			Intent intent = new Intent();
-//			intent.setClass(OrderPaymentActivity.this, OrderPaymentActivity.class);
-//			startActivityForResult(intent, IntentRequestCode.ORDER_PAYEMNT.getRequestCode());
-//			Order order = new Order();
-//			order.setOrderStatus(OrderStatus.PENDING_AUDIT.getOrderStatusCode());
-			
-//			Intent intent = new Intent();
-//			intent.setClass(OrderFormActivity.this, OrderDetailActivity.class);
-//			startActivityForResult(intent,IntentRequestCode.ORDER_DETAIL.getRequestCode());
-		}else if(result.equals("0")){
-			Util.showToast(this, "订单创建成功");
-			isOrderCreated = true;
-		}else{
+		if(result.equals("")){
 			WarningDialog dialog = new WarningDialog(this);
 			dialog.setContent("请填写正确的信息");
 			dialog.show();
+		}else{
+			Util.showToast(this, "订单创建成功");
+			isOrderCreated = true;
+			
+			
+			if(selecPaymentMethod != null){
+				if(selecPaymentMethod == PaymentMethod.Alipay){
+//					System.out.println("FlightInfo: " + flightInfo);
+//					System.out.println("CityInfo: " + flyFromToCity);
+//					System.out.println("PriceInfo: " + totalPrice);
+//					
+//					String[] infos = flightInfo.split("\\|");
+//					
+//					String subject = "机票购买： " + flyFromToCity + "  出发日期： " + infos[9];
+//					System.out.println(subject);
+//					String body = flightInfo + " "+ flyFromToCity + " "+passengerInfo;
+					
+					new Payment(OrderPaymentActivity.this).doPay(Constants.AliPay_Subject, result, totalPrice + "");
+				}
+			}
 		}
 	}
 	

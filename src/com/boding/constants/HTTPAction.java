@@ -2,6 +2,7 @@ package com.boding.constants;
 
 public enum HTTPAction {
 	CHECK_UPDATES,
+	DOWNLOAD_APK,
 	
 	LOGIN,
 	LAUNCHER_LOGIN,
