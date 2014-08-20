@@ -20,6 +20,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -94,11 +96,25 @@ public class CommonInfoMDeliverAddrActivity extends BodingBaseActivity {
 			@Override
 			public void onClick(View arg0) {
 				Intent intent = new Intent();
-				bundle.putBoolean(IntentExtraAttribute.EDIT_DELIVERYADDR_EXTRA, false);
+				bundle.putBoolean(IntentExtraAttribute.IS_EDIT_DELIVERYADDR, false);
 				intent.putExtras(bundle);
 				intent.setClass(CommonInfoMDeliverAddrActivity.this, AddDeliveryAddrActivity.class);
 				startActivityForResult(intent,IntentRequestCode.ADD_DELIVERYADDR.getRequestCode());
 			}
+		});
+		
+		deliveryAddrListView.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				Intent intent = new Intent();
+				bundle.putBoolean(IntentExtraAttribute.IS_EDIT_DELIVERYADDR, true);
+				bundle.putParcelable(IntentExtraAttribute.IS_EDIT_DELIVERYADDR_ADDRINFO, addressAdapter.getItem(position));
+				intent.putExtras(bundle);
+				intent.setClass(CommonInfoMDeliverAddrActivity.this, AddDeliveryAddrActivity.class);
+				startActivityForResult(intent, IntentRequestCode.ADD_DELIVERYADDR.getRequestCode());				
+			}
+			
 		});
 	}
 	
@@ -169,17 +185,6 @@ public class CommonInfoMDeliverAddrActivity extends BodingBaseActivity {
             holder.recipientNameTextView.setText(addr.getRecipientName());
             holder.addrTextView.setText(addr.getDisplayAddr());
             holder.zipcodeTextView.setText(addr.getZipcode());
-            holder.editLinearLayout.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					Intent intent = new Intent();
-					bundle.putBoolean(IntentExtraAttribute.IS_EDIT_DELIVERYADDR, true);
-					bundle.putParcelable(IntentExtraAttribute.IS_EDIT_DELIVERYADDR_ADDRINFO, addr);
-					intent.putExtras(bundle);
-					intent.setClass(CommonInfoMDeliverAddrActivity.this, AddDeliveryAddrActivity.class);
-					startActivityForResult(intent, IntentRequestCode.ADD_DELIVERYADDR.getRequestCode());
-				}
-			});
 	        return convertView;  
 		}
 		

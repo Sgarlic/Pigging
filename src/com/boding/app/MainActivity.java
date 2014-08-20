@@ -1225,16 +1225,16 @@ public class MainActivity extends BodingBaseActivity {
 						refreshFlight();
 					}
 				});
-				if(!dynamics.isFollowed()){
-					if(!Util.isNetworkAvailable(MainActivity.this)){
-						networkUnavaiableDialog.show();
-						return myFollowsHList.get(position);
-					}
-					progressBarDialog.show();
-					unFollowFlightPos = position;
-					(new FlightDynamicsTask(MainActivity.this, HTTPAction.REFRESH_FLIGHT_DYNAMICS)).execute(
-						dynamics.getCarrier()+dynamics.getNum(),dynamics.getDate());
-				}
+//				if(!dynamics.isFollowed()){
+//					if(!Util.isNetworkAvailable(MainActivity.this)){
+//						networkUnavaiableDialog.show();
+//						return myFollowsHList.get(position);
+//					}
+//					progressBarDialog.show();
+//					unFollowFlightPos = position;
+//					(new FlightDynamicsTask(MainActivity.this, HTTPAction.REFRESH_FLIGHT_DYNAMICS)).execute(
+//						dynamics.getCarrier()+dynamics.getNum(),dynamics.getDate());
+//				}
 			}
 			return myFollowsHList.get(position);
 		}

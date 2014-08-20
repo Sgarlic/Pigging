@@ -59,17 +59,19 @@ public class AddDeliveryAddrActivity extends BodingBaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_add_deliveryaddress);
+		provinceList = new ArrayList<String>();
+		cityList = new ArrayList<String>();
+		districtList = new ArrayList<String>();
 		Bundle arguments = getIntent().getExtras();
         if(arguments != null){
         	isEditing = arguments.getBoolean(IntentExtraAttribute.IS_EDIT_DELIVERYADDR);
         	if(isEditing){
         		deliveryAddr = (DeliveryAddress) arguments.getParcelable(IntentExtraAttribute.IS_EDIT_DELIVERYADDR_ADDRINFO);
+        		initCityList();
+        		initDistrictList(deliveryAddr.getCity());
         	}else
         		deliveryAddr = new DeliveryAddress();
         }
-		provinceList = new ArrayList<String>();
-		cityList = new ArrayList<String>();
-		districtList = new ArrayList<String>();
 //		Bundle arguments = getIntent().getExtras();
 //        if(arguments != null)
 //        	isReturnDateSelection = arguments.getBoolean(Constants.IS_RETURN_DATE_SELECTION);

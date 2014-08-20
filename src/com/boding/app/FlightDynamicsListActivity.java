@@ -66,14 +66,13 @@ public class FlightDynamicsListActivity extends BodingBaseActivity{
 	}
 	
 	public void setSearchedFlightDynamicsList(List<FlightDynamics> fdList){
+		progressBarDialog.dismiss();
 		if(fdList.size() == 0){
-			progressBarDialog.dismiss();
 			Util.showToast(this, "无法查询到航班");
 			return;
 		}
 		adapter = new FlightDynamicsAdapter(this, fdList);
 		flightDynamicsListView.setAdapter(adapter);
-		progressBarDialog.dismiss();
 	}
 	
 	private void setViewContent(){

@@ -20,6 +20,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -99,6 +101,18 @@ public class CommonInfoMPassengerActivity extends BodingBaseActivity {
 				startActivityForResult(intent, IntentRequestCode.ADD_PASSENGERINFO.getRequestCode());
 			}
 		});
+		passengerListView.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				Intent intent = new Intent();
+				bundle.putBoolean(IntentExtraAttribute.IS_EDIT_PASSENGER, true);
+				bundle.putParcelable(IntentExtraAttribute.IS_EDIT_PASSENGER_PASSENGERINFO, peopleAdapter.getItem(position));
+				intent.putExtras(bundle);
+				intent.setClass(CommonInfoMPassengerActivity.this, AddPassengerInfoActivity.class);
+				startActivityForResult(intent, IntentRequestCode.ADD_PASSENGERINFO.getRequestCode());
+			}
+		});
 	}
 	
 	private class PassengerAdapter extends BaseAdapter {
@@ -167,17 +181,6 @@ public class CommonInfoMPassengerActivity extends BodingBaseActivity {
             holder.nameTextView.setText(people.getDiaplayName());
             holder.idTypeTextView.setText(people.getIdentityType().getIdentityName());
             holder.idNumberTextView.setText(people.getCardNumber());
-            holder.editLinearLayout.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					Intent intent = new Intent();
-					bundle.putBoolean(IntentExtraAttribute.IS_EDIT_PASSENGER, true);
-					bundle.putParcelable(IntentExtraAttribute.IS_EDIT_PASSENGER_PASSENGERINFO, people);
-					intent.putExtras(bundle);
-					intent.setClass(CommonInfoMPassengerActivity.this, AddPassengerInfoActivity.class);
-					startActivityForResult(intent, IntentRequestCode.ADD_PASSENGERINFO.getRequestCode());
-				}
-			});
 	        return convertView;  
 		}
 		

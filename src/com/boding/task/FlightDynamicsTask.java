@@ -169,9 +169,9 @@ public class FlightDynamicsTask extends BodingBaseAsyncTask {
 				String date = dynJson.getString("date");
 				String num = dynJson.getString("num");
 				String carrier = dynJson.getString("carrier");
-//				FlightDynamics flightDynamics  = searchFlightDynamicByNo(carrier+num, date);
-//				if(flightDynamics == null){
-				FlightDynamics flightDynamics = new FlightDynamics();
+				FlightDynamics flightDynamics  = searchFlightDynamicByNo(carrier+num, date);
+				if(flightDynamics == null){
+					flightDynamics = new FlightDynamics();
 					flightDynamics.setDate(date);
 					flightDynamics.setCarrier(carrier);
 					flightDynamics.setNum(num);
@@ -189,7 +189,7 @@ public class FlightDynamicsTask extends BodingBaseAsyncTask {
 					flightDynamics.setExpect_arr_time(dynJson.getString("expect_arr_time"));
 					flightDynamics.setActual_arr_time(dynJson.getString("actual_arr_time"));
 					flightDynamics.setFlightStatusByCode(dynJson.getString("status"));
-//				}
+				}
 				
 				flightDynamics.setId(dynJson.getString("id"));
 //				flightDynamics.setFollowed(true);

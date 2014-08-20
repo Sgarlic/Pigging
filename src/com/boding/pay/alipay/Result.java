@@ -24,17 +24,17 @@ public class Result {
 
 	static {
 		sResultStatus = new HashMap<String, String>();
-		sResultStatus.put("9000", "鎿嶄綔鎴愬姛");
-		sResultStatus.put("4000", "绯荤粺寮傚父");
-		sResultStatus.put("4001", "鏁版嵁鏍煎紡涓嶆纭?");
-		sResultStatus.put("4003", "璇ョ敤鎴风粦瀹氱殑鏀粯瀹濊处鎴疯鍐荤粨鎴栦笉鍏佽鏀粯");
-		sResultStatus.put("4004", "璇ョ敤鎴峰凡瑙ｉ櫎缁戝畾");
-		sResultStatus.put("4005", "缁戝畾澶辫触鎴栨病鏈夌粦瀹?");
-		sResultStatus.put("4006", "璁㈠崟鏀粯澶辫触");
-		sResultStatus.put("4010", "閲嶆柊缁戝畾璐︽埛");
-		sResultStatus.put("6000", "鏀粯鏈嶅姟姝ｅ湪杩涜鍗囩骇鎿嶄綔");
-		sResultStatus.put("6001", "鐢ㄦ埛涓?斿彇娑堟敮浠樻搷浣?");
-		sResultStatus.put("7001", "缃戦〉鏀粯澶辫触");
+		sResultStatus.put("9000", "操作成功");
+		sResultStatus.put("4000", "系统异常");
+		sResultStatus.put("4001", "数据格式不正确");
+		sResultStatus.put("4003", "该用户绑定的支付宝账户被冻结或不允许支付");
+		sResultStatus.put("4004", "该用户已解除绑定");
+		sResultStatus.put("4005", "绑定失败或没有绑定");
+		sResultStatus.put("4006", "订单支付失败");
+		sResultStatus.put("4010", "重新绑定账户");
+		sResultStatus.put("6000", "支付服务正在进行升级操作");
+		sResultStatus.put("6001", "用户中途取消支付操作");
+		sResultStatus.put("7001", "网页支付失败");
 	}
 
 	public  String getResult() {
@@ -52,7 +52,7 @@ public class Result {
 			if (sResultStatus.containsKey(rs)) {
 				resultStatus = sResultStatus.get(rs);
 			} else {
-				resultStatus = "鍏朵粬閿欒";
+				resultStatus = "其他错误";
 			}
 			resultStatus += "(" + rs + ")";
 

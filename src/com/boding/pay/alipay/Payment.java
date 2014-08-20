@@ -112,7 +112,32 @@ public class Payment {
 			Result result = new Result((String) msg.obj);
 
 			switch (msg.what) {
-			case RQF_PAY:
+			case RQF_PAY:{
+//				String showString = null;
+//				if(result == null || result.resultStatus == null){
+//					System.out.println("result " + result);
+//					break;
+//				}
+//				if(result.resultStatus.equals("9000")){
+//					showString = "支付成功。";
+//				}
+//				if(result.resultStatus.equals("8000")){
+//					showString = "正在处理中。";
+//				}
+//				if(result.resultStatus.equals("4000")){
+//					showString = "支付失败。";
+//				}
+//				if(result.resultStatus.equals("6001")){
+//					showString ="支付被取消。";
+//				}
+//				else{
+//					showString = "网络错误。";
+//				}
+				result.parseResult();
+				Toast.makeText(context, result.resultStatus,
+						Toast.LENGTH_SHORT).show();
+			}
+			break;
 			case RQF_LOGIN: {
 				Toast.makeText(context, result.getResult(),
 						Toast.LENGTH_SHORT).show();
