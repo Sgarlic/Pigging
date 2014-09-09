@@ -25,7 +25,7 @@
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:layout_gravity="center_horizontal"
-	        android:text="www.iboarding.cn "
+	        android:text="www.iboarding.com"
 	        android:textColor="@color/filterPriceFromtimeColor"
 	        android:textSize="17sp"
 	        android:typeface="serif" />

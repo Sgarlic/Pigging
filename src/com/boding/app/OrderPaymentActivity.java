@@ -131,13 +131,17 @@ public class OrderPaymentActivity extends BodingBaseActivity {
 		paybyCreditCardLinearLayout.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				openBankcardSelectionActivity(true);
+				warningDialog.setContent("目前只支持支付宝付款");
+				warningDialog.show();
+//				openBankcardSelectionActivity(true);
 			}
 		});
 		paybySavingCardLinearLayout.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				openBankcardSelectionActivity(false);
+				warningDialog.setContent("目前只支持支付宝付款");
+				warningDialog.show();
+//				openBankcardSelectionActivity(false);
 			}
 		});
 		paybyAlipayLinearLayout.setOnClickListener(new View.OnClickListener() {

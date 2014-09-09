@@ -176,6 +176,7 @@ public class MainActivity extends BodingBaseActivity {
 		initHorizontalViewPager();
 		initVerticalViewPager();
 		
+		initMiddlePageView();
 		initLeftPageView();
 		initDownPageView();
 		initTopPageView();
@@ -215,6 +216,38 @@ public class MainActivity extends BodingBaseActivity {
 	
 	public LinearLayout getRightPageLinearLayout(){
 		return rightPageLinearLayout;
+	}
+	
+	private void initMiddlePageView(){
+		ImageView upPageImageView = (ImageView) middlePageView.findViewById(R.id.main_page_airserver_imageView);
+		ImageView downPageImageView = (ImageView) middlePageView.findViewById(R.id.main_page_toolbox_imageView);
+		ImageView leftPageImageView = (ImageView) middlePageView.findViewById(R.id.main_page_ticketsearch_imageView);
+		ImageView rightPageImageView = (ImageView) middlePageView.findViewById(R.id.main_page_airport_imageView);
+		
+		upPageImageView.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				vpager.setCurrentItem(0);
+			}
+		});
+		downPageImageView.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				vpager.setCurrentItem(2);
+			}
+		});
+		leftPageImageView.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				hpager.setCurrentItem(0);
+			}
+		});
+		rightPageImageView.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				hpager.setCurrentItem(2);
+			}
+		});
 	}
 	
 	
