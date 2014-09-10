@@ -1,10 +1,13 @@
 package com.boding.view.dialog;
 
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +25,7 @@ import com.boding.R;
 import com.boding.app.TicketSearchResultActivity;
 import com.boding.constants.Constants;
 import com.boding.constants.GlobalVariables;
+import com.boding.util.Util;
 
 public class FilterDialog extends Dialog{
 	private Context context;
@@ -53,6 +57,14 @@ public class FilterDialog extends Dialog{
 		setContentView(R.layout.dialog_filter);
 		setWidthHeight();
 		initView();
+	}
+	
+	public void setCompanyList(HashSet<String> companies){
+		companyList.clear();
+		companyList.add("²»ÏÞ");
+		companyList.addAll(companies);
+		companyAdapter = new FilterItemListAdapter(context,companyList,true);
+		companyListView.setAdapter(companyAdapter);
 	}
 	
 	public List<String> getTimeSegmentList(){
@@ -94,17 +106,6 @@ public class FilterDialog extends Dialog{
 		 classList.add("ÉÌÎñ²Õ");
 		 classList.add("Í·µÈ²Õ");
 		 companyList = new ArrayList<String>();
-		 companyList.add("²»ÏÞ");
-		 companyList.add("ÉÏº£º½¿Õ");
-		 companyList.add("´ºÇïº½¿Õ");
-		 companyList.add("¼ªÏéº½¿Õ");
-		 companyList.add("¶«·½º½¿Õ");
-		 companyList.add("É½¶«º½¿Õ");
-		 companyList.add("01º½¿Õ");
-		 companyList.add("02º½¿Õ");
-		 companyList.add("03º½¿Õ");
-		 companyList.add("04º½¿Õ");
-		 companyList.add("05º½¿Õ");
 		 
 		 tabhost = (TabHost) findViewById(R.id.filter_dialog_tabhost);
 		 tabhost.setup();
@@ -132,11 +133,10 @@ public class FilterDialog extends Dialog{
 		 
 		 timeSegmentAdapter = new FilterItemListAdapter(context,timeSegmentList,false);
 		 classAdapter = new FilterItemListAdapter(context,classList,false);
-		 companyAdapter = new FilterItemListAdapter(context,companyList,true);
 		 
 		 timeSegmentListView.setAdapter(timeSegmentAdapter);
 		 classListView.setAdapter(classAdapter);
-		 companyListView.setAdapter(companyAdapter);
+		 
 		 
 		 cancelBt = (TextView)findViewById(R.id.cancel_filter_textView);
 		 clearBt = (TextView)findViewById(R.id.clear_filter_textView);
@@ -325,11 +325,17 @@ public class FilterDialog extends Dialog{
             
             if(showCompanyLogo){
             	// show corresponding company logo
+            	String companyinfo = getItem(position);
+            	if(companyinfo.contains("-")){
+            		Bitmap image = Util.getFlightCompanyLogo(context, companyinfo.split("-")[1]);
+            		holder.filterItemCompanyImageView.setImageBitmap(image);
+            	}
             }else{
             	holder.filterItemCompanyImageView.setVisibility(View.INVISIBLE);
             }
-            
-			holder.filterItemTextView.setText(getItem(position));
+            if(showCompanyLogo)
+            System.out.println(this.getClass().toString() + ":  "+getItem(position).split("-")[0]);
+			holder.filterItemTextView.setText(getItem(position).split("-")[0]);
 			holder.filterItemCheckBox.setTag(position);	
 			
 			

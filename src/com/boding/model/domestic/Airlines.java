@@ -2,6 +2,7 @@ package com.boding.model.domestic;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 
 import com.boding.model.AirlineInterface;
@@ -70,5 +71,16 @@ public class Airlines implements AirlineInterface{
 			lowest = lowest <= temp ? lowest : temp;
 		}
 		return "гд"+(int)lowest;
+	}
+	@Override
+	public HashSet<String> getCompanyInfo() {
+		HashSet<String> companies = new HashSet<String>();
+		String companyInfo = null;
+		for(Flight flight : flights){
+			companyInfo = flight.getCarrierName() + "-"+ flight.getCarrier();
+			companies.add(companyInfo);
+		}
+		
+		return companies;
 	}
 }

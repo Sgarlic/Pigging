@@ -2,6 +2,7 @@ package com.boding.model;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 
 public class AirlineView implements AirlineInterface{
@@ -74,5 +75,19 @@ public class AirlineView implements AirlineInterface{
 	
 	public void orderLinesByPrice(boolean isAsc){
 		Collections.sort(lines, new FlightLine.PriceComp(isAsc));
+	}
+	
+	@Override
+	public HashSet<String> getCompanyInfo() {
+		HashSet<String> companies = new HashSet<String>();
+		String companyInfo = null;
+		Segment segment = null;
+		for(FlightLine fl : lines){
+			segment = fl.getDeparture().getSegments().get(0);
+			companyInfo = segment.getCarname() + "-" + segment.getCarrier();
+			companies.add(companyInfo);
+		}
+		
+		return companies;
 	}
 }

@@ -320,6 +320,7 @@ public class TicketSearchResultActivity extends BodingBaseActivity {
 			public void onClick(View v) {
 				if(filterDialog == null)
 					filterDialog = new FilterDialog(TicketSearchResultActivity.this);
+				filterDialog.setCompanyList(todayAirline.getCompanyInfo());
 				filterDialog.show();
 			}
         });
