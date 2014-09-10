@@ -11,6 +11,7 @@ import com.boding.model.Country;
 import com.boding.model.FlightDynamics;
 import com.boding.model.FlightLine;
 import com.boding.model.LowPriceSubscribe;
+import com.boding.model.Order;
 import com.boding.model.Province;
 import com.boding.util.DateUtil;
 
@@ -61,6 +62,7 @@ public class GlobalVariables {
 	public static FlightLine roundWayFlightLine = null;
 	public static LowPriceSubscribe currentSubscribe = null;
 	public static List<FlightDynamics> myFollowedFdList = new ArrayList<FlightDynamics>();
+	public static Order selectedOrder = null;
 //	public static boolean isFlyToCitySelection = false;
 //	public static boolean isInternationCitySelection = false;
 }

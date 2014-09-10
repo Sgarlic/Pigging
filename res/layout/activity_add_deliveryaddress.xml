@@ -344,6 +344,7 @@
 			    android:textColor="@color/black"
 			    android:textColorHint="@color/listviewDividerColor"
 			    android:textSize="17sp"
+			    android:singleLine="true"
 			    android:typeface="serif" >
 			</EditText>
 		</LinearLayout>
@@ -375,6 +376,7 @@
 			    android:textColor="@color/black"
 			    android:textColorHint="@color/listviewDividerColor"
 			    android:textSize="17sp"
+			    android:singleLine="true"
 			    android:typeface="serif" >
 			</EditText>
 		</LinearLayout>
@@ -404,7 +406,8 @@
 			    android:textColor="@color/black"
 			    android:textColorHint="@color/listviewDividerColor"
 			    android:textSize="17sp"
-			    android:typeface="serif" >
+			    android:typeface="serif"
+			    android:singleLine="true">
 			</EditText>
 		</LinearLayout>
 		<LinearLayout

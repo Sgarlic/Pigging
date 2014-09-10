@@ -79,7 +79,6 @@ public class OrderListActivity extends BodingBaseActivity{
         networkUnavaiableDialog = new NetworkUnavaiableDialog (this);
 		initView();
 		
-		
 		setOrdersView();
 	}
 	
@@ -172,6 +171,19 @@ public class OrderListActivity extends BodingBaseActivity{
 		initPopupWindow();
 	}
 	
+	public void setOpenOrderResult(Order order){
+		progressBarDialog.dismiss();
+		if(order == null){
+			Util.showToast(this, "无法获取订单信息");
+			return;
+		}
+		
+		Intent intent = new Intent();
+		GlobalVariables.selectedOrder = order;
+		intent.setClass(OrderListActivity.this, OrderDetailActivity.class);
+		startActivityForResult(intent, IntentRequestCode.ORDER_DETAIL.getRequestCode());
+	}
+	
 	private void addListeners(){
 		ordersListView.setOnRefreshListener(new OnRefreshLoadingMoreListener() {
 			@Override
@@ -184,13 +196,12 @@ public class OrderListActivity extends BodingBaseActivity{
 			public void onItemClick(AdapterView<?> arg0, View arg1, int position,
 					long arg3) {
 				Order selectedOrder = adapter.getItem(position);
-				Intent intent = new Intent();
-				Bundle bundle = new Bundle();
-				bundle.putString(IntentExtraAttribute.CHOOSED_ORDER_ID, 
-						selectedOrder.getOrderCode());
-				intent.putExtras(bundle);
-				intent.setClass(OrderListActivity.this, OrderDetailActivity.class);
-				startActivityForResult(intent, IntentRequestCode.ORDER_DETAIL.getRequestCode());
+				if(!Util.isNetworkAvailable(OrderListActivity.this)){
+					networkUnavaiableDialog.show();
+					return;
+				}
+				progressBarDialog.show();
+				(new OrderTask(OrderListActivity.this, HTTPAction.GET_ORDER_DETAIL)).execute(selectedOrder.getOrderCode());
 			}
 		});
 		

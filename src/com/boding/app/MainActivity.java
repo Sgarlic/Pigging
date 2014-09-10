@@ -252,6 +252,14 @@ public class MainActivity extends BodingBaseActivity {
 	
 	
 	private void initLeftPageView(){
+		ImageView mainPageImageView = (ImageView) leftPageView.findViewById(R.id.leftpage_goto_mainpage_imageView);
+		mainPageImageView.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				hpager.setCurrentItem(1);
+			}
+		});
+		
 		leftpageLinearLayout = (LinearLayout)leftPageView.findViewById(R.id.ticket_search_linearlayout);
 		leftpageFlightWayChooseImageView = (ImageView)leftPageView.findViewById(R.id.left_page_flight_way_choose);
 		leftpageFlightWayChooseImageView.setOnClickListener(new OnClickListener(){
@@ -406,6 +414,14 @@ public class MainActivity extends BodingBaseActivity {
 	}
 	
 	private void initDownPageView(){
+		ImageView mainPageImageView = (ImageView) downPageView.findViewById(R.id.downpage_goto_mainpage_imageView);
+		mainPageImageView.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				vpager.setCurrentItem(1);
+			}
+		});
+		
 		downpageMyBodingLienarLayout = (LinearLayout) downPageView.findViewById(R.id.downpage_myboding_linearlayout);
 		downpageLowPriceSubscriptionLienarLayout = (LinearLayout) downPageView.findViewById(R.id.downpage_lowpricesubscription_linearlayout);
 		downpageCommonInfoLayout = (LinearLayout) downPageView.findViewById(R.id.downpage_commoninfo_linearlayout);
@@ -471,6 +487,14 @@ public class MainActivity extends BodingBaseActivity {
 	}
 	
 	private void initTopPageView(){
+		ImageView mainPageImageView = (ImageView) upPageView.findViewById(R.id.toppage_goto_mainpage_imageView);
+		mainPageImageView.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				vpager.setCurrentItem(1);
+			}
+		});
+		
 		topPageSearchMethodImageView = (ImageView) upPageView.findViewById(R.id.toppage_searchmethod_imageView);
 		topPageSearchByFlightNumLinearLayout = (LinearLayout) upPageView.findViewById(R.id.toppage_searchby_flightNum_linearlayout);
 		topPageSearchByFlightNumEditText = (EditText) upPageView.findViewById(R.id.toppage_searchbyflightnum_editText);
@@ -580,6 +604,14 @@ public class MainActivity extends BodingBaseActivity {
     }
 	
 	private void initRightPageView(){
+		ImageView mainPageImageView = (ImageView) rightPageView.findViewById(R.id.rightpage_goto_mainpage_imageView);
+		mainPageImageView.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				hpager.setCurrentItem(1);
+			}
+		});
+		
 		rightPageLinearLayout = (LinearLayout) rightPageView.findViewById(R.id.right_page_linearlayout);
 		rightPageChooseAirportLinearLayout = (LinearLayout) rightPageView.findViewById(R.id.rightpage_chooseairport_linearLayout);
 		rightPageChoosedAirportTextView = (TextView) rightPageView.findViewById(R.id.rightpage_choosedairport_textView);

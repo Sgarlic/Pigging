@@ -20,7 +20,6 @@ import org.json.JSONObject;
 import android.content.Context;
 
 import com.boding.app.BodingBaseActivity;
-import com.boding.app.OrderDetailActivity;
 import com.boding.app.OrderListActivity;
 import com.boding.app.OrderPaymentActivity;
 import com.boding.constants.Constants;
@@ -289,8 +288,8 @@ public class OrderTask extends BodingBaseAsyncTask{
 				orderActivity.setOrderList((List<Order>)result);
 				break;
 			case GET_ORDER_DETAIL:
-				OrderDetailActivity orderDetailActivity = (OrderDetailActivity)context;
-				orderDetailActivity.setOrderInfo((Order)result);
+				orderActivity = (OrderListActivity)context;
+				orderActivity.setOpenOrderResult((Order)result);
 				break;
 			case CREATE_ORDER_DOMESTIC:
 				OrderPaymentActivity prderPaymentActivity = (OrderPaymentActivity)context;

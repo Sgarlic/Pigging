@@ -168,9 +168,11 @@ public class OrderPaymentActivity extends BodingBaseActivity {
 		paybyTenpayLinearLayout.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				selecPaymentMethod = PaymentMethod.WX;
-				if(!isOrderCreated)
-					createOrder();
+				warningDialog.setContent("目前只支持支付宝付款");
+				warningDialog.show();
+//				selecPaymentMethod = PaymentMethod.WX;
+//				if(!isOrderCreated)
+//					createOrder();
 				
 			}
 		});

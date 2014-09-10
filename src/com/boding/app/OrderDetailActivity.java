@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.boding.R;
 import com.boding.constants.Constants;
+import com.boding.constants.GlobalVariables;
 import com.boding.constants.HTTPAction;
 import com.boding.constants.IntentExtraAttribute;
 import com.boding.constants.IntentRequestCode;
@@ -63,25 +64,14 @@ public class OrderDetailActivity extends BodingBaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_order_detail);
-		progressBarDialog = new ProgressBarDialog(this);
-		networkUnavaiableDialog = new NetworkUnavaiableDialog (this);
-		Bundle arguments = getIntent().getExtras();
-        if(arguments != null){
-        	if(arguments.containsKey(IntentExtraAttribute.CHOOSED_ORDER_ID))
-        		orderCode = arguments.getString(IntentExtraAttribute.CHOOSED_ORDER_ID);
-        }
-        
+		
 		initView();
-		setViewContent();
+		setOrderInfo();
 	}
 	
-	public void setOrderInfo(final Order order){
-		progressBarDialog.dismiss();
-		if(order == null){
-			Util.showToast(this, "无法获取订单信息");
-			Util.returnToPreviousPage(this, IntentRequestCode.ORDER_DETAIL);
-			return;
-		}
+	private void setOrderInfo(){
+		final Order order = GlobalVariables.selectedOrder;
+		
 //		this.order = order;
 		orderStatusTextView.setText(order.getOrderStatus().getOrderDetailStatusName());
 		orderIDTextView.setText(order.getOrderCode());
@@ -129,15 +119,6 @@ public class OrderDetailActivity extends BodingBaseActivity {
 		}
 	}
 	
-	private void setViewContent(){
-		if(!Util.isNetworkAvailable(OrderDetailActivity.this)){
-			networkUnavaiableDialog.show();
-			return;
-		}
-		progressBarDialog.show();
-		(new OrderTask(this, HTTPAction.GET_ORDER_DETAIL)).execute(orderCode);
-	}
-	
 	private void initView(){
 		LinearLayout returnLinearLayout = (LinearLayout)findViewById(R.id.return_logo_linearLayout);
 		returnLinearLayout.setOnClickListener(new OnClickListener(){
@@ -171,7 +152,7 @@ public class OrderDetailActivity extends BodingBaseActivity {
 		confirmPayLinearLayout = (LinearLayout)findViewById(R.id.orderdetail_confirmPay_linearLayout);
 		paymentButtonTextView = (TextView) findViewById(R.id.orderdetail_paymentButton_textView);
 
-		addListeners();
+//		addListeners();
 	}
 	
 	private void addListeners(){
@@ -182,14 +163,14 @@ public class OrderDetailActivity extends BodingBaseActivity {
 //	    };
 //	    passengerAdapter.registerDataSetObserver(observer);
 		
-		confirmPayLinearLayout.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent();
-				intent.setClass(OrderDetailActivity.this, OrderPaymentActivity.class);
-				startActivityForResult(intent, IntentRequestCode.ORDER_PAYEMNT.getRequestCode());
-			}
-		});
+//		confirmPayLinearLayout.setOnClickListener(new View.OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				Intent intent = new Intent();
+//				intent.setClass(OrderDetailActivity.this, OrderPaymentActivity.class);
+//				startActivityForResult(intent, IntentRequestCode.ORDER_PAYEMNT.getRequestCode());
+//			}
+//		});
 	}
 	
 	private class PassengerAdapter extends BaseAdapter {
